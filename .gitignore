@@ -5,3 +5,7 @@ venv/
 node_modules/
 .DS_Store
 *.portable-sdlc-tmp
+
+# Stray global-install targets created by accidental `--target <dir>` usage
+# (the real global install lives in the user's home directory).
+g/
