@@ -64,12 +64,69 @@ python3 scripts/toolkit.py install \
 ```
 
 The thin wrappers `scripts/install.sh` and `scripts/install.ps1` accept the same arguments and
-preserve the CLI's preview-first behavior.
+preserve the CLI's preview-first behavior. They add two conveniences:
 
-The installer never replaces a differing user-owned file. If the target already has an
-`AGENTS.md`, reconcile the portable guidance with that project file intentionally, then run
-the preview again. Identical files are idempotent and managed files are updated only while
-their installed hash remains unchanged.
+- `--global` is a shorthand for `--scope global`.
+- Omitting `--platform` (without `--all`/`--package`) prints a short usage hint with the
+  valid platforms instead of a raw parser error.
+
+For a guided first-time setup, run the interactive helper:
+
+```bash
+./scripts/setup.sh            # prompts for platform, scope, and target; previews, then asks to apply
+```
+
+`setup.sh` always previews first and applies only after you answer `y`. Windows users can run
+`scripts/validate-all.ps1` from PowerShell for the validation pipeline.
+
+### Global (machine-wide) installation
+
+Install once into your home directory so every repository inherits the same skills, agents, and
+guidance without per-repository duplication. Use `--scope global`; the target defaults to your
+home directory.
+
+```bash
+python3 scripts/toolkit.py install --platform opencode --scope global
+python3 scripts/toolkit.py install --platform opencode --scope global --apply
+```
+
+Global installs use each platform's home-relative configuration location, and all platforms share
+a single copy of the skills under `~/.agents/skills` (read by OpenCode, Codex, Claude Code, and
+GitHub Copilot). Shared skills are reference-counted, so uninstalling one platform never removes
+skills another platform still uses.
+
+| Platform | Global instructions | Global agents | Global skills |
+| --- | --- | --- | --- |
+| Codex | `~/.codex/AGENTS.md` | managed block in `~/.codex/config.toml` | `~/.agents/skills/*` |
+| OpenCode | `~/.config/opencode/AGENTS.md` | `~/.config/opencode/agents/*.md` | `~/.agents/skills/*` |
+| Claude Code | `~/.claude/CLAUDE.md` | `~/.claude/agents/*.md` | `~/.agents/skills/*` |
+| GitHub Copilot | `~/.copilot/copilot-instructions.md` | `~/.copilot/agents/*.agent.md` | `~/.agents/skills/*` |
+
+Codex agents are folded into `~/.codex/config.toml` inside a managed block delimited by
+`# >>> portable-sdlc agents ... >>>` and `# <<< portable-sdlc agents <<<`. Content outside the
+block is never touched, the merge is idempotent, and uninstall removes only the managed block.
+Global instruction files (`~/.codex/AGENTS.md`, `~/.config/opencode/AGENTS.md`,
+`~/.claude/CLAUDE.md`, `~/.copilot/copilot-instructions.md`) use the same managed-block approach:
+if you already have that file, the portable guidance is appended inside a
+`# >>> portable-sdlc instructions ... >>>` block and your existing content is left untouched.
+Uninstall removes only that managed block. (Claude Code's global `CLAUDE.md` inlines the
+canonical `AGENTS.md` content rather than importing it, because no `AGENTS.md` exists at the
+home level.)
+Global skills and agents act as machine-wide defaults; a project-level install still overrides
+them for that repository.
+
+Uninstall one platform's global footprint (requires `--platform`):
+
+```bash
+python3 scripts/toolkit.py uninstall --platform opencode --scope global
+python3 scripts/toolkit.py uninstall --platform opencode --scope global --apply
+```
+
+The installer never replaces a differing user-owned file outside a managed block. If a target
+instruction file already exists and is not owned by the toolkit, its content is preserved and
+the portable guidance is added as a managed block. If you edit inside a managed block, the
+next install reports a conflict so you can reconcile it intentionally. Identical managed blocks
+are idempotent; uninstall removes only the managed block and leaves the rest of your file intact.
 
 ## Toolkit Layout
 
@@ -165,10 +222,15 @@ python3 scripts/toolkit.py install --platform claude-code --target ../my-project
 python3 scripts/toolkit.py install --package dist/claude-code --target ../my-project --apply
 python3 scripts/toolkit.py uninstall --target ../my-project
 python3 scripts/toolkit.py uninstall --target ../my-project --apply
+python3 scripts/toolkit.py install --platform claude-code --scope global --apply
+python3 scripts/toolkit.py uninstall --platform claude-code --scope global --apply
 ```
 
-Installation records hashes in `.portable-sdlc-install.json`. Uninstall removes only unchanged
-managed files and preserves modified files with a warning.
+Add `--scope global` to install or uninstall into the home directory instead of a repository.
+Repository installs record hashes in `.portable-sdlc-install.json`. Global installs use a
+per-platform ledger (`.portable-sdlc-install-<platform>.json`) plus a shared, reference-counted
+skills ledger (`.portable-sdlc-shared-skills.json`). Uninstall removes only unchanged managed
+files and preserves modified files with a warning.
 
 ### Drift Check
 

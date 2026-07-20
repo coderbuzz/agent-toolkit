@@ -36,5 +36,12 @@
   },
   "forbidden_permission_modes": [
     "bypassPermissions"
-  ]
+  ],
+  "global": {
+    "instruction_path": ".claude/CLAUDE.md",
+    "agent_path": ".claude/agents/{id}.md",
+    "agent_strategy": "file",
+    "skill_path": ".agents/skills/{name}",
+    "skill_shared": true
+  }
 }

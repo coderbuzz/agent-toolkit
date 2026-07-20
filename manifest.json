@@ -86,6 +86,10 @@
   },
   "install_policy": {
     "default_scope": "repository",
+    "supported_scopes": [
+      "repository",
+      "global"
+    ],
     "default_bundle": "core",
     "overwrite": "never",
     "preview_required": true,

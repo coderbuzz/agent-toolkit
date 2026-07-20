@@ -19,5 +19,12 @@
     "bash_with_command_capability": "ask",
     "external_directory": "deny",
     "task": "ask"
+  },
+  "global": {
+    "instruction_path": ".config/opencode/AGENTS.md",
+    "agent_path": ".config/opencode/agents/{id}.md",
+    "agent_strategy": "file",
+    "skill_path": ".agents/skills/{name}",
+    "skill_shared": true
   }
 }

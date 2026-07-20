@@ -13,5 +13,12 @@
   },
   "forbidden": [
     "danger-full-access"
-  ]
+  ],
+  "global": {
+    "instruction_path": ".codex/AGENTS.md",
+    "agent_strategy": "toml-managed-block",
+    "agent_config_path": ".codex/config.toml",
+    "skill_path": ".agents/skills/{name}",
+    "skill_shared": true
+  }
 }

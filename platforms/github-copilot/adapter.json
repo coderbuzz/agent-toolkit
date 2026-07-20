@@ -27,5 +27,12 @@
       "execute"
     ]
   },
-  "require_explicit_tool_allowlist": true
+  "require_explicit_tool_allowlist": true,
+  "global": {
+    "instruction_path": ".copilot/copilot-instructions.md",
+    "agent_path": ".copilot/agents/{id}.agent.md",
+    "agent_strategy": "file",
+    "skill_path": ".agents/skills/{name}",
+    "skill_shared": true
+  }
 }
