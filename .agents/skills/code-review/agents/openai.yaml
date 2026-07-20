@@ -1,0 +1,4 @@
+interface:
+  display_name: "code review"
+  short_description: "Portable workflow for code review"
+  default_prompt: "Use $code-review to complete this workflow with verifiable evidence."

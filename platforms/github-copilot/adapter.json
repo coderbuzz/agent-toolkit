@@ -1,0 +1,31 @@
+{
+  "id": "github-copilot",
+  "agent_path": ".github/agents/{id}.agent.md",
+  "agent_format": "markdown-yaml-frontmatter",
+  "instruction_strategy": "copilot-instructions-copy",
+  "instruction_path": ".github/copilot-instructions.md",
+  "skill_strategy": "canonical-agents-skills",
+  "skill_path": ".agents/skills/{name}",
+  "tool_mapping": {
+    "read_workspace": [
+      "read",
+      "search"
+    ],
+    "write_documents": [
+      "edit"
+    ],
+    "write_workspace": [
+      "edit"
+    ],
+    "run_read_commands": [
+      "execute"
+    ],
+    "run_tests": [
+      "execute"
+    ],
+    "release_actions": [
+      "execute"
+    ]
+  },
+  "require_explicit_tool_allowlist": true
+}

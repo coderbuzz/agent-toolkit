@@ -1,0 +1,4 @@
+interface:
+  display_name: "project discovery"
+  short_description: "Portable workflow for project discovery"
+  default_prompt: "Use $project-discovery to complete this workflow with verifiable evidence."

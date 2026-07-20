@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "name": "portable-agentic-sdlc-toolkit",
+  "version": "0.1.0",
+  "description": "Vendor-neutral SDLC agents, skills, and platform exports.",
+  "canonical": {
+    "skills": ".agents/skills",
+    "agents": "agents/definitions.json",
+    "instructions": "instructions",
+    "standards": "standards",
+    "templates": "templates"
+  },
+  "platforms": [
+    "codex",
+    "opencode",
+    "github-copilot",
+    "claude-code"
+  ],
+  "agents": [
+    "discovery-explorer",
+    "product-manager",
+    "clarification-analyst",
+    "solution-architect",
+    "traceability-auditor",
+    "implementation-planner",
+    "implementation-engineer",
+    "verification-engineer",
+    "code-reviewer",
+    "bug-remediation-analyst",
+    "documentation-architect",
+    "release-engineer"
+  ],
+  "skills": {
+    "lifecycle": [
+      "sdlc-router",
+      "project-discovery",
+      "product-requirements",
+      "artifact-clarification",
+      "technical-specification",
+      "artifact-traceability-audit",
+      "implementation-planning",
+      "implementation-execution",
+      "independent-verification",
+      "code-review",
+      "bug-remediation",
+      "release-readiness",
+      "documentation-delivery"
+    ],
+    "cross_cutting": [
+      "engineering-guardrails",
+      "project-memory",
+      "domain-language-management",
+      "architecture-decision-management",
+      "test-strategy",
+      "threat-modeling",
+      "dependency-supply-chain-audit",
+      "bounded-orchestration"
+    ],
+    "optional": [
+      "product-interface-design",
+      "incident-response",
+      "observability-design",
+      "data-migration"
+    ]
+  },
+  "bundles": {
+    "core": [
+      "lifecycle",
+      "cross_cutting"
+    ],
+    "full": [
+      "lifecycle",
+      "cross_cutting",
+      "optional"
+    ],
+    "quality": [
+      "artifact-clarification",
+      "artifact-traceability-audit",
+      "engineering-guardrails",
+      "test-strategy",
+      "threat-modeling",
+      "dependency-supply-chain-audit",
+      "independent-verification",
+      "code-review"
+    ]
+  },
+  "install_policy": {
+    "default_scope": "repository",
+    "default_bundle": "core",
+    "overwrite": "never",
+    "preview_required": true,
+    "generated_output": "dist"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "codex",
+  "agent_path": ".codex/agents/{id}.toml",
+  "agent_format": "toml",
+  "instruction_strategy": "root-agents-md",
+  "skill_strategy": "canonical-agents-skills",
+  "skill_path": ".agents/skills/{name}",
+  "permission_mapping": {
+    "read_only": "read-only",
+    "documentation_write": "workspace-write",
+    "workspace_write": "workspace-write",
+    "release_actions": "workspace-write-with-behavioral-approval"
+  },
+  "forbidden": [
+    "danger-full-access"
+  ]
+}

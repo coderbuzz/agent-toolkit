@@ -1,0 +1,31 @@
+{
+  "bundle": "core",
+  "platform": "codex",
+  "schema_version": 1,
+  "skills": [
+    "sdlc-router",
+    "project-discovery",
+    "product-requirements",
+    "artifact-clarification",
+    "technical-specification",
+    "artifact-traceability-audit",
+    "implementation-planning",
+    "implementation-execution",
+    "independent-verification",
+    "code-review",
+    "bug-remediation",
+    "release-readiness",
+    "documentation-delivery",
+    "engineering-guardrails",
+    "project-memory",
+    "domain-language-management",
+    "architecture-decision-management",
+    "test-strategy",
+    "threat-modeling",
+    "dependency-supply-chain-audit",
+    "bounded-orchestration"
+  ],
+  "source_sha256": "5dd009cb4ec892bc9494c7b6489bdef0994e160f6a9ffa4a7d798ef1291513bf",
+  "toolkit": "portable-agentic-sdlc-toolkit",
+  "version": "0.1.0"
+}

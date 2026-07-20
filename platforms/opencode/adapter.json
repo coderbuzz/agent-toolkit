@@ -1,0 +1,23 @@
+{
+  "id": "opencode",
+  "agent_path": ".opencode/agents/{id}.md",
+  "agent_format": "markdown-yaml-frontmatter",
+  "agent_mode": "subagent",
+  "instruction_strategy": "root-agents-md",
+  "skill_strategy": "canonical-agents-skills",
+  "skill_path": ".agents/skills/{name}",
+  "permission_values": [
+    "allow",
+    "ask",
+    "deny"
+  ],
+  "permission_mapping": {
+    "read": "allow",
+    "edit_without_write_capability": "deny",
+    "edit_with_write_capability": "allow",
+    "bash_without_command_capability": "deny",
+    "bash_with_command_capability": "ask",
+    "external_directory": "deny",
+    "task": "ask"
+  }
+}

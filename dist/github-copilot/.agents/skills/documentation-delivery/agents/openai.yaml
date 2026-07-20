@@ -1,0 +1,4 @@
+interface:
+  display_name: "documentation delivery"
+  short_description: "Portable workflow for documentation delivery"
+  default_prompt: "Use $documentation-delivery to complete this workflow with verifiable evidence."

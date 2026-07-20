@@ -1,0 +1,40 @@
+{
+  "id": "claude-code",
+  "agent_path": ".claude/agents/{id}.md",
+  "agent_format": "markdown-yaml-frontmatter",
+  "instruction_strategy": "claude-import",
+  "instruction_path": "CLAUDE.md",
+  "skill_strategy": "copy-to-platform-path",
+  "skill_path": ".claude/skills/{name}",
+  "tool_mapping": {
+    "read_workspace": [
+      "Read",
+      "Grep",
+      "Glob"
+    ],
+    "write_documents": [
+      "Write",
+      "Edit"
+    ],
+    "write_workspace": [
+      "Write",
+      "Edit"
+    ],
+    "run_read_commands": [
+      "Bash"
+    ],
+    "run_tests": [
+      "Bash"
+    ],
+    "release_actions": [
+      "Bash"
+    ]
+  },
+  "permission_modes": {
+    "read_only": "plan",
+    "write": "default"
+  },
+  "forbidden_permission_modes": [
+    "bypassPermissions"
+  ]
+}

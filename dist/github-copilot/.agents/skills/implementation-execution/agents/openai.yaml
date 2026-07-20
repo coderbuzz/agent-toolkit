@@ -1,0 +1,4 @@
+interface:
+  display_name: "implementation execution"
+  short_description: "Portable workflow for implementation execution"
+  default_prompt: "Use $implementation-execution to complete this workflow with verifiable evidence."
