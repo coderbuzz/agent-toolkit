@@ -8,7 +8,9 @@ SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 TOOLKIT_DIR=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)
 cd "$TOOLKIT_DIR"
 
-PLATFORMS="opencode codex claude-code github-copilot"
+# Platform list is sourced from manifest.json so new platforms (e.g. omp)
+# appear automatically without editing this script.
+PLATFORMS=$(python3 -c "import json; print(' '.join(json.load(open('manifest.json'))['platforms']))" 2>/dev/null || echo "opencode codex claude-code github-copilot omp")
 
 # Normalize arguments: --global -> --scope global
 normalized=""

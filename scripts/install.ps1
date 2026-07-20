@@ -4,7 +4,13 @@ param(
 )
 
 $ToolkitScript = Join-Path $PSScriptRoot "toolkit.py"
-$Platforms = @("opencode", "codex", "claude-code", "github-copilot")
+$ManifestPath = Join-Path $PSScriptRoot "..\manifest.json"
+try {
+    $Manifest = Get-Content $ManifestPath -Raw | ConvertFrom-Json
+    $Platforms = $Manifest.platforms
+} catch {
+    $Platforms = @("opencode", "codex", "claude-code", "github-copilot", "omp")
+}
 
 # Normalize: --global -> --scope global
 $Normalized = @()
