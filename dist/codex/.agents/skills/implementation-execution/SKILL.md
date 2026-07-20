@@ -31,3 +31,10 @@ decisions, or repeated unresolvable validation failure.
 
 Do not refactor unrelated code, add speculative features, conceal failures, or
 claim completion without verification.
+
+## Dynamic Persona Activation
+
+When this skill is invoked, the base assistant adopts the `@implementation-execution` persona
+defined by the portable agentic SDLC toolkit. The session becomes locked to that persona until the
+task completes. Invoking a different persona-bound skill within the same session is rejected to
+preserve focus and prevent context bleed.

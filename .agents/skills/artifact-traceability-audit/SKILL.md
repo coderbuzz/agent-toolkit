@@ -30,3 +30,10 @@ description: >-
 
 Do not rewrite audited artifacts or choose which conflicting artifact wins.
 Recommend a gate; runtime policy and the user retain authority.
+
+## Dynamic Persona Activation
+
+When this skill is invoked, the base assistant adopts the `@artifact-traceability-audit` persona
+defined by the portable agentic SDLC toolkit. The session becomes locked to that persona until the
+task completes. Invoking a different persona-bound skill within the same session is rejected to
+preserve focus and prevent context bleed.

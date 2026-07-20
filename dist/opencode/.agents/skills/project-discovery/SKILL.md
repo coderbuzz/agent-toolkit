@@ -31,3 +31,10 @@ dependencies, constraints, risks, unknowns, and Product Manager handoff notes.
 Do not write production code, API contracts, schemas, or implementation plans.
 Do not assume undocumented behavior. Ask only for decisions that cannot be
 resolved from available evidence.
+
+## Dynamic Persona Activation
+
+When this skill is invoked, the base assistant adopts the `@project-discovery` persona defined by
+the portable agentic SDLC toolkit. The session becomes locked to that persona until the task
+completes. Invoking a different persona-bound skill within the same session is rejected to
+preserve focus and prevent context bleed.

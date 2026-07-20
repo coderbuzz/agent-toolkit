@@ -85,6 +85,33 @@
       "code-review"
     ]
   },
+  "skill_metadata": {
+    "sdlc-router": { "persona_bound": true },
+    "project-discovery": { "persona_bound": true },
+    "product-requirements": { "persona_bound": true },
+    "artifact-clarification": { "persona_bound": true },
+    "technical-specification": { "persona_bound": true },
+    "artifact-traceability-audit": { "persona_bound": true },
+    "implementation-planning": { "persona_bound": true },
+    "implementation-execution": { "persona_bound": true },
+    "independent-verification": { "persona_bound": true },
+    "code-review": { "persona_bound": true },
+    "bug-remediation": { "persona_bound": true },
+    "release-readiness": { "persona_bound": true },
+    "documentation-delivery": { "persona_bound": true },
+    "architecture-decision-management": { "persona_bound": true },
+    "test-strategy": { "persona_bound": true },
+    "threat-modeling": { "persona_bound": true },
+    "dependency-supply-chain-audit": { "persona_bound": true },
+    "project-memory": { "persona_bound": false },
+    "engineering-guardrails": { "persona_bound": false },
+    "bounded-orchestration": { "persona_bound": false },
+    "domain-language-management": { "persona_bound": false },
+    "product-interface-design": { "persona_bound": false },
+    "incident-response": { "persona_bound": false },
+    "observability-design": { "persona_bound": false },
+    "data-migration": { "persona_bound": false }
+  },
   "install_policy": {
     "default_scope": "repository",
     "supported_scopes": [

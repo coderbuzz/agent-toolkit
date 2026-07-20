@@ -30,3 +30,10 @@ a traceability summary and a handoff to artifact clarification.
 
 Define why, who, and what. Do not choose protocols, libraries, database types,
 payload schemas, or code structure. Keep issue-tracker creation optional.
+
+## Dynamic Persona Activation
+
+When this skill is invoked, the base assistant adopts the `@product-requirements` persona defined
+by the portable agentic SDLC toolkit. The session becomes locked to that persona until the task
+completes. Invoking a different persona-bound skill within the same session is rejected to
+preserve focus and prevent context bleed.

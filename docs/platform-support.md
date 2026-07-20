@@ -121,6 +121,17 @@ serves every platform. A reference-counted ledger (`.portable-sdlc-shared-skills
 which platforms own each skill file. Uninstalling one platform releases its reference and removes
 a skill only when no other platform still owns it. User-modified skill files are preserved.
 
+### Dynamic Persona Activation
+
+Skills are classified as **persona-bound** or **utility** in `manifest.json`
+(`skill_metadata.<skill>.persona_bound`). Persona-bound skills (e.g. `code-review`,
+`technical-specification`) carry a `## Dynamic Persona Activation` block in their `SKILL.md`.
+This follows the convention used by ecosystems such as `awesome-copilot-id`: invoking a
+persona-bound skill transforms the base assistant into that skill's persona and locks the session
+to it, while utility skills (e.g. `project-memory`, `engineering-guardrails`) can be invoked at any
+time without triggering a session lock. `validate_skills` enforces that every persona-bound skill
+has the block and no utility skill does.
+
 ### Codex managed block
 
 Codex does not read separate agent files from the home directory, so global agents are folded

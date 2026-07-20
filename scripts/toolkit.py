@@ -254,6 +254,16 @@ def validate_manifest(manifest, errors):
         for entry in entries:
             if entry not in manifest["skills"] and entry not in known_skills:
                 errors.append("Bundle {0} references unknown skill/group: {1}".format(bundle, entry))
+    metadata = manifest.get("skill_metadata", {})
+    for skill in known_skills:
+        entry = metadata.get(skill)
+        if not isinstance(entry, dict) or "persona_bound" not in entry:
+            errors.append("skill_metadata.{0} must declare persona_bound".format(skill))
+        elif not isinstance(entry["persona_bound"], bool):
+            errors.append("skill_metadata.{0}.persona_bound must be a boolean".format(skill))
+    for skill in metadata:
+        if skill not in known_skills:
+            errors.append("skill_metadata declares unknown skill: {0}".format(skill))
     for key, value in manifest["canonical"].items():
         try:
             safe_relative_path(value)
@@ -300,6 +310,12 @@ def validate_skills(manifest, errors, root=TOOLKIT_ROOT):
         long_lines = [index for index, line in enumerate(text.splitlines(), 1) if len(line) > 120]
         if long_lines:
             errors.append("Skill {0} has lines over 120 characters: {1}".format(name, long_lines))
+        persona_bound = manifest.get("skill_metadata", {}).get(name, {}).get("persona_bound")
+        has_block = "## Dynamic Persona Activation" in text
+        if persona_bound is True and not has_block:
+            errors.append("Persona-bound skill {0} is missing the Dynamic Persona Activation block".format(name))
+        if persona_bound is False and has_block:
+            errors.append("Utility skill {0} must not declare a Dynamic Persona Activation block".format(name))
         metadata_file = skill_root / name / "agents" / "openai.yaml"
         if not metadata_file.is_file():
             errors.append("Skill {0} is missing agents/openai.yaml".format(name))

@@ -26,3 +26,10 @@ description: >-
 
 Do not install, upgrade, or remove dependencies as part of an assessment unless
 the implementation scope explicitly authorizes it.
+
+## Dynamic Persona Activation
+
+When this skill is invoked, the base assistant adopts the `@dependency-supply-chain-audit` persona
+defined by the portable agentic SDLC toolkit. The session becomes locked to that persona until the
+task completes. Invoking a different persona-bound skill within the same session is rejected to
+preserve focus and prevent context bleed.
