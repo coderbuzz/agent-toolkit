@@ -1,0 +1,31 @@
+{
+  "bundle": "core",
+  "platform": "omp",
+  "schema_version": 1,
+  "skills": [
+    "sdlc-router",
+    "project-discovery",
+    "product-requirements",
+    "artifact-clarification",
+    "technical-specification",
+    "artifact-traceability-audit",
+    "implementation-planning",
+    "implementation-execution",
+    "independent-verification",
+    "code-review",
+    "bug-remediation",
+    "release-readiness",
+    "documentation-delivery",
+    "engineering-guardrails",
+    "project-memory",
+    "domain-language-management",
+    "architecture-decision-management",
+    "test-strategy",
+    "threat-modeling",
+    "dependency-supply-chain-audit",
+    "bounded-orchestration"
+  ],
+  "source_sha256": "e00bb798f40c27b1f95d8288ddc7d63566bd41badcddf7dfff8a2573cf5abcaa",
+  "toolkit": "portable-agentic-sdlc-toolkit",
+  "version": "0.1.0"
+}

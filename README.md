@@ -101,12 +101,13 @@ skills another platform still uses.
 | OpenCode | `~/.config/opencode/AGENTS.md` | `~/.config/opencode/agents/*.md` | `~/.agents/skills/*` |
 | Claude Code | `~/.claude/CLAUDE.md` | `~/.claude/agents/*.md` | `~/.agents/skills/*` |
 | GitHub Copilot | `~/.copilot/copilot-instructions.md` | `~/.copilot/agents/*.agent.md` | `~/.agents/skills/*` |
+| OMP | `~/.omp/agent/AGENTS.md` | `~/.omp/agent/agents/*.md` | `~/.agents/skills/*` |
 
 Codex agents are folded into `~/.codex/config.toml` inside a managed block delimited by
 `# >>> portable-sdlc agents ... >>>` and `# <<< portable-sdlc agents <<<`. Content outside the
 block is never touched, the merge is idempotent, and uninstall removes only the managed block.
 Global instruction files (`~/.codex/AGENTS.md`, `~/.config/opencode/AGENTS.md`,
-`~/.claude/CLAUDE.md`, `~/.copilot/copilot-instructions.md`) use the same managed-block approach:
+`~/.claude/CLAUDE.md`, `~/.copilot/copilot-instructions.md`, `~/.omp/agent/AGENTS.md`) use the same managed-block approach:
 if you already have that file, the portable guidance is appended inside a
 `# >>> portable-sdlc instructions ... >>>` block and your existing content is left untouched.
 Uninstall removes only that managed block. (Claude Code's global `CLAUDE.md` inlines the

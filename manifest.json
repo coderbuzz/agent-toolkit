@@ -14,7 +14,8 @@
     "codex",
     "opencode",
     "github-copilot",
-    "claude-code"
+    "claude-code",
+    "omp"
   ],
   "agents": [
     "discovery-explorer",

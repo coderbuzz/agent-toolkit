@@ -112,6 +112,7 @@ repository inherits the same behavior without per-repository duplication. Each a
 | OpenCode | `~/.config/opencode/AGENTS.md` | `~/.config/opencode/agents/<agent>.md` | `~/.agents/skills/<skill>` |
 | Claude Code | `~/.claude/CLAUDE.md` | `~/.claude/agents/<agent>.md` | `~/.agents/skills/<skill>` |
 | GitHub Copilot | `~/.copilot/copilot-instructions.md` | `~/.copilot/agents/<agent>.agent.md` | `~/.agents/skills/<skill>` |
+| OMP | `~/.omp/agent/AGENTS.md` | `~/.omp/agent/agents/<agent>.md` | `~/.agents/skills/<skill>` |
 
 ### Shared skills
 

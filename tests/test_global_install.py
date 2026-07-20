@@ -296,5 +296,74 @@ class InstructionBlockTests(unittest.TestCase):
         self.assertNotIn("user edit inside block", result)
 
 
+class OmpPlatformTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.root = Path(self.temp.name)
+        self.home = self.root / "home"
+        self.home.mkdir()
+
+    def tearDown(self):
+        self.temp.cleanup()
+
+    def test_omp_registered_as_platform(self):
+        manifest = toolkit.load_json(toolkit.TOOLKIT_ROOT / "manifest.json")
+        self.assertIn("omp", manifest["platforms"])
+        self.assertIn("omp", toolkit.VALID_PLATFORMS)
+
+    def test_omp_agent_renderer_is_omp_compatible(self):
+        definitions = toolkit.load_json(
+            toolkit.TOOLKIT_ROOT / toolkit.load_json(toolkit.TOOLKIT_ROOT / "manifest.json")["canonical"]["agents"]
+        )
+        agent = next(a for a in definitions["agents"] if a["id"] == "code-reviewer")
+        rendered = toolkit.render_omp_agent(agent, "0.1.0", "abc123")
+        self.assertIn("name: code-reviewer", rendered)
+        self.assertIn("description:", rendered)
+        self.assertIn("tools:", rendered)
+        # OMP does not use OpenCode's schema.
+        self.assertNotIn("mode: subagent", rendered)
+        self.assertNotIn("permission:", rendered)
+
+    def test_omp_global_export_layout(self):
+        package = self.root / "omp"
+        metadata = toolkit.export_to_global_directory("omp", "core", package)
+        self.assertEqual("global", metadata["scope"])
+        self.assertTrue((package / ".omp/agent/agents/code-reviewer.md").is_file())
+        instruction = (package / ".omp/agent/AGENTS.md").read_text(encoding="utf-8")
+        self.assertNotIn("@AGENTS.md", instruction)
+        self.assertIn("Portable Agentic SDLC", instruction)
+        self.assertTrue(metadata["shared_skill_files"])
+        for relative in metadata["shared_skill_files"]:
+            self.assertTrue(relative.startswith(".agents/skills/"))
+
+    def test_omp_repo_export_layout(self):
+        package = self.root / "omp-repo"
+        toolkit.export_to_directory("omp", "core", package)
+        self.assertTrue((package / ".omp/agents/code-reviewer.md").is_file())
+        instruction = (package / ".omp/AGENTS.md").read_text(encoding="utf-8")
+        self.assertIn("Portable Agentic SDLC", instruction)
+        self.assertTrue((package / ".omp/skills/sdlc-router/SKILL.md").is_file())
+
+    def test_omp_global_install_and_uninstall_clean(self):
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            self.assertEqual(0, toolkit.command_install(_OmpArgs("omp", self.home, apply=True)))
+        self.assertTrue((self.home / ".omp/agent/agents/code-reviewer.md").is_file())
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            rc = toolkit.command_uninstall(_OmpArgs("omp", self.home, apply=True))
+        self.assertIn(rc, (0, 2))
+        remaining = [p for p in self.home.rglob("*") if p.is_file()]
+        self.assertEqual([], remaining)
+
+
+class _OmpArgs:
+    def __init__(self, platform, target, apply=False, scope="global", bundle="core"):
+        self.platform = platform
+        self.target = target
+        self.apply = apply
+        self.scope = scope
+        self.bundle = bundle
+        self.package = None
+
+
 if __name__ == "__main__":
     unittest.main()

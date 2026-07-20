@@ -1,0 +1,30 @@
+{
+  "id": "omp",
+  "agent_path": ".omp/agents/{id}.md",
+  "agent_format": "markdown-yaml-frontmatter",
+  "agent_mode": "subagent",
+  "instruction_strategy": "root-agents-md",
+  "skill_strategy": "canonical-agents-skills",
+  "skill_path": ".omp/skills/{name}",
+  "permission_values": [
+    "allow",
+    "ask",
+    "deny"
+  ],
+  "permission_mapping": {
+    "read": "allow",
+    "edit_without_write_capability": "deny",
+    "edit_with_write_capability": "allow",
+    "bash_without_command_capability": "deny",
+    "bash_with_command_capability": "ask",
+    "external_directory": "deny",
+    "task": "ask"
+  },
+  "global": {
+    "instruction_path": ".omp/agent/AGENTS.md",
+    "agent_path": ".omp/agent/agents/{id}.md",
+    "agent_strategy": "file",
+    "skill_path": ".agents/skills/{name}",
+    "skill_shared": true
+  }
+}

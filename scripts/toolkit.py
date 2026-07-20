@@ -30,7 +30,7 @@ SOURCE_DIRS = (
     "platforms",
 )
 SOURCE_FILES = ("AGENTS.md", "manifest.json")
-VALID_PLATFORMS = {"codex", "opencode", "github-copilot", "claude-code"}
+VALID_PLATFORMS = {"codex", "opencode", "github-copilot", "claude-code", "omp"}
 VALID_CAPABILITIES = {
     "read_workspace",
     "run_read_commands",
@@ -502,6 +502,30 @@ def render_opencode_agent(agent, version, digest):
     return "\n".join(frontmatter) + agent_body(agent)
 
 
+def omp_tools(agent):
+    capabilities = set(agent["capabilities"])
+    tools = ["read", "search"]
+    if capabilities & {"write_documents", "write_workspace"}:
+        tools.append("edit")
+    if capabilities & {"run_read_commands", "run_tests", "release_actions"}:
+        tools.append("bash")
+    return tools
+
+
+def render_omp_agent(agent, version, digest):
+    capabilities = set(agent["capabilities"])
+    frontmatter = [
+        "---",
+        generated_marker(version, digest, "#", "").strip(),
+        "name: {0}".format(agent["id"]),
+        "description: {0}".format(yaml_value(agent["description"])),
+        "tools: [{0}]".format(", ".join(yaml_value(item) for item in omp_tools(agent))),
+        "---",
+        "",
+    ]
+    return "\n".join(frontmatter) + agent_body(agent)
+
+
 def copilot_tools(agent):
     capabilities = set(agent["capabilities"])
     tools = ["read", "search"]
@@ -557,6 +581,7 @@ def render_agent(platform, agent, version, digest):
         "opencode": render_opencode_agent,
         "github-copilot": render_copilot_agent,
         "claude-code": render_claude_agent,
+        "omp": render_omp_agent,
     }
     return renderers[platform](agent, version, digest)
 
@@ -622,6 +647,9 @@ def export_to_directory(platform, bundle, destination, root=TOOLKIT_ROOT):
     elif platform == "claude-code":
         content = generated_marker(version, digest) + "@AGENTS.md\n"
         write_text(destination, adapter["instruction_path"], content)
+    elif platform == "omp":
+        content = generated_marker(version, digest) + (root / "AGENTS.md").read_text(encoding="utf-8")
+        write_text(destination, ".omp/AGENTS.md", content)
 
     metadata = {
         "schema_version": 1,
