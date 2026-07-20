@@ -25,7 +25,7 @@
     "dependency-supply-chain-audit",
     "bounded-orchestration"
   ],
-  "source_sha256": "0ce8b9c094d1d426b9401bf6c3dfcbd13599b34a8dd0456355f75ec487e631e6",
+  "source_sha256": "c120b79dd293b2392f633144b85a06d49bf8e5861be6c1b8efdc9662cb5b2074",
   "toolkit": "portable-agentic-sdlc-toolkit",
   "version": "0.1.0"
 }

@@ -49,6 +49,8 @@ host platform's responsibility.
 - Run focused checks during work and the full relevant suite before completion.
 - Report failed or skipped checks exactly; never claim unverified completion.
 - Provide concise conclusions and evidence, not private reasoning transcripts.
+- Treat persona-bound skills as session-locking procedures and utility skills
+  as freely callable helpers; do not switch persona-bound skills mid-session.
 
 ## Safety and Permissions
 
