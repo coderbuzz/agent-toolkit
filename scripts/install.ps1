@@ -7,9 +7,9 @@ $ToolkitScript = Join-Path $PSScriptRoot "toolkit.py"
 $ManifestPath = Join-Path $PSScriptRoot "..\manifest.json"
 try {
     $Manifest = Get-Content $ManifestPath -Raw | ConvertFrom-Json
-    $Platforms = $Manifest.platforms
+    $Platforms = @($Manifest.platforms | Sort-Object)
 } catch {
-    $Platforms = @("opencode", "codex", "claude-code", "github-copilot", "omp")
+    $Platforms = @("codex", "claude-code", "github-copilot", "omp", "opencode")
 }
 
 # Normalize: --global -> --scope global
