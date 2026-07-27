@@ -137,3 +137,12 @@ This project draws inspiration and architectural patterns from open-source commu
 - **[Anthropic Claude Code](https://docs.anthropic.com)** – `CLAUDE.md` guidelines and subagent patterns.
 - **[GitHub Copilot Custom Instructions](https://docs.github.com/en/copilot)** – Custom agent prompt engineering patterns.
 - **[Google Antigravity / Gemini CLI](https://cloud.google.com)** – Agentic workflow orchestration standards.
+
+---
+
+## 📄 License & Copyright
+
+This project is licensed under the [MIT License](LICENSE).
+
+Copyright (c) 2026 Indra Gunawan.
+
