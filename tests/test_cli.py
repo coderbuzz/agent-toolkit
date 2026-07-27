@@ -88,6 +88,26 @@ class CliTests(unittest.TestCase):
             self.assertIn("user-owned", result.stderr)
             self.assertEqual("existing\n", agents.read_text(encoding="utf-8"))
 
+    def test_root_install_sh_script(self):
+        with tempfile.TemporaryDirectory() as temp:
+            target = Path(temp) / "target"
+            result = subprocess.run(
+                [
+                    str(TOOLKIT_ROOT / "install.sh"),
+                    "--platform",
+                    "opencode",
+                    "--target",
+                    str(target),
+                ],
+                cwd=str(TOOLKIT_ROOT),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False,
+            )
+            self.assertEqual(0, result.returncode, result.stderr)
+            self.assertIn("Dry run only", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

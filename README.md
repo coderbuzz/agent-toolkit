@@ -27,6 +27,27 @@ validator uses the Python standard library.
 
 ## Quick Start
 
+### One-Line Terminal Installation (No Clone Required)
+
+Install directly into any project or machine-wide (`--global`) without cloning the repository first:
+
+**Linux / macOS**:
+```bash
+curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash
+```
+
+**Windows (PowerShell)**:
+```powershell
+irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.ps1 | iex
+```
+
+Pass arguments directly to target specific platforms or apply changes automatically:
+```bash
+curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --global --apply
+```
+
+### Local Repository Usage
+
 Run all commands from this directory.
 
 ```bash
@@ -254,3 +275,15 @@ The command fails when a generated file is missing, changed, or unexpected.
 See [Architecture](docs/architecture.md), [Platform Contracts](docs/platform-support.md),
 [Refinement Map](docs/refinement-map.md), and [Maintainer Guide](docs/maintainer-guide.md) for
 the detailed contracts.
+
+## References & Inspiration
+
+This project draws inspiration and architectural patterns from open-source community standards and official agentic platform specifications:
+
+- **[awesome-copilot-id](https://github.com/GulajavaMinistudio/awesome-copilot-id)** by GulajavaMinistudio – Primary reference and inspiration for prompt structures, skill format conventions, role definitions, and terminal installation workflows.
+- **[OpenCode](https://opencode.ai)** – Agent role definitions, configuration layout, and shared skill conventions.
+- **[OpenAI Codex & Agent Specifications](https://github.com/openai)** – `AGENTS.md` format, fail-closed permission models, and instruction blocks.
+- **[Anthropic Claude Code](https://docs.anthropic.com)** – `CLAUDE.md` guidelines, subagent definition patterns, and skill structures.
+- **[GitHub Copilot Custom Instructions](https://docs.github.com/en/copilot)** – Custom agent instructions and prompt engineering patterns.
+- **[Google Antigravity / Gemini CLI](https://cloud.google.com)** – Gemini/Antigravity integration and agentic workflow orchestration standards.
+
