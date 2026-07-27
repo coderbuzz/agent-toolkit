@@ -1,5 +1,5 @@
 #!/bin/sh
-# Portable Agentic SDLC Toolkit Installer
+# Portable Agentic SDLC Toolkit Installer (POSIX Shell - Zero Dependencies)
 # Usage:
 #   curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash
 #   curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --global --apply
@@ -22,15 +22,11 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-if [ -n "$SCRIPT_DIR" ] && [ -f "$SCRIPT_DIR/manifest.json" ] && [ -f "$SCRIPT_DIR/scripts/toolkit.py" ]; then
+if [ -n "$SCRIPT_DIR" ] && [ -f "$SCRIPT_DIR/manifest.json" ] && [ -f "$SCRIPT_DIR/scripts/install.sh" ]; then
     TOOLKIT_DIR="$SCRIPT_DIR"
 else
     if ! command -v git >/dev/null 2>&1; then
         echo "Error: git is required for remote installation." >&2
-        exit 1
-    fi
-    if ! command -v python3 >/dev/null 2>&1; then
-        echo "Error: python3 is required to run agent-toolkit." >&2
         exit 1
     fi
 
@@ -51,7 +47,7 @@ if [ $# -eq 0 ]; then
         fi
     else
         echo "Usage: install.sh --platform <platform> [--global] [--bundle core|full|quality] [--target DIR] [--apply]" >&2
-        PLATFORMS=$(python3 -c "import json; print(' '.join(sorted(json.load(open('manifest.json'))['platforms'])))" 2>/dev/null || echo "claude-code codex gemini github-copilot omp opencode")
+        PLATFORMS="claude-code codex gemini github-copilot omp opencode"
         echo "Valid platforms: $PLATFORMS" >&2
         exit 2
     fi

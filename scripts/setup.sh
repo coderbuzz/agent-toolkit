@@ -1,5 +1,5 @@
 #!/bin/sh
-# Interactive quick-start for installing the toolkit.
+# Interactive quick-start for installing the toolkit (POSIX Shell - Zero Dependencies).
 # Guides a first-time user through platform + scope, previews the install,
 # and applies only after explicit confirmation. Preview-first is preserved.
 set -eu
@@ -8,12 +8,10 @@ SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 TOOLKIT_DIR=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)
 cd "$TOOLKIT_DIR"
 
-# Platform list is sourced from manifest.json so new platforms (e.g. omp)
-# appear automatically without editing this script.
-PLATFORMS=$(python3 -c "import json; print(' '.join(sorted(json.load(open('manifest.json'))['platforms'])))" 2>/dev/null || echo "codex claude-code github-copilot omp opencode")
+# Read valid platforms from dist directory or default list
+PLATFORMS="claude-code codex gemini github-copilot omp opencode"
 
 # --- Terminal styling (ANSI) ---------------------------------------------
-# Only enable color when stdout is a terminal and NO_COLOR is unset.
 if [ -t 1 ] && [ -z "${NO_COLOR:-}" ]; then
     BOLD='\033[1m'; DIM='\033[2m'; UND='\033[4m'; UNDER='\033[4m'
     RED='\033[31m'; GREEN='\033[32m'; YELLOW='\033[33m'; BLUE='\033[34m'
@@ -24,9 +22,6 @@ else
     RED=''; GREEN=''; YELLOW=''; BLUE=''; CYAN=''; PURPLE=''; WHITE=''; RESET=''
 fi
 
-# Print helpers: c_print <color> <text>   (respects the reset)
-# Both the color prefix and the message are rendered with %b so any color
-# codes embedded in the message are also expanded.
 c_print() {
     color="$1"; shift
     printf '%b%b%b\n' "$color" "$*" "$RESET"
@@ -39,8 +34,6 @@ banner() {
 }
 
 prompt() {
-    # $1 = prompt text (printed to stderr), $2 = default. Echoes the reply on stdout.
-    # Reads from stdin (pipe or terminal); falls back to default on no input.
     printf '%b%s%b' "$BOLD$BLUE" "$1" "$RESET" >&2
     if read -r REPLY; then
         printf '%s' "$REPLY"
@@ -81,19 +74,19 @@ c_print "$DIM" "  → platform: $BOLD$GREEN$platform"
 
 scope=$(prompt "Scope - (r)epository or (g)lobal? [r]: " "r")
 case "$scope" in
-    g|G|global|Global) scope_flag="--scope global" ;;
+    g|G|global|Global) scope_flag="--global" ;;
     *) scope_flag="" ;;
 esac
 c_print "$DIM" "  → scope:   $BOLD$YELLOW${scope_flag:-(repository)}"
 
 target_flag=""
 if [ -z "$scope_flag" ]; then
-    target=$(prompt "Target repository path [..]: " ".")
+    target=$(prompt "Target repository path [.]: " ".")
     target_flag="--target $target"
     c_print "$DIM" "  → target:  $BOLD$YELLOW$target"
 fi
 
-cmd="python3 $SCRIPT_DIR/toolkit.py install --platform $platform $scope_flag $target_flag"
+cmd="$SCRIPT_DIR/install.sh --platform $platform $scope_flag $target_flag"
 echo
 c_print "$UND$BOLD" "Preview command:"
 c_print "$DIM" "  $cmd"
@@ -102,7 +95,7 @@ echo
 # Dry-run preview first.
 c_print "$BOLD$CYAN" "── Preview (dry run) ──────────────────────────────────────"
 # shellcheck disable=SC2086
-python3 "$SCRIPT_DIR/toolkit.py" install --platform "$platform" $scope_flag $target_flag || exit $?
+"$SCRIPT_DIR/install.sh" --platform "$platform" $scope_flag $target_flag || exit $?
 c_print "$BOLD$CYAN" "──────────────────────────────────────────────────────────"
 echo
 
@@ -111,7 +104,7 @@ case "$confirm" in
     y|Y|yes|Yes|YES)
         c_print "$GREEN" "Applying…"
         # shellcheck disable=SC2086
-        python3 "$SCRIPT_DIR/toolkit.py" install --platform "$platform" $scope_flag $target_flag --apply
+        "$SCRIPT_DIR/install.sh" --platform "$platform" $scope_flag $target_flag --apply
         c_print "$GREEN" "✓ Done."
         ;;
     *)

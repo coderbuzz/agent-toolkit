@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Portable Agentic SDLC Toolkit Installer for Windows PowerShell.
+    Portable Agentic SDLC Toolkit Installer for Windows PowerShell (Zero Dependencies).
 .EXAMPLE
     irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.ps1 | iex
     install.ps1 --platform opencode --global --apply
@@ -27,10 +27,6 @@ try {
     } else {
         if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
             Write-Error "Error: git is required for remote installation."
-            exit 1
-        }
-        if (-not (Get-Command python -ErrorAction SilentlyContinue) -and -not (Get-Command python3 -ErrorAction SilentlyContinue)) {
-            Write-Error "Error: python is required to run agent-toolkit."
             exit 1
         }
 
