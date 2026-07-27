@@ -50,6 +50,7 @@ class ExportTests(unittest.TestCase):
             self.export_root / "opencode" / ".opencode/agents/traceability-auditor.md",
             self.export_root / "github-copilot" / ".github/agents/traceability-auditor.agent.md",
             self.export_root / "claude-code" / ".claude/agents/traceability-auditor.md",
+            self.export_root / "gemini" / ".gemini/agents/traceability-auditor.md",
         ]
         for path in files:
             with self.subTest(path=path):
@@ -74,6 +75,18 @@ class ExportTests(unittest.TestCase):
         ).read_text(encoding="utf-8")
         writer = (
             self.export_root / "opencode" / ".opencode/agents/implementation-engineer.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn("\n  edit: deny\n", read_only)
+        self.assertIn("\n  edit: allow\n", writer)
+        self.assertIn("\n  bash: ask\n", writer)
+        self.assertNotIn("permissions:", read_only + writer)
+
+    def test_gemini_permissions_fail_closed(self):
+        read_only = (
+            self.export_root / "gemini" / ".gemini/agents/traceability-auditor.md"
+        ).read_text(encoding="utf-8")
+        writer = (
+            self.export_root / "gemini" / ".gemini/agents/implementation-engineer.md"
         ).read_text(encoding="utf-8")
         self.assertIn("\n  edit: deny\n", read_only)
         self.assertIn("\n  edit: allow\n", writer)

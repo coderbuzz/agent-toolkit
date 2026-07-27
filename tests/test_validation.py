@@ -22,7 +22,7 @@ class ValidationTests(unittest.TestCase):
         self.assertEqual(25, len(toolkit.all_skill_names(manifest)))
         self.assertEqual(12, len(manifest["agents"]))
         self.assertEqual(
-            {"codex", "opencode", "github-copilot", "claude-code", "omp"},
+            {"codex", "opencode", "github-copilot", "claude-code", "omp", "gemini"},
             set(manifest["platforms"]),
         )
 

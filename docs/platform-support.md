@@ -13,6 +13,7 @@ MCP server identifiers. Revalidate adapters when a host platform changes its age
 | OpenCode | Markdown with YAML frontmatter | Root `AGENTS.md` | Canonical `.agents/skills` |
 | GitHub Copilot | Markdown with YAML frontmatter | Generated Copilot instructions | Canonical `.agents/skills` |
 | Claude Code | Markdown with YAML frontmatter | `CLAUDE.md` imports `AGENTS.md` | Copy to `.claude/skills` |
+| Gemini / Antigravity | Markdown with YAML frontmatter | Root `AGENTS.md` | Canonical `.agents/skills` |
 
 ## Codex
 
@@ -113,6 +114,7 @@ repository inherits the same behavior without per-repository duplication. Each a
 | Claude Code | `~/.claude/CLAUDE.md` | `~/.claude/agents/<agent>.md` | `~/.agents/skills/<skill>` |
 | GitHub Copilot | `~/.copilot/copilot-instructions.md` | `~/.copilot/agents/<agent>.agent.md` | `~/.agents/skills/<skill>` |
 | OMP | `~/.omp/agent/AGENTS.md` | `~/.omp/agent/agents/<agent>.md` | `~/.agents/skills/<skill>` |
+| Gemini / Antigravity | `~/.gemini/antigravity/AGENTS.md` | `~/.gemini/antigravity/agents/<agent>.md` | `~/.agents/skills/<skill>` |
 
 ### Shared skills
 

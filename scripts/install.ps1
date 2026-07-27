@@ -9,7 +9,7 @@ try {
     $Manifest = Get-Content $ManifestPath -Raw | ConvertFrom-Json
     $Platforms = @($Manifest.platforms | Sort-Object)
 } catch {
-    $Platforms = @("codex", "claude-code", "github-copilot", "omp", "opencode")
+    $Platforms = @("claude-code", "codex", "gemini", "github-copilot", "omp", "opencode")
 }
 
 # Normalize: --global -> --scope global

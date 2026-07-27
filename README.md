@@ -102,6 +102,7 @@ skills another platform still uses.
 | Claude Code | `~/.claude/CLAUDE.md` | `~/.claude/agents/*.md` | `~/.agents/skills/*` |
 | GitHub Copilot | `~/.copilot/copilot-instructions.md` | `~/.copilot/agents/*.agent.md` | `~/.agents/skills/*` |
 | OMP | `~/.omp/agent/AGENTS.md` | `~/.omp/agent/agents/*.md` | `~/.agents/skills/*` |
+| Gemini / Antigravity | `~/.gemini/antigravity/AGENTS.md` | `~/.gemini/antigravity/agents/*.md` | `~/.agents/skills/*` |
 
 Codex agents are folded into `~/.codex/config.toml` inside a managed block delimited by
 `# >>> portable-sdlc agents ... >>>` and `# <<< portable-sdlc agents <<<`. Content outside the
@@ -190,6 +191,7 @@ usable when a narrow bundle omits a specialist procedure.
 | OpenCode | `.opencode/agents/*.md` | `.agents/skills/*` | `AGENTS.md` |
 | GitHub Copilot | `.github/agents/*.agent.md` | `.agents/skills/*` | `.github/copilot-instructions.md` |
 | Claude Code | `.claude/agents/*.md` | `.claude/skills/*` | `CLAUDE.md` importing `AGENTS.md` |
+| Gemini / Antigravity | `.gemini/agents/*.md` | `.agents/skills/*` | `AGENTS.md` |
 
 Generated agents receive explicit, fail-closed permission mappings. The canonical agents use
 capability intent rather than platform tool names.

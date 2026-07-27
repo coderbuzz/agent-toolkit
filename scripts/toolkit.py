@@ -30,7 +30,7 @@ SOURCE_DIRS = (
     "platforms",
 )
 SOURCE_FILES = ("AGENTS.md", "manifest.json")
-VALID_PLATFORMS = {"codex", "opencode", "github-copilot", "claude-code", "omp"}
+VALID_PLATFORMS = {"codex", "opencode", "github-copilot", "claude-code", "omp", "gemini"}
 VALID_CAPABILITIES = {
     "read_workspace",
     "run_read_commands",
@@ -45,6 +45,7 @@ FORBIDDEN_SKILL_TEXT = (
     ".opencode/",
     ".github/",
     ".claude/",
+    ".gemini/",
     "danger-full-access",
     "bypassPermissions",
     "SYSTEM OVERRIDE",
@@ -591,6 +592,27 @@ def render_claude_agent(agent, version, digest):
     return "\n".join(frontmatter) + agent_body(agent)
 
 
+def render_gemini_agent(agent, version, digest):
+    capabilities = set(agent["capabilities"])
+    can_edit = bool(capabilities & {"write_documents", "write_workspace"})
+    can_bash = bool(capabilities & {"run_read_commands", "run_tests", "release_actions"})
+    frontmatter = [
+        "---",
+        generated_marker(version, digest, "#", "").strip(),
+        "description: {0}".format(yaml_value(agent["description"])),
+        "mode: subagent",
+        "permission:",
+        "  read: allow",
+        "  edit: {0}".format("allow" if can_edit else "deny"),
+        "  bash: {0}".format("ask" if can_bash else "deny"),
+        "  external_directory: deny",
+        "  task: ask",
+        "---",
+        "",
+    ]
+    return "\n".join(frontmatter) + agent_body(agent)
+
+
 def render_agent(platform, agent, version, digest):
     renderers = {
         "codex": render_codex_agent,
@@ -598,6 +620,7 @@ def render_agent(platform, agent, version, digest):
         "github-copilot": render_copilot_agent,
         "claude-code": render_claude_agent,
         "omp": render_omp_agent,
+        "gemini": render_gemini_agent,
     }
     return renderers[platform](agent, version, digest)
 
@@ -859,6 +882,11 @@ def validate_exported_package(package_root, platform, bundle, root=TOOLKIT_ROOT)
                 errors.append("Incorrect Claude permission mode for {0}".format(agent["id"]))
             if "bypassPermissions" in text:
                 errors.append("Forbidden Claude permission mode in {0}".format(agent["id"]))
+        elif platform == "gemini":
+            if "\nmode: subagent\n" not in text or "\npermission:\n" not in text:
+                errors.append("Invalid Gemini frontmatter for {0}".format(agent["id"]))
+            if "permissions:" in text:
+                errors.append("Gemini uses singular permission field")
     if platform == "github-copilot" and adapter["instruction_path"] not in files:
         errors.append("Package is missing GitHub Copilot instructions")
     if platform == "claude-code":

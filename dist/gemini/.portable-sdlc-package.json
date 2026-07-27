@@ -1,0 +1,31 @@
+{
+  "bundle": "core",
+  "platform": "gemini",
+  "schema_version": 1,
+  "skills": [
+    "sdlc-router",
+    "project-discovery",
+    "product-requirements",
+    "artifact-clarification",
+    "technical-specification",
+    "artifact-traceability-audit",
+    "implementation-planning",
+    "implementation-execution",
+    "independent-verification",
+    "code-review",
+    "bug-remediation",
+    "release-readiness",
+    "documentation-delivery",
+    "engineering-guardrails",
+    "project-memory",
+    "domain-language-management",
+    "architecture-decision-management",
+    "test-strategy",
+    "threat-modeling",
+    "dependency-supply-chain-audit",
+    "bounded-orchestration"
+  ],
+  "source_sha256": "30e6e14f449fb25a9fd37b25e2415e529c318afec849f4edf05db3563ca53ec3",
+  "toolkit": "portable-agentic-sdlc-toolkit",
+  "version": "0.1.0"
+}

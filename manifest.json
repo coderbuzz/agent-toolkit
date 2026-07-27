@@ -15,7 +15,8 @@
     "opencode",
     "github-copilot",
     "claude-code",
-    "omp"
+    "omp",
+    "gemini"
   ],
   "agents": [
     "discovery-explorer",
