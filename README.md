@@ -140,9 +140,8 @@ This project draws inspiration and architectural patterns from open-source commu
 
 ---
 
-## 📄 License & Copyright
+## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
 
-Copyright (c) 2026 Indra Gunawan.
 
