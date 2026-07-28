@@ -81,6 +81,80 @@ Install once globally into your home directory (`$HOME`) so all your repos autom
 
 ---
 
+## 🔄 SDLC Workflows & Lanes
+
+The toolkit classifies software development into **5 safety lanes** to ensure every change gets the right level of discipline without unnecessary overhead:
+
+| Lane | Trigger & Scope | Required Workflow Steps |
+| :--- | :--- | :--- |
+| **Full-Feature** | New capabilities, architectural changes, public API/contract changes, sensitive data handling | Discovery → PRD → Spec → Plan → Execution → Verification → Code Review |
+| **Bug-Fix** | Reproducible defects with clear intended behavior | Reproduce → Causal Chain Root Cause → Minimal Fix Plan → Test & Fix → Verify |
+| **Small-Change** | Low-risk, reversible, narrowly scoped changes | Direct Minimal Fix → Unit/Integration Test Verification → Code Review |
+| **Documentation** | Pure documentation or comment updates | Audit → Draft/Update → Verify Links & Clarity |
+| **Incident** | Active production outage, security event, or data loss | Severity Assessment → Containment → Root Cause Review → Post-Mortem |
+
+> 💡 **Automatic Routing**: If you're unsure which lane to use, just ask your agent: *"Use `sdlc-router` to determine the best workflow for [my task]"*.
+
+---
+
+## 🧰 Skills & Agent Roles
+
+### Core Lifecycle Skills
+- 🚦 **`sdlc-router`**: Classifies work into the appropriate SDLC lane and enforces step-by-step gates.
+- 🔍 **`project-discovery`**: Researches repository architecture and requirements prior to planning.
+- 📝 **`product-requirements`**: Generates or updates Product Requirements Documents (PRDs).
+- 📐 **`technical-specification`**: Converts PRDs into detailed technical designs and data contracts.
+- 📋 **`implementation-planning`**: Breaks down specs into traceable, step-by-step execution plans.
+- 🛠️ **`implementation-execution`**: Executes implementation plans incrementally with test checks.
+- ✅ **`independent-verification`**: Verifies acceptance criteria and runs full test suites.
+- 🔍 **`code-review`**: Conducts multi-perspective code reviews (correctness, security, performance).
+- 🐛 **`bug-remediation`**: Traces root causes, creates reproduction tests, and applies minimal fixes.
+- 🚀 **`release-readiness`**: Audits security, dependencies, and docs before release tagging.
+
+### Cross-Cutting & Governance Skills
+- 🛡️ **`engineering-guardrails`**: Enforces evidence-first, minimal, and secure coding practices.
+- 🏛️ **`architecture-decision-management`**: Evaluates and writes Architecture Decision Records (ADRs).
+- 🧠 **`project-memory`**: Manages compact session memory and milestone tracking.
+- 🔒 **`threat-modeling`**: Performs STRIDE threat modeling for security-sensitive changes.
+- 📦 **`dependency-supply-chain-audit`**: Audits newly added or updated third-party dependencies.
+
+---
+
+## 💬 How to Use & Prompt Examples
+
+Because skills are installed globally or at project level, you don't need special UI menus. Simply interact with your AI agent in natural language. Here are real-world prompt examples:
+
+### 1. Starting a New Feature (Full-Feature Lane)
+```text
+"Saya ingin menambahkan fitur authentication dengan JWT dan OAuth2. Tolong gunakan sdlc-router untuk menentukan alur kerja dan buatkan PRD serta technical specification terlebih dahulu."
+```
+*or in English:*
+```text
+"Use sdlc-router to plan the implementation of user authentication. Generate a PRD and technical specification before writing code."
+```
+
+### 2. Fixing a Bug (Bug-Fix Lane)
+```text
+"User melaporkan error 500 saat checkout ketika cart kosong. Tolong gunakan skill bug-remediation untuk investigasi root cause, buat test reproduksi, dan perbaiki dengan minimal change."
+```
+
+### 3. Reviewing Code / PR (Code Review)
+```text
+"Tolong lakukan code review untuk perubahan di branch ini menggunakan skill code-review. Periksa aspek keamanan, performa, dan kesesuaian dengan spesifikasi."
+```
+
+### 4. Creating an Architecture Decision Record (ADR)
+```text
+"Kita perlu memilih antara Redis vs PostgreSQL untuk caching session. Gunakan skill architecture-decision-management untuk mengevaluasi trade-off dan buatkan ADR."
+```
+
+### 5. Running Pre-Release Check
+```text
+"Tolong audit repository ini menggunakan skill release-readiness sebelum kita melakukan release v1.0.0."
+```
+
+---
+
 ## 💻 Contributor & Maintainer Guide
 
 Developing or extending the toolkit itself? Maintainer tools require **Python 3.9+** (Standard Library only — no third-party pip dependencies required).
