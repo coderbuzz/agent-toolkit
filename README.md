@@ -1,6 +1,6 @@
 # ⚡ Portable Agentic SDLC Toolkit
 
-🌐 **Languages / Bahasa**: [English](README.md) | [Bahasa Indonesia](README.id.md)
+🌐 **Languages**: [English](README.md) | [Bahasa Indonesia](README.id.md)
 
 > **Supercharge your AI coding agents with vendor-neutral SDLC workflows, bounded roles, and reusable skills — installed in seconds with zero dependencies.**
 
