@@ -19,6 +19,7 @@ host platform's responsibility.
 ## Workflow Routing
 
 - Use `sdlc-router` when the appropriate workflow lane is not explicit.
+- Use `prompts/sync-awesome-copilot-id.md` to review and sync upstream skills/agents from `awesome-copilot-id`.
 - Use the full-feature lane for new behavior that changes product scope,
   architecture, public contracts, sensitive data, or multiple components.
 - Use the bug-fix lane for reproducible defects with stable intended behavior.
