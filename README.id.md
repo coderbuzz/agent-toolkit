@@ -44,9 +44,9 @@ irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.ps1 |
 
 ---
 
-## 🗺️ Alur Kerja End-User & 6-Fase SDLC Lifecycle
+## 🗺️ Alur Kerja & 6-Fase SDLC Lifecycle
 
-Bagi pengguna (developer, product manager, engineering lead), berinteraksi dengan AI agents menjadi sangat mudah dan dapat diprediksi jika dikelompokkan ke dalam **6 fase utama + 1 navigasi awal**:
+Berinteraksi dengan AI agents menjadi sangat mudah dan dapat diprediksi ketika dikelompokkan ke dalam **6 fase utama + 1 navigasi awal**:
 
 ```
 [0. NAVIGASI / MULAI] ➔ [1. EKSPLORASI & PRODUK] ➔ [2. DESAIN TEKNIS] ➔ [3. PERENCANAAN] ➔ [4. EKSEKUSI KODE] ➔ [5. VERIFIKASI & REVIEW] ➔ [6. RILIS & OPS]
