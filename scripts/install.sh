@@ -295,12 +295,14 @@ if [ "$scope" = "global" ]; then
         if [ ! -f "$config_toml" ]; then
             printf "%s\n%b%s\n" "$block_begin" "$block_content" "$block_end" > "$config_toml"
         elif grep -qF "$block_begin" "$config_toml"; then
-            awk -v b="$block_begin" -v e="$block_end" -v c="$(printf "%b" "$block_content")" '
+            BLOCK_BODY=$(printf "%b" "$block_content") export BLOCK_BODY
+            awk -v b="$block_begin" -v e="$block_end" '
                 BEGIN { in_block = 0 }
-                $0 ~ b { print b; print c; in_block = 1; next }
+                $0 ~ b { print b; print ENVIRON["BLOCK_BODY"]; in_block = 1; next }
                 $0 ~ e { print e; in_block = 0; next }
                 !in_block { print }
             ' "$config_toml" > "$config_toml.tmp" && mv "$config_toml.tmp" "$config_toml"
+            unset BLOCK_BODY
         else
             printf "\n%s\n%b%s\n" "$block_begin" "$block_content" "$block_end" >> "$config_toml"
         fi
@@ -311,8 +313,20 @@ if [ "$scope" = "global" ]; then
             opencode) pkg_agent_dir="$package_dir/.opencode/agents" ;;
             claude-code) pkg_agent_dir="$package_dir/.claude/agents" ;;
             github-copilot) pkg_agent_dir="$package_dir/.copilot/agents" ;;
-            omp) pkg_agent_dir="$package_dir/.omp/agent/agents" ;;
-            gemini) pkg_agent_dir="$package_dir/.gemini/antigravity/agents" ;;
+            omp)
+                if [ -d "$package_dir/.omp/agents" ]; then
+                    pkg_agent_dir="$package_dir/.omp/agents"
+                else
+                    pkg_agent_dir="$package_dir/.omp/agent/agents"
+                fi
+                ;;
+            gemini)
+                if [ -d "$package_dir/.gemini/agents" ]; then
+                    pkg_agent_dir="$package_dir/.gemini/agents"
+                else
+                    pkg_agent_dir="$package_dir/.gemini/antigravity/agents"
+                fi
+                ;;
         esac
         if [ -d "$pkg_agent_dir" ]; then
             cp -R "$pkg_agent_dir/"* "$agent_dir/"
@@ -333,12 +347,14 @@ if [ "$scope" = "global" ]; then
     if [ ! -f "$inst_dest" ]; then
         printf "%s\n%s\n%s\n" "$block_begin" "$inst_body" "$block_end" > "$inst_dest"
     elif grep -qF "$block_begin" "$inst_dest"; then
-        awk -v b="$block_begin" -v e="$block_end" -v c="$inst_body" '
+        INST_BODY="$inst_body" export INST_BODY
+        awk -v b="$block_begin" -v e="$block_end" '
             BEGIN { in_block = 0 }
-            $0 ~ b { print b; print c; in_block = 1; next }
+            $0 ~ b { print b; print ENVIRON["INST_BODY"]; in_block = 1; next }
             $0 ~ e { print e; in_block = 0; next }
             !in_block { print }
         ' "$inst_dest" > "$inst_dest.tmp" && mv "$inst_dest.tmp" "$inst_dest"
+        unset INST_BODY
     else
         printf "\n%s\n%s\n%s\n" "$block_begin" "$inst_body" "$block_end" >> "$inst_dest"
     fi
