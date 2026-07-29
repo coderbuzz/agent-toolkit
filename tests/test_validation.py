@@ -49,8 +49,8 @@ class ValidationTests(unittest.TestCase):
 
     def test_safe_relative_path_accepts_nested_portable_path(self):
         self.assertEqual(
-            ".agents/skills/project-discovery/SKILL.md",
-            toolkit.safe_relative_path(".agents/skills/project-discovery/SKILL.md").as_posix(),
+            ".agents/skills/sdlc-project-discovery/SKILL.md",
+            toolkit.safe_relative_path(".agents/skills/sdlc-project-discovery/SKILL.md").as_posix(),
         )
 
     def test_filesystem_root_is_not_an_operation_target(self):

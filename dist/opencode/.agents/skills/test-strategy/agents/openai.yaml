@@ -1,4 +1,0 @@
-interface:
-  display_name: "test strategy"
-  short_description: "Portable workflow for test strategy"
-  default_prompt: "Use $test-strategy to complete this workflow with verifiable evidence."

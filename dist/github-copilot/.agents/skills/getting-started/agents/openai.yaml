@@ -1,4 +1,0 @@
-interface:
-  display_name: "getting started"
-  short_description: "Portable workflow navigator for getting started"
-  default_prompt: "Use $getting-started to complete this workflow with verifiable evidence."

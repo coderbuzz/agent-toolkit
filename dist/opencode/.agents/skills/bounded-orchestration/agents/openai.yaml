@@ -1,4 +1,0 @@
-interface:
-  display_name: "bounded orchestration"
-  short_description: "Portable workflow for bounded orchestration"
-  default_prompt: "Use $bounded-orchestration to complete this workflow with verifiable evidence."

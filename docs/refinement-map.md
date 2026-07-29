@@ -9,41 +9,41 @@ into the portable toolkit. It is provenance, not a runtime dependency.
 
 | Portable skill | Reference source | Refinement |
 | --- | --- | --- |
-| `project-discovery` | `brainstorming-explorer` | Preserves evidence-first discovery; removes persona lock and host commands |
-| `product-requirements` | `product-manager-prd` | Keeps measurable requirements and acceptance criteria; separates technical design |
-| `artifact-clarification` | `clarification-analyst` | Generalizes recurring PRD, Spec, and Plan interrogation |
-| `technical-specification` | `specification-architect` | Retains contracts, data, security, and observability; avoids production code |
-| `artifact-traceability-audit` | `artifact-consistency-checker` | Adds checkpoint-aware modes so future artifacts are not required prematurely |
-| `implementation-planning` | `planner-architect` | Produces executable, test-aware, dependency-ordered tasks with stable trace IDs |
-| `implementation-execution` | `god-mode-dev` plus guardrail skills | Replaces unrestricted persona language with bounded execution and stop conditions |
-| `independent-verification` | New gap coverage | Separates completion claims from independent acceptance evidence |
-| `code-review` | `expert-code-reviewer` | Retains specification and engineering axes; adds severity and evidence discipline |
-| `bug-remediation` | `bug-remediation-architect` | Preserves reproduce-root-cause-test-plan sequence and surgical scope |
-| `release-readiness` | New gap coverage | Adds packaging, compatibility, rollback, and explicit external-action gates |
-| `documentation-delivery` | `diataxis-documentation-architect` | Preserves Diataxis modes and adds command/example validation |
+| `sdlc-project-discovery` | `brainstorming-explorer` | Preserves evidence-first discovery; removes persona lock and host commands |
+| `sdlc-product-requirements` | `sdlc-product-manager-prd` | Keeps measurable requirements and acceptance criteria; separates technical design |
+| `sdlc-artifact-clarification` | `sdlc-clarification-analyst` | Generalizes recurring PRD, Spec, and Plan interrogation |
+| `sdlc-technical-specification` | `specification-architect` | Retains contracts, data, security, and observability; avoids production code |
+| `sdlc-artifact-traceability-audit` | `artifact-consistency-checker` | Adds checkpoint-aware modes so future artifacts are not required prematurely |
+| `sdlc-implementation-planning` | `planner-architect` | Produces executable, test-aware, dependency-ordered tasks with stable trace IDs |
+| `sdlc-implementation-execution` | `god-mode-dev` plus guardrail skills | Replaces unrestricted persona language with bounded execution and stop conditions |
+| `sdlc-independent-verification` | New gap coverage | Separates completion claims from independent acceptance evidence |
+| `sdlc-code-review` | `expert-sdlc-code-reviewer` | Retains specification and engineering axes; adds severity and evidence discipline |
+| `sdlc-bug-remediation` | `sdlc-bug-remediation-architect` | Preserves reproduce-root-cause-test-plan sequence and surgical scope |
+| `sdlc-release-readiness` | New gap coverage | Adds packaging, compatibility, rollback, and explicit external-action gates |
+| `sdlc-documentation-delivery` | `diataxis-sdlc-documentation-architect` | Preserves Diataxis modes and adds command/example validation |
 | `sdlc-router` | Workflow rules plus Phase 0 findings | Adds risk-based feature, bug, small-change, docs, incident, and migration lanes |
 
 ## Cross-Cutting Skill Refinements
 
 | Portable skill | Reference source | Refinement |
 | --- | --- | --- |
-| `engineering-guardrails` | `karpathy-guidelines`, `ponytail-lazy-senior-dev`, `omni-dev` | Consolidates minimal change, reuse, assumptions, tests, and verification without persona overlap |
-| `project-memory` | `memory-manager` | Preserves project-scoped durable context while excluding secrets and hidden prompts |
-| `bounded-orchestration` | `fable-protocol` | Keeps decomposition, dependency ordering, progress evidence, and recovery; removes autonomy escalation |
-| `domain-language-management` | Repository context standards | Makes glossary creation lazy and canonical terms explicit |
-| `architecture-decision-management` | Repository ADR standards | Enforces the hard-to-reverse, surprising, real-trade-off triple gate |
-| `test-strategy` | Distributed testing mandates | Centralizes test levels, negative paths, evidence, and completion criteria |
-| `threat-modeling` | Security review guidance | Adds structured assets, boundaries, abuse cases, mitigations, and verification |
-| `dependency-supply-chain-audit` | Review and release checks | Adds provenance, licensing, vulnerability, and lockfile evidence |
+| `sdlc-engineering-guardrails` | `karpathy-guidelines`, `ponytail-lazy-senior-dev`, `omni-dev` | Consolidates minimal change, reuse, assumptions, tests, and verification without persona overlap |
+| `sdlc-project-memory` | `memory-manager` | Preserves project-scoped durable context while excluding secrets and hidden prompts |
+| `sdlc-bounded-orchestration` | `fable-protocol` | Keeps decomposition, dependency ordering, progress evidence, and recovery; removes autonomy escalation |
+| `sdlc-domain-language-management` | Repository context standards | Makes glossary creation lazy and canonical terms explicit |
+| `sdlc-architecture-decision-management` | Repository ADR standards | Enforces the hard-to-reverse, surprising, real-trade-off triple gate |
+| `sdlc-test-strategy` | Distributed testing mandates | Centralizes test levels, negative paths, evidence, and completion criteria |
+| `sdlc-threat-modeling` | Security review guidance | Adds structured assets, boundaries, abuse cases, mitigations, and verification |
+| `sdlc-dependency-supply-chain-audit` | Review and release checks | Adds provenance, licensing, vulnerability, and lockfile evidence |
 
 ## Optional Specialist Coverage
 
 | Portable skill | Reference source | Refinement |
 | --- | --- | --- |
-| `product-interface-design` | `ui-designer` | Preserves deliberate UX and accessibility without an identity-bound design persona |
-| `incident-response` | New gap coverage | Adds containment-first operational response and recovery approvals |
-| `observability-design` | Specification and release gaps | Adds signals, ownership, privacy, actionable alerts, and verification |
-| `data-migration` | Specification and implementation gaps | Adds compatibility windows, rehearsal, integrity, rollback, and cleanup gates |
+| `sdlc-product-interface-design` | `ui-designer` | Preserves deliberate UX and accessibility without an identity-bound design persona |
+| `sdlc-incident-response` | New gap coverage | Adds containment-first operational response and recovery approvals |
+| `sdlc-observability-design` | Specification and release gaps | Adds signals, ownership, privacy, actionable alerts, and verification |
+| `sdlc-data-migration` | Specification and implementation gaps | Adds compatibility windows, rehearsal, integrity, rollback, and cleanup gates |
 
 ## Agent Model Refinements
 

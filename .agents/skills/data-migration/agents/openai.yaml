@@ -1,4 +1,0 @@
-interface:
-  display_name: "data migration"
-  short_description: "Portable workflow for data migration"
-  default_prompt: "Use $data-migration to complete this workflow with verifiable evidence."

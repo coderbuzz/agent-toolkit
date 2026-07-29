@@ -42,7 +42,28 @@ irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.ps1 |
 > curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --global --apply
 > ```
 
+### 🧹 Uninstallation
+
+To safely preview and remove installed toolkit files while preserving user modifications:
+
+```bash
+# Interactive uninstaller (Linux / macOS)
+./uninstall.sh
+
+# Non-interactive / CI mode
+./uninstall.sh --scope repository --target . --apply
+```
+
+```powershell
+# Interactive uninstaller (Windows PowerShell)
+.\uninstall.ps1
+
+# Non-interactive mode
+.\uninstall.ps1 --platform opencode --global --apply
+```
+
 ---
+
 
 ## 🗺️ Workflow & 6-Phase SDLC Lifecycle
 
@@ -56,37 +77,37 @@ Working with AI agents becomes simple and predictable when structured into 6 log
 
 ```mermaid
 flowchart TD
-    Start([User Request]) --> Router["0. getting-started / sdlc-router"]
+    Start([User Request]) --> Router["0. sdlc-getting-started / sdlc-router"]
     
     subgraph Phase 1: DISCOVER & DEFINE
-        Router --> Explorer["Agent: discovery-explorer\nSkill: project-discovery"]
-        Explorer --> PM["Agent: product-manager\nSkill: product-requirements"]
+        Router --> Explorer["Agent: sdlc-discovery-explorer\nSkill: sdlc-project-discovery"]
+        Explorer --> PM["Agent: sdlc-product-manager\nSkill: sdlc-product-requirements"]
     end
     
     subgraph Phase 2: ARCHITECT & DESIGN
-        PM --> Clarify["Agent: clarification-analyst\nSkill: artifact-clarification"]
-        Clarify --> Architect["Agent: solution-architect\nSkill: technical-specification"]
+        PM --> Clarify["Agent: sdlc-clarification-analyst\nSkill: sdlc-artifact-clarification"]
+        Clarify --> Architect["Agent: sdlc-solution-architect\nSkill: sdlc-technical-specification"]
     end
     
     subgraph Phase 3: PLAN & AUDIT
-        Architect --> Planner["Agent: implementation-planner\nSkill: implementation-planning"]
-        Planner --> Auditor["Agent: traceability-auditor\nSkill: artifact-traceability-audit"]
+        Architect --> Planner["Agent: sdlc-implementation-planner\nSkill: sdlc-implementation-planning"]
+        Planner --> Auditor["Agent: sdlc-traceability-auditor\nSkill: sdlc-artifact-traceability-audit"]
     end
     
     subgraph Phase 4: BUILD & REMEDIATE
-        Auditor --> Engineer["Agent: implementation-engineer\nSkill: implementation-execution"]
-        Router -. Bug-Fix Fast Lane .-> BugAnalyst["Agent: bug-remediation-analyst\nSkill: bug-remediation"]
+        Auditor --> Engineer["Agent: sdlc-implementation-engineer\nSkill: sdlc-implementation-execution"]
+        Router -. Bug-Fix Fast Lane .-> BugAnalyst["Agent: sdlc-bug-remediation-analyst\nSkill: sdlc-bug-remediation"]
         BugAnalyst --> Engineer
     end
     
     subgraph Phase 5: VERIFY & REVIEW
-        Engineer --> Reviewer["Agent: code-reviewer\nSkill: code-review"]
-        Reviewer --> Verifier["Agent: verification-engineer\nSkill: independent-verification"]
+        Engineer --> Reviewer["Agent: sdlc-code-reviewer\nSkill: sdlc-code-review"]
+        Reviewer --> Verifier["Agent: sdlc-verification-engineer\nSkill: sdlc-independent-verification"]
     end
     
     subgraph Phase 6: SHIP & MAINTAIN
-        Verifier --> DocArch["Agent: documentation-architect\nSkill: documentation-delivery"]
-        DocArch --> ReleaseEng["Agent: release-engineer\nSkill: release-readiness"]
+        Verifier --> DocArch["Agent: sdlc-documentation-architect\nSkill: sdlc-documentation-delivery"]
+        DocArch --> ReleaseEng["Agent: sdlc-release-engineer\nSkill: sdlc-release-readiness"]
         ReleaseEng --> Done([Production Release])
     end
 ```
@@ -97,56 +118,56 @@ flowchart TD
 
 ### Phase 0: Navigator (Entrypoint)
 If you're unsure how to start a task, invoke the navigator skill:
-- 🚀 **`getting-started`** *(or `sdlc-router`)*: Classifies work into the optimal safety lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and guides step-by-step agent execution.
+- 🚀 **`sdlc-getting-started`** *(or `sdlc-router`)*: Classifies work into the optimal safety lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and guides step-by-step agent execution.
 
 ---
 
 ### Phase 1: Discover & Define (Product Scope)
 | Agent Role | Primary Skill | Support Skills | Phase Deliverable |
 | :--- | :--- | :--- | :--- |
-| **`discovery-explorer`** | `project-discovery` | `engineering-guardrails` | **Discovery Report** |
-| **`product-manager`** | `product-requirements` | `domain-language-management` | **Product Requirements Document (PRD)** |
+| **`sdlc-discovery-explorer`** | `sdlc-project-discovery` | `sdlc-engineering-guardrails` | **Discovery Report** |
+| **`sdlc-product-manager`** | `sdlc-product-requirements` | `sdlc-domain-language-management` | **Product Requirements Document (PRD)** |
 
 ---
 
 ### Phase 2: Architect & Design (Technical Design & Security)
 | Agent Role | Primary Skill | Support Skills | Phase Deliverable |
 | :--- | :--- | :--- | :--- |
-| **`clarification-analyst`** | `artifact-clarification` | `architecture-decision-management` | **Clarification Q&A / ADR** |
-| **`solution-architect`** | `technical-specification` | `threat-modeling`, `product-interface-design`, `test-strategy` | **Technical Specification (Spec)** |
+| **`sdlc-clarification-analyst`** | `sdlc-artifact-clarification` | `sdlc-architecture-decision-management` | **Clarification Q&A / ADR** |
+| **`sdlc-solution-architect`** | `sdlc-technical-specification` | `sdlc-threat-modeling`, `sdlc-product-interface-design`, `sdlc-test-strategy` | **Technical Specification (Spec)** |
 
 ---
 
 ### Phase 3: Plan & Audit (Execution Planning)
 | Agent Role | Primary Skill | Support Skills | Phase Deliverable |
 | :--- | :--- | :--- | :--- |
-| **`implementation-planner`** | `implementation-planning` | `test-strategy` | **Implementation Plan** |
-| **`traceability-auditor`** | `artifact-traceability-audit` | - | **Traceability Audit Report** |
+| **`sdlc-implementation-planner`** | `sdlc-implementation-planning` | `sdlc-test-strategy` | **Implementation Plan** |
+| **`sdlc-traceability-auditor`** | `sdlc-artifact-traceability-audit` | - | **Traceability Audit Report** |
 
 ---
 
 ### Phase 4: Build & Remediate (Coding & Bug Fixes)
 | Agent Role | Primary Skill | Support Skills | Phase Deliverable |
 | :--- | :--- | :--- | :--- |
-| **`implementation-engineer`** | `implementation-execution` | `engineering-guardrails`, `data-migration`, `dependency-supply-chain-audit`, `bounded-orchestration` | **Source Code & Unit Tests** |
-| **`bug-remediation-analyst`** *(Bug Lane)* | `bug-remediation` | `test-strategy` | **Root Cause Analysis & Fix Plan** |
+| **`sdlc-implementation-engineer`** | `sdlc-implementation-execution` | `sdlc-engineering-guardrails`, `sdlc-data-migration`, `sdlc-dependency-supply-chain-audit`, `sdlc-bounded-orchestration` | **Source Code & Unit Tests** |
+| **`sdlc-bug-remediation-analyst`** *(Bug Lane)* | `sdlc-bug-remediation` | `sdlc-test-strategy` | **Root Cause Analysis & Fix Plan** |
 
 ---
 
 ### Phase 5: Verify & Review (Quality & Security)
 | Agent Role | Primary Skill | Support Skills | Phase Deliverable |
 | :--- | :--- | :--- | :--- |
-| **`code-reviewer`** | `code-review` | `dependency-supply-chain-audit` | **Code Review Feedback** |
-| **`verification-engineer`** | `independent-verification` | `test-strategy` | **Verification Report** |
+| **`sdlc-code-reviewer`** | `sdlc-code-review` | `sdlc-dependency-supply-chain-audit` | **Code Review Feedback** |
+| **`sdlc-verification-engineer`** | `sdlc-independent-verification` | `sdlc-test-strategy` | **Verification Report** |
 
 ---
 
 ### Phase 6: Ship & Maintain (Release & Operations)
 | Agent Role | Primary Skill | Support Skills | Phase Deliverable |
 | :--- | :--- | :--- | :--- |
-| **`documentation-architect`** | `documentation-delivery` | `domain-language-management` | **User Guides & Documentation** |
-| **`release-engineer`** | `release-readiness` | `bounded-orchestration` | **Verified Release Candidate** |
-| *(Operations)* | `observability-design` | `incident-response`, `project-memory` | **Logs/Alerts & Incident Post-Mortem** |
+| **`sdlc-documentation-architect`** | `sdlc-documentation-delivery` | `sdlc-domain-language-management` | **User Guides & Documentation** |
+| **`sdlc-release-engineer`** | `sdlc-release-readiness` | `sdlc-bounded-orchestration` | **Verified Release Candidate** |
+| *(Operations)* | `sdlc-observability-design` | `sdlc-incident-response`, `sdlc-project-memory` | **Logs/Alerts & Incident Post-Mortem** |
 
 ---
 
@@ -170,27 +191,27 @@ Since agents and skills are installed globally or at the project level, you don'
 
 ### 1. Starting a New Project / Feature (Getting Started)
 ```text
-"Use getting-started to guide me through building a JWT and OAuth2 authentication system. Create a PRD and technical specification first."
+"Use sdlc-getting-started to guide me through building a JWT and OAuth2 authentication system. Create a PRD and technical specification first."
 ```
 
 ### 2. Fixing a Bug (Bug-Fix Lane)
 ```text
-"Users are reporting a 500 server error during checkout when the cart is empty. Use the bug-remediation skill to trace the root cause, write a reproduction test, and apply a minimal fix."
+"Users are reporting a 500 server error during checkout when the cart is empty. Use the sdlc-bug-remediation skill to trace the root cause, write a reproduction test, and apply a minimal fix."
 ```
 
 ### 3. Reviewing a Pull Request / Code Changes
 ```text
-"Please perform a code review on the current branch using the code-review skill. Check for security vulnerabilities, performance bottlenecks, and adherence to our technical spec."
+"Please perform a code review on the current branch using the sdlc-code-review skill. Check for security vulnerabilities, performance bottlenecks, and adherence to our technical spec."
 ```
 
 ### 4. Creating an Architecture Decision Record (ADR)
 ```text
-"We need to evaluate Redis vs PostgreSQL for session caching. Use the architecture-decision-management skill to evaluate trade-offs and draft an ADR."
+"We need to evaluate Redis vs PostgreSQL for session caching. Use the sdlc-architecture-decision-management skill to evaluate trade-offs and draft an ADR."
 ```
 
 ### 5. Running Pre-Release Audit
 ```text
-"Please audit this repository using the release-readiness skill before we publish release v1.0.0."
+"Please audit this repository using the sdlc-release-readiness skill before we publish release v1.0.0."
 ```
 
 ---
