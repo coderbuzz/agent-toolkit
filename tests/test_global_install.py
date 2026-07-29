@@ -51,13 +51,13 @@ class GlobalExportTests(unittest.TestCase):
         entry = metadata["merge_files"][0]
         self.assertEqual(".codex/config.toml", entry["target"])
         merge_body = (package / entry["merge_file"]).read_text(encoding="utf-8")
-        self.assertIn("[agents.code-reviewer]", merge_body)
+        self.assertIn("[agents.sdlc-code-reviewer]", merge_body)
         self.assertIn(toolkit.CODEX_BLOCK_BEGIN, merge_body)
 
     def test_non_codex_global_writes_agent_files(self):
         package = self.root / "claude-code"
         toolkit.export_to_global_directory("claude-code", "core", package)
-        self.assertTrue((package / ".claude/agents/code-reviewer.md").is_file())
+        self.assertTrue((package / ".claude/agents/sdlc-code-reviewer.md").is_file())
         instruction = (package / ".claude/CLAUDE.md").read_text(encoding="utf-8")
         self.assertNotIn("@AGENTS.md", instruction)
         self.assertIn("Portable Agentic SDLC", instruction)
@@ -161,7 +161,7 @@ class CodexMergeTests(unittest.TestCase):
         action = self._merge()
         self.assertEqual("codex-merge-create", action)
         config = self.home / ".codex/config.toml"
-        self.assertIn("[agents.code-reviewer]", config.read_text(encoding="utf-8"))
+        self.assertIn("[agents.sdlc-code-reviewer]", config.read_text(encoding="utf-8"))
 
     def test_merge_preserves_user_content_and_is_idempotent(self):
         config = self.home / ".codex/config.toml"
@@ -315,9 +315,9 @@ class OmpPlatformTests(unittest.TestCase):
         definitions = toolkit.load_json(
             toolkit.TOOLKIT_ROOT / toolkit.load_json(toolkit.TOOLKIT_ROOT / "manifest.json")["canonical"]["agents"]
         )
-        agent = next(a for a in definitions["agents"] if a["id"] == "code-reviewer")
+        agent = next(a for a in definitions["agents"] if a["id"] == "sdlc-code-reviewer")
         rendered = toolkit.render_omp_agent(agent, "0.1.0", "abc123")
-        self.assertIn("name: code-reviewer", rendered)
+        self.assertIn("name: sdlc-code-reviewer", rendered)
         self.assertIn("description:", rendered)
         self.assertIn("tools:", rendered)
         # OMP does not use OpenCode's schema.
@@ -328,7 +328,7 @@ class OmpPlatformTests(unittest.TestCase):
         package = self.root / "omp"
         metadata = toolkit.export_to_global_directory("omp", "core", package)
         self.assertEqual("global", metadata["scope"])
-        self.assertTrue((package / ".omp/agent/agents/code-reviewer.md").is_file())
+        self.assertTrue((package / ".omp/agent/agents/sdlc-code-reviewer.md").is_file())
         instruction = (package / ".omp/agent/AGENTS.md").read_text(encoding="utf-8")
         self.assertNotIn("@AGENTS.md", instruction)
         self.assertIn("Portable Agentic SDLC", instruction)
@@ -339,7 +339,7 @@ class OmpPlatformTests(unittest.TestCase):
     def test_omp_repo_export_layout(self):
         package = self.root / "omp-repo"
         toolkit.export_to_directory("omp", "core", package)
-        self.assertTrue((package / ".omp/agents/code-reviewer.md").is_file())
+        self.assertTrue((package / ".omp/agents/sdlc-code-reviewer.md").is_file())
         instruction = (package / ".omp/AGENTS.md").read_text(encoding="utf-8")
         self.assertIn("Portable Agentic SDLC", instruction)
         self.assertTrue((package / ".omp/skills/sdlc-router/SKILL.md").is_file())
@@ -347,7 +347,7 @@ class OmpPlatformTests(unittest.TestCase):
     def test_omp_global_install_and_uninstall_clean(self):
         with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
             self.assertEqual(0, toolkit.command_install(_OmpArgs("omp", self.home, apply=True)))
-        self.assertTrue((self.home / ".omp/agent/agents/code-reviewer.md").is_file())
+        self.assertTrue((self.home / ".omp/agent/agents/sdlc-code-reviewer.md").is_file())
         with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
             rc = toolkit.command_uninstall(_OmpArgs("omp", self.home, apply=True))
         self.assertIn(rc, (0, 2))

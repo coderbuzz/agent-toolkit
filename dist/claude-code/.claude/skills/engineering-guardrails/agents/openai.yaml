@@ -1,4 +1,0 @@
-interface:
-  display_name: "engineering guardrails"
-  short_description: "Portable workflow for engineering guardrails"
-  default_prompt: "Use $engineering-guardrails to complete this workflow with verifiable evidence."

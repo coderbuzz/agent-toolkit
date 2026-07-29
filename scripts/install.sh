@@ -366,7 +366,8 @@ if [ "$scope" = "global" ]; then
   "platform": "$platform",
   "bundle": "$bundle",
   "scope": "global",
-  "updated_at": "$(date -u +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || echo "2026-07-27")"
+  "updated_at": "$(date -u +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || echo "2026-07-27")",
+  "files": {}
 }
 EOF
 

@@ -19,51 +19,51 @@
     "gemini"
   ],
   "agents": [
-    "discovery-explorer",
-    "product-manager",
-    "clarification-analyst",
-    "solution-architect",
-    "traceability-auditor",
-    "implementation-planner",
-    "implementation-engineer",
-    "verification-engineer",
-    "code-reviewer",
-    "bug-remediation-analyst",
-    "documentation-architect",
-    "release-engineer"
+    "sdlc-discovery-explorer",
+    "sdlc-product-manager",
+    "sdlc-clarification-analyst",
+    "sdlc-solution-architect",
+    "sdlc-traceability-auditor",
+    "sdlc-implementation-planner",
+    "sdlc-implementation-engineer",
+    "sdlc-verification-engineer",
+    "sdlc-code-reviewer",
+    "sdlc-bug-remediation-analyst",
+    "sdlc-documentation-architect",
+    "sdlc-release-engineer"
   ],
   "skills": {
     "lifecycle": [
-      "getting-started",
+      "sdlc-getting-started",
       "sdlc-router",
-      "project-discovery",
-      "product-requirements",
-      "artifact-clarification",
-      "technical-specification",
-      "artifact-traceability-audit",
-      "implementation-planning",
-      "implementation-execution",
-      "independent-verification",
-      "code-review",
-      "bug-remediation",
-      "release-readiness",
-      "documentation-delivery"
+      "sdlc-project-discovery",
+      "sdlc-product-requirements",
+      "sdlc-artifact-clarification",
+      "sdlc-technical-specification",
+      "sdlc-artifact-traceability-audit",
+      "sdlc-implementation-planning",
+      "sdlc-implementation-execution",
+      "sdlc-independent-verification",
+      "sdlc-code-review",
+      "sdlc-bug-remediation",
+      "sdlc-release-readiness",
+      "sdlc-documentation-delivery"
     ],
     "cross_cutting": [
-      "engineering-guardrails",
-      "project-memory",
-      "domain-language-management",
-      "architecture-decision-management",
-      "test-strategy",
-      "threat-modeling",
-      "dependency-supply-chain-audit",
-      "bounded-orchestration"
+      "sdlc-engineering-guardrails",
+      "sdlc-project-memory",
+      "sdlc-domain-language-management",
+      "sdlc-architecture-decision-management",
+      "sdlc-test-strategy",
+      "sdlc-threat-modeling",
+      "sdlc-dependency-supply-chain-audit",
+      "sdlc-bounded-orchestration"
     ],
     "optional": [
-      "product-interface-design",
-      "incident-response",
-      "observability-design",
-      "data-migration"
+      "sdlc-product-interface-design",
+      "sdlc-incident-response",
+      "sdlc-observability-design",
+      "sdlc-data-migration"
     ]
   },
   "bundles": {
@@ -77,43 +77,95 @@
       "optional"
     ],
     "quality": [
-      "artifact-clarification",
-      "artifact-traceability-audit",
-      "engineering-guardrails",
-      "test-strategy",
-      "threat-modeling",
-      "dependency-supply-chain-audit",
-      "independent-verification",
-      "code-review"
+      "sdlc-artifact-clarification",
+      "sdlc-artifact-traceability-audit",
+      "sdlc-engineering-guardrails",
+      "sdlc-test-strategy",
+      "sdlc-threat-modeling",
+      "sdlc-dependency-supply-chain-audit",
+      "sdlc-independent-verification",
+      "sdlc-code-review"
     ]
   },
   "skill_metadata": {
-    "getting-started": { "persona_bound": true },
-    "sdlc-router": { "persona_bound": true },
-    "project-discovery": { "persona_bound": true },
-    "product-requirements": { "persona_bound": true },
-    "artifact-clarification": { "persona_bound": true },
-    "technical-specification": { "persona_bound": true },
-    "artifact-traceability-audit": { "persona_bound": true },
-    "implementation-planning": { "persona_bound": true },
-    "implementation-execution": { "persona_bound": true },
-    "independent-verification": { "persona_bound": true },
-    "code-review": { "persona_bound": true },
-    "bug-remediation": { "persona_bound": true },
-    "release-readiness": { "persona_bound": true },
-    "documentation-delivery": { "persona_bound": true },
-    "architecture-decision-management": { "persona_bound": true },
-    "test-strategy": { "persona_bound": true },
-    "threat-modeling": { "persona_bound": true },
-    "dependency-supply-chain-audit": { "persona_bound": true },
-    "project-memory": { "persona_bound": false },
-    "engineering-guardrails": { "persona_bound": false },
-    "bounded-orchestration": { "persona_bound": false },
-    "domain-language-management": { "persona_bound": false },
-    "product-interface-design": { "persona_bound": false },
-    "incident-response": { "persona_bound": false },
-    "observability-design": { "persona_bound": false },
-    "data-migration": { "persona_bound": false }
+    "sdlc-getting-started": {
+      "persona_bound": true
+    },
+    "sdlc-router": {
+      "persona_bound": true
+    },
+    "sdlc-project-discovery": {
+      "persona_bound": true
+    },
+    "sdlc-product-requirements": {
+      "persona_bound": true
+    },
+    "sdlc-artifact-clarification": {
+      "persona_bound": true
+    },
+    "sdlc-technical-specification": {
+      "persona_bound": true
+    },
+    "sdlc-artifact-traceability-audit": {
+      "persona_bound": true
+    },
+    "sdlc-implementation-planning": {
+      "persona_bound": true
+    },
+    "sdlc-implementation-execution": {
+      "persona_bound": true
+    },
+    "sdlc-independent-verification": {
+      "persona_bound": true
+    },
+    "sdlc-code-review": {
+      "persona_bound": true
+    },
+    "sdlc-bug-remediation": {
+      "persona_bound": true
+    },
+    "sdlc-release-readiness": {
+      "persona_bound": true
+    },
+    "sdlc-documentation-delivery": {
+      "persona_bound": true
+    },
+    "sdlc-architecture-decision-management": {
+      "persona_bound": true
+    },
+    "sdlc-test-strategy": {
+      "persona_bound": true
+    },
+    "sdlc-threat-modeling": {
+      "persona_bound": true
+    },
+    "sdlc-dependency-supply-chain-audit": {
+      "persona_bound": true
+    },
+    "sdlc-project-memory": {
+      "persona_bound": false
+    },
+    "sdlc-engineering-guardrails": {
+      "persona_bound": false
+    },
+    "sdlc-bounded-orchestration": {
+      "persona_bound": false
+    },
+    "sdlc-domain-language-management": {
+      "persona_bound": false
+    },
+    "sdlc-product-interface-design": {
+      "persona_bound": false
+    },
+    "sdlc-incident-response": {
+      "persona_bound": false
+    },
+    "sdlc-observability-design": {
+      "persona_bound": false
+    },
+    "sdlc-data-migration": {
+      "persona_bound": false
+    }
   },
   "install_policy": {
     "default_scope": "repository",

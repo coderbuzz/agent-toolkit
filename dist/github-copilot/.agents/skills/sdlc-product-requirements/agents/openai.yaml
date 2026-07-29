@@ -1,0 +1,4 @@
+interface:
+  display_name: "product requirements"
+  short_description: "Portable workflow for product requirements"
+  default_prompt: "Use $sdlc-product-requirements to complete this workflow with verifiable evidence."

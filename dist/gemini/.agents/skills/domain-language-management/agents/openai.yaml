@@ -1,4 +1,0 @@
-interface:
-  display_name: "domain language management"
-  short_description: "Portable workflow for domain language management"
-  default_prompt: "Use $domain-language-management to complete this workflow with verifiable evidence."

@@ -358,7 +358,7 @@ def validate_agents(manifest, errors, root=TOOLKIT_ROOT):
         invalid_skills = set(agent["recommended_skills"]) - known_skills
         if invalid_skills:
             errors.append("Agent {0} references unknown skills: {1}".format(agent_id, invalid_skills))
-        if agent_id in {"traceability-auditor", "verification-engineer", "code-reviewer"}:
+        if agent_id in {"sdlc-traceability-auditor", "sdlc-verification-engineer", "sdlc-code-reviewer"}:
             if set(agent["capabilities"]) & WRITE_CAPABILITIES:
                 errors.append("Independent agent {0} must remain read-only".format(agent_id))
     return definitions
@@ -974,10 +974,10 @@ def _load_ledger(target, name=LEDGER_NAME):
     if ledger_path.is_symlink() or not ledger_path.is_file():
         raise ToolkitError("Install ledger is not a regular file: {0}".format(ledger_path))
     ledger = load_json(ledger_path)
-    if ledger.get("schema_version") != 1 or not isinstance(ledger.get("files"), dict):
+    if ledger.get("schema_version") != 1 or not isinstance(ledger.get("files", {}), dict):
         raise ToolkitError("Unsupported or invalid install ledger")
     folded_paths = set()
-    for relative, digest in ledger["files"].items():
+    for relative, digest in ledger.get("files", {}).items():
         safe_relative_path(relative)
         folded = relative.casefold()
         if folded in folded_paths:
@@ -1131,7 +1131,7 @@ def plan_uninstall(target, ledger_file=LEDGER_NAME):
         return [], []
     actions = []
     warnings = []
-    for relative, installed_hash in sorted(ledger["files"].items()):
+    for relative, installed_hash in sorted(ledger.get("files", {}).items()):
         try:
             destination = _destination_path(target, relative)
         except ToolkitError as exc:

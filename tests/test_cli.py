@@ -68,7 +68,7 @@ class CliTests(unittest.TestCase):
             )
             self.assertEqual(0, apply.returncode, apply.stderr)
             self.assertTrue((target / ".portable-sdlc-install.json").is_file())
-            self.assertTrue((target / ".opencode/agents/code-reviewer.md").is_file())
+            self.assertTrue((target / ".opencode/agents/sdlc-code-reviewer.md").is_file())
 
     def test_conflict_returns_nonzero_without_overwrite(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -108,6 +108,42 @@ class CliTests(unittest.TestCase):
             self.assertEqual(0, result.returncode, result.stderr)
             self.assertIn("Dry run only", result.stdout)
 
+    def test_root_uninstall_sh_script(self):
+        with tempfile.TemporaryDirectory() as temp:
+            target = Path(temp) / "target"
+            # First install
+            install_res = run_cli(
+                "install",
+                "--platform",
+                "opencode",
+                "--target",
+                str(target),
+                "--apply",
+            )
+            self.assertEqual(0, install_res.returncode, install_res.stderr)
+            self.assertTrue((target / ".portable-sdlc-install.json").is_file())
+
+            # Now uninstall using uninstall.sh
+            result = subprocess.run(
+                [
+                    str(TOOLKIT_ROOT / "uninstall.sh"),
+                    "--scope",
+                    "repository",
+                    "--target",
+                    str(target),
+                    "--apply",
+                ],
+                cwd=str(TOOLKIT_ROOT),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False,
+            )
+            self.assertEqual(0, result.returncode, result.stderr)
+            self.assertIn("Uninstall completed", result.stdout)
+            self.assertFalse((target / ".portable-sdlc-install.json").exists())
+
 
 if __name__ == "__main__":
     unittest.main()
+

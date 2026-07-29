@@ -1,4 +1,0 @@
-interface:
-  display_name: "observability design"
-  short_description: "Portable workflow for observability design"
-  default_prompt: "Use $observability-design to complete this workflow with verifiable evidence."

@@ -165,7 +165,7 @@ coding-style skills.
   invoked at the earlier PRD or Spec checkpoint.
 - The full sequential lifecycle is too heavy for surgical fixes, documentation
   changes, and low-risk maintenance unless users know a bypass phrase.
-- No independent verification or release-readiness role owns macro validation
+- No independent verification or sdlc-release-readiness role owns macro validation
   after implementation.
 - Security is strong during code review but insufficiently explicit during
   design, threat modeling, dependency review, and release preparation.
@@ -206,23 +206,23 @@ Shared refinement rules:
 
 | Existing skill | Decision | Portable target |
 | --- | --- | --- |
-| `brainstorming-explorer` | Rewrite | `project-discovery` |
-| `product-manager-prd` | Rewrite | `product-requirements` |
-| `clarification-analyst` | Rewrite | `artifact-clarification` |
-| `specification-architect` | Rewrite | `technical-specification` |
-| `artifact-consistency-checker` | Rewrite | `artifact-traceability-audit` |
-| `planner-architect` | Rewrite | `implementation-planning` |
-| `god-mode-dev` | Replace | `implementation-execution` |
-| `expert-code-reviewer` | Rewrite | `code-review` |
-| `bug-remediation-architect` | Rewrite | `bug-remediation` |
-| `diataxis-documentation-architect` | Rewrite | `documentation-delivery` |
-| `memory-manager` | Retain and simplify | `project-memory` |
-| `karpathy-guidelines` | Merge | `engineering-guardrails` |
-| `ponytail-lazy-senior-dev` | Merge | `engineering-guardrails` |
-| `omni-dev` | Merge selective rules | `engineering-guardrails` |
-| `grilling` | Merge | `artifact-clarification` |
-| `fable-protocol` | Replace | `bounded-orchestration` |
-| `ui-designer` | Rewrite as optional | `product-interface-design` |
+| `brainstorming-explorer` | Rewrite | `sdlc-project-discovery` |
+| `sdlc-product-manager-prd` | Rewrite | `sdlc-product-requirements` |
+| `sdlc-clarification-analyst` | Rewrite | `sdlc-artifact-clarification` |
+| `specification-architect` | Rewrite | `sdlc-technical-specification` |
+| `artifact-consistency-checker` | Rewrite | `sdlc-artifact-traceability-audit` |
+| `planner-architect` | Rewrite | `sdlc-implementation-planning` |
+| `god-mode-dev` | Replace | `sdlc-implementation-execution` |
+| `expert-sdlc-code-reviewer` | Rewrite | `sdlc-code-review` |
+| `sdlc-bug-remediation-architect` | Rewrite | `sdlc-bug-remediation` |
+| `diataxis-sdlc-documentation-architect` | Rewrite | `sdlc-documentation-delivery` |
+| `memory-manager` | Retain and simplify | `sdlc-project-memory` |
+| `karpathy-guidelines` | Merge | `sdlc-engineering-guardrails` |
+| `ponytail-lazy-senior-dev` | Merge | `sdlc-engineering-guardrails` |
+| `omni-dev` | Merge selective rules | `sdlc-engineering-guardrails` |
+| `grilling` | Merge | `sdlc-artifact-clarification` |
+| `fable-protocol` | Replace | `sdlc-bounded-orchestration` |
+| `ui-designer` | Rewrite as optional | `sdlc-product-interface-design` |
 
 The 23 supplementary skills should not be copied wholesale into the portable
 core. They require a separate audit for duplication, vendor coupling, trigger
@@ -266,36 +266,36 @@ needs a separately permissioned specialist.
 #### Lifecycle Skills
 
 - `sdlc-router`
-- `project-discovery`
-- `product-requirements`
-- `artifact-clarification`
-- `technical-specification`
-- `artifact-traceability-audit`
-- `implementation-planning`
-- `implementation-execution`
-- `independent-verification`
-- `code-review`
-- `bug-remediation`
-- `release-readiness`
-- `documentation-delivery`
+- `sdlc-project-discovery`
+- `sdlc-product-requirements`
+- `sdlc-artifact-clarification`
+- `sdlc-technical-specification`
+- `sdlc-artifact-traceability-audit`
+- `sdlc-implementation-planning`
+- `sdlc-implementation-execution`
+- `sdlc-independent-verification`
+- `sdlc-code-review`
+- `sdlc-bug-remediation`
+- `sdlc-release-readiness`
+- `sdlc-documentation-delivery`
 
 #### Cross-Cutting Skills
 
-- `engineering-guardrails`
-- `project-memory`
-- `domain-language-management`
-- `architecture-decision-management`
-- `test-strategy`
-- `threat-modeling`
-- `dependency-supply-chain-audit`
-- `bounded-orchestration`
+- `sdlc-engineering-guardrails`
+- `sdlc-project-memory`
+- `sdlc-domain-language-management`
+- `sdlc-architecture-decision-management`
+- `sdlc-test-strategy`
+- `sdlc-threat-modeling`
+- `sdlc-dependency-supply-chain-audit`
+- `sdlc-bounded-orchestration`
 
 #### Optional Skills and Packs
 
-- `product-interface-design`
-- `incident-response`
-- `observability-design`
-- `data-migration`
+- `sdlc-product-interface-design`
+- `sdlc-incident-response`
+- `sdlc-observability-design`
+- `sdlc-data-migration`
 - Language and framework convention packs.
 - Tool-specific integration packs that require MCP servers or proprietary
   runtime features.
