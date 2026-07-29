@@ -1,5 +1,7 @@
 # ⚡ Portable Agentic SDLC Toolkit
 
+🌐 **Languages / Bahasa**: [English](README.md) | [Bahasa Indonesia](README.id.md)
+
 > **Supercharge your AI coding agents with vendor-neutral SDLC workflows, bounded roles, and reusable skills — installed in seconds with zero dependencies.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -8,22 +10,22 @@
 
 ---
 
-## Why Agentic SDLC Toolkit?
+## 💡 Why Agentic SDLC Toolkit?
 
-Building with AI coding assistants like Claude Code, OpenCode, GitHub Copilot, Codex, or Gemini? Without clear guardrails, AI agents can jump straight to unverified code, hallucinate dependencies, or overwrite critical files.
+When using AI coding assistants (Claude Code, OpenCode, GitHub Copilot, Codex, Gemini/Antigravity, OMP), unguided agents often jump straight to writing unverified code, hallucinate dependencies, or overwrite critical files.
 
-**Agentic SDLC Toolkit** gives your AI agents a structured, battle-tested software engineering process from discovery and PRDs to specifications, code review, and release readiness.
+**Agentic SDLC Toolkit** gives your AI agents a structured, battle-tested software engineering process—from initial discovery and PRDs to specifications, implementation planning, code review, independent verification, and release readiness.
 
-- 🚀 **Zero Dependencies**: Pure Shell & PowerShell installers. No Python or Node runtime needed to get started.
+- 🚀 **Zero Dependencies**: Pure Shell & PowerShell installers. No Python or Node runtime needed to install.
 - 🎯 **Vendor-Neutral & Portable**: Write your SDLC rules once, deploy seamlessly across any platform.
-- 🛡️ **Fail-Closed & Safe**: Preview every install with dry-runs first. Never silently overwrites your custom code or configuration.
+- 🛡️ **Fail-Closed & Safe**: Preview every install with dry-runs. Never silently overwrites your custom code or config.
 - 🤖 **Multi-Platform Native**: Pre-built native packages for Claude Code, OpenCode, Codex, GitHub Copilot, Gemini/Antigravity, and OMP.
 
 ---
 
 ## 🚀 Quick Start
 
-Run the 1-line installer below. It automatically launches an interactive wizard that guides you through platform and scope selection:
+Run the 1-line installer below to launch an interactive wizard that guides you through platform and scope selection:
 
 ### 🐧 Linux / macOS / WSL
 ```bash
@@ -42,23 +44,160 @@ irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.ps1 |
 
 ---
 
-## 🛠️ Local Usage & Interactive Setup
+## 🗺️ End-User Workflow & 6-Phase SDLC Lifecycle
 
-Working inside a local clone of this repository?
+For end-users (developers, product managers, leads), working with AI agents becomes simple and predictable when structured into 6 logical phases + 1 entrypoint navigator:
 
-```bash
-# Interactive setup wizard
-./scripts/setup.sh
+```
+[0. ROUTE / START] ➔ [1. DISCOVER & DEFINE] ➔ [2. ARCHITECT & DESIGN] ➔ [3. PLAN & AUDIT] ➔ [4. BUILD] ➔ [5. VERIFY & REVIEW] ➔ [6. SHIP & OPS]
+```
 
-# Direct installation to a target project
-./scripts/install.sh --platform opencode --target ../my-project --apply
+### 📊 End-to-End Workflow Diagram (Mermaid)
+
+```mermaid
+flowchart TD
+    Start([User Request]) --> Router["0. getting-started / sdlc-router"]
+    
+    subgraph Phase 1: DISCOVER & DEFINE
+        Router --> Explorer["Agent: discovery-explorer\nSkill: project-discovery"]
+        Explorer --> PM["Agent: product-manager\nSkill: product-requirements"]
+    end
+    
+    subgraph Phase 2: ARCHITECT & DESIGN
+        PM --> Clarify["Agent: clarification-analyst\nSkill: artifact-clarification"]
+        Clarify --> Architect["Agent: solution-architect\nSkill: technical-specification"]
+    end
+    
+    subgraph Phase 3: PLAN & AUDIT
+        Architect --> Planner["Agent: implementation-planner\nSkill: implementation-planning"]
+        Planner --> Auditor["Agent: traceability-auditor\nSkill: artifact-traceability-audit"]
+    end
+    
+    subgraph Phase 4: BUILD & REMEDIATE
+        Auditor --> Engineer["Agent: implementation-engineer\nSkill: implementation-execution"]
+        Router -. Bug-Fix Fast Lane .-> BugAnalyst["Agent: bug-remediation-analyst\nSkill: bug-remediation"]
+        BugAnalyst --> Engineer
+    end
+    
+    subgraph Phase 5: VERIFY & REVIEW
+        Engineer --> Reviewer["Agent: code-reviewer\nSkill: code-review"]
+        Reviewer --> Verifier["Agent: verification-engineer\nSkill: independent-verification"]
+    end
+    
+    subgraph Phase 6: SHIP & MAINTAIN
+        Verifier --> DocArch["Agent: documentation-architect\nSkill: documentation-delivery"]
+        DocArch --> ReleaseEng["Agent: release-engineer\nSkill: release-readiness"]
+        ReleaseEng --> Done([Production Release])
+    end
+```
+
+---
+
+## 🧰 Comprehensive Agent Roles & Skills Reference
+
+### Phase 0: Navigator (Entrypoint)
+If you're unsure how to start a task, invoke the navigator skill:
+- 🚀 **`getting-started`** *(or `sdlc-router`)*: Classifies work into the optimal safety lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and guides step-by-step agent execution.
+
+---
+
+### Phase 1: Discover & Define (Product Scope)
+| Agent Role | Primary Skill | Support Skills | Phase Deliverable |
+| :--- | :--- | :--- | :--- |
+| **`discovery-explorer`** | `project-discovery` | `engineering-guardrails` | **Discovery Report** |
+| **`product-manager`** | `product-requirements` | `domain-language-management` | **Product Requirements Document (PRD)** |
+
+---
+
+### Phase 2: Architect & Design (Technical Design & Security)
+| Agent Role | Primary Skill | Support Skills | Phase Deliverable |
+| :--- | :--- | :--- | :--- |
+| **`clarification-analyst`** | `artifact-clarification` | `architecture-decision-management` | **Clarification Q&A / ADR** |
+| **`solution-architect`** | `technical-specification` | `threat-modeling`, `product-interface-design`, `test-strategy` | **Technical Specification (Spec)** |
+
+---
+
+### Phase 3: Plan & Audit (Execution Planning)
+| Agent Role | Primary Skill | Support Skills | Phase Deliverable |
+| :--- | :--- | :--- | :--- |
+| **`implementation-planner`** | `implementation-planning` | `test-strategy` | **Implementation Plan** |
+| **`traceability-auditor`** | `artifact-traceability-audit` | - | **Traceability Audit Report** |
+
+---
+
+### Phase 4: Build & Remediate (Coding & Bug Fixes)
+| Agent Role | Primary Skill | Support Skills | Phase Deliverable |
+| :--- | :--- | :--- | :--- |
+| **`implementation-engineer`** | `implementation-execution` | `engineering-guardrails`, `data-migration`, `dependency-supply-chain-audit`, `bounded-orchestration` | **Source Code & Unit Tests** |
+| **`bug-remediation-analyst`** *(Bug Lane)* | `bug-remediation` | `test-strategy` | **Root Cause Analysis & Fix Plan** |
+
+---
+
+### Phase 5: Verify & Review (Quality & Security)
+| Agent Role | Primary Skill | Support Skills | Phase Deliverable |
+| :--- | :--- | :--- | :--- |
+| **`code-reviewer`** | `code-review` | `dependency-supply-chain-audit` | **Code Review Feedback** |
+| **`verification-engineer`** | `independent-verification` | `test-strategy` | **Verification Report** |
+
+---
+
+### Phase 6: Ship & Maintain (Release & Operations)
+| Agent Role | Primary Skill | Support Skills | Phase Deliverable |
+| :--- | :--- | :--- | :--- |
+| **`documentation-architect`** | `documentation-delivery` | `domain-language-management` | **User Guides & Documentation** |
+| **`release-engineer`** | `release-readiness` | `bounded-orchestration` | **Verified Release Candidate** |
+| *(Operations)* | `observability-design` | `incident-response`, `project-memory` | **Logs/Alerts & Incident Post-Mortem** |
+
+---
+
+## 🔄 SDLC Lanes Matrix
+
+The toolkit routes every change into the right lane to prevent unnecessary overhead while maintaining strict guardrails where needed:
+
+| Lane | Trigger & Scope | Required Workflow Sequence |
+| :--- | :--- | :--- |
+| **Full-Feature** | New capabilities, major architectural changes, public contracts, sensitive data | Discovery → PRD → Spec → Plan → Execution → Review → Verification → Release |
+| **Bug-Fix** | Reproducible defects with clear intended behavior | Root Cause Analysis → Minimal Fix Plan → Unit Test & Fix → Verification |
+| **Small-Change** | Low-risk, reversible, narrowly scoped changes | Direct Minimal Fix → Focused Test Check → Code Review |
+| **Documentation** | Pure documentation, comments, or manual updates | Audit → Draft/Update → Verify Links & Accuracy |
+| **Incident** | Active production outage, security breach, or data loss | Severity Assessment → Containment → Root Cause → Post-Mortem |
+
+---
+
+## 💬 Natural Language Prompting Examples
+
+Since agents and skills are installed globally or at the project level, you don't need special UI menus. Simply prompt your AI agent in natural language:
+
+### 1. Starting a New Project / Feature (Getting Started)
+```text
+"Use getting-started to guide me through building a JWT and OAuth2 authentication system. Create a PRD and technical specification first."
+```
+
+### 2. Fixing a Bug (Bug-Fix Lane)
+```text
+"Users are reporting a 500 server error during checkout when the cart is empty. Use the bug-remediation skill to trace the root cause, write a reproduction test, and apply a minimal fix."
+```
+
+### 3. Reviewing a Pull Request / Code Changes
+```text
+"Please perform a code review on the current branch using the code-review skill. Check for security vulnerabilities, performance bottlenecks, and adherence to our technical spec."
+```
+
+### 4. Creating an Architecture Decision Record (ADR)
+```text
+"We need to evaluate Redis vs PostgreSQL for session caching. Use the architecture-decision-management skill to evaluate trade-offs and draft an ADR."
+```
+
+### 5. Running Pre-Release Audit
+```text
+"Please audit this repository using the release-readiness skill before we publish release v1.0.0."
 ```
 
 ---
 
 ## 🌐 Supported Platforms & Global Paths
 
-Install once globally into your home directory (`$HOME`) so all your repos automatically inherit your AI agents and skills:
+Install once globally into your home directory (`$HOME`) so all your repositories automatically inherit your AI agents and skills:
 
 | Platform | Global Instructions | Global Agents | Global Skills |
 | :--- | :--- | :--- | :--- |
@@ -81,83 +220,9 @@ Install once globally into your home directory (`$HOME`) so all your repos autom
 
 ---
 
-## 🔄 SDLC Workflows & Lanes
-
-The toolkit classifies software development into **5 safety lanes** to ensure every change gets the right level of discipline without unnecessary overhead:
-
-| Lane | Trigger & Scope | Required Workflow Steps |
-| :--- | :--- | :--- |
-| **Full-Feature** | New capabilities, architectural changes, public API/contract changes, sensitive data handling | Discovery → PRD → Spec → Plan → Execution → Verification → Code Review |
-| **Bug-Fix** | Reproducible defects with clear intended behavior | Reproduce → Causal Chain Root Cause → Minimal Fix Plan → Test & Fix → Verify |
-| **Small-Change** | Low-risk, reversible, narrowly scoped changes | Direct Minimal Fix → Unit/Integration Test Verification → Code Review |
-| **Documentation** | Pure documentation or comment updates | Audit → Draft/Update → Verify Links & Clarity |
-| **Incident** | Active production outage, security event, or data loss | Severity Assessment → Containment → Root Cause Review → Post-Mortem |
-
-> 💡 **Automatic Routing**: If you're unsure which lane to use, just ask your agent: *"Use `sdlc-router` to determine the best workflow for [my task]"*.
-
----
-
-## 🧰 Skills & Agent Roles
-
-### Core Lifecycle Skills
-- 🚦 **`sdlc-router`**: Classifies work into the appropriate SDLC lane and enforces step-by-step gates.
-- 🔍 **`project-discovery`**: Researches repository architecture and requirements prior to planning.
-- 📝 **`product-requirements`**: Generates or updates Product Requirements Documents (PRDs).
-- 📐 **`technical-specification`**: Converts PRDs into detailed technical designs and data contracts.
-- 📋 **`implementation-planning`**: Breaks down specs into traceable, step-by-step execution plans.
-- 🛠️ **`implementation-execution`**: Executes implementation plans incrementally with test checks.
-- ✅ **`independent-verification`**: Verifies acceptance criteria and runs full test suites.
-- 🔍 **`code-review`**: Conducts multi-perspective code reviews (correctness, security, performance).
-- 🐛 **`bug-remediation`**: Traces root causes, creates reproduction tests, and applies minimal fixes.
-- 🚀 **`release-readiness`**: Audits security, dependencies, and docs before release tagging.
-
-### Cross-Cutting & Governance Skills
-- 🛡️ **`engineering-guardrails`**: Enforces evidence-first, minimal, and secure coding practices.
-- 🏛️ **`architecture-decision-management`**: Evaluates and writes Architecture Decision Records (ADRs).
-- 🧠 **`project-memory`**: Manages compact session memory and milestone tracking.
-- 🔒 **`threat-modeling`**: Performs STRIDE threat modeling for security-sensitive changes.
-- 📦 **`dependency-supply-chain-audit`**: Audits newly added or updated third-party dependencies.
-
----
-
-## 💬 How to Use & Prompt Examples
-
-Because skills are installed globally or at project level, you don't need special UI menus. Simply interact with your AI agent in natural language. Here are real-world prompt examples:
-
-### 1. Starting a New Feature (Full-Feature Lane)
-```text
-"Saya ingin menambahkan fitur authentication dengan JWT dan OAuth2. Tolong gunakan sdlc-router untuk menentukan alur kerja dan buatkan PRD serta technical specification terlebih dahulu."
-```
-*or in English:*
-```text
-"Use sdlc-router to plan the implementation of user authentication. Generate a PRD and technical specification before writing code."
-```
-
-### 2. Fixing a Bug (Bug-Fix Lane)
-```text
-"User melaporkan error 500 saat checkout ketika cart kosong. Tolong gunakan skill bug-remediation untuk investigasi root cause, buat test reproduksi, dan perbaiki dengan minimal change."
-```
-
-### 3. Reviewing Code / PR (Code Review)
-```text
-"Tolong lakukan code review untuk perubahan di branch ini menggunakan skill code-review. Periksa aspek keamanan, performa, dan kesesuaian dengan spesifikasi."
-```
-
-### 4. Creating an Architecture Decision Record (ADR)
-```text
-"Kita perlu memilih antara Redis vs PostgreSQL untuk caching session. Gunakan skill architecture-decision-management untuk mengevaluasi trade-off dan buatkan ADR."
-```
-
-### 5. Running Pre-Release Check
-```text
-"Tolong audit repository ini menggunakan skill release-readiness sebelum kita melakukan release v1.0.0."
-```
-
----
-
 ## 💻 Contributor & Maintainer Guide
 
-Developing or extending the toolkit itself? Maintainer tools require **Python 3.9+** (Standard Library only — no third-party pip dependencies required).
+Developing or extending the toolkit itself? Maintainer tools require **Python 3.9+** (Standard Library only — no third-party dependencies required).
 
 ### Maintainer Commands
 
@@ -217,5 +282,3 @@ This project draws inspiration and architectural patterns from open-source commu
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
-
-

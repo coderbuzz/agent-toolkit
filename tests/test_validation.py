@@ -19,7 +19,7 @@ class ValidationTests(unittest.TestCase):
 
     def test_manifest_inventory_is_complete(self):
         manifest = toolkit.load_json(TOOLKIT_ROOT / "manifest.json")
-        self.assertEqual(25, len(toolkit.all_skill_names(manifest)))
+        self.assertEqual(26, len(toolkit.all_skill_names(manifest)))
         self.assertEqual(12, len(manifest["agents"]))
         self.assertEqual(
             {"codex", "opencode", "github-copilot", "claude-code", "omp", "gemini"},

@@ -1,0 +1,286 @@
+# ⚡ Portable Agentic SDLC Toolkit
+
+🌐 **Bahasa / Languages**: [English](README.md) | [Bahasa Indonesia](README.id.md)
+
+> **Tingkatkan kemampuan AI coding agents Anda dengan alur kerja SDLC yang bebas dari ketergantungan vendor, peran terbatasi (bounded roles), dan skill yang dapat digunakan kembali — diinstal dalam hitungan detik tanpa dependensi.**
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero-brightgreen.svg)](#-mulai-cepat-quick-start)
+[![Platform Support](https://img.shields.io/badge/Platforms-Claude%20%7C%20OpenCode%20%7C%20Codex%20%7C%20Copilot%20%7C%20Gemini%20%7C%20OMP-purple.svg)](#-platform-yang-didukung--jalur-global)
+
+---
+
+## 💡 Mengapa Agentic SDLC Toolkit?
+
+Saat menggunakan asisten AI coding (Claude Code, OpenCode, GitHub Copilot, Codex, Gemini/Antigravity, OMP), AI agent tanpa panduan sering kali langsung menulis kode tanpa verifikasi, melakukan halusinasi dependensi, atau menimpa file penting secara tidak sengaja.
+
+**Agentic SDLC Toolkit** memberikan proses rekayasa perangkat lunak (SDLC) yang terstruktur dan teruji bagi AI agent Anda—mulai dari riset awal (discovery) dan penulisan PRD, pembuatan spesifikasi teknis, perencanaan implementasi, code review, verifikasi independen, hingga kesiapan rilis.
+
+- 🚀 **Nol Dependensi**: Script installer murni Shell & PowerShell. Tidak memerlukan runtime Python atau Node untuk menginstal.
+- 🎯 **Portabel & Bebas Vendor**: Tulis aturan SDLC sekali, jalankan di platform AI mana pun.
+- 🛡️ **Aman & Terkendali**: Mendukung mode uji coba (dry-run). Tidak akan menimpa kode atau konfigurasi Anda tanpa izin.
+- 🤖 **Native Multi-Platform**: Paket bawaan untuk Claude Code, OpenCode, Codex, GitHub Copilot, Gemini/Antigravity, dan OMP.
+
+---
+
+## 🚀 Mulai Cepat (Quick Start)
+
+Jalankan 1 baris perintah di terminal Anda untuk membuka wizard interaktif pilihan platform dan skop instalasi:
+
+### 🐧 Linux / macOS / WSL
+```bash
+curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash
+```
+
+### 🪟 Windows (PowerShell)
+```powershell
+irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.ps1 | iex
+```
+
+> **Tips Otomatisasi (CI / Non-Interaktif)**: Lewati pertanyaan wizard dengan menambahkan argumen langsung:
+> ```bash
+> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --global --apply
+> ```
+
+---
+
+## 🗺️ Alur Kerja End-User & 6-Fase SDLC Lifecycle
+
+Bagi pengguna (developer, product manager, engineering lead), berinteraksi dengan AI agents menjadi sangat mudah dan dapat diprediksi jika dikelompokkan ke dalam **6 fase utama + 1 navigasi awal**:
+
+```
+[0. NAVIGASI / MULAI] ➔ [1. EKSPLORASI & PRODUK] ➔ [2. DESAIN TEKNIS] ➔ [3. PERENCANAAN] ➔ [4. EKSEKUSI KODE] ➔ [5. VERIFIKASI & REVIEW] ➔ [6. RILIS & OPS]
+```
+
+### 📊 Diagram Alur Lengkap (Mermaid)
+
+```mermaid
+flowchart TD
+    Start([Permintaan User]) --> Router["0. getting-started / sdlc-router"]
+    
+    subgraph Fase 1: EKSPLORASI & PRODUK
+        Router --> Explorer["Agent: discovery-explorer\nSkill: project-discovery"]
+        Explorer --> PM["Agent: product-manager\nSkill: product-requirements"]
+    end
+    
+    subgraph Fase 2: DESAIN TEKNIS
+        PM --> Clarify["Agent: clarification-analyst\nSkill: artifact-clarification"]
+        Clarify --> Architect["Agent: solution-architect\nSkill: technical-specification"]
+    end
+    
+    subgraph Fase 3: PERENCANAAN
+        Architect --> Planner["Agent: implementation-planner\nSkill: implementation-planning"]
+        Planner --> Auditor["Agent: traceability-auditor\nSkill: artifact-traceability-audit"]
+    end
+    
+    subgraph Fase 4: EKSEKUSI KODE
+        Auditor --> Engineer["Agent: implementation-engineer\nSkill: implementation-execution"]
+        Router -. Jalur Cepat Perbaikan Bug .-> BugAnalyst["Agent: bug-remediation-analyst\nSkill: bug-remediation"]
+        BugAnalyst --> Engineer
+    end
+    
+    subgraph Fase 5: VERIFIKASI & REVIEW
+        Engineer --> Reviewer["Agent: code-reviewer\nSkill: code-review"]
+        Reviewer --> Verifier["Agent: verification-engineer\nSkill: independent-verification"]
+    end
+    
+    subgraph Fase 6: RILIS & OPS
+        Verifier --> DocArch["Agent: documentation-architect\nSkill: documentation-delivery"]
+        DocArch --> ReleaseEng["Agent: release-engineer\nSkill: release-readiness"]
+        ReleaseEng --> Done([Rilis Produk Staging/Prod])
+    end
+```
+
+---
+
+## 🧰 Referensi Lengkap Agent & Skill Berdasarkan Fase
+
+### Fase 0: Navigasi Awal (Entrypoint)
+Jika Anda ragu dari mana harus memulai suatu tugas, panggil skill pemandu awal:
+- 🚀 **`getting-started`** *(atau `sdlc-router`)*: Mengklasifikasikan pekerjaan ke jalur keamanan yang tepat (Fitur Baru, Perbaikan Bug, Perubahan Kecil, Dokumentasi, atau Insiden) dan memandu langkah eksekusi agent secara bertahap.
+
+---
+
+### Fase 1: Eksplorasi & Produk (Product Scope)
+| Peran Agent | Skill Utama | Skill Pendukung | Artefak Hasil Fase |
+| :--- | :--- | :--- | :--- |
+| **`discovery-explorer`** | `project-discovery` | `engineering-guardrails` | **Discovery Report (Riset Awal)** |
+| **`product-manager`** | `product-requirements` | `domain-language-management` | **Product Requirements Document (PRD)** |
+
+---
+
+### Fase 2: Desain Teknis & Keamanan (Architecture & Design)
+| Peran Agent | Skill Utama | Skill Pendukung | Artefak Hasil Fase |
+| :--- | :--- | :--- | :--- |
+| **`clarification-analyst`** | `artifact-clarification` | `architecture-decision-management` | **Tanya-Jawab Klarifikasi / ADR** |
+| **`solution-architect`** | `technical-specification` | `threat-modeling`, `product-interface-design`, `test-strategy` | **Technical Specification (Spesifikasi Teknis)** |
+
+---
+
+### Fase 3: Perencanaan Eksekusi (Planning & Audit)
+| Peran Agent | Skill Utama | Skill Pendukung | Artefak Hasil Fase |
+| :--- | :--- | :--- | :--- |
+| **`implementation-planner`** | `implementation-planning` | `test-strategy` | **Implementation Plan (Rencana Eksekusi)** |
+| **`traceability-auditor`** | `artifact-traceability-audit` | - | **Laporan Audit Keterlacakan (Traceability)** |
+
+---
+
+### Fase 4: Eksekusi Kode & Perbaikan Bug (Build & Remediate)
+| Peran Agent | Skill Utama | Skill Pendukung | Artefak Hasil Fase |
+| :--- | :--- | :--- | :--- |
+| **`implementation-engineer`** | `implementation-execution` | `engineering-guardrails`, `data-migration`, `dependency-supply-chain-audit`, `bounded-orchestration` | **Kode Sumber & Test Unit** |
+| **`bug-remediation-analyst`** *(Jalur Bug)* | `bug-remediation` | `test-strategy` | **Analisis Root Cause & Rencana Perbaikan** |
+
+---
+
+### Fase 5: Verifikasi & Review Kualitas (Verify & Review)
+| Peran Agent | Skill Utama | Skill Pendukung | Artefak Hasil Fase |
+| :--- | :--- | :--- | :--- |
+| **`code-reviewer`** | `code-review` | `dependency-supply-chain-audit` | **Umpan Balik Review Kode** |
+| **`verification-engineer`** | `independent-verification` | `test-strategy` | **Laporan Verifikasi Pengujian** |
+
+---
+
+### Fase 6: Rilis & Operasional (Ship & Maintain)
+| Peran Agent | Skill Utama | Skill Pendukung | Artefak Hasil Fase |
+| :--- | :--- | :--- | :--- |
+| **`documentation-architect`** | `documentation-delivery` | `domain-language-management` | **Dokumentasi & Panduan Pengguna** |
+| **`release-engineer`** | `release-readiness` | `bounded-orchestration` | **Kandidat Rilis Terverifikasi** |
+| *(Operasional)* | `observability-design` | `incident-response`, `project-memory` | **Desain Log/Metrik & Incident Log** |
+
+---
+
+## 🔄 Jalur Kerja (SDLC Lanes)
+
+Toolkit ini secara otomatis mengarahkan setiap perubahan ke jalur yang sesuai untuk menghindari beban berlebih (*overhead*) pada perubahan kecil, sambil tetap menjaga aturan ketat pada fitur besar:
+
+| Jalur (Lane) | Pemicu & Cakupan | Urutan Alur Kerja Wajib |
+| :--- | :--- | :--- |
+| **Fitur-Lengkap (Full-Feature)** | Fitur baru, perubahan arsitektur besar, API publik, data sensitif | Discovery → PRD → Spec → Plan → Eksekusi → Review → Verifikasi → Rilis |
+| **Perbaikan-Bug (Bug-Fix)** | Cacat kode (bug) yang dapat direproduksi dengan perilaku yang jelas | Analisis Root Cause → Rencana Perbaikan Minimal → Test Reproduksi & Perbaikan → Verifikasi |
+| **Perubahan-Kecil (Small-Change)** | Perubahan berisiko rendah, mudah dibatalkan, dan lingkup sempit | Perbaikan Langsung → Uji Test Terfokus → Code Review |
+| **Dokumentasi (Documentation)** | Pembaruan dokumen, komentar kode, atau panduan manual | Audit → Draf/Pembaruan → Verifikasi Link & Kejelasan |
+| **Insiden (Incident)** | Gangguan layanan produksi aktif, insiden keamanan, atau kehilangan data | Penilaian Keparahan → Lokalisasi Masalah → Root Cause → Post-Mortem |
+
+---
+
+## 💬 Contoh Prompt Bahasa Alami
+
+Karena agen dan skill diinstal secara global atau di tingkat proyek, Anda tidak memerlukan menu UI khusus. Cukup berikan perintah kepada AI agent Anda dalam bahasa sehari-hari:
+
+### 1. Memulai Fitur / Proyek Baru (Getting Started)
+```text
+"Gunakan skill getting-started untuk memandu saya membuat sistem autentikasi JWT dan OAuth2. Buatkan PRD dan technical specification terlebih dahulu."
+```
+
+### 2. Memperbaiki Bug (Bug-Fix Lane)
+```text
+"User melaporkan error 500 saat checkout ketika keranjang belanja kosong. Gunakan skill bug-remediation untuk melacak penyebab utama (root cause), buat test reproduksi, dan perbaiki dengan perubahan minimal."
+```
+
+### 3. Review Kode / Pull Request
+```text
+"Tolong lakukan review kode pada branch ini menggunakan skill code-review. Periksa aspek keamanan, performa, dan kesesuaian dengan spesifikasi teknis kita."
+```
+
+### 4. Membuat Catatan Keputusan Arsitektur (ADR)
+```text
+"Kita perlu memilih antara Redis vs PostgreSQL untuk caching sesi. Gunakan skill architecture-decision-management untuk mengevaluasi trade-off dan buatkan ADR."
+```
+
+### 5. Audit Kesiapan Rilis
+```text
+"Tolong audit repository ini menggunakan skill release-readiness sebelum kita melakukan rilis v1.0.0."
+```
+
+---
+
+## 🌐 Platform yang Didukung & Jalur Global
+
+Instal sekali secara global di direktori home Anda (`$HOME`) agar semua repository otomatis mengenali AI agents dan skill ini:
+
+| Platform | Instruksi Global | Agents Global | Skills Global |
+| :--- | :--- | :--- | :--- |
+| **Claude Code** | `~/.claude/CLAUDE.md` | `~/.claude/agents/*.md` | `~/.agents/skills/*` |
+| **OpenCode** | `~/.config/opencode/AGENTS.md` | `~/.config/opencode/agents/*.md` | `~/.agents/skills/*` |
+| **Codex** | `~/.codex/AGENTS.md` | Managed block di `~/.codex/config.toml` | `~/.agents/skills/*` |
+| **GitHub Copilot** | `~/.copilot/copilot-instructions.md` | `~/.copilot/agents/*.agent.md` | `~/.agents/skills/*` |
+| **OMP** | `~/.omp/agent/AGENTS.md` | `~/.omp/agent/agents/*.md` | `~/.agents/skills/*` |
+| **Gemini / Antigravity** | `~/.gemini/antigravity/AGENTS.md` | `~/.gemini/antigravity/agents/*.md` | `~/.agents/skills/*` |
+
+---
+
+## 📦 Paket Skill (Skill Bundles)
+
+| Paket | Isi Skill | Sangat Cocok Untuk |
+| :--- | :--- | :--- |
+| **`core`** *(bawaan)* | Skill utama siklus SDLC & tata kelola umum | Pengembangan fitur harian & perbaikan bug |
+| **`full`** | Core + skill spesialis (migrasi data, insiden) | Siklus produk lengkap & tim ops |
+| **`quality`** | Audit, keamanan, threat modeling & verifikasi | Repositori matang yang membutuhkan standar kualitas tinggi |
+
+---
+
+## 💻 Panduan Kontributor & Maintainer
+
+Ingin mengembangkan atau menambahkan fitur pada toolkit ini? Alat bantu maintainer memerlukan **Python 3.9+** (Standard Library bawaan — tanpa perlu pip install library luar).
+
+### Perintah Maintainer
+
+```bash
+# Validasi kanonikal skill, definisi agent, dan manifest
+python3 scripts/toolkit.py validate
+
+# Jalankan pengujian unit penuh
+python3 -m unittest discover -s tests -v
+
+# Ekspor paket platform ke folder dist/
+python3 scripts/toolkit.py export --all --bundle core
+
+# Verifikasi tidak ada perbedaan antara sumber asli dan folder dist/
+python3 scripts/toolkit.py check-drift --all --bundle core
+
+# Jalankan urutan validasi POSIX penuh
+./scripts/validate-all.sh
+```
+
+---
+
+## 🏗️ Arsitektur Repositori
+
+```text
+.
+├── AGENTS.md                 # Panduan AI inti portabel
+├── README.md                 # Dokumentasi Bahasa Inggris (Internasional)
+├── README.id.md              # Dokumentasi Bahasa Indonesia
+├── manifest.json             # Manifest toolkit & definisi paket skill
+├── agents/definitions.json   # Definisi peran agent netral
+├── .agents/skills/           # Prosedur skill kanonikal
+├── instructions/             # Standar komunikasi & kualitas bersama
+├── standards/                # Kontrak arsitektur & keterlacakan
+├── dist/                     # Paket pre-built untuk instalasi tanpa dependensi
+├── install.sh / install.ps1  # Script installer terminal
+└── scripts/
+    ├── install.sh            # Installer POSIX
+    ├── install.ps1           # Installer PowerShell
+    ├── setup.sh              # Wizard setup interaktif
+    └── toolkit.py            # CLI Maintainer (validasi, ekspor, cek drift)
+```
+
+---
+
+## 🌟 Referensi & Inspirasi
+
+Proyek ini terinspirasi dari standar komunitas open-source dan spesifikasi resmi platform agentic:
+
+- **[awesome-copilot-id](https://github.com/GulajavaMinistudio/awesome-copilot-id)** oleh GulajavaMinistudio – Referensi utama struktur prompt, konvensi format skill, definisi peran, dan instalasi terminal.
+- **[OpenCode](https://opencode.ai)** – Definisi peran agent dan konvensi skill bersama.
+- **[OpenAI Codex & Agent Specifications](https://github.com/openai)** – Format `AGENTS.md` dan model izin teratur.
+- **[Anthropic Claude Code](https://docs.anthropic.com)** – Panduan `CLAUDE.md` dan pola subagent.
+- **[GitHub Copilot Custom Instructions](https://docs.github.com/en/copilot)** – Pola kustomisasi prompt agent.
+- **[Google Antigravity / Gemini CLI](https://cloud.google.com)** – Standar orkestrasi alur kerja agentic.
+
+---
+
+## 📄 Lisensi
+
+Proyek ini dilindungi di bawah [Lisensi MIT](LICENSE).

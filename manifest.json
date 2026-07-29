@@ -34,6 +34,7 @@
   ],
   "skills": {
     "lifecycle": [
+      "getting-started",
       "sdlc-router",
       "project-discovery",
       "product-requirements",
@@ -87,6 +88,7 @@
     ]
   },
   "skill_metadata": {
+    "getting-started": { "persona_bound": true },
     "sdlc-router": { "persona_bound": true },
     "project-discovery": { "persona_bound": true },
     "product-requirements": { "persona_bound": true },
