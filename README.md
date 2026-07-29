@@ -44,9 +44,9 @@ irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.ps1 |
 
 ---
 
-## 🗺️ End-User Workflow & 6-Phase SDLC Lifecycle
+## 🗺️ Workflow & 6-Phase SDLC Lifecycle
 
-For end-users (developers, product managers, leads), working with AI agents becomes simple and predictable when structured into 6 logical phases + 1 entrypoint navigator:
+Working with AI agents becomes simple and predictable when structured into 6 logical phases + 1 entrypoint navigator:
 
 ```
 [0. ROUTE / START] ➔ [1. DISCOVER & DEFINE] ➔ [2. ARCHITECT & DESIGN] ➔ [3. PLAN & AUDIT] ➔ [4. BUILD] ➔ [5. VERIFY & REVIEW] ➔ [6. SHIP & OPS]
