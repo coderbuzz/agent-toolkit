@@ -77,37 +77,37 @@ Berinteraksi dengan AI agents menjadi sangat mudah dan dapat diprediksi ketika d
 
 ```mermaid
 flowchart TD
-    Start([Permintaan User]) --> Router["0. sdlc-getting-started / sdlc-router"]
+    Start([Permintaan User]) --> Router["0. sdlc-start / sdlc-start"]
     
     subgraph Fase 1: EKSPLORASI & PRODUK
-        Router --> Explorer["Agent: sdlc-discovery-explorer\nSkill: sdlc-project-discovery"]
-        Explorer --> PM["Agent: sdlc-product-manager\nSkill: sdlc-product-requirements"]
+        Router --> Explorer["Agent: sdlc-discovery-explorer\nSkill: sdlc-discover"]
+        Explorer --> PM["Agent: sdlc-product-manager\nSkill: sdlc-define"]
     end
     
     subgraph Fase 2: DESAIN TEKNIS
-        PM --> Clarify["Agent: sdlc-clarification-analyst\nSkill: sdlc-artifact-clarification"]
-        Clarify --> Architect["Agent: sdlc-solution-architect\nSkill: sdlc-technical-specification"]
+        PM --> Clarify["Agent: sdlc-clarification-analyst\nSkill: sdlc-clarify"]
+        Clarify --> Architect["Agent: sdlc-solution-architect\nSkill: sdlc-design"]
     end
     
     subgraph Fase 3: PERENCANAAN
-        Architect --> Planner["Agent: sdlc-implementation-planner\nSkill: sdlc-implementation-planning"]
-        Planner --> Auditor["Agent: sdlc-traceability-auditor\nSkill: sdlc-artifact-traceability-audit"]
+        Architect --> Planner["Agent: sdlc-implementation-planner\nSkill: sdlc-plan"]
+        Planner --> Auditor["Agent: sdlc-traceability-auditor\nSkill: sdlc-audit"]
     end
     
     subgraph Fase 4: EKSEKUSI KODE
-        Auditor --> Engineer["Agent: sdlc-implementation-engineer\nSkill: sdlc-implementation-execution"]
-        Router -. Jalur Cepat Perbaikan Bug .-> BugAnalyst["Agent: sdlc-bug-remediation-analyst\nSkill: sdlc-bug-remediation"]
+        Auditor --> Engineer["Agent: sdlc-implementation-engineer\nSkill: sdlc-implement"]
+        Router -. Jalur Cepat Perbaikan Bug .-> BugAnalyst["Agent: sdlc-bug-remediation-analyst\nSkill: sdlc-fix"]
         BugAnalyst --> Engineer
     end
     
     subgraph Fase 5: VERIFIKASI & REVIEW
-        Engineer --> Reviewer["Agent: sdlc-code-reviewer\nSkill: sdlc-code-review"]
-        Reviewer --> Verifier["Agent: sdlc-verification-engineer\nSkill: sdlc-independent-verification"]
+        Engineer --> Reviewer["Agent: sdlc-code-reviewer\nSkill: sdlc-review"]
+        Reviewer --> Verifier["Agent: sdlc-verification-engineer\nSkill: sdlc-verify"]
     end
     
     subgraph Fase 6: RILIS & OPS
-        Verifier --> DocArch["Agent: sdlc-documentation-architect\nSkill: sdlc-documentation-delivery"]
-        DocArch --> ReleaseEng["Agent: sdlc-release-engineer\nSkill: sdlc-release-readiness"]
+        Verifier --> DocArch["Agent: sdlc-documentation-architect\nSkill: sdlc-document"]
+        DocArch --> ReleaseEng["Agent: sdlc-release-engineer\nSkill: sdlc-release"]
         ReleaseEng --> Done([Rilis Produk Staging/Prod])
     end
 ```
@@ -118,56 +118,56 @@ flowchart TD
 
 ### Fase 0: Navigasi Awal (Entrypoint)
 Jika Anda ragu dari mana harus memulai suatu tugas, panggil skill pemandu awal:
-- 🚀 **`sdlc-getting-started`** *(atau `sdlc-router`)*: Mengklasifikasikan pekerjaan ke jalur keamanan yang tepat (Fitur Baru, Perbaikan Bug, Perubahan Kecil, Dokumentasi, atau Insiden) dan memandu langkah eksekusi agent secara bertahap.
+- 🚀 **`sdlc-start`** *(atau `sdlc-start`)*: Mengklasifikasikan pekerjaan ke jalur keamanan yang tepat (Fitur Baru, Perbaikan Bug, Perubahan Kecil, Dokumentasi, atau Insiden) dan memandu langkah eksekusi agent secara bertahap.
 
 ---
 
 ### Fase 1: Eksplorasi & Produk (Product Scope)
 | Peran Agent | Skill Utama | Skill Pendukung | Artefak Hasil Fase |
 | :--- | :--- | :--- | :--- |
-| **`sdlc-discovery-explorer`** | `sdlc-project-discovery` | `sdlc-engineering-guardrails` | **Discovery Report (Riset Awal)** |
-| **`sdlc-product-manager`** | `sdlc-product-requirements` | `sdlc-domain-language-management` | **Product Requirements Document (PRD)** |
+| **`sdlc-discovery-explorer`** | `sdlc-discover` | `sdlc-guardrails` | **Discovery Report (Riset Awal)** |
+| **`sdlc-product-manager`** | `sdlc-define` | `sdlc-glossary` | **Product Requirements Document (PRD)** |
 
 ---
 
 ### Fase 2: Desain Teknis & Keamanan (Architecture & Design)
 | Peran Agent | Skill Utama | Skill Pendukung | Artefak Hasil Fase |
 | :--- | :--- | :--- | :--- |
-| **`sdlc-clarification-analyst`** | `sdlc-artifact-clarification` | `sdlc-architecture-decision-management` | **Tanya-Jawab Klarifikasi / ADR** |
-| **`sdlc-solution-architect`** | `sdlc-technical-specification` | `sdlc-threat-modeling`, `sdlc-product-interface-design`, `sdlc-test-strategy` | **Technical Specification (Spesifikasi Teknis)** |
+| **`sdlc-clarification-analyst`** | `sdlc-clarify` | `sdlc-decide` | **Tanya-Jawab Klarifikasi / ADR** |
+| **`sdlc-solution-architect`** | `sdlc-design` | `sdlc-threat`, `sdlc-design-ui`, `sdlc-test` | **Technical Specification (Spesifikasi Teknis)** |
 
 ---
 
 ### Fase 3: Perencanaan Eksekusi (Planning & Audit)
 | Peran Agent | Skill Utama | Skill Pendukung | Artefak Hasil Fase |
 | :--- | :--- | :--- | :--- |
-| **`sdlc-implementation-planner`** | `sdlc-implementation-planning` | `sdlc-test-strategy` | **Implementation Plan (Rencana Eksekusi)** |
-| **`sdlc-traceability-auditor`** | `sdlc-artifact-traceability-audit` | - | **Laporan Audit Keterlacakan (Traceability)** |
+| **`sdlc-implementation-planner`** | `sdlc-plan` | `sdlc-test` | **Implementation Plan (Rencana Eksekusi)** |
+| **`sdlc-traceability-auditor`** | `sdlc-audit` | - | **Laporan Audit Keterlacakan (Traceability)** |
 
 ---
 
 ### Fase 4: Eksekusi Kode & Perbaikan Bug (Build & Remediate)
 | Peran Agent | Skill Utama | Skill Pendukung | Artefak Hasil Fase |
 | :--- | :--- | :--- | :--- |
-| **`sdlc-implementation-engineer`** | `sdlc-implementation-execution` | `sdlc-engineering-guardrails`, `sdlc-data-migration`, `sdlc-dependency-supply-chain-audit`, `sdlc-bounded-orchestration` | **Kode Sumber & Test Unit** |
-| **`sdlc-bug-remediation-analyst`** *(Jalur Bug)* | `sdlc-bug-remediation` | `sdlc-test-strategy` | **Analisis Root Cause & Rencana Perbaikan** |
+| **`sdlc-implementation-engineer`** | `sdlc-implement` | `sdlc-guardrails`, `sdlc-migrate`, `sdlc-audit-deps`, `sdlc-orchestrate` | **Kode Sumber & Test Unit** |
+| **`sdlc-bug-remediation-analyst`** *(Jalur Bug)* | `sdlc-fix` | `sdlc-test` | **Analisis Root Cause & Rencana Perbaikan** |
 
 ---
 
 ### Fase 5: Verifikasi & Review Kualitas (Verify & Review)
 | Peran Agent | Skill Utama | Skill Pendukung | Artefak Hasil Fase |
 | :--- | :--- | :--- | :--- |
-| **`sdlc-code-reviewer`** | `sdlc-code-review` | `sdlc-dependency-supply-chain-audit` | **Umpan Balik Review Kode** |
-| **`sdlc-verification-engineer`** | `sdlc-independent-verification` | `sdlc-test-strategy` | **Laporan Verifikasi Pengujian** |
+| **`sdlc-code-reviewer`** | `sdlc-review` | `sdlc-audit-deps` | **Umpan Balik Review Kode** |
+| **`sdlc-verification-engineer`** | `sdlc-verify` | `sdlc-test` | **Laporan Verifikasi Pengujian** |
 
 ---
 
 ### Fase 6: Rilis & Operasional (Ship & Maintain)
 | Peran Agent | Skill Utama | Skill Pendukung | Artefak Hasil Fase |
 | :--- | :--- | :--- | :--- |
-| **`sdlc-documentation-architect`** | `sdlc-documentation-delivery` | `sdlc-domain-language-management` | **Dokumentasi & Panduan Pengguna** |
-| **`sdlc-release-engineer`** | `sdlc-release-readiness` | `sdlc-bounded-orchestration` | **Kandidat Rilis Terverifikasi** |
-| *(Operasional)* | `sdlc-observability-design` | `sdlc-incident-response`, `sdlc-project-memory` | **Desain Log/Metrik & Incident Log** |
+| **`sdlc-documentation-architect`** | `sdlc-document` | `sdlc-glossary` | **Dokumentasi & Panduan Pengguna** |
+| **`sdlc-release-engineer`** | `sdlc-release` | `sdlc-orchestrate` | **Kandidat Rilis Terverifikasi** |
+| *(Operasional)* | `sdlc-observability` | `sdlc-incident`, `sdlc-memory` | **Desain Log/Metrik & Incident Log** |
 
 ---
 
@@ -191,27 +191,27 @@ Karena agen dan skill diinstal secara global atau di tingkat proyek, Anda tidak 
 
 ### 1. Memulai Fitur / Proyek Baru (Getting Started)
 ```text
-"Gunakan skill sdlc-getting-started untuk memandu saya membuat sistem autentikasi JWT dan OAuth2. Buatkan PRD dan technical specification terlebih dahulu."
+"Gunakan skill sdlc-start untuk memandu saya membuat sistem autentikasi JWT dan OAuth2. Buatkan PRD dan technical specification terlebih dahulu."
 ```
 
 ### 2. Memperbaiki Bug (Bug-Fix Lane)
 ```text
-"User melaporkan error 500 saat checkout ketika keranjang belanja kosong. Gunakan skill sdlc-bug-remediation untuk melacak penyebab utama (root cause), buat test reproduksi, dan perbaiki dengan perubahan minimal."
+"User melaporkan error 500 saat checkout ketika keranjang belanja kosong. Gunakan skill sdlc-fix untuk melacak penyebab utama (root cause), buat test reproduksi, dan perbaiki dengan perubahan minimal."
 ```
 
 ### 3. Review Kode / Pull Request
 ```text
-"Tolong lakukan review kode pada branch ini menggunakan skill sdlc-code-review. Periksa aspek keamanan, performa, dan kesesuaian dengan spesifikasi teknis kita."
+"Tolong lakukan review kode pada branch ini menggunakan skill sdlc-review. Periksa aspek keamanan, performa, dan kesesuaian dengan spesifikasi teknis kita."
 ```
 
 ### 4. Membuat Catatan Keputusan Arsitektur (ADR)
 ```text
-"Kita perlu memilih antara Redis vs PostgreSQL untuk caching sesi. Gunakan skill sdlc-architecture-decision-management untuk mengevaluasi trade-off dan buatkan ADR."
+"Kita perlu memilih antara Redis vs PostgreSQL untuk caching sesi. Gunakan skill sdlc-decide untuk mengevaluasi trade-off dan buatkan ADR."
 ```
 
 ### 5. Audit Kesiapan Rilis
 ```text
-"Tolong audit repository ini menggunakan skill sdlc-release-readiness sebelum kita melakukan rilis v1.0.0."
+"Tolong audit repository ini menggunakan skill sdlc-release sebelum kita melakukan rilis v1.0.0."
 ```
 
 ---

@@ -126,11 +126,11 @@ a skill only when no other platform still owns it. User-modified skill files are
 ### Dynamic Persona Activation
 
 Skills are classified as **persona-bound** or **utility** in `manifest.json`
-(`skill_metadata.<skill>.persona_bound`). Persona-bound skills (e.g. `sdlc-code-review`,
-`sdlc-technical-specification`) carry a `## Dynamic Persona Activation` block in their `SKILL.md`.
+(`skill_metadata.<skill>.persona_bound`). Persona-bound skills (e.g. `sdlc-review`,
+`sdlc-design`) carry a `## Dynamic Persona Activation` block in their `SKILL.md`.
 This follows the convention used by ecosystems such as `awesome-copilot-id`: invoking a
 persona-bound skill transforms the base assistant into that skill's persona and locks the session
-to it, while utility skills (e.g. `sdlc-project-memory`, `sdlc-engineering-guardrails`) can be invoked at any
+to it, while utility skills (e.g. `sdlc-memory`, `sdlc-guardrails`) can be invoked at any
 time without triggering a session lock. `validate_skills` enforces that every persona-bound skill
 has the block and no utility skill does.
 

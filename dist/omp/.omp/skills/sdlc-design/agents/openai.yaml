@@ -1,0 +1,4 @@
+interface:
+  display_name: "technical specification"
+  short_description: "Portable workflow for technical specification"
+  default_prompt: "Use $sdlc-design to complete this workflow with verifiable evidence."

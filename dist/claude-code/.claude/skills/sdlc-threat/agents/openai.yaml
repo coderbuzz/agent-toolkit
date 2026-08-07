@@ -1,0 +1,4 @@
+interface:
+  display_name: "threat modeling"
+  short_description: "Portable workflow for threat modeling"
+  default_prompt: "Use $sdlc-threat to complete this workflow with verifiable evidence."

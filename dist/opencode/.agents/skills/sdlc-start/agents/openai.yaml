@@ -1,0 +1,4 @@
+interface:
+  display_name: "sdlc start"
+  short_description: "Portable workflow for sdlc start"
+  default_prompt: "Use $sdlc-start to complete this workflow with verifiable evidence."

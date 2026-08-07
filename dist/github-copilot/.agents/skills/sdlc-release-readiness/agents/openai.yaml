@@ -1,4 +1,0 @@
-interface:
-  display_name: "release readiness"
-  short_description: "Portable workflow for release readiness"
-  default_prompt: "Use $sdlc-release-readiness to complete this workflow with verifiable evidence."

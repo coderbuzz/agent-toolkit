@@ -165,7 +165,7 @@ coding-style skills.
   invoked at the earlier PRD or Spec checkpoint.
 - The full sequential lifecycle is too heavy for surgical fixes, documentation
   changes, and low-risk maintenance unless users know a bypass phrase.
-- No independent verification or sdlc-release-readiness role owns macro validation
+- No independent verification or sdlc-release role owns macro validation
   after implementation.
 - Security is strong during code review but insufficiently explicit during
   design, threat modeling, dependency review, and release preparation.
@@ -206,23 +206,23 @@ Shared refinement rules:
 
 | Existing skill | Decision | Portable target |
 | --- | --- | --- |
-| `brainstorming-explorer` | Rewrite | `sdlc-project-discovery` |
-| `sdlc-product-manager-prd` | Rewrite | `sdlc-product-requirements` |
-| `sdlc-clarification-analyst` | Rewrite | `sdlc-artifact-clarification` |
-| `specification-architect` | Rewrite | `sdlc-technical-specification` |
-| `artifact-consistency-checker` | Rewrite | `sdlc-artifact-traceability-audit` |
-| `planner-architect` | Rewrite | `sdlc-implementation-planning` |
-| `god-mode-dev` | Replace | `sdlc-implementation-execution` |
-| `expert-sdlc-code-reviewer` | Rewrite | `sdlc-code-review` |
-| `sdlc-bug-remediation-architect` | Rewrite | `sdlc-bug-remediation` |
-| `diataxis-sdlc-documentation-architect` | Rewrite | `sdlc-documentation-delivery` |
-| `memory-manager` | Retain and simplify | `sdlc-project-memory` |
-| `karpathy-guidelines` | Merge | `sdlc-engineering-guardrails` |
-| `ponytail-lazy-senior-dev` | Merge | `sdlc-engineering-guardrails` |
-| `omni-dev` | Merge selective rules | `sdlc-engineering-guardrails` |
-| `grilling` | Merge | `sdlc-artifact-clarification` |
-| `fable-protocol` | Replace | `sdlc-bounded-orchestration` |
-| `ui-designer` | Rewrite as optional | `sdlc-product-interface-design` |
+| `brainstorming-explorer` | Rewrite | `sdlc-discover` |
+| `sdlc-product-manager-prd` | Rewrite | `sdlc-define` |
+| `sdlc-clarification-analyst` | Rewrite | `sdlc-clarify` |
+| `specification-architect` | Rewrite | `sdlc-design` |
+| `artifact-consistency-checker` | Rewrite | `sdlc-audit` |
+| `planner-architect` | Rewrite | `sdlc-plan` |
+| `god-mode-dev` | Replace | `sdlc-implement` |
+| `expert-sdlc-reviewer` | Rewrite | `sdlc-review` |
+| `sdlc-bug-remediation-architect` | Rewrite | `sdlc-fix` |
+| `diataxis-sdlc-documentation-architect` | Rewrite | `sdlc-document` |
+| `memory-manager` | Retain and simplify | `sdlc-memory` |
+| `karpathy-guidelines` | Merge | `sdlc-guardrails` |
+| `ponytail-lazy-senior-dev` | Merge | `sdlc-guardrails` |
+| `omni-dev` | Merge selective rules | `sdlc-guardrails` |
+| `grilling` | Merge | `sdlc-clarify` |
+| `fable-protocol` | Replace | `sdlc-orchestrate` |
+| `ui-designer` | Rewrite as optional | `sdlc-design-ui` |
 
 The 23 supplementary skills should not be copied wholesale into the portable
 core. They require a separate audit for duplication, vendor coupling, trigger
@@ -265,44 +265,44 @@ needs a separately permissioned specialist.
 
 #### Lifecycle Skills
 
-- `sdlc-router`
-- `sdlc-project-discovery`
-- `sdlc-product-requirements`
-- `sdlc-artifact-clarification`
-- `sdlc-technical-specification`
-- `sdlc-artifact-traceability-audit`
-- `sdlc-implementation-planning`
-- `sdlc-implementation-execution`
-- `sdlc-independent-verification`
-- `sdlc-code-review`
-- `sdlc-bug-remediation`
-- `sdlc-release-readiness`
-- `sdlc-documentation-delivery`
+- `sdlc-start`
+- `sdlc-discover`
+- `sdlc-define`
+- `sdlc-clarify`
+- `sdlc-design`
+- `sdlc-audit`
+- `sdlc-plan`
+- `sdlc-implement`
+- `sdlc-verify`
+- `sdlc-review`
+- `sdlc-fix`
+- `sdlc-release`
+- `sdlc-document`
 
 #### Cross-Cutting Skills
 
-- `sdlc-engineering-guardrails`
-- `sdlc-project-memory`
-- `sdlc-domain-language-management`
-- `sdlc-architecture-decision-management`
-- `sdlc-test-strategy`
-- `sdlc-threat-modeling`
-- `sdlc-dependency-supply-chain-audit`
-- `sdlc-bounded-orchestration`
+- `sdlc-guardrails`
+- `sdlc-memory`
+- `sdlc-glossary`
+- `sdlc-decide`
+- `sdlc-test`
+- `sdlc-threat`
+- `sdlc-audit-deps`
+- `sdlc-orchestrate`
 
 #### Optional Skills and Packs
 
-- `sdlc-product-interface-design`
-- `sdlc-incident-response`
-- `sdlc-observability-design`
-- `sdlc-data-migration`
+- `sdlc-design-ui`
+- `sdlc-incident`
+- `sdlc-observability`
+- `sdlc-migrate`
 - Language and framework convention packs.
 - Tool-specific integration packs that require MCP servers or proprietary
   runtime features.
 
 ### 4.3 Workflow Lanes
 
-The `sdlc-router` skill should recommend the smallest safe lane based on change
+The `sdlc-start` skill should recommend the smallest safe lane based on change
 type, risk, reversibility, affected boundaries, and available upstream
 artifacts. The user retains authority to select or override the lane.
 

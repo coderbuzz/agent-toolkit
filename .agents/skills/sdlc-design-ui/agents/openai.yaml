@@ -1,0 +1,4 @@
+interface:
+  display_name: "product interface design"
+  short_description: "Portable workflow for product interface design"
+  default_prompt: "Use $sdlc-design-ui to complete this workflow with verifiable evidence."

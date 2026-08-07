@@ -20,8 +20,8 @@
       ],
       "required_upstream": [],
       "recommended_skills": [
-        "sdlc-project-discovery",
-        "sdlc-engineering-guardrails"
+        "sdlc-discover",
+        "sdlc-guardrails"
       ],
       "instructions": "Inspect relevant source, configuration, documentation, dependencies, and workflows. Distinguish evidence from inference. Identify goals, constraints, architecture strengths, debt, risks, and unresolved product questions. Do not write production code or detailed technical contracts. Produce a concise discovery artifact and hand it to the Product Manager."
     },
@@ -37,8 +37,8 @@
         "discovery artifact or existing PRD"
       ],
       "recommended_skills": [
-        "sdlc-product-requirements",
-        "sdlc-domain-language-management"
+        "sdlc-define",
+        "sdlc-glossary"
       ],
       "instructions": "Define why the product matters, who it serves, what behavior is required, what is out of scope, and how success is measured. Keep implementation choices out of product requirements. Use stable vendor-neutral IDs and testable acceptance criteria. Hand the approved PRD to clarification."
     },
@@ -54,9 +54,9 @@
         "one target PRD, specification, or plan"
       ],
       "recommended_skills": [
-        "sdlc-artifact-clarification",
-        "sdlc-domain-language-management",
-        "sdlc-architecture-decision-management"
+        "sdlc-clarify",
+        "sdlc-glossary",
+        "sdlc-decide"
       ],
       "instructions": "Analyze only the supplied artifact stage. Ask one consequential question at a time, provide concrete options, and recommend one option with trade-offs. Record decisions without silently authoring the upstream solution. Update the glossary or propose an ADR only when its creation criteria are met."
     },
@@ -73,10 +73,10 @@
         "approved PRD and clarification outcomes"
       ],
       "recommended_skills": [
-        "sdlc-technical-specification",
-        "sdlc-threat-modeling",
-        "sdlc-test-strategy",
-        "sdlc-architecture-decision-management"
+        "sdlc-design",
+        "sdlc-threat",
+        "sdlc-test",
+        "sdlc-decide"
       ],
       "instructions": "Anchor the design to approved requirements and existing system evidence. Define interfaces, data ownership, error behavior, security boundaries, observability, migration needs, and verification contracts. Do not write production implementation. Record only consequential decisions as ADRs."
     },
@@ -92,8 +92,8 @@
         "artifacts available at the current checkpoint"
       ],
       "recommended_skills": [
-        "sdlc-artifact-traceability-audit",
-        "sdlc-domain-language-management"
+        "sdlc-audit",
+        "sdlc-glossary"
       ],
       "instructions": "Select PRD-only, PRD-to-Spec, or complete PRD-to-Spec-to-Plan mode based on available artifacts. Report findings with exact references and corrective ownership. Never rewrite audited artifacts. Block progression only for unresolved failures that materially affect downstream correctness."
     },
@@ -110,9 +110,9 @@
         "approved technical specification"
       ],
       "recommended_skills": [
-        "sdlc-implementation-planning",
-        "sdlc-test-strategy",
-        "sdlc-engineering-guardrails"
+        "sdlc-plan",
+        "sdlc-test",
+        "sdlc-guardrails"
       ],
       "instructions": "Map every task to a requirement or approved remediation finding. Name affected boundaries and verification steps without inventing product scope. Sequence work to keep each phase runnable and reviewable. Use approval gates only for irreversible, externally visible, or high-risk actions."
     },
@@ -130,9 +130,9 @@
         "approved implementation plan or bug remediation plan"
       ],
       "recommended_skills": [
-        "sdlc-implementation-execution",
-        "sdlc-engineering-guardrails",
-        "sdlc-bounded-orchestration"
+        "sdlc-implement",
+        "sdlc-guardrails",
+        "sdlc-orchestrate"
       ],
       "instructions": "Implement only approved tasks. Reuse existing patterns, make the smallest correct change, and add proportionate tests with each modification. Run focused checks incrementally and the full relevant suite before completion. Stop for specification defects, destructive actions, external side effects, or material scope changes."
     },
@@ -149,9 +149,9 @@
         "acceptance criteria, implementation evidence, and changed files"
       ],
       "recommended_skills": [
-        "sdlc-independent-verification",
-        "sdlc-test-strategy",
-        "sdlc-threat-modeling"
+        "sdlc-verify",
+        "sdlc-test",
+        "sdlc-threat"
       ],
       "instructions": "Rebuild verification context from artifacts and code rather than trusting completion claims. Run available deterministic checks, inspect negative paths and test quality, and map evidence to acceptance criteria. Report pass, fail, or blocked with exact evidence. Do not fix implementation defects."
     },
@@ -168,9 +168,9 @@
         "technical specification, implementation plan, and change set"
       ],
       "recommended_skills": [
-        "sdlc-code-review",
-        "sdlc-engineering-guardrails",
-        "sdlc-dependency-supply-chain-audit"
+        "sdlc-review",
+        "sdlc-guardrails",
+        "sdlc-audit-deps"
       ],
       "instructions": "Review tests and intent before implementation details. Report only actionable findings with severity, location, impact, evidence, and remedy. Separate standards findings from specification mismatches. Do not modify reviewed code or inflate subjective preferences into defects."
     },
@@ -188,9 +188,9 @@
         "bug report, failing evidence, or reproducible symptom"
       ],
       "recommended_skills": [
-        "sdlc-bug-remediation",
-        "sdlc-engineering-guardrails",
-        "sdlc-test-strategy"
+        "sdlc-fix",
+        "sdlc-guardrails",
+        "sdlc-test"
       ],
       "instructions": "Reproduce or trace the defect before proposing a fix. Identify the root cause and affected callers, then define the smallest repair and a regression test that fails before the change. Escalate architectural defects to the Solution Architect. Do not implement the repair."
     },
@@ -208,8 +208,8 @@
         "approved artifacts or implemented source behavior"
       ],
       "recommended_skills": [
-        "sdlc-documentation-delivery",
-        "sdlc-domain-language-management"
+        "sdlc-document",
+        "sdlc-glossary"
       ],
       "instructions": "Choose one Diataxis mode per document. Verify commands, examples, links, terminology, and feature availability against source evidence. Keep internal technical specifications separate from user-facing documentation. Validate generated documentation before completion."
     },
@@ -227,9 +227,9 @@
         "verified release candidate and release criteria"
       ],
       "recommended_skills": [
-        "sdlc-release-readiness",
-        "sdlc-dependency-supply-chain-audit",
-        "sdlc-bounded-orchestration"
+        "sdlc-release",
+        "sdlc-audit-deps",
+        "sdlc-orchestrate"
       ],
       "instructions": "Confirm versioning, tests, security evidence, generated artifacts, documentation, compatibility, and rollback readiness. Treat publishing, deployment, tagging, and external messages as explicit-approval actions. Record exactly what was released and preserve failure evidence."
     }

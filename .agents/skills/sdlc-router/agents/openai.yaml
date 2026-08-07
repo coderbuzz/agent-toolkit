@@ -1,4 +1,0 @@
-interface:
-  display_name: "sdlc router"
-  short_description: "Portable workflow for sdlc router"
-  default_prompt: "Use $sdlc-router to complete this workflow with verifiable evidence."
