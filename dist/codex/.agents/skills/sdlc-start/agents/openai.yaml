@@ -1,0 +1,4 @@
+interface:
+  display_name: "getting started"
+  short_description: "Portable workflow navigator for getting started"
+  default_prompt: "Use $sdlc-start to complete this workflow with verifiable evidence."

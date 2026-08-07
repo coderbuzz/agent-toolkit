@@ -1,4 +1,0 @@
-interface:
-  display_name: "artifact clarification"
-  short_description: "Portable workflow for artifact clarification"
-  default_prompt: "Use $sdlc-artifact-clarification to complete this workflow with verifiable evidence."

@@ -19,7 +19,7 @@ class ValidationTests(unittest.TestCase):
 
     def test_manifest_inventory_is_complete(self):
         manifest = toolkit.load_json(TOOLKIT_ROOT / "manifest.json")
-        self.assertEqual(26, len(toolkit.all_skill_names(manifest)))
+        self.assertEqual(25, len(toolkit.all_skill_names(manifest)))
         self.assertEqual(12, len(manifest["agents"]))
         self.assertEqual(
             {"codex", "opencode", "github-copilot", "claude-code", "omp", "gemini"},
@@ -49,8 +49,8 @@ class ValidationTests(unittest.TestCase):
 
     def test_safe_relative_path_accepts_nested_portable_path(self):
         self.assertEqual(
-            ".agents/skills/sdlc-project-discovery/SKILL.md",
-            toolkit.safe_relative_path(".agents/skills/sdlc-project-discovery/SKILL.md").as_posix(),
+            ".agents/skills/sdlc-discover/SKILL.md",
+            toolkit.safe_relative_path(".agents/skills/sdlc-discover/SKILL.md").as_posix(),
         )
 
     def test_filesystem_root_is_not_an_operation_target(self):

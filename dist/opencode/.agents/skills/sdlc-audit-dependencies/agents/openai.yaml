@@ -1,0 +1,4 @@
+interface:
+  display_name: "dependency supply chain audit"
+  short_description: "Portable workflow for dependency supply chain audit"
+  default_prompt: "Use $sdlc-audit-dependencies to complete this workflow with verifiable evidence."

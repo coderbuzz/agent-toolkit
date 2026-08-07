@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "name": "portable-agentic-sdlc-toolkit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Vendor-neutral SDLC agents, skills, and platform exports.",
   "canonical": {
     "skills": ".agents/skills",
@@ -34,36 +34,35 @@
   ],
   "skills": {
     "lifecycle": [
-      "sdlc-getting-started",
-      "sdlc-router",
-      "sdlc-project-discovery",
-      "sdlc-product-requirements",
-      "sdlc-artifact-clarification",
-      "sdlc-technical-specification",
-      "sdlc-artifact-traceability-audit",
-      "sdlc-implementation-planning",
-      "sdlc-implementation-execution",
-      "sdlc-independent-verification",
-      "sdlc-code-review",
-      "sdlc-bug-remediation",
-      "sdlc-release-readiness",
-      "sdlc-documentation-delivery"
+      "sdlc-start",
+      "sdlc-discover",
+      "sdlc-define-requirements",
+      "sdlc-clarify",
+      "sdlc-design-spec",
+      "sdlc-audit-coverage",
+      "sdlc-plan",
+      "sdlc-build",
+      "sdlc-verify",
+      "sdlc-review-code",
+      "sdlc-fix-bug",
+      "sdlc-ship",
+      "sdlc-document"
     ],
     "cross_cutting": [
-      "sdlc-engineering-guardrails",
-      "sdlc-project-memory",
-      "sdlc-domain-language-management",
-      "sdlc-architecture-decision-management",
-      "sdlc-test-strategy",
-      "sdlc-threat-modeling",
-      "sdlc-dependency-supply-chain-audit",
-      "sdlc-bounded-orchestration"
+      "sdlc-stay-on-rails",
+      "sdlc-remember",
+      "sdlc-define-terms",
+      "sdlc-decide",
+      "sdlc-plan-tests",
+      "sdlc-model-threats",
+      "sdlc-audit-dependencies",
+      "sdlc-coordinate"
     ],
     "optional": [
-      "sdlc-product-interface-design",
-      "sdlc-incident-response",
-      "sdlc-observability-design",
-      "sdlc-data-migration"
+      "sdlc-design-ui",
+      "sdlc-handle-incident",
+      "sdlc-add-observability",
+      "sdlc-migrate-data"
     ]
   },
   "bundles": {
@@ -77,93 +76,90 @@
       "optional"
     ],
     "quality": [
-      "sdlc-artifact-clarification",
-      "sdlc-artifact-traceability-audit",
-      "sdlc-engineering-guardrails",
-      "sdlc-test-strategy",
-      "sdlc-threat-modeling",
-      "sdlc-dependency-supply-chain-audit",
-      "sdlc-independent-verification",
-      "sdlc-code-review"
+      "sdlc-clarify",
+      "sdlc-audit-coverage",
+      "sdlc-stay-on-rails",
+      "sdlc-plan-tests",
+      "sdlc-model-threats",
+      "sdlc-audit-dependencies",
+      "sdlc-verify",
+      "sdlc-review-code"
     ]
   },
   "skill_metadata": {
-    "sdlc-getting-started": {
+    "sdlc-start": {
       "persona_bound": true
     },
-    "sdlc-router": {
+    "sdlc-discover": {
       "persona_bound": true
     },
-    "sdlc-project-discovery": {
+    "sdlc-define-requirements": {
       "persona_bound": true
     },
-    "sdlc-product-requirements": {
+    "sdlc-clarify": {
       "persona_bound": true
     },
-    "sdlc-artifact-clarification": {
+    "sdlc-design-spec": {
       "persona_bound": true
     },
-    "sdlc-technical-specification": {
+    "sdlc-audit-coverage": {
       "persona_bound": true
     },
-    "sdlc-artifact-traceability-audit": {
+    "sdlc-plan": {
       "persona_bound": true
     },
-    "sdlc-implementation-planning": {
+    "sdlc-build": {
       "persona_bound": true
     },
-    "sdlc-implementation-execution": {
+    "sdlc-verify": {
       "persona_bound": true
     },
-    "sdlc-independent-verification": {
+    "sdlc-review-code": {
       "persona_bound": true
     },
-    "sdlc-code-review": {
+    "sdlc-fix-bug": {
       "persona_bound": true
     },
-    "sdlc-bug-remediation": {
+    "sdlc-ship": {
       "persona_bound": true
     },
-    "sdlc-release-readiness": {
+    "sdlc-document": {
       "persona_bound": true
     },
-    "sdlc-documentation-delivery": {
+    "sdlc-decide": {
       "persona_bound": true
     },
-    "sdlc-architecture-decision-management": {
+    "sdlc-plan-tests": {
       "persona_bound": true
     },
-    "sdlc-test-strategy": {
+    "sdlc-model-threats": {
       "persona_bound": true
     },
-    "sdlc-threat-modeling": {
+    "sdlc-audit-dependencies": {
       "persona_bound": true
     },
-    "sdlc-dependency-supply-chain-audit": {
-      "persona_bound": true
-    },
-    "sdlc-project-memory": {
+    "sdlc-remember": {
       "persona_bound": false
     },
-    "sdlc-engineering-guardrails": {
+    "sdlc-stay-on-rails": {
       "persona_bound": false
     },
-    "sdlc-bounded-orchestration": {
+    "sdlc-coordinate": {
       "persona_bound": false
     },
-    "sdlc-domain-language-management": {
+    "sdlc-define-terms": {
       "persona_bound": false
     },
-    "sdlc-product-interface-design": {
+    "sdlc-design-ui": {
       "persona_bound": false
     },
-    "sdlc-incident-response": {
+    "sdlc-handle-incident": {
       "persona_bound": false
     },
-    "sdlc-observability-design": {
+    "sdlc-add-observability": {
       "persona_bound": false
     },
-    "sdlc-data-migration": {
+    "sdlc-migrate-data": {
       "persona_bound": false
     }
   },

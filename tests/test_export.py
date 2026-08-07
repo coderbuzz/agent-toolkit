@@ -119,8 +119,8 @@ class ExportTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             full = Path(temp) / "full"
             toolkit.export_to_directory("opencode", "full", full)
-            core_optional = self.export_root / "opencode" / ".agents/skills/sdlc-incident-response"
-            full_optional = full / ".agents/skills/sdlc-incident-response/SKILL.md"
+            core_optional = self.export_root / "opencode" / ".agents/skills/sdlc-handle-incident"
+            full_optional = full / ".agents/skills/sdlc-handle-incident/SKILL.md"
             self.assertFalse(core_optional.exists())
             self.assertTrue(full_optional.is_file())
 

@@ -103,7 +103,7 @@ class GlobalInstallTests(unittest.TestCase):
         self._install("opencode")
         self._install("claude-code")
         ledger = toolkit.load_json(self.home / toolkit.SHARED_SKILLS_LEDGER_NAME)
-        skill = ".agents/skills/sdlc-router/SKILL.md"
+        skill = ".agents/skills/sdlc-start/SKILL.md"
         self.assertEqual(["claude-code", "opencode"], sorted(ledger["files"][skill]["owners"]))
         self._uninstall("opencode")
         self.assertTrue((self.home / skill).is_file())
@@ -128,7 +128,7 @@ class GlobalInstallTests(unittest.TestCase):
 
     def test_user_modified_shared_skill_blocks_reinstall(self):
         self._install("opencode")
-        skill = self.home / ".agents/skills/sdlc-router/SKILL.md"
+        skill = self.home / ".agents/skills/sdlc-start/SKILL.md"
         skill.write_text(skill.read_text(encoding="utf-8") + "\nuser edit\n", encoding="utf-8")
         package, home, platform, shared = self._codex_shared_args()
         _actions, conflicts = toolkit.plan_shared_skills(package, home, platform, shared)
@@ -342,7 +342,7 @@ class OmpPlatformTests(unittest.TestCase):
         self.assertTrue((package / ".omp/agents/sdlc-code-reviewer.md").is_file())
         instruction = (package / ".omp/AGENTS.md").read_text(encoding="utf-8")
         self.assertIn("Portable Agentic SDLC", instruction)
-        self.assertTrue((package / ".omp/skills/sdlc-router/SKILL.md").is_file())
+        self.assertTrue((package / ".omp/skills/sdlc-start/SKILL.md").is_file())
 
     def test_omp_global_install_and_uninstall_clean(self):
         with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):

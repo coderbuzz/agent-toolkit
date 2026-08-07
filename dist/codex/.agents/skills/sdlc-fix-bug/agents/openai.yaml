@@ -1,0 +1,4 @@
+interface:
+  display_name: "bug remediation"
+  short_description: "Portable workflow for bug remediation"
+  default_prompt: "Use $sdlc-fix-bug to complete this workflow with verifiable evidence."

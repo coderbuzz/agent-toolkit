@@ -1,0 +1,4 @@
+interface:
+  display_name: "bounded orchestration"
+  short_description: "Portable workflow for bounded orchestration"
+  default_prompt: "Use $sdlc-coordinate to complete this workflow with verifiable evidence."

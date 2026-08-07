@@ -77,13 +77,13 @@ class ExportedPersonaConventionTests(unittest.TestCase):
     def test_persona_bound_skill_carries_block_in_exports(self):
         for platform in ("omp", "github-copilot"):
             with self.subTest(platform=platform):
-                text = self._skill_path(platform, "sdlc-code-review").read_text(encoding="utf-8")
+                text = self._skill_path(platform, "sdlc-review-code").read_text(encoding="utf-8")
                 self.assertIn("## Dynamic Persona Activation", text)
 
     def test_utility_skill_lacks_block_in_exports(self):
         for platform in ("omp", "github-copilot"):
             with self.subTest(platform=platform):
-                text = self._skill_path(platform, "sdlc-project-memory").read_text(encoding="utf-8")
+                text = self._skill_path(platform, "sdlc-remember").read_text(encoding="utf-8")
                 self.assertNotIn("## Dynamic Persona Activation", text)
 
 

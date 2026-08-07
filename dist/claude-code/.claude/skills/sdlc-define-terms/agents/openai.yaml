@@ -1,0 +1,4 @@
+interface:
+  display_name: "domain language management"
+  short_description: "Portable workflow for domain language management"
+  default_prompt: "Use $sdlc-define-terms to complete this workflow with verifiable evidence."
