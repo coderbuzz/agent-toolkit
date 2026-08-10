@@ -94,7 +94,7 @@ else
         c_print "$GREEN" "  $n)$RESET  $BOLD$p$RESET$installed_tag"
         n=$((n + 1))
     done
-    c_print "$GREEN" "  a)$RESET  $BOLDAll installed platforms$RESET"
+    c_print "$GREEN" "  a)$RESET  ${BOLD}All installed platforms$RESET"
 
     answer=$(prompt "Platform number, name, or 'a' for all [1]: " "1")
 
