@@ -47,19 +47,31 @@ irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.ps1 |
 To safely preview and remove installed toolkit files while preserving user modifications:
 
 ```bash
-# Interactive uninstaller (Linux / macOS)
-./uninstall.sh
+# Interactive uninstaller — remote (Linux / macOS / WSL)
+curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.sh | bash
 
 # Non-interactive / CI mode
+curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.sh | bash -s -- --platform opencode --scope global --apply
+```
+
+```powershell
+# Interactive uninstaller — remote (Windows PowerShell)
+irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.ps1 | iex
+
+# Non-interactive mode
+irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.ps1 | iex -ArgumentList --platform opencode --scope global --apply
+```
+
+```bash
+# Already cloned? Run locally instead (Linux / macOS / WSL)
+./uninstall.sh
 ./uninstall.sh --scope repository --target . --apply
 ```
 
 ```powershell
-# Interactive uninstaller (Windows PowerShell)
+# Already cloned? Run locally instead (Windows PowerShell)
 .\uninstall.ps1
-
-# Non-interactive mode
-.\uninstall.ps1 --platform opencode --global --apply
+.\uninstall.ps1 --platform opencode --scope global --apply
 ```
 
 ---

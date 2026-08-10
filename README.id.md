@@ -47,19 +47,31 @@ irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.ps1 |
 Untuk melihat preview dan menghapus file toolkit secara aman (menjaga perubahan pengguna):
 
 ```bash
-# Uninstaller interaktif (Linux / macOS)
-./uninstall.sh
+# Uninstaller interaktif — remote (Linux / macOS / WSL)
+curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.sh | bash
 
 # Mode non-interaktif / CI
+curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.sh | bash -s -- --platform opencode --scope global --apply
+```
+
+```powershell
+# Uninstaller interaktif — remote (Windows PowerShell)
+irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.ps1 | iex
+
+# Mode non-interaktif
+irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.ps1 | iex -ArgumentList --platform opencode --scope global --apply
+```
+
+```bash
+# Sudah clone? Jalankan lokal saja (Linux / macOS / WSL)
+./uninstall.sh
 ./uninstall.sh --scope repository --target . --apply
 ```
 
 ```powershell
-# Uninstaller interaktif (Windows PowerShell)
+# Sudah clone? Jalankan lokal saja (Windows PowerShell)
 .\uninstall.ps1
-
-# Mode non-interaktif
-.\uninstall.ps1 --platform opencode --global --apply
+.\uninstall.ps1 --platform opencode --scope global --apply
 ```
 
 ---
