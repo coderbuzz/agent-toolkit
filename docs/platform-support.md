@@ -50,6 +50,12 @@ denied, and shell or task delegation is approval-gated when applicable.
 OpenCode exposes general shell access rather than a portable read-only shell subset. Agent
 instructions therefore restrict command behavior in addition to native permission mapping.
 
+Global installs additionally emit one slash command per skill under
+`~/.config/opencode/commands/sdlc-<name>.md`. Each command's frontmatter carries the skill
+description and its template instructs the agent to load and run the matching skill, so skills
+are reachable as `/sdlc-start`, `/sdlc-discover`, etc. Commands are tracked in the same install
+ledger as agents and are removed on uninstall.
+
 ## GitHub Copilot
 
 ### Generated Layout
@@ -107,14 +113,14 @@ Global installation places one machine-wide copy of the toolkit in the home dire
 repository inherits the same behavior without per-repository duplication. Each adapter declares a
 `global` block with home-relative paths:
 
-| Platform | Global instructions | Global agents | Global skills |
-| --- | --- | --- | --- |
-| Codex | `~/.codex/AGENTS.md` | Managed block in `~/.codex/config.toml` | `~/.agents/skills/<skill>` |
-| OpenCode | `~/.config/opencode/AGENTS.md` | `~/.config/opencode/agents/<agent>.md` | `~/.agents/skills/<skill>` |
-| Claude Code | `~/.claude/CLAUDE.md` | `~/.claude/agents/<agent>.md` | `~/.agents/skills/<skill>` |
-| GitHub Copilot | `~/.copilot/copilot-instructions.md` | `~/.copilot/agents/<agent>.agent.md` | `~/.agents/skills/<skill>` |
-| OMP | `~/.omp/agent/AGENTS.md` | `~/.omp/agent/agents/<agent>.md` | `~/.agents/skills/<skill>` |
-| Gemini / Antigravity | `~/.gemini/antigravity/AGENTS.md` | `~/.gemini/antigravity/agents/<agent>.md` | `~/.agents/skills/<skill>` |
+| Platform | Global instructions | Global agents | Global skills | Global commands |
+| --- | --- | --- | --- | --- |
+| Codex | `~/.codex/AGENTS.md` | Managed block in `~/.codex/config.toml` | `~/.agents/skills/<skill>` | — |
+| OpenCode | `~/.config/opencode/AGENTS.md` | `~/.config/opencode/agents/<agent>.md` | `~/.agents/skills/<skill>` | `~/.config/opencode/commands/<skill>.md` |
+| Claude Code | `~/.claude/CLAUDE.md` | `~/.claude/agents/<agent>.md` | `~/.agents/skills/<skill>` | — |
+| GitHub Copilot | `~/.copilot/copilot-instructions.md` | `~/.copilot/agents/<agent>.agent.md` | `~/.agents/skills/<skill>` | — |
+| OMP | `~/.omp/agent/AGENTS.md` | `~/.omp/agent/agents/<agent>.md` | `~/.agents/skills/<skill>` | — |
+| Gemini / Antigravity | `~/.gemini/antigravity/AGENTS.md` | `~/.gemini/antigravity/agents/<agent>.md` | `~/.agents/skills/<skill>` | — |
 
 ### Shared skills
 

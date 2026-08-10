@@ -201,7 +201,7 @@ def parse_frontmatter(path):
         if key in values:
             raise ToolkitError("Duplicate frontmatter key in {0}: {1}".format(path, key))
         current = key
-        values[key] = value.strip().lstrip(">|").strip()
+        values[key] = value.strip().lstrip(">|-").strip()
     return values
 
 
@@ -625,6 +625,19 @@ def render_agent(platform, agent, version, digest):
     return renderers[platform](agent, version, digest)
 
 
+def render_opencode_command(skill_root, name):
+    """Render an OpenCode slash command that loads one skill."""
+    frontmatter = parse_frontmatter(skill_root / "SKILL.md")
+    description = frontmatter.get("description", "Run the {0} SDLC skill".format(name))
+    body = (
+        "Load and run the `{0}` skill and follow its procedure for this task. "
+        "Keep the skill's stop conditions and outputs as the source of truth."
+    ).format(name)
+    return (
+        "---\ndescription: {0}\n---\n\n{1}\n".format(yaml_value(description), body)
+    )
+
+
 def write_text(root, relative, content):
     destination = ensure_within(root, relative)
     destination.parent.mkdir(parents=True, exist_ok=True)
@@ -768,6 +781,13 @@ def export_to_global_directory(platform, bundle, destination, root=TOOLKIT_ROOT)
         root / "AGENTS.md"
     ).read_text(encoding="utf-8")
     write_text(destination, instruction_relative, instruction_content)
+
+    command_path_pattern = global_block.get("command_path")
+    if command_path_pattern:
+        for skill_name in selected_skills:
+            command_relative = command_path_pattern.replace("{name}", skill_name)
+            command = render_opencode_command(root / manifest["canonical"]["skills"] / skill_name, skill_name)
+            write_text(destination, command_relative, command)
 
     metadata = {
         "schema_version": 1,

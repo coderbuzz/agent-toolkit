@@ -76,6 +76,18 @@ irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.ps1
 
 ---
 
+## 🧠 Accessing Skills
+
+The toolkit ships SDLC skills that agents load on demand. How you reach them depends on your platform:
+
+- **`/skills` menu**: Lists every installed skill. OpenCode sorts this list alphabetically by skill name — the order is not the SDLC flow order.
+- **Skill tool**: Agents load a skill via the native `skill` tool. The `@` mention picker shows **agents and files**, not skills.
+- **OpenCode slash commands**: After a global install, each skill is also available as a `/sdlc-<name>` command (e.g. `/sdlc-start`, `/sdlc-discover`, `/sdlc-fix`) that loads and runs the matching skill.
+- **Naming**: Skill ids use hyphens (`sdlc-start`), not underscores. Type them exactly.
+
+The natural SDLC flow is: `start → discover → define → clarify → design → audit → plan → implement → verify → review → fix → release → document`, with cross-cutting skills (`guardrails`, `memory`, `glossary`, `decide`, `test`, `threat`, `audit-deps`, `orchestrate`) and optional specialists (`design-ui`, `incident`, `observability`, `migrate`).
+
+---
 
 ## 🗺️ Workflow & 6-Phase SDLC Lifecycle
 

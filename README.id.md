@@ -76,6 +76,18 @@ irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.ps1
 
 ---
 
+## 🧠 Mengakses Skill
+
+Toolkit menyediakan skill SDLC yang dimuat agent sesuai kebutuhan. Cara mengaksesnya tergantung platform:
+
+- **Menu `/skills`**: Menampilkan semua skill yang terpasang. OpenCode mengurutkan daftar ini alfabetis — urutannya bukan urutan alur SDLC.
+- **Skill tool**: Agent memuat skill lewat tool bawaan `skill`. Picker `@` menampilkan **agent dan file**, bukan skill.
+- **Slash commands OpenCode**: Setelah install global, tiap skill juga tersedia sebagai command `/sdlc-<nama>` (mis. `/sdlc-start`, `/sdlc-discover`, `/sdlc-fix`) yang memuat dan menjalankan skill terkait.
+- **Penamaan**: ID skill memakai hyphen (`sdlc-start`), bukan underscore. Ketik persis seperti itu.
+
+Alur SDLC alami: `start → discover → define → clarify → design → audit → plan → implement → verify → review → fix → release → document`, dengan skill lintas-fase (`guardrails`, `memory`, `glossary`, `decide`, `test`, `threat`, `audit-deps`, `orchestrate`) dan spesialis opsional (`design-ui`, `incident`, `observability`, `migrate`).
+
+---
 
 ## 🗺️ Alur Kerja & 6-Fase SDLC Lifecycle
 

@@ -99,6 +99,19 @@ class GlobalInstallTests(unittest.TestCase):
         remaining = [path for path in self.home.rglob("*") if path.is_file()]
         self.assertEqual([], remaining)
 
+    def test_opencode_global_generates_slash_commands(self):
+        self._install("opencode")
+        commands_dir = self.home / ".config/opencode/commands"
+        commands = sorted(path.name for path in commands_dir.glob("sdlc-*.md"))
+        self.assertGreaterEqual(len(commands), 20)
+        self.assertIn("sdlc-start.md", commands)
+        start = (commands_dir / "sdlc-start.md").read_text(encoding="utf-8")
+        self.assertIn("---", start)
+        self.assertIn("description:", start)
+        self.assertIn("`sdlc-start`", start)
+        self._uninstall("opencode")
+        self.assertFalse(commands_dir.exists())
+
     def test_shared_skills_are_reference_counted(self):
         self._install("opencode")
         self._install("claude-code")

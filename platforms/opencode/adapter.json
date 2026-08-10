@@ -25,6 +25,7 @@
     "agent_path": ".config/opencode/agents/{id}.md",
     "agent_strategy": "file",
     "skill_path": ".agents/skills/{name}",
-    "skill_shared": true
+    "skill_shared": true,
+    "command_path": ".config/opencode/commands/{name}.md"
   }
 }

@@ -25,7 +25,7 @@
     "sdlc-audit-deps",
     "sdlc-orchestrate"
   ],
-  "source_sha256": "ae40eb366a30d7b31df098568205088447b057d25ded1b8521ae721a0536f68a",
+  "source_sha256": "a45a6188a109b7a2f8cb3d3b0bbdcf8b6b80184324ee7153c7d93bba388d7f2a",
   "toolkit": "portable-agentic-sdlc-toolkit",
   "version": "0.1.0"
 }
