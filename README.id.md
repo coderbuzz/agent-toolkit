@@ -129,7 +129,7 @@ Berinteraksi dengan AI agents menjadi sangat mudah dan dapat diprediksi ketika d
 
 ```mermaid
 flowchart TD
-    Start([Permintaan User]) --> Router["0. sdlc-start / sdlc-start"]
+    Start([Permintaan User]) --> Router["0. sdlc-start"]
     
     subgraph Fase 1: EKSPLORASI & PRODUK
         Router --> Explorer["Agent: sdlc-discovery-explorer\nSkill: sdlc-discover"]
