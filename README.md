@@ -87,6 +87,34 @@ The toolkit ships SDLC skills that agents load on demand. How you reach them dep
 
 The natural SDLC flow is: `start → discover → define → clarify → design → audit → plan → implement → verify → review → fix → release → document`, with cross-cutting skills (`guardrails`, `memory`, `glossary`, `decide`, `test`, `threat`, `audit-deps`, `orchestrate`) and optional specialists (`design-ui`, `incident`, `observability`, `migrate`).
 
+## 💡 Usage — `/` commands vs `@` mentions
+
+Two entry points in OpenCode trigger different machinery:
+
+| Input | What it does | In this toolkit |
+| --- | --- | --- |
+| `/sdlc-<name>` | Runs a **skill** in the current session (procedure + persona). | `/sdlc-start`, `/sdlc-discover`, `/sdlc-fix`, ... |
+| `@<agent>` | Invokes a **subagent** role with its own tools and permissions. | `@sdlc-discovery-explorer`, `@sdlc-solution-architect`, ... |
+| `@<file>` | Adds a file's content to context. | Not toolkit-specific. |
+| `/skills` | Lists all installed skills. | 21 core skills (alphabetical). |
+
+In short: a **skill** says *how* to do the work, an **agent** says *who* does it.
+
+## 🚦 Best practice — starting from zero
+
+1. **Always route first.** Run `/sdlc-start`. It classifies the task into the smallest safe lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and lists the required artifacts, gates, and next agent role. It never forces the full lifecycle on low-risk work.
+2. **Follow the phases with agents.** Each phase pairs an agent (`@`) with a primary skill (`/`):
+   - **Discover & Define**: `@sdlc-discovery-explorer` `/sdlc-discover` → `@sdlc-product-manager` `/sdlc-define`
+   - **Architect & Design**: `@sdlc-clarification-analyst` `/sdlc-clarify` → `@sdlc-solution-architect` `/sdlc-design`
+   - **Plan & Audit**: `@sdlc-implementation-planner` `/sdlc-plan` → `@sdlc-traceability-auditor` `/sdlc-audit`
+   - **Build**: `@sdlc-implementation-engineer` `/sdlc-implement`
+   - **Verify & Review**: `@sdlc-code-reviewer` `/sdlc-review` → `@sdlc-verification-engineer` `/sdlc-verify`
+   - **Ship**: `@sdlc-documentation-architect` `/sdlc-document` → `@sdlc-release-engineer` `/sdlc-release`
+3. **Use the fast lanes.** A bug goes straight to `/sdlc-fix` → `@sdlc-bug-remediation-analyst` → engineer → verifier. A small reversible change skips the lifecycle entirely. An expensive architecture choice uses `/sdlc-decide`.
+4. **Respect artifact order.** Do not ask for a spec before a PRD, or implementation before an approved plan.
+5. **Approve gate actions.** Publishing, deployment, release, destructive changes, and credential changes always require your explicit approval.
+6. **One persona per session.** Persona-bound skills (`sdlc-start`, `sdlc-discover`, ...) lock the session; utility skills (`sdlc-guardrails`, `sdlc-memory`, `sdlc-glossary`) can be called anytime.
+
 ---
 
 ## 🗺️ Workflow & 6-Phase SDLC Lifecycle

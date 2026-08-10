@@ -87,6 +87,34 @@ Toolkit menyediakan skill SDLC yang dimuat agent sesuai kebutuhan. Cara mengakse
 
 Alur SDLC alami: `start → discover → define → clarify → design → audit → plan → implement → verify → review → fix → release → document`, dengan skill lintas-fase (`guardrails`, `memory`, `glossary`, `decide`, `test`, `threat`, `audit-deps`, `orchestrate`) dan spesialis opsional (`design-ui`, `incident`, `observability`, `migrate`).
 
+## 💡 Penggunaan — command `/` vs mention `@`
+
+Dua cara masuk di OpenCode yang memicu mekanisme berbeda:
+
+| Input | Fungsi | Di toolkit ini |
+| --- | --- | --- |
+| `/sdlc-<nama>` | Menjalankan **skill** di sesi saat ini (prosedur + persona). | `/sdlc-start`, `/sdlc-discover`, `/sdlc-fix`, ... |
+| `@<agent>` | Memanggil **subagent** dengan tool & permission sendiri. | `@sdlc-discovery-explorer`, `@sdlc-solution-architect`, ... |
+| `@<file>` | Menambahkan isi file ke konteks. | Bukan khusus toolkit. |
+| `/skills` | Menampilkan semua skill terpasang. | 21 skill core (alfabetis). |
+
+Singkatnya: **skill** menjelaskan *bagaimana* mengerjakan, **agent** menentukan *siapa* yang mengerjakan.
+
+## 🚦 Best practice — mulai dari nol
+
+1. **Selalu routing dulu.** Jalankan `/sdlc-start`. Ia mengklasifikasi tugas ke lane paling aman (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) serta daftar artefak, gate, dan peran agent berikutnya. Ia tidak pernah memaksakan lifecycle penuh pada pekerjaan berisiko rendah.
+2. **Ikuti fase dengan agent.** Setiap fase memasangkan agent (`@`) dengan skill primer (`/`):
+   - **Discover & Define**: `@sdlc-discovery-explorer` `/sdlc-discover` → `@sdlc-product-manager` `/sdlc-define`
+   - **Architect & Design**: `@sdlc-clarification-analyst` `/sdlc-clarify` → `@sdlc-solution-architect` `/sdlc-design`
+   - **Plan & Audit**: `@sdlc-implementation-planner` `/sdlc-plan` → `@sdlc-traceability-auditor` `/sdlc-audit`
+   - **Build**: `@sdlc-implementation-engineer` `/sdlc-implement`
+   - **Verify & Review**: `@sdlc-code-reviewer` `/sdlc-review` → `@sdlc-verification-engineer` `/sdlc-verify`
+   - **Ship**: `@sdlc-documentation-architect` `/sdlc-document` → `@sdlc-release-engineer` `/sdlc-release`
+3. **Gunakan jalur cepat.** Bug langsung ke `/sdlc-fix` → `@sdlc-bug-remediation-analyst` → engineer → verifier. Perubahan kecil yang reversible melewati lifecycle sepenuhnya. Keputusan arsitektur yang mahal memakai `/sdlc-decide`.
+4. **Hormati urutan artefak.** Jangan minta spec sebelum PRD, atau implementasi sebelum plan disetujui.
+5. **Setujui aksi ber-gate.** Publishing, deployment, release, aksi destruktif, dan perubahan kredensial selalu memerlukan persetujuan eksplisit Anda.
+6. **Satu persona per sesi.** Skill persona-bound (`sdlc-start`, `sdlc-discover`, ...) mengunci sesi; skill utility (`sdlc-guardrails`, `sdlc-memory`, `sdlc-glossary`) bebas dipanggil kapan pun.
+
 ---
 
 ## 🗺️ Alur Kerja & 6-Fase SDLC Lifecycle
