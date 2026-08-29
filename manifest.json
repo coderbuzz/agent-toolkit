@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "name": "portable-agentic-sdlc-toolkit",
-  "version": "0.1.0",
-  "description": "Vendor-neutral SDLC agents, skills, and platform exports.",
+  "name": "agent-toolkit",
+  "version": "2.0.0",
+  "description": "Vendor-neutral work lanes, agents, skills, and platform exports for coding agents.",
   "canonical": {
     "skills": ".agents/skills",
     "agents": "agents/definitions.json",
@@ -19,50 +19,52 @@
     "gemini"
   ],
   "agents": [
-    "sdlc-discovery-explorer",
-    "sdlc-product-manager",
-    "sdlc-clarification-analyst",
-    "sdlc-solution-architect",
-    "sdlc-traceability-auditor",
-    "sdlc-implementation-planner",
-    "sdlc-implementation-engineer",
-    "sdlc-verification-engineer",
-    "sdlc-code-reviewer",
-    "sdlc-bug-remediation-analyst",
-    "sdlc-documentation-architect",
-    "sdlc-release-engineer"
+    "discovery-explorer",
+    "product-manager",
+    "clarification-analyst",
+    "solution-architect",
+    "traceability-auditor",
+    "implementation-planner",
+    "implementation-engineer",
+    "verification-engineer",
+    "code-reviewer",
+    "bug-remediation-analyst",
+    "documentation-architect",
+    "release-engineer"
   ],
   "skills": {
     "lifecycle": [
-      "sdlc-start",
-      "sdlc-discover",
-      "sdlc-define",
-      "sdlc-clarify",
-      "sdlc-design",
-      "sdlc-audit",
-      "sdlc-plan",
-      "sdlc-implement",
-      "sdlc-verify",
-      "sdlc-review",
-      "sdlc-fix",
-      "sdlc-release",
-      "sdlc-document"
+      "start",
+      "discover",
+      "define",
+      "clarify",
+      "design",
+      "audit",
+      "plan",
+      "implement",
+      "verify",
+      "review",
+      "fix",
+      "release",
+      "document"
     ],
     "cross_cutting": [
-      "sdlc-guardrails",
-      "sdlc-memory",
-      "sdlc-glossary",
-      "sdlc-decide",
-      "sdlc-test",
-      "sdlc-threat",
-      "sdlc-audit-deps",
-      "sdlc-orchestrate"
+      "grill",
+      "context",
+      "guardrails",
+      "memory",
+      "glossary",
+      "decide",
+      "test",
+      "threat",
+      "audit-deps",
+      "orchestrate"
     ],
     "optional": [
-      "sdlc-design-ui",
-      "sdlc-incident",
-      "sdlc-observability",
-      "sdlc-migrate"
+      "design-ui",
+      "incident",
+      "observability",
+      "migrate"
     ]
   },
   "bundles": {
@@ -76,95 +78,101 @@
       "optional"
     ],
     "quality": [
-      "sdlc-clarify",
-      "sdlc-audit",
-      "sdlc-guardrails",
-      "sdlc-test",
-      "sdlc-threat",
-      "sdlc-audit-deps",
-      "sdlc-verify",
-      "sdlc-review"
+      "clarify",
+      "audit",
+      "guardrails",
+      "test",
+      "threat",
+      "audit-deps",
+      "verify",
+      "review"
     ]
   },
   "skill_metadata": {
-    "sdlc-start": {
-      "persona_bound": true
-    },
-    "sdlc-discover": {
-      "persona_bound": true
-    },
-    "sdlc-define": {
-      "persona_bound": true
-    },
-    "sdlc-clarify": {
-      "persona_bound": true
-    },
-    "sdlc-design": {
-      "persona_bound": true
-    },
-    "sdlc-audit": {
-      "persona_bound": true
-    },
-    "sdlc-plan": {
-      "persona_bound": true
-    },
-    "sdlc-implement": {
-      "persona_bound": true
-    },
-    "sdlc-verify": {
-      "persona_bound": true
-    },
-    "sdlc-review": {
-      "persona_bound": true
-    },
-    "sdlc-fix": {
-      "persona_bound": true
-    },
-    "sdlc-release": {
-      "persona_bound": true
-    },
-    "sdlc-document": {
-      "persona_bound": true
-    },
-    "sdlc-decide": {
-      "persona_bound": true
-    },
-    "sdlc-test": {
-      "persona_bound": true
-    },
-    "sdlc-threat": {
-      "persona_bound": true
-    },
-    "sdlc-audit-deps": {
-      "persona_bound": true
-    },
-    "sdlc-memory": {
+    "grill": {
       "persona_bound": false
     },
-    "sdlc-guardrails": {
+    "context": {
       "persona_bound": false
     },
-    "sdlc-orchestrate": {
+    "start": {
+      "persona_bound": true
+    },
+    "discover": {
+      "persona_bound": true
+    },
+    "define": {
+      "persona_bound": true
+    },
+    "clarify": {
+      "persona_bound": true
+    },
+    "design": {
+      "persona_bound": true
+    },
+    "audit": {
+      "persona_bound": true
+    },
+    "plan": {
+      "persona_bound": true
+    },
+    "implement": {
+      "persona_bound": true
+    },
+    "verify": {
+      "persona_bound": true
+    },
+    "review": {
+      "persona_bound": true
+    },
+    "fix": {
+      "persona_bound": true
+    },
+    "release": {
+      "persona_bound": true
+    },
+    "document": {
+      "persona_bound": true
+    },
+    "guardrails": {
       "persona_bound": false
     },
-    "sdlc-glossary": {
+    "memory": {
       "persona_bound": false
     },
-    "sdlc-design-ui": {
+    "glossary": {
       "persona_bound": false
     },
-    "sdlc-incident": {
+    "decide": {
+      "persona_bound": true
+    },
+    "test": {
+      "persona_bound": true
+    },
+    "threat": {
+      "persona_bound": true
+    },
+    "audit-deps": {
+      "persona_bound": true
+    },
+    "orchestrate": {
       "persona_bound": false
     },
-    "sdlc-observability": {
+    "design-ui": {
       "persona_bound": false
     },
-    "sdlc-migrate": {
+    "incident": {
+      "persona_bound": false
+    },
+    "observability": {
+      "persona_bound": false
+    },
+    "migrate": {
       "persona_bound": false
     }
   },
   "install_policy": {
-    "default_scope": "repository",
+    "default_scope": "global",
     "supported_scopes": [
       "repository",
       "global"

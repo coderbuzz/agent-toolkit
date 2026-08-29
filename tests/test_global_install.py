@@ -10,7 +10,7 @@ from pathlib import Path
 
 TOOLKIT_ROOT = Path(__file__).resolve().parent.parent
 SPEC = importlib.util.spec_from_file_location(
-    "portable_sdlc_toolkit_global", TOOLKIT_ROOT / "scripts" / "toolkit.py"
+    "agent_toolkit_global", TOOLKIT_ROOT / "scripts" / "toolkit.py"
 )
 toolkit = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(toolkit)
@@ -51,13 +51,13 @@ class GlobalExportTests(unittest.TestCase):
         entry = metadata["merge_files"][0]
         self.assertEqual(".codex/config.toml", entry["target"])
         merge_body = (package / entry["merge_file"]).read_text(encoding="utf-8")
-        self.assertIn("[agents.sdlc-code-reviewer]", merge_body)
+        self.assertIn("[agents.code-reviewer]", merge_body)
         self.assertIn(toolkit.CODEX_BLOCK_BEGIN, merge_body)
 
     def test_non_codex_global_writes_agent_files(self):
         package = self.root / "claude-code"
         toolkit.export_to_global_directory("claude-code", "core", package)
-        self.assertTrue((package / ".claude/agents/sdlc-code-reviewer.md").is_file())
+        self.assertTrue((package / ".claude/agents/code-reviewer.md").is_file())
         instruction = (package / ".claude/CLAUDE.md").read_text(encoding="utf-8")
         self.assertNotIn("@AGENTS.md", instruction)
         self.assertIn("Portable Agentic SDLC", instruction)
@@ -102,13 +102,13 @@ class GlobalInstallTests(unittest.TestCase):
     def test_opencode_global_generates_slash_commands(self):
         self._install("opencode")
         commands_dir = self.home / ".config/opencode/commands"
-        commands = sorted(path.name for path in commands_dir.glob("sdlc-*.md"))
+        commands = sorted(path.name for path in commands_dir.glob("*.md"))
         self.assertGreaterEqual(len(commands), 20)
-        self.assertIn("sdlc-start.md", commands)
-        start = (commands_dir / "sdlc-start.md").read_text(encoding="utf-8")
+        self.assertIn("start.md", commands)
+        start = (commands_dir / "start.md").read_text(encoding="utf-8")
         self.assertIn("---", start)
         self.assertIn("description:", start)
-        self.assertIn("`sdlc-start`", start)
+        self.assertIn("`start`", start)
         self._uninstall("opencode")
         self.assertFalse(commands_dir.exists())
 
@@ -116,7 +116,7 @@ class GlobalInstallTests(unittest.TestCase):
         self._install("opencode")
         self._install("claude-code")
         ledger = toolkit.load_json(self.home / toolkit.SHARED_SKILLS_LEDGER_NAME)
-        skill = ".agents/skills/sdlc-start/SKILL.md"
+        skill = ".agents/skills/start/SKILL.md"
         self.assertEqual(["claude-code", "opencode"], sorted(ledger["files"][skill]["owners"]))
         self._uninstall("opencode")
         self.assertTrue((self.home / skill).is_file())
@@ -141,7 +141,7 @@ class GlobalInstallTests(unittest.TestCase):
 
     def test_user_modified_shared_skill_blocks_reinstall(self):
         self._install("opencode")
-        skill = self.home / ".agents/skills/sdlc-start/SKILL.md"
+        skill = self.home / ".agents/skills/start/SKILL.md"
         skill.write_text(skill.read_text(encoding="utf-8") + "\nuser edit\n", encoding="utf-8")
         package, home, platform, shared = self._codex_shared_args()
         _actions, conflicts = toolkit.plan_shared_skills(package, home, platform, shared)
@@ -174,7 +174,7 @@ class CodexMergeTests(unittest.TestCase):
         action = self._merge()
         self.assertEqual("codex-merge-create", action)
         config = self.home / ".codex/config.toml"
-        self.assertIn("[agents.sdlc-code-reviewer]", config.read_text(encoding="utf-8"))
+        self.assertIn("[agents.code-reviewer]", config.read_text(encoding="utf-8"))
 
     def test_merge_preserves_user_content_and_is_idempotent(self):
         config = self.home / ".codex/config.toml"
@@ -328,9 +328,9 @@ class OmpPlatformTests(unittest.TestCase):
         definitions = toolkit.load_json(
             toolkit.TOOLKIT_ROOT / toolkit.load_json(toolkit.TOOLKIT_ROOT / "manifest.json")["canonical"]["agents"]
         )
-        agent = next(a for a in definitions["agents"] if a["id"] == "sdlc-code-reviewer")
+        agent = next(a for a in definitions["agents"] if a["id"] == "code-reviewer")
         rendered = toolkit.render_omp_agent(agent, "0.1.0", "abc123")
-        self.assertIn("name: sdlc-code-reviewer", rendered)
+        self.assertIn("name: code-reviewer", rendered)
         self.assertIn("description:", rendered)
         self.assertIn("tools:", rendered)
         # OMP does not use OpenCode's schema.
@@ -341,7 +341,7 @@ class OmpPlatformTests(unittest.TestCase):
         package = self.root / "omp"
         metadata = toolkit.export_to_global_directory("omp", "core", package)
         self.assertEqual("global", metadata["scope"])
-        self.assertTrue((package / ".omp/agent/agents/sdlc-code-reviewer.md").is_file())
+        self.assertTrue((package / ".omp/agent/agents/code-reviewer.md").is_file())
         instruction = (package / ".omp/agent/AGENTS.md").read_text(encoding="utf-8")
         self.assertNotIn("@AGENTS.md", instruction)
         self.assertIn("Portable Agentic SDLC", instruction)
@@ -352,15 +352,15 @@ class OmpPlatformTests(unittest.TestCase):
     def test_omp_repo_export_layout(self):
         package = self.root / "omp-repo"
         toolkit.export_to_directory("omp", "core", package)
-        self.assertTrue((package / ".omp/agents/sdlc-code-reviewer.md").is_file())
+        self.assertTrue((package / ".omp/agents/code-reviewer.md").is_file())
         instruction = (package / ".omp/AGENTS.md").read_text(encoding="utf-8")
         self.assertIn("Portable Agentic SDLC", instruction)
-        self.assertTrue((package / ".omp/skills/sdlc-start/SKILL.md").is_file())
+        self.assertTrue((package / ".omp/skills/start/SKILL.md").is_file())
 
     def test_omp_global_install_and_uninstall_clean(self):
         with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
             self.assertEqual(0, toolkit.command_install(_OmpArgs("omp", self.home, apply=True)))
-        self.assertTrue((self.home / ".omp/agent/agents/sdlc-code-reviewer.md").is_file())
+        self.assertTrue((self.home / ".omp/agent/agents/code-reviewer.md").is_file())
         with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
             rc = toolkit.command_uninstall(_OmpArgs("omp", self.home, apply=True))
         self.assertIn(rc, (0, 2))

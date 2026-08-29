@@ -21,7 +21,7 @@ if ($ToolkitArguments.Count -gt 0) {
 }
 
 Write-Host "┌──────────────────────────────────────────────────────────┐" -ForegroundColor Cyan
-Write-Host "│ Portable Agentic SDLC Toolkit - Uninstaller              │" -ForegroundColor Cyan
+Write-Host "│ Agent Toolkit - Uninstaller              │" -ForegroundColor Cyan
 Write-Host "└──────────────────────────────────────────────────────────┘" -ForegroundColor Cyan
 Write-Host "Interactive uninstaller — previews safe removals first, applies on confirmation." -ForegroundColor Gray
 Write-Host ""
@@ -65,7 +65,7 @@ if ($Scope -eq "repository") {
     for ($i = 0; $i -lt $Platforms.Count; $i++) {
         $p = $Platforms[$i]
         $tag = ""
-        $GlobalLedger = Join-Path $HOME ".portable-sdlc-install-$p.json"
+        $GlobalLedger = Join-Path $HOME ".portable-install-$p.json"
         if (Test-Path $GlobalLedger) { $tag = " (installed)" }
         Write-Host "  $($i + 1)) $p$tag" -ForegroundColor Green
     }

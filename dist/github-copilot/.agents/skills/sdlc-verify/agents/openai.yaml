@@ -1,4 +1,0 @@
-interface:
-  display_name: "independent verification"
-  short_description: "Portable workflow for independent verification"
-  default_prompt: "Use $sdlc-verify to complete this workflow with verifiable evidence."

@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 TOOLKIT_ROOT = Path(__file__).resolve().parent.parent
-SPEC = importlib.util.spec_from_file_location("portable_sdlc_toolkit_export", TOOLKIT_ROOT / "scripts" / "toolkit.py")
+SPEC = importlib.util.spec_from_file_location("agent_toolkit_export", TOOLKIT_ROOT / "scripts" / "toolkit.py")
 toolkit = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(toolkit)
 
@@ -47,10 +47,10 @@ class ExportTests(unittest.TestCase):
 
     def test_markdown_agents_start_with_frontmatter(self):
         files = [
-            self.export_root / "opencode" / ".opencode/agents/sdlc-traceability-auditor.md",
-            self.export_root / "github-copilot" / ".github/agents/sdlc-traceability-auditor.agent.md",
-            self.export_root / "claude-code" / ".claude/agents/sdlc-traceability-auditor.md",
-            self.export_root / "gemini" / ".gemini/agents/sdlc-traceability-auditor.md",
+            self.export_root / "opencode" / ".opencode/agents/traceability-auditor.md",
+            self.export_root / "github-copilot" / ".github/agents/traceability-auditor.agent.md",
+            self.export_root / "claude-code" / ".claude/agents/traceability-auditor.md",
+            self.export_root / "gemini" / ".gemini/agents/traceability-auditor.md",
         ]
         for path in files:
             with self.subTest(path=path):
@@ -60,10 +60,10 @@ class ExportTests(unittest.TestCase):
 
     def test_codex_sandboxes_fail_closed(self):
         read_only = (
-            self.export_root / "codex" / ".codex/agents/sdlc-traceability-auditor.toml"
+            self.export_root / "codex" / ".codex/agents/traceability-auditor.toml"
         ).read_text(encoding="utf-8")
         writer = (
-            self.export_root / "codex" / ".codex/agents/sdlc-implementation-engineer.toml"
+            self.export_root / "codex" / ".codex/agents/implementation-engineer.toml"
         ).read_text(encoding="utf-8")
         self.assertIn('sandbox_mode = "read-only"', read_only)
         self.assertIn('sandbox_mode = "workspace-write"', writer)
@@ -71,10 +71,10 @@ class ExportTests(unittest.TestCase):
 
     def test_opencode_permissions_fail_closed(self):
         read_only = (
-            self.export_root / "opencode" / ".opencode/agents/sdlc-traceability-auditor.md"
+            self.export_root / "opencode" / ".opencode/agents/traceability-auditor.md"
         ).read_text(encoding="utf-8")
         writer = (
-            self.export_root / "opencode" / ".opencode/agents/sdlc-implementation-engineer.md"
+            self.export_root / "opencode" / ".opencode/agents/implementation-engineer.md"
         ).read_text(encoding="utf-8")
         self.assertIn("\n  edit: deny\n", read_only)
         self.assertIn("\n  edit: allow\n", writer)
@@ -83,10 +83,10 @@ class ExportTests(unittest.TestCase):
 
     def test_gemini_permissions_fail_closed(self):
         read_only = (
-            self.export_root / "gemini" / ".gemini/agents/sdlc-traceability-auditor.md"
+            self.export_root / "gemini" / ".gemini/agents/traceability-auditor.md"
         ).read_text(encoding="utf-8")
         writer = (
-            self.export_root / "gemini" / ".gemini/agents/sdlc-implementation-engineer.md"
+            self.export_root / "gemini" / ".gemini/agents/implementation-engineer.md"
         ).read_text(encoding="utf-8")
         self.assertIn("\n  edit: deny\n", read_only)
         self.assertIn("\n  edit: allow\n", writer)
@@ -95,10 +95,10 @@ class ExportTests(unittest.TestCase):
 
     def test_copilot_tools_are_explicit_and_bounded(self):
         read_only = (
-            self.export_root / "github-copilot" / ".github/agents/sdlc-traceability-auditor.agent.md"
+            self.export_root / "github-copilot" / ".github/agents/traceability-auditor.agent.md"
         ).read_text(encoding="utf-8").split("---", 2)[1]
         writer = (
-            self.export_root / "github-copilot" / ".github/agents/sdlc-implementation-engineer.agent.md"
+            self.export_root / "github-copilot" / ".github/agents/implementation-engineer.agent.md"
         ).read_text(encoding="utf-8").split("---", 2)[1]
         self.assertIn("tools:", read_only)
         self.assertNotIn('"edit"', read_only)
@@ -106,10 +106,10 @@ class ExportTests(unittest.TestCase):
 
     def test_claude_permission_modes_are_bounded(self):
         read_only = (
-            self.export_root / "claude-code" / ".claude/agents/sdlc-traceability-auditor.md"
+            self.export_root / "claude-code" / ".claude/agents/traceability-auditor.md"
         ).read_text(encoding="utf-8")
         writer = (
-            self.export_root / "claude-code" / ".claude/agents/sdlc-implementation-engineer.md"
+            self.export_root / "claude-code" / ".claude/agents/implementation-engineer.md"
         ).read_text(encoding="utf-8")
         self.assertIn("permissionMode: plan", read_only)
         self.assertIn("permissionMode: default", writer)
@@ -119,8 +119,8 @@ class ExportTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             full = Path(temp) / "full"
             toolkit.export_to_directory("opencode", "full", full)
-            core_optional = self.export_root / "opencode" / ".agents/skills/sdlc-incident"
-            full_optional = full / ".agents/skills/sdlc-incident/SKILL.md"
+            core_optional = self.export_root / "opencode" / ".agents/skills/incident"
+            full_optional = full / ".agents/skills/incident/SKILL.md"
             self.assertFalse(core_optional.exists())
             self.assertTrue(full_optional.is_file())
 
@@ -137,7 +137,7 @@ class ExportTests(unittest.TestCase):
             output = Path(temp)
             package = output / "codex"
             toolkit.export_to_directory("codex", "core", package)
-            target = package / ".codex/agents/sdlc-code-reviewer.toml"
+            target = package / ".codex/agents/code-reviewer.toml"
             target.write_text(target.read_text(encoding="utf-8") + "# drift\n", encoding="utf-8")
             findings = toolkit.check_export_drift("codex", "core", output)
             self.assertTrue(any("Changed files" in finding for finding in findings))

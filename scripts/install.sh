@@ -1,5 +1,5 @@
 #!/bin/sh
-# Portable Agentic SDLC Toolkit Installer (POSIX Shell - Zero Dependencies)
+# Agent Toolkit Installer (POSIX Shell - Zero Dependencies)
 # Usage:
 #   ./scripts/install.sh --platform <platform> [--global] [--bundle core|full|quality] [--target DIR] [--apply]
 

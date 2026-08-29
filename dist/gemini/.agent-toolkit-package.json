@@ -1,0 +1,33 @@
+{
+  "bundle": "core",
+  "platform": "gemini",
+  "schema_version": 1,
+  "skills": [
+    "start",
+    "discover",
+    "define",
+    "clarify",
+    "design",
+    "audit",
+    "plan",
+    "implement",
+    "verify",
+    "review",
+    "fix",
+    "release",
+    "document",
+    "grill",
+    "context",
+    "guardrails",
+    "memory",
+    "glossary",
+    "decide",
+    "test",
+    "threat",
+    "audit-deps",
+    "orchestrate"
+  ],
+  "source_sha256": "fc22ce69c0a67bcacf624b87a329bd4e3a66ba8e355581577c139a8d12302280",
+  "toolkit": "agent-toolkit",
+  "version": "2.0.0"
+}

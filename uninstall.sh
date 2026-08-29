@@ -1,5 +1,5 @@
-#!/bin/sh
-# Portable Agentic SDLC Toolkit Uninstaller (POSIX Shell - Zero Dependencies)
+#!/usr/bin/env bash
+# Agent Toolkit Uninstaller (POSIX Shell - Zero Dependencies)
 # Usage:
 #   ./uninstall.sh
 #   ./uninstall.sh --platform opencode --global --apply

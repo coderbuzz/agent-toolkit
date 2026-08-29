@@ -68,8 +68,8 @@ class CliTests(unittest.TestCase):
                 "--apply",
             )
             self.assertEqual(0, apply.returncode, apply.stderr)
-            self.assertTrue((target / ".portable-sdlc-install.json").is_file())
-            self.assertTrue((target / ".opencode/agents/sdlc-code-reviewer.md").is_file())
+            self.assertTrue((target / ".agent-toolkit-install.json").is_file())
+            self.assertTrue((target / ".opencode/agents/code-reviewer.md").is_file())
 
     def test_conflict_returns_nonzero_without_overwrite(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -122,7 +122,7 @@ class CliTests(unittest.TestCase):
                 "--apply",
             )
             self.assertEqual(0, install_res.returncode, install_res.stderr)
-            self.assertTrue((target / ".portable-sdlc-install.json").is_file())
+            self.assertTrue((target / ".agent-toolkit-install.json").is_file())
 
             # Now uninstall using uninstall.sh
             result = subprocess.run(
@@ -142,7 +142,7 @@ class CliTests(unittest.TestCase):
             )
             self.assertEqual(0, result.returncode, result.stderr)
             self.assertIn("Uninstall completed", result.stdout)
-            self.assertFalse((target / ".portable-sdlc-install.json").exists())
+            self.assertFalse((target / ".agent-toolkit-install.json").exists())
 
     def test_global_install_via_shell_script_records_ledger(self):
         """Global install through scripts/install.sh must delegate to toolkit.py
@@ -173,7 +173,7 @@ class CliTests(unittest.TestCase):
             )
             self.assertEqual(0, install.returncode, install.stderr)
 
-            ledger = json.loads((home / ".portable-sdlc-install-opencode.json").read_text())
+            ledger = json.loads((home / ".agent-toolkit-install-opencode.json").read_text())
             self.assertGreater(len(ledger["files"]), 0)
             self.assertTrue((home / ".config/opencode/AGENTS.md").is_file())
 
@@ -195,7 +195,7 @@ class CliTests(unittest.TestCase):
             )
             self.assertEqual(0, uninstall.returncode, uninstall.stderr)
             self.assertIn("Global uninstall completed", uninstall.stdout)
-            self.assertFalse((home / ".portable-sdlc-install-opencode.json").exists())
+            self.assertFalse((home / ".agent-toolkit-install-opencode.json").exists())
 
 
 if __name__ == "__main__":

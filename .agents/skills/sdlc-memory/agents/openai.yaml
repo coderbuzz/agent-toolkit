@@ -1,4 +1,0 @@
-interface:
-  display_name: "project memory"
-  short_description: "Portable workflow for project memory"
-  default_prompt: "Use $sdlc-memory to complete this workflow with verifiable evidence."

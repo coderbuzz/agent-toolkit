@@ -14,7 +14,7 @@ from pathlib import Path
 
 TOOLKIT_ROOT = Path(__file__).resolve().parent.parent
 SPEC = importlib.util.spec_from_file_location(
-    "portable_sdlc_toolkit_persona", TOOLKIT_ROOT / "scripts" / "toolkit.py"
+    "agent_toolkit_persona", TOOLKIT_ROOT / "scripts" / "toolkit.py"
 )
 toolkit = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(toolkit)
@@ -77,13 +77,13 @@ class ExportedPersonaConventionTests(unittest.TestCase):
     def test_persona_bound_skill_carries_block_in_exports(self):
         for platform in ("omp", "github-copilot"):
             with self.subTest(platform=platform):
-                text = self._skill_path(platform, "sdlc-review").read_text(encoding="utf-8")
+                text = self._skill_path(platform, "review").read_text(encoding="utf-8")
                 self.assertIn("## Dynamic Persona Activation", text)
 
     def test_utility_skill_lacks_block_in_exports(self):
         for platform in ("omp", "github-copilot"):
             with self.subTest(platform=platform):
-                text = self._skill_path(platform, "sdlc-memory").read_text(encoding="utf-8")
+                text = self._skill_path(platform, "memory").read_text(encoding="utf-8")
                 self.assertNotIn("## Dynamic Persona Activation", text)
 
 

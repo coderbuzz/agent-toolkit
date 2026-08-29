@@ -1,4 +1,4 @@
-# ⚡ Portable Agentic SDLC Toolkit
+# ⚡ Agent Toolkit
 
 🌐 **Languages**: [English](README.md) | [Bahasa Indonesia](README.id.md)
 
@@ -82,8 +82,8 @@ The toolkit ships SDLC skills that agents load on demand. How you reach them dep
 
 - **`/skills` menu**: Lists every installed skill. OpenCode sorts this list alphabetically by skill name — the order is not the SDLC flow order.
 - **Skill tool**: Agents load a skill via the native `skill` tool. The `@` mention picker shows **agents and files**, not skills.
-- **OpenCode slash commands**: After a global install, each skill is also available as a `/sdlc-<name>` command (e.g. `/sdlc-start`, `/sdlc-discover`, `/sdlc-fix`) that loads and runs the matching skill.
-- **Naming**: Skill ids use hyphens (`sdlc-start`), not underscores. Type them exactly.
+- **OpenCode slash commands**: After a global install, each skill is also available as a `/<name>` command (e.g. `/start`, `/discover`, `/fix`) that loads and runs the matching skill.
+- **Naming**: Skill ids use hyphens (`start`), not underscores. Type them exactly.
 
 The natural SDLC flow is: `start → discover → define → clarify → design → audit → plan → implement → verify → review → fix → release → document`, with cross-cutting skills (`guardrails`, `memory`, `glossary`, `decide`, `test`, `threat`, `audit-deps`, `orchestrate`) and optional specialists (`design-ui`, `incident`, `observability`, `migrate`).
 
@@ -93,8 +93,8 @@ Two entry points in OpenCode trigger different machinery:
 
 | Input | What it does | In this toolkit |
 | --- | --- | --- |
-| `/sdlc-<name>` | Runs a **skill** in the current session (procedure + persona). | `/sdlc-start`, `/sdlc-discover`, `/sdlc-fix`, ... |
-| `@<agent>` | Invokes a **subagent** role with its own tools and permissions. | `@sdlc-discovery-explorer`, `@sdlc-solution-architect`, ... |
+| `/<name>` | Runs a **skill** in the current session (procedure + persona). | `/start`, `/discover`, `/fix`, ... |
+| `@<agent>` | Invokes a **subagent** role with its own tools and permissions. | `@discovery-explorer`, `@solution-architect`, ... |
 | `@<file>` | Adds a file's content to context. | Not toolkit-specific. |
 | `/skills` | Lists all installed skills. | 21 core skills (alphabetical). |
 
@@ -102,18 +102,18 @@ In short: a **skill** says *how* to do the work, an **agent** says *who* does it
 
 ## 🚦 Best practice — starting from zero
 
-1. **Always route first.** Run `/sdlc-start`. It classifies the task into the smallest safe lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and lists the required artifacts, gates, and next agent role. It never forces the full lifecycle on low-risk work.
+1. **Always route first.** Run `/start`. It classifies the task into the smallest safe lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and lists the required artifacts, gates, and next agent role. It never forces the full lifecycle on low-risk work.
 2. **Follow the phases with agents.** Each phase pairs an agent (`@`) with a primary skill (`/`):
-   - **Discover & Define**: `@sdlc-discovery-explorer` `/sdlc-discover` → `@sdlc-product-manager` `/sdlc-define`
-   - **Architect & Design**: `@sdlc-clarification-analyst` `/sdlc-clarify` → `@sdlc-solution-architect` `/sdlc-design`
-   - **Plan & Audit**: `@sdlc-implementation-planner` `/sdlc-plan` → `@sdlc-traceability-auditor` `/sdlc-audit`
-   - **Build**: `@sdlc-implementation-engineer` `/sdlc-implement`
-   - **Verify & Review**: `@sdlc-code-reviewer` `/sdlc-review` → `@sdlc-verification-engineer` `/sdlc-verify`
-   - **Ship**: `@sdlc-documentation-architect` `/sdlc-document` → `@sdlc-release-engineer` `/sdlc-release`
-3. **Use the fast lanes.** A bug goes straight to `/sdlc-fix` → `@sdlc-bug-remediation-analyst` → engineer → verifier. A small reversible change skips the lifecycle entirely. An expensive architecture choice uses `/sdlc-decide`.
+   - **Discover & Define**: `@discovery-explorer` `/discover` → `@product-manager` `/define`
+   - **Architect & Design**: `@clarification-analyst` `/clarify` → `@solution-architect` `/design`
+   - **Plan & Audit**: `@implementation-planner` `/plan` → `@traceability-auditor` `/audit`
+   - **Build**: `@implementation-engineer` `/implement`
+   - **Verify & Review**: `@code-reviewer` `/review` → `@verification-engineer` `/verify`
+   - **Ship**: `@documentation-architect` `/document` → `@release-engineer` `/release`
+3. **Use the fast lanes.** A bug goes straight to `/fix` → `@bug-remediation-analyst` → engineer → verifier. A small reversible change skips the lifecycle entirely. An expensive architecture choice uses `/decide`.
 4. **Respect artifact order.** Do not ask for a spec before a PRD, or implementation before an approved plan.
 5. **Approve gate actions.** Publishing, deployment, release, destructive changes, and credential changes always require your explicit approval.
-6. **One persona per session.** Persona-bound skills (`sdlc-start`, `sdlc-discover`, ...) lock the session; utility skills (`sdlc-guardrails`, `sdlc-memory`, `sdlc-glossary`) can be called anytime.
+6. **One persona per session.** Persona-bound skills (`start`, `discover`, ...) lock the session; utility skills (`guardrails`, `memory`, `glossary`) can be called anytime.
 
 ---
 
@@ -129,37 +129,37 @@ Working with AI agents becomes simple and predictable when structured into 6 log
 
 ```mermaid
 flowchart TD
-    Start([User Request]) --> Router["0. sdlc-start"]
+    Start([User Request]) --> Router["0. start"]
     
     subgraph Phase 1: DISCOVER & DEFINE
-        Router --> Explorer["Agent: sdlc-discovery-explorer\nSkill: sdlc-discover"]
-        Explorer --> PM["Agent: sdlc-product-manager\nSkill: sdlc-define"]
+        Router --> Explorer["Agent: discovery-explorer\nSkill: discover"]
+        Explorer --> PM["Agent: product-manager\nSkill: define"]
     end
     
     subgraph Phase 2: ARCHITECT & DESIGN
-        PM --> Clarify["Agent: sdlc-clarification-analyst\nSkill: sdlc-clarify"]
-        Clarify --> Architect["Agent: sdlc-solution-architect\nSkill: sdlc-design"]
+        PM --> Clarify["Agent: clarification-analyst\nSkill: clarify"]
+        Clarify --> Architect["Agent: solution-architect\nSkill: design"]
     end
     
     subgraph Phase 3: PLAN & AUDIT
-        Architect --> Planner["Agent: sdlc-implementation-planner\nSkill: sdlc-plan"]
-        Planner --> Auditor["Agent: sdlc-traceability-auditor\nSkill: sdlc-audit"]
+        Architect --> Planner["Agent: implementation-planner\nSkill: plan"]
+        Planner --> Auditor["Agent: traceability-auditor\nSkill: audit"]
     end
     
     subgraph Phase 4: BUILD & REMEDIATE
-        Auditor --> Engineer["Agent: sdlc-implementation-engineer\nSkill: sdlc-implement"]
-        Router -. Bug-Fix Fast Lane .-> BugAnalyst["Agent: sdlc-bug-remediation-analyst\nSkill: sdlc-fix"]
+        Auditor --> Engineer["Agent: implementation-engineer\nSkill: implement"]
+        Router -. Bug-Fix Fast Lane .-> BugAnalyst["Agent: bug-remediation-analyst\nSkill: fix"]
         BugAnalyst --> Engineer
     end
     
     subgraph Phase 5: VERIFY & REVIEW
-        Engineer --> Reviewer["Agent: sdlc-code-reviewer\nSkill: sdlc-review"]
-        Reviewer --> Verifier["Agent: sdlc-verification-engineer\nSkill: sdlc-verify"]
+        Engineer --> Reviewer["Agent: code-reviewer\nSkill: review"]
+        Reviewer --> Verifier["Agent: verification-engineer\nSkill: verify"]
     end
     
     subgraph Phase 6: SHIP & MAINTAIN
-        Verifier --> DocArch["Agent: sdlc-documentation-architect\nSkill: sdlc-document"]
-        DocArch --> ReleaseEng["Agent: sdlc-release-engineer\nSkill: sdlc-release"]
+        Verifier --> DocArch["Agent: documentation-architect\nSkill: document"]
+        DocArch --> ReleaseEng["Agent: release-engineer\nSkill: release"]
         ReleaseEng --> Done([Production Release])
     end
 ```
@@ -170,56 +170,56 @@ flowchart TD
 
 ### Phase 0: Navigator (Entrypoint)
 If you're unsure how to start a task, invoke the navigator skill:
-- 🚀 **`sdlc-start`**: Classifies work into the optimal safety lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and guides step-by-step agent execution.
+- 🚀 **`start`**: Classifies work into the optimal safety lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and guides step-by-step agent execution.
 
 ---
 
 ### Phase 1: Discover & Define (Product Scope)
 | Agent Role | Primary Skill | Support Skills | Phase Deliverable |
 | :--- | :--- | :--- | :--- |
-| **`sdlc-discovery-explorer`** | `sdlc-discover` | `sdlc-guardrails` | **Discovery Report** |
-| **`sdlc-product-manager`** | `sdlc-define` | `sdlc-glossary` | **Product Requirements Document (PRD)** |
+| **`discovery-explorer`** | `discover` | `guardrails` | **Discovery Report** |
+| **`product-manager`** | `define` | `glossary` | **Product Requirements Document (PRD)** |
 
 ---
 
 ### Phase 2: Architect & Design (Technical Design & Security)
 | Agent Role | Primary Skill | Support Skills | Phase Deliverable |
 | :--- | :--- | :--- | :--- |
-| **`sdlc-clarification-analyst`** | `sdlc-clarify` | `sdlc-decide` | **Clarification Q&A / ADR** |
-| **`sdlc-solution-architect`** | `sdlc-design` | `sdlc-threat`, `sdlc-design-ui`, `sdlc-test` | **Technical Specification (Spec)** |
+| **`clarification-analyst`** | `clarify` | `decide` | **Clarification Q&A / ADR** |
+| **`solution-architect`** | `design` | `threat`, `design-ui`, `test` | **Technical Specification (Spec)** |
 
 ---
 
 ### Phase 3: Plan & Audit (Execution Planning)
 | Agent Role | Primary Skill | Support Skills | Phase Deliverable |
 | :--- | :--- | :--- | :--- |
-| **`sdlc-implementation-planner`** | `sdlc-plan` | `sdlc-test` | **Implementation Plan** |
-| **`sdlc-traceability-auditor`** | `sdlc-audit` | - | **Traceability Audit Report** |
+| **`implementation-planner`** | `plan` | `test` | **Implementation Plan** |
+| **`traceability-auditor`** | `audit` | - | **Traceability Audit Report** |
 
 ---
 
 ### Phase 4: Build & Remediate (Coding & Bug Fixes)
 | Agent Role | Primary Skill | Support Skills | Phase Deliverable |
 | :--- | :--- | :--- | :--- |
-| **`sdlc-implementation-engineer`** | `sdlc-implement` | `sdlc-guardrails`, `sdlc-migrate`, `sdlc-audit-deps`, `sdlc-orchestrate` | **Source Code & Unit Tests** |
-| **`sdlc-bug-remediation-analyst`** *(Bug Lane)* | `sdlc-fix` | `sdlc-test` | **Root Cause Analysis & Fix Plan** |
+| **`implementation-engineer`** | `implement` | `guardrails`, `migrate`, `audit-deps`, `orchestrate` | **Source Code & Unit Tests** |
+| **`bug-remediation-analyst`** *(Bug Lane)* | `fix` | `test` | **Root Cause Analysis & Fix Plan** |
 
 ---
 
 ### Phase 5: Verify & Review (Quality & Security)
 | Agent Role | Primary Skill | Support Skills | Phase Deliverable |
 | :--- | :--- | :--- | :--- |
-| **`sdlc-code-reviewer`** | `sdlc-review` | `sdlc-audit-deps` | **Code Review Feedback** |
-| **`sdlc-verification-engineer`** | `sdlc-verify` | `sdlc-test` | **Verification Report** |
+| **`code-reviewer`** | `review` | `audit-deps` | **Code Review Feedback** |
+| **`verification-engineer`** | `verify` | `test` | **Verification Report** |
 
 ---
 
 ### Phase 6: Ship & Maintain (Release & Operations)
 | Agent Role | Primary Skill | Support Skills | Phase Deliverable |
 | :--- | :--- | :--- | :--- |
-| **`sdlc-documentation-architect`** | `sdlc-document` | `sdlc-glossary` | **User Guides & Documentation** |
-| **`sdlc-release-engineer`** | `sdlc-release` | `sdlc-orchestrate` | **Verified Release Candidate** |
-| *(Operations)* | `sdlc-observability` | `sdlc-incident`, `sdlc-memory` | **Logs/Alerts & Incident Post-Mortem** |
+| **`documentation-architect`** | `document` | `glossary` | **User Guides & Documentation** |
+| **`release-engineer`** | `release` | `orchestrate` | **Verified Release Candidate** |
+| *(Operations)* | `observability` | `incident`, `memory` | **Logs/Alerts & Incident Post-Mortem** |
 
 ---
 
@@ -243,27 +243,27 @@ Since agents and skills are installed globally or at the project level, you don'
 
 ### 1. Starting a New Project / Feature (Getting Started)
 ```text
-"Use sdlc-start to guide me through building a JWT and OAuth2 authentication system. Create a PRD and technical specification first."
+"Use start to guide me through building a JWT and OAuth2 authentication system. Create a PRD and technical specification first."
 ```
 
 ### 2. Fixing a Bug (Bug-Fix Lane)
 ```text
-"Users are reporting a 500 server error during checkout when the cart is empty. Use the sdlc-fix skill to trace the root cause, write a reproduction test, and apply a minimal fix."
+"Users are reporting a 500 server error during checkout when the cart is empty. Use the fix skill to trace the root cause, write a reproduction test, and apply a minimal fix."
 ```
 
 ### 3. Reviewing a Pull Request / Code Changes
 ```text
-"Please perform a code review on the current branch using the sdlc-review skill. Check for security vulnerabilities, performance bottlenecks, and adherence to our technical spec."
+"Please perform a code review on the current branch using the review skill. Check for security vulnerabilities, performance bottlenecks, and adherence to our technical spec."
 ```
 
 ### 4. Creating an Architecture Decision Record (ADR)
 ```text
-"We need to evaluate Redis vs PostgreSQL for session caching. Use the sdlc-decide skill to evaluate trade-offs and draft an ADR."
+"We need to evaluate Redis vs PostgreSQL for session caching. Use the decide skill to evaluate trade-offs and draft an ADR."
 ```
 
 ### 5. Running Pre-Release Audit
 ```text
-"Please audit this repository using the sdlc-release skill before we publish release v1.0.0."
+"Please audit this repository using the release skill before we publish release v1.0.0."
 ```
 
 ---

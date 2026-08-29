@@ -51,9 +51,9 @@ OpenCode exposes general shell access rather than a portable read-only shell sub
 instructions therefore restrict command behavior in addition to native permission mapping.
 
 Global installs additionally emit one slash command per skill under
-`~/.config/opencode/commands/sdlc-<name>.md`. Each command's frontmatter carries the skill
+`~/.config/opencode/commands/<name>.md`. Each command's frontmatter carries the skill
 description and its template instructs the agent to load and run the matching skill, so skills
-are reachable as `/sdlc-start`, `/sdlc-discover`, etc. Commands are tracked in the same install
+are reachable as `/start`, `/discover`, etc. Commands are tracked in the same install
 ledger as agents and are removed on uninstall.
 
 ## GitHub Copilot
@@ -125,18 +125,18 @@ repository inherits the same behavior without per-repository duplication. Each a
 ### Shared skills
 
 All platforms read skills from the shared `~/.agents/skills` location, so a single installed copy
-serves every platform. A reference-counted ledger (`.portable-sdlc-shared-skills.json`) records
+serves every platform. A reference-counted ledger (`.portable-shared-skills.json`) records
 which platforms own each skill file. Uninstalling one platform releases its reference and removes
 a skill only when no other platform still owns it. User-modified skill files are preserved.
 
 ### Dynamic Persona Activation
 
 Skills are classified as **persona-bound** or **utility** in `manifest.json`
-(`skill_metadata.<skill>.persona_bound`). Persona-bound skills (e.g. `sdlc-review`,
-`sdlc-design`) carry a `## Dynamic Persona Activation` block in their `SKILL.md`.
+(`skill_metadata.<skill>.persona_bound`). Persona-bound skills (e.g. `review`,
+`design`) carry a `## Dynamic Persona Activation` block in their `SKILL.md`.
 This follows the convention used by ecosystems such as `awesome-copilot-id`: invoking a
 persona-bound skill transforms the base assistant into that skill's persona and locks the session
-to it, while utility skills (e.g. `sdlc-memory`, `sdlc-guardrails`) can be invoked at any
+to it, while utility skills (e.g. `memory`, `guardrails`) can be invoked at any
 time without triggering a session lock. `validate_skills` enforces that every persona-bound skill
 has the block and no utility skill does.
 

@@ -1,4 +1,0 @@
-interface:
-  display_name: "architecture decision management"
-  short_description: "Portable workflow for architecture decision management"
-  default_prompt: "Use $sdlc-decide to complete this workflow with verifiable evidence."

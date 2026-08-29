@@ -1,0 +1,4 @@
+interface:
+  display_name: "shared context keeper"
+  short_description: "Owns CONTEXT.md: domain terms, invariants, and decisions"
+  default_prompt: "Use $context to keep CONTEXT.md aligned with what we learned."

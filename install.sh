@@ -1,5 +1,5 @@
-#!/bin/sh
-# Portable Agentic SDLC Toolkit Installer (POSIX Shell - Zero Dependencies)
+#!/usr/bin/env bash
+# Agent Toolkit Installer (POSIX Shell - Zero Dependencies)
 # Usage:
 #   curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash
 #   curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --global --apply

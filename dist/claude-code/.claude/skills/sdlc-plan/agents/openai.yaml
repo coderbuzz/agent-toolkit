@@ -1,4 +1,0 @@
-interface:
-  display_name: "implementation planning"
-  short_description: "Portable workflow for implementation planning"
-  default_prompt: "Use $sdlc-plan to complete this workflow with verifiable evidence."

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Interactive uninstaller for the Portable Agentic SDLC Toolkit (POSIX Shell - Zero Dependencies).
+# Interactive uninstaller for the Agent Toolkit (POSIX Shell - Zero Dependencies).
 # Guides a user through previewing and removing installed toolkit files safely.
 
 set -eu
@@ -46,7 +46,7 @@ if [ $# -gt 0 ]; then
     exec python3 scripts/toolkit.py uninstall "$@"
 fi
 
-banner "Portable Agentic SDLC Toolkit - Uninstaller"
+banner "Agent Toolkit - Uninstaller"
 c_print "$DIM" "Interactive uninstaller — previews safe removals first, applies on confirmation."
 echo
 
@@ -88,7 +88,7 @@ else
     n=1
     for p in $VALID_PLATFORMS; do
         installed_tag=""
-        if [ -f "$HOME/.portable-sdlc-install-$p.json" ] || [ -f "$HOME/.portable-sdlc-ledger-$p.json" ]; then
+        if [ -f "$HOME/.agent-toolkit-install-$p.json" ] || [ -f "$HOME/.agent-toolkit-ledger-$p.json" ]; then
             installed_tag=" ${GREEN}(installed)$RESET"
         fi
         c_print "$GREEN" "  $n)$RESET  $BOLD$p$RESET$installed_tag"

@@ -42,7 +42,7 @@ prompt() {
     fi
 }
 
-banner "Portable Agentic SDLC Toolkit"
+banner "Agent Toolkit"
 c_print "$DIM" "Interactive setup — previews first, applies only on your confirmation."
 echo
 
