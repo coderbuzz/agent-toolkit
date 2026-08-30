@@ -4,6 +4,8 @@ description: >-
   Independently verify acceptance criteria, implementation claims, tests,
   regressions, security checks, and non-functional evidence. Use after
   implementation, before release, or when completion evidence is disputed.
+invocation: both
+role: verification engineer
 ---
 
 # Independent Verification

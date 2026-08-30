@@ -4,6 +4,8 @@ description: >-
   Read, write, compact, and promote concise project memory without storing
   secrets or raw transcripts. Use when restoring context, saving a milestone,
   preparing a session handoff, or preserving durable decisions and lessons.
+invocation: model
+role: memory keeper
 ---
 
 # Project Memory

@@ -3,7 +3,9 @@ name: glossary
 description: >-
   Create and maintain a lazy Domain Glossary with canonical project terms and
   rejected synonyms. Use when terminology is ambiguous, overloaded,
-  inconsistent across artifacts, or explicitly resolved during clarification.
+  inconsistent across artifacts, or explicitly resolved during a grill interview.
+invocation: model
+role: terminology keeper
 ---
 
 # Domain Language Management

@@ -4,6 +4,8 @@ description: >-
   Assess whether a release candidate is safe to publish or deploy using build,
   test, security, dependency, migration, documentation, rollback, and
   observability evidence. Use before tagging, publishing, deployment, or launch.
+invocation: both
+role: release engineer
 ---
 
 # Release Readiness

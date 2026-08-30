@@ -1,10 +1,11 @@
 ---
 name: start
 description: >-
-  Start and navigate any software task with the Portable Agentic SDLC Toolkit.
-  Classifies work into the smallest safe SDLC lane (Full-Feature, Bug-Fix,
-  Small-Change, Docs, Incident) and guides the user through the step-by-step
-  agent workflow.
+  Start and navigate any software task with the Agent Toolkit. Classifies
+  work into the smallest safe lane (Full-Feature, Bug-Fix, Small-Change,
+  Docs, Incident) and guides the selected lane step by step.
+invocation: both
+role: workflow navigator
 ---
 
 # SDLC Start (Workflow Navigator)

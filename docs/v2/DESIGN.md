@@ -104,3 +104,14 @@ Specialists (full bundle): design-ui, incident, observability, migrate
     Global install writes only the pointer at `~/.zcode/AGENTS.md`. The
     adapter is verified in this environment: the toolkit repo's own skills
     load from both locations.
+
+## v2 Audit Remediation (2026-08-30)
+22. **Frontmatter contract completed for all 25 skills** (decisions 2 and 6
+    fully executed): every skill now declares `invocation: user|model|both`
+    and a compact `role`. Lifecycle phases and specialists are `both`
+    (user-invokable, model-entered); pure utilities (`guardrails`, `memory`,
+    `glossary`, `test`, `threat`, `audit-deps`, `orchestrate`,
+    `observability`) are `model`. Stale v0.1 references cleaned alongside:
+    manifest description, `prompts/` sync workflow (deleted), skill text
+    pointing at the removed clarify/audit artifacts (now route to `grill` /
+    `review`), root wrapper usage examples, and PowerShell wrapper branding.

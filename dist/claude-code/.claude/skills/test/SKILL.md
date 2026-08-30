@@ -4,6 +4,8 @@ description: >-
   Design proportionate unit, integration, contract, end-to-end, security, and
   non-functional verification mapped to acceptance criteria and risk. Use
   during specification, planning, implementation, verification, or test audits.
+invocation: model
+role: test scaffolder
 ---
 
 # Test Strategy

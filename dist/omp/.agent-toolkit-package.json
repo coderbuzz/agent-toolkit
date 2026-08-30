@@ -25,7 +25,7 @@
     "audit-deps",
     "orchestrate"
   ],
-  "source_sha256": "3660b8f1fd92b432d5d0a551d87bb663d8f7b17cd310547e4877ab2d0842226e",
+  "source_sha256": "06ef00f66eb4eef1f880e2fe8de5f9672b76b7648c2a1f4b81c784177632d2b0",
   "toolkit": "agent-toolkit",
   "version": "2.0.0"
 }

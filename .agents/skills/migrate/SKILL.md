@@ -4,6 +4,8 @@ description: >-
   Plan and verify safe schema, storage, configuration, or data migrations with
   compatibility, backfill, cutover, validation, and rollback controls. Use when
   changing persistent data or formats with meaningful recovery cost.
+invocation: both
+role: migration engineer
 ---
 
 # Data Migration

@@ -2,8 +2,8 @@
 # Agent Toolkit Installer (POSIX Shell - Zero Dependencies)
 # Usage:
 #   curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash
-#   curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --global --apply
-#   ./install.sh --platform opencode --global --apply
+#   curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --apply
+#   ./install.sh --platform opencode --apply
 
 set -eu
 

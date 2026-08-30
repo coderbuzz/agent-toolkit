@@ -25,7 +25,7 @@
     "standards": "standards",
     "templates": "templates"
   },
-  "description": "Vendor-neutral work lanes, agents, skills, and platform exports for coding agents.",
+  "description": "Vendor-neutral work lanes, skills, and platform exports for coding agents.",
   "install_policy": {
     "default_bundle": "core",
     "default_scope": "global",

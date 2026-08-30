@@ -5,6 +5,8 @@ description: >-
   capability-aware delegation, interval verification, progress updates, and
   stop conditions. Use for long-running tasks or work that can be safely
   decomposed.
+invocation: model
+role: workflow orchestrator
 ---
 
 # Bounded Orchestration

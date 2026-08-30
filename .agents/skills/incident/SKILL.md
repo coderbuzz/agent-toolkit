@@ -4,6 +4,8 @@ description: >-
   Coordinate severity assessment, containment, evidence preservation, recovery,
   communication, root-cause review, and remediation for active incidents. Use
   for outages, security events, data integrity failures, or severe regressions.
+invocation: both
+role: incident commander
 ---
 
 # Incident Response

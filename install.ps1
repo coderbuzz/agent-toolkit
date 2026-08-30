@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-    Portable Agentic SDLC Toolkit Installer for Windows PowerShell (Zero Dependencies).
+    Agent Toolkit Installer for Windows PowerShell (Zero Dependencies).
 .EXAMPLE
     irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.ps1 | iex
-    install.ps1 --platform opencode --global --apply
+    install.ps1 --platform opencode --apply
 #>
 
 param(

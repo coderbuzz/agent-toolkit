@@ -4,6 +4,8 @@ description: >-
   Explore an idea or existing repository and produce an evidence-backed
   discovery summary. Use before PRD creation, during onboarding, when mapping
   unfamiliar architecture, or when product and technical context is incomplete.
+invocation: both
+role: discovery explorer
 ---
 
 # Project Discovery

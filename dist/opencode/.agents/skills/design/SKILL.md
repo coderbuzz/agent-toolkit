@@ -3,14 +3,16 @@ name: design
 description: >-
   Translate approved product requirements into testable technical contracts,
   boundaries, data behavior, security controls, and rollout design. Use after
-  PRD clarification or when an existing specification needs approved updates.
+  an approved PRD or when an existing specification needs approved updates.
+invocation: both
+role: solution architect
 ---
 
 # Technical Specification
 
 ## Workflow
 
-1. Read the approved PRD, clarification outcomes, glossary, ADRs, and relevant
+1. Read the approved PRD, grill outcomes, glossary, ADRs, and relevant
    current-system evidence.
 2. Map every design contract to requirement and acceptance-criterion IDs.
 3. Define architecture boundaries relative to the existing system.

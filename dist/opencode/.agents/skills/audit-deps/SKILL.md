@@ -4,6 +4,8 @@ description: >-
   Assess whether a dependency is necessary, trustworthy, compatible,
   reproducible, maintained, licensed, and safe to install. Use before adding or
   upgrading packages, during security review, or before release.
+invocation: model
+role: dependency auditor
 ---
 
 # Dependency Supply-Chain Audit

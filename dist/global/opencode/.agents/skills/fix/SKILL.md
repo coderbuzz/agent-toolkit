@@ -4,6 +4,8 @@ description: >-
   Reproduce a bug, trace its causal chain, identify the root cause, and create a
   minimal test-first remediation plan with rollback guidance. Use for defect
   reports, regressions, flaky behavior, or production symptoms.
+invocation: both
+role: bug remediation analyst
 ---
 
 # Bug Remediation
@@ -21,7 +23,7 @@ description: >-
 
 ## Escalation
 
-Return to product clarification when expected behavior is undefined. Return to
+Return to grill when expected behavior is undefined. Return to
 technical specification when a surgical fix cannot preserve the architecture.
 
 ## Boundaries

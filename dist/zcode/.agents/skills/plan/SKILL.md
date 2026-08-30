@@ -4,13 +4,15 @@ description: >-
   Convert an approved technical specification or remediation finding into a
   traceable, executable, test-aware plan. Use before multi-file implementation,
   migrations, risky fixes, refactors, or release-affecting changes.
+invocation: both
+role: implementation planner
 ---
 
 # Implementation Planning
 
 ## Workflow
 
-1. Read the approved specification, audit outcomes, repository conventions, and
+1. Read the approved specification, review findings, repository conventions, and
    relevant implementation evidence.
 2. Build a dependency order and identify work that can run independently.
 3. Create bounded tasks with stable IDs and references to requirements, design

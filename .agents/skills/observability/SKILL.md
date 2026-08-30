@@ -4,6 +4,8 @@ description: >-
   Design actionable logs, metrics, traces, events, service objectives, alerts,
   dashboards, and runbooks. Use during architecture, reliability planning,
   incident remediation, or before releasing operationally critical behavior.
+invocation: model
+role: observability engineer
 ---
 
 # Observability Design

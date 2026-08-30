@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-    Portable Agentic SDLC Toolkit Uninstaller for Windows PowerShell (Zero Dependencies).
+    Agent Toolkit Uninstaller for Windows PowerShell (Zero Dependencies).
 .EXAMPLE
     .\uninstall.ps1
-    .\uninstall.ps1 --platform opencode --global --apply
+    .\uninstall.ps1 --platform opencode --apply
 #>
 
 param(

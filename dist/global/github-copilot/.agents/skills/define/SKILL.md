@@ -4,6 +4,8 @@ description: >-
   Create or revise a Product Requirements Document with outcomes, users, scope,
   measurable requirements, acceptance criteria, and metrics. Use after
   discovery or when an existing PRD needs product-level updates.
+invocation: both
+role: product manager
 ---
 
 # Product Requirements
@@ -24,7 +26,7 @@ description: >-
 ## Output
 
 Produce a PRD using the repository's artifact template when available. Include
-a traceability summary and a handoff to artifact clarification.
+a traceability summary and a handoff to grill when requirements stay ambiguous.
 
 ## Boundaries
 

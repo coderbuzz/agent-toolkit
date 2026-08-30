@@ -4,6 +4,8 @@ description: >-
   Evaluate, create, supersede, and validate Architecture Decision Records using
   a strict Triple Gate. Use when a technical choice is costly to reverse,
   surprising without context, and involves a real trade-off.
+invocation: both
+role: decision recorder
 ---
 
 # Architecture Decision Management

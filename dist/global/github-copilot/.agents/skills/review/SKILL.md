@@ -4,6 +4,8 @@ description: >-
   Review changed code for correctness, security, simplicity, maintainability,
   tests, performance, and approved-spec compliance. Use for pull requests,
   diffs, implementation reviews, or security-focused code audits.
+invocation: both
+role: code reviewer
 ---
 
 # Code Review

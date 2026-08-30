@@ -1,4 +1,4 @@
 interface:
-  display_name: "sdlc start"
-  short_description: "Portable workflow for sdlc start"
-  default_prompt: "Use $start to complete this workflow with verifiable evidence."
+  display_name: "start"
+  short_description: "Lane router: pick the smallest safe lane and its gates"
+  default_prompt: "Use $start to route this task into the smallest safe lane."

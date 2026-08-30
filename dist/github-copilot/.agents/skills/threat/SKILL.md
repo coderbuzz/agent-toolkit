@@ -5,6 +5,8 @@ description: >-
   and residual risk. Use for authentication, authorization, sensitive data,
   external integrations, untrusted content, high-impact dependencies, or
   security-sensitive architecture changes.
+invocation: model
+role: threat modeler
 ---
 
 # Threat Modeling

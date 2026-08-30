@@ -5,6 +5,8 @@ description: >-
   writing, reviewing, refactoring, or fixing code. Use whenever implementation
   decisions risk overengineering, scope drift, unsafe assumptions, or weak
   verification.
+invocation: model
+role: discipline keeper
 ---
 
 # Engineering Guardrails

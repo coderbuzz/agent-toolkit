@@ -4,6 +4,8 @@ description: >-
   Design distinctive, accessible, responsive product interfaces and UX copy
   from an approved brief. Use for UI-heavy requirements, layout exploration,
   interaction states, design systems, or frontend implementation guidance.
+invocation: both
+role: ui designer
 ---
 
 # Product Interface Design

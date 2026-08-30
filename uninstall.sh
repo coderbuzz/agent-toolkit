@@ -2,7 +2,7 @@
 # Agent Toolkit Uninstaller (POSIX Shell - Zero Dependencies)
 # Usage:
 #   ./uninstall.sh
-#   ./uninstall.sh --platform opencode --global --apply
+#   ./uninstall.sh --platform opencode --apply
 #   ./uninstall.sh --scope repository --target . --apply
 
 set -eu
