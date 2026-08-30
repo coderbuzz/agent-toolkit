@@ -133,15 +133,15 @@ Working with AI agents becomes simple and predictable when structured into 6 log
 ```mermaid
 flowchart TD
     Start([User Request]) --> Router["0. start"]
+    Router --> Grill["grill (whenever ambiguous)"]
 
     subgraph Phase 1: DISCOVER & DEFINE
-        Router --> Discover["discover"]
+        Grill --> Discover["discover"]
         Discover --> Define["define"]
     end
 
     subgraph Phase 2: ARCHITECT & DESIGN
-        Define --> Grill["grill (when ambiguous)"]
-        Grill --> Design["design"]
+        Define --> Design["design"]
     end
 
     subgraph Phase 3: PLAN
