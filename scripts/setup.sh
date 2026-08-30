@@ -72,15 +72,15 @@ if [ -z "$platform" ]; then
 fi
 c_print "$DIM" "  → platform: $BOLD$GREEN$platform"
 
-scope=$(prompt "Scope - (r)epository or (g)lobal? [r]: " "r")
+scope=$(prompt "Scope - (g)lobal or (r)epository? [g]: " "g")
 case "$scope" in
-    g|G|global|Global) scope_flag="--global" ;;
-    *) scope_flag="" ;;
+    r|R|repository|Repository) scope_flag="--repository" ;;
+    *) scope_flag="--global" ;;
 esac
-c_print "$DIM" "  → scope:   $BOLD$YELLOW${scope_flag:-(repository)}"
+c_print "$DIM" "  → scope:   $BOLD$YELLOW${scope_flag#--}"
 
 target_flag=""
-if [ -z "$scope_flag" ]; then
+if [ "$scope_flag" = "--repository" ]; then
     target=$(prompt "Target repository path [.]: " ".")
     target_flag="--target $target"
     c_print "$DIM" "  → target:  $BOLD$YELLOW$target"

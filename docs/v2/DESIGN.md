@@ -46,3 +46,32 @@ Specialists (full bundle): design-ui, incident, observability, migrate
     are shared cross-platform at `~/.agents/skills/`. Repository scope remains
     available via `--scope repository` for team-pinned/reproducible setups
     (CI, open-source repos).
+
+## v2 Installer Architecture (2026-08-30)
+11. **Pure-shell installers, zero runtime deps.** `scripts/install.sh`,
+    `scripts/uninstall.sh` (POSIX sh + awk) and their PowerShell twins install
+    straight from pre-built packages. Python is a maintainer-only build tool
+    (validate/export/drift-check), never an install requirement. The former
+    "delegate to toolkit.py" shortcut is gone.
+12. **Pre-built global packages.** `toolkit.py export` now emits both
+    `dist/<platform>` (repository layout) and `dist/global/<platform>`
+    (home-relative layout: shared skills, agent files or the Codex TOML merge
+    block, instruction pointer, OpenCode slash commands). Installers consume
+    dist/ as-is; validate/check-drift cover both scopes.
+13. **Canonical ledger format.** All three installers (POSIX, PowerShell,
+    Python) write byte-identical ledger JSON (json.dumps indent=2 sort_keys
+    convention), so any uninstaller can safely read any install. Tests assert
+    the byte parity for both repository and global scope.
+14. **Fail-closed parity.** The shell port mirrors toolkit.py semantics
+    exactly: preview-first dry runs, never overwrite user-modified managed
+    files, shared-skill reference counting across platforms, managed-block
+    append/update/unmerge, stale-file cleanup, empty-parent pruning, exit 2
+    on preserved-modified warnings. Known divergence: the shell apply phase
+    has no full transactional rollback (per-file ops are atomic via
+    temp+rename; the ledger is written only after all file ops succeed).
+15. **AGENTS.md promoted to the v2 pointer file** (1.3 KB): routes to skills
+    on demand instead of embedding full procedures. This is the content the
+    global installer writes into each platform's instruction file.
+16. **Legacy v0.1 awareness.** The global installer warns when it detects a
+    `portable-sdlc` managed block it does not manage; the block is left for
+    the user to remove.

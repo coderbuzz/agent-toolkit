@@ -25,7 +25,7 @@ When using AI coding assistants (Claude Code, OpenCode, GitHub Copilot, Codex, G
 
 ## 🚀 Quick Start
 
-Run the 1-line installer below to launch an interactive wizard that guides you through platform and scope selection:
+Jalankan installer 1-baris di bawah untuk membuka wizard interaktif pemilihan platform dan scope. Instalasi **default-nya global** (skill ditaruh di `~/.agents/skills`, dipakai bersama antar platform) dan hanya butuh **shell** — tanpa Python, tanpa tool tambahan.
 
 ### 🐧 Linux / macOS / WSL
 ```bash
@@ -37,9 +37,13 @@ curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/instal
 irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.ps1 | iex
 ```
 
-> **Pro-Tip (Non-Interactive CI / Automation)**: Pass arguments directly to skip prompts and apply immediately:
+> **Pro-Tip (CI / Non-Interaktif)**: Berikan argumen langsung untuk melewati prompt dan langsung apply. Scope global adalah default:
 > ```bash
-> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --global --apply
+> # Install global (default): ~/.agents/skills + config platform di ~
+> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --apply
+>
+> # Install repository: skill di-commit ke dalam project
+> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --scope repository --target . --apply
 > ```
 
 ### 🧹 Uninstallation
@@ -333,8 +337,11 @@ python3 scripts/toolkit.py check-drift --all --bundle core
 └── scripts/
     ├── install.sh            # Zero-dependency POSIX installer
     ├── install.ps1           # Zero-dependency PowerShell installer
+    ├── uninstall.sh          # Zero-dependency POSIX uninstaller
+    ├── uninstall.ps1         # Zero-dependency PowerShell uninstaller
+    ├── toolkit-lib.sh        # Helper POSIX bersama (ledger, managed block)
     ├── setup.sh              # Interactive setup helper
-    └── toolkit.py            # Maintainer CLI (validate, export, drift-check)
+    └── toolkit.py            # Maintainer-only build CLI (validate, export, drift-check)
 ```
 
 ---

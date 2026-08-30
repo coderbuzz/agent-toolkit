@@ -25,7 +25,7 @@ When using AI coding assistants (Claude Code, OpenCode, GitHub Copilot, Codex, G
 
 ## 🚀 Quick Start
 
-Run the 1-line installer below to launch an interactive wizard that guides you through platform and scope selection:
+Run the 1-line installer below to launch an interactive wizard that guides you through platform and scope selection. Installation is **global by default** (skills land in `~/.agents/skills`, shared across platforms) and needs **nothing but a shell** — no Python, no extra tools.
 
 ### 🐧 Linux / macOS / WSL
 ```bash
@@ -37,9 +37,13 @@ curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/instal
 irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.ps1 | iex
 ```
 
-> **Pro-Tip (Non-Interactive CI / Automation)**: Pass arguments directly to skip prompts and apply immediately:
+> **Pro-Tip (Non-Interactive CI / Automation)**: Pass arguments directly to skip prompts and apply immediately. Global scope is the default:
 > ```bash
-> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --global --apply
+> # Global install (default): ~/.agents/skills + platform config in ~
+> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --apply
+>
+> # Repository install: commit skills into a project checkout instead
+> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --scope repository --target . --apply
 > ```
 
 ### 🧹 Uninstallation
@@ -322,19 +326,22 @@ python3 scripts/toolkit.py check-drift --all --bundle core
 
 ```text
 .
-├── AGENTS.md                 # Portable core AI guidance
+├── AGENTS.md                 # Portable core AI guidance (v2 pointer file)
 ├── manifest.json             # Toolkit manifest & bundle definitions
 ├── agents/definitions.json   # Neutral agent role definitions
 ├── .agents/skills/           # Canonical reusable procedures
 ├── instructions/             # Shared communication and quality standards
 ├── standards/                # Architecture & traceability contracts
-├── dist/                     # Pre-built packages for instant zero-dep installs
+├── dist/                     # Pre-built packages (per-platform + dist/global)
 ├── install.sh / install.ps1  # Zero-dependency terminal installer scripts
 └── scripts/
     ├── install.sh            # Zero-dependency POSIX installer
     ├── install.ps1           # Zero-dependency PowerShell installer
+    ├── uninstall.sh          # Zero-dependency POSIX uninstaller
+    ├── uninstall.ps1         # Zero-dependency PowerShell uninstaller
+    ├── toolkit-lib.sh        # Shared POSIX helpers (ledgers, managed blocks)
     ├── setup.sh              # Interactive setup helper
-    └── toolkit.py            # Maintainer CLI (validate, export, drift-check)
+    └── toolkit.py            # Maintainer-only build CLI (validate, export, drift-check)
 ```
 
 ---

@@ -46,9 +46,10 @@ if [ $# -eq 0 ]; then
             exec ./scripts/uninstall.sh
         fi
     else
-        echo "Usage: uninstall.sh [--platform <platform>] [--global] [--target DIR] [--apply]" >&2
+        echo "Usage: uninstall.sh [--scope global|repository] [--platform <platform>] [--target DIR] [--apply]" >&2
         PLATFORMS="claude-code codex gemini github-copilot omp opencode"
         echo "Valid platforms: $PLATFORMS" >&2
+        echo "Default scope is global and requires --platform." >&2
         exit 2
     fi
 else

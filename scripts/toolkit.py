@@ -628,7 +628,7 @@ def render_agent(platform, agent, version, digest):
 def render_opencode_command(skill_root, name):
     """Render an OpenCode slash command that loads one skill."""
     frontmatter = parse_frontmatter(skill_root / "SKILL.md")
-    description = frontmatter.get("description", "Run the {0} SDLC skill".format(name))
+    description = frontmatter.get("description", "Run the {0} agent-toolkit skill".format(name))
     body = (
         "Load and run the `{0}` skill and follow its procedure for this task. "
         "Keep the skill's stop conditions and outputs as the source of truth."
@@ -916,6 +916,75 @@ def validate_exported_package(package_root, platform, bundle, root=TOOLKIT_ROOT)
     return errors
 
 
+def validate_exported_global_package(package_root, platform, bundle, root=TOOLKIT_ROOT):
+    errors = []
+    if package_root.is_symlink() or not package_root.is_dir():
+        return ["Package root must be a regular directory: {0}".format(package_root)]
+    metadata_path = package_root / ".agent-toolkit-package.json"
+    if metadata_path.is_symlink() or not metadata_path.is_file():
+        return ["Package metadata must be a regular file: {0}".format(metadata_path)]
+    try:
+        metadata = load_json(metadata_path)
+    except ToolkitError as exc:
+        return [str(exc)]
+    manifest = load_json(root / "manifest.json")
+    if platform not in manifest["platforms"]:
+        return ["Unsupported package platform: {0}".format(platform)]
+    if bundle not in manifest["bundles"]:
+        return ["Unsupported package bundle: {0}".format(bundle)]
+    expected_metadata = {
+        "toolkit": manifest["name"],
+        "version": manifest["version"],
+        "source_sha256": source_digest(root),
+        "platform": platform,
+        "bundle": bundle,
+        "scope": "global",
+    }
+    for key, expected in expected_metadata.items():
+        if metadata.get(key) != expected:
+            errors.append("Package metadata mismatch for {0}".format(key))
+    expected_skills = set(bundle_skill_names(manifest, bundle))
+    if set(metadata.get("skills", [])) != expected_skills:
+        errors.append("Package skill list does not match bundle {0}".format(bundle))
+    try:
+        files = package_files(package_root)
+    except ToolkitError as exc:
+        return errors + [str(exc)]
+    for relative in metadata.get("shared_skill_files", []):
+        if relative not in files:
+            errors.append("Package is missing shared skill file: {0}".format(relative))
+    adapter = load_json(root / "platforms" / platform / "adapter.json")
+    global_block = adapter.get("global", {})
+    instruction_relative = metadata.get("instruction_path")
+    if instruction_relative:
+        if instruction_relative not in files:
+            errors.append("Package is missing global instruction file")
+        elif GENERATED_TEXT not in (package_root / instruction_relative).read_text(encoding="utf-8"):
+            errors.append("Generated marker missing from global instruction file")
+    else:
+        errors.append("Package metadata is missing instruction_path")
+    if global_block.get("agent_strategy") == "file":
+        definitions = load_json(root / manifest["canonical"]["agents"])
+        for agent in definitions["agents"]:
+            relative = global_block["agent_path"].replace("{id}", agent["id"])
+            if relative not in files:
+                errors.append("Package is missing global agent: {0}".format(agent["id"]))
+            elif GENERATED_TEXT not in (package_root / relative).read_text(encoding="utf-8"):
+                errors.append("Generated marker missing from {0}".format(relative))
+    for entry in metadata.get("merge_files", []):
+        if entry.get("merge_file") not in files:
+            errors.append("Package is missing merge file: {0}".format(entry.get("merge_file")))
+        elif entry.get("target") != global_block.get("agent_config_path"):
+            errors.append("Merge file target does not match the adapter config path")
+    command_pattern = global_block.get("command_path")
+    if command_pattern:
+        for skill in expected_skills:
+            relative = command_pattern.replace("{name}", skill)
+            if relative not in files:
+                errors.append("Package is missing slash command: {0}".format(skill))
+    return errors
+
+
 def compare_trees(expected, actual):
     expected_files = package_files(expected)
     actual_files = package_files(actual)
@@ -927,18 +996,29 @@ def compare_trees(expected, actual):
     return missing, extra, changed
 
 
-def atomic_export(platform, bundle, output_root, root=TOOLKIT_ROOT):
+def package_relative_root(platform, scope):
+    """Return the dist subdirectory that holds one platform package."""
+    if scope == "global":
+        return PurePosixPath("global") / platform
+    return PurePosixPath(platform)
+
+
+def atomic_export(platform, bundle, output_root, root=TOOLKIT_ROOT, scope="repository"):
     output_root = safe_operation_root(output_root, "export output")
-    output_root.mkdir(parents=True, exist_ok=True)
-    target = output_root / platform
+    target = output_root / package_relative_root(platform, scope)
+    target.parent.mkdir(parents=True, exist_ok=True)
     if target.is_symlink():
         raise ToolkitError("Refusing to replace symlinked export target: {0}".format(target))
     transaction = Path(tempfile.mkdtemp(prefix=".agent-toolkit-export-", dir=str(output_root)))
     staged = transaction / "new"
     previous = transaction / "previous"
     try:
-        export_to_directory(platform, bundle, staged, root)
-        errors = validate_exported_package(staged, platform, bundle, root)
+        if scope == "global":
+            export_to_global_directory(platform, bundle, staged, root)
+            errors = validate_exported_global_package(staged, platform, bundle, root)
+        else:
+            export_to_directory(platform, bundle, staged, root)
+            errors = validate_exported_package(staged, platform, bundle, root)
         if errors:
             raise ToolkitError("Generated package failed validation:\n- " + "\n- ".join(errors))
         if target.exists():
@@ -953,13 +1033,16 @@ def atomic_export(platform, bundle, output_root, root=TOOLKIT_ROOT):
     return target
 
 
-def check_export_drift(platform, bundle, output_root, root=TOOLKIT_ROOT):
-    target = output_root.resolve() / platform
+def check_export_drift(platform, bundle, output_root, root=TOOLKIT_ROOT, scope="repository"):
+    target = output_root.resolve() / package_relative_root(platform, scope)
     if not target.is_dir():
         return ["Missing generated package: {0}".format(target)]
     with tempfile.TemporaryDirectory(prefix="agent-toolkit-check-") as temp:
-        expected = Path(temp) / platform
-        export_to_directory(platform, bundle, expected, root)
+        expected = Path(temp) / "package"
+        if scope == "global":
+            export_to_global_directory(platform, bundle, expected, root)
+        else:
+            export_to_directory(platform, bundle, expected, root)
         missing, extra, changed = compare_trees(expected, target)
     findings = []
     if missing:
@@ -1074,7 +1157,7 @@ def plan_install(package_root, target, exclude=None, ledger_file=LEDGER_NAME):
         "source_sha256": metadata.get("source_sha256"),
         "platform": metadata.get("platform"),
         "bundle": metadata.get("bundle"),
-        "scope": metadata.get("scope", "global"),
+        "scope": metadata.get("scope", "repository"),
         "files": new_ledger_hashes,
     }
     return actions, conflicts, new_ledger
@@ -1593,14 +1676,18 @@ def command_validate(args):
     if args.dist:
         manifest = load_json(TOOLKIT_ROOT / "manifest.json")
         for platform in manifest["platforms"]:
-            package = args.dist.resolve() / platform
-            package_errors = validate_exported_package(package, platform, args.bundle)
-            if package_errors:
-                print("Package validation failed for {0}:".format(platform), file=sys.stderr)
-                for error in package_errors:
-                    print("- {0}".format(error), file=sys.stderr)
-                return 1
-            print("Validated generated package: {0}".format(platform))
+            for scope, validator in (
+                ("repository", validate_exported_package),
+                ("global", validate_exported_global_package),
+            ):
+                package = args.dist.resolve() / package_relative_root(platform, scope)
+                package_errors = validator(package, platform, args.bundle)
+                if package_errors:
+                    print("Package validation failed for {0} ({1}):".format(platform, scope), file=sys.stderr)
+                    for error in package_errors:
+                        print("- {0}".format(error), file=sys.stderr)
+                    return 1
+                print("Validated generated package: {0} ({1})".format(platform, scope))
     return 0
 
 
@@ -1610,17 +1697,18 @@ def command_export(args):
         raise ToolkitError("Canonical validation failed:\n- " + "\n- ".join(errors))
     manifest = load_json(TOOLKIT_ROOT / "manifest.json")
     for platform in selected_platforms(args, manifest):
-        if args.check:
-            findings = check_export_drift(platform, args.bundle, args.output)
-            if findings:
-                print("Export drift detected for {0}:".format(platform), file=sys.stderr)
-                for finding in findings:
-                    print("- {0}".format(finding), file=sys.stderr)
-                return 1
-            print("Export is current: {0}".format(platform))
-        else:
-            target = atomic_export(platform, args.bundle, args.output)
-            print("Exported {0} package to {1}".format(platform, target))
+        for scope in ("repository", "global"):
+            if args.check:
+                findings = check_export_drift(platform, args.bundle, args.output, scope=scope)
+                if findings:
+                    print("Export drift detected for {0} ({1}):".format(platform, scope), file=sys.stderr)
+                    for finding in findings:
+                        print("- {0}".format(finding), file=sys.stderr)
+                    return 1
+                print("Export is current: {0} ({1})".format(platform, scope))
+            else:
+                target = atomic_export(platform, args.bundle, args.output, scope=scope)
+                print("Exported {0} package to {1}".format(scope, target))
     return 0
 
 
@@ -1640,7 +1728,7 @@ def _prepared_package(args):
         metadata = load_json(package / ".agent-toolkit-package.json")
         platform = metadata.get("platform")
         bundle = metadata.get("bundle")
-        package_scope = metadata.get("scope", "global")
+        package_scope = metadata.get("scope", "repository")
         if args.platform and platform != args.platform:
             raise ToolkitError("Package platform does not match --platform")
         if package_scope != scope:
@@ -1797,14 +1885,15 @@ def command_check_drift(args):
     manifest = load_json(TOOLKIT_ROOT / "manifest.json")
     failed = False
     for platform in selected_platforms(args, manifest):
-        findings = check_export_drift(platform, args.bundle, args.output)
-        if findings:
-            failed = True
-            print("Drift detected for {0}:".format(platform), file=sys.stderr)
-            for finding in findings:
-                print("- {0}".format(finding), file=sys.stderr)
-        else:
-            print("No drift: {0}".format(platform))
+        for scope in ("repository", "global"):
+            findings = check_export_drift(platform, args.bundle, args.output, scope=scope)
+            if findings:
+                failed = True
+                print("Drift detected for {0} ({1}):".format(platform, scope), file=sys.stderr)
+                for finding in findings:
+                    print("- {0}".format(finding), file=sys.stderr)
+            else:
+                print("No drift: {0} ({1})".format(platform, scope))
     return 1 if failed else 0
 
 
@@ -1834,7 +1923,7 @@ def build_parser():
     install_parser.add_argument("--platform", choices=sorted(VALID_PLATFORMS))
     install_parser.add_argument("--package", type=Path, help="Use an existing generated package.")
     install_parser.add_argument("--bundle", default="core", choices=("core", "full", "quality"))
-    install_parser.add_argument("--scope", default="repository", choices=("repository", "global"))
+    install_parser.add_argument("--scope", default="global", choices=("repository", "global"))
     install_parser.add_argument(
         "--target",
         type=Path,

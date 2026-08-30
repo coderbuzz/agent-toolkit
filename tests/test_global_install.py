@@ -60,7 +60,7 @@ class GlobalExportTests(unittest.TestCase):
         self.assertTrue((package / ".claude/agents/code-reviewer.md").is_file())
         instruction = (package / ".claude/CLAUDE.md").read_text(encoding="utf-8")
         self.assertNotIn("@AGENTS.md", instruction)
-        self.assertIn("Portable Agentic SDLC", instruction)
+        self.assertIn("Agent Toolkit", instruction)
 
     def test_global_instruction_metadata_records_path(self):
         package = self.root / "opencode"
@@ -242,7 +242,7 @@ class InstructionBlockTests(unittest.TestCase):
         text = user_file.read_text(encoding="utf-8")
         self.assertIn("My personal guidance", text)
         self.assertIn(toolkit.INSTRUCTION_BLOCK_BEGIN, text)
-        self.assertIn("Portable Agentic SDLC", text)
+        self.assertIn("Agent Toolkit", text)
 
     def test_block_is_idempotent_and_updates(self):
         user_file = self.home / self.instruction
@@ -344,7 +344,7 @@ class OmpPlatformTests(unittest.TestCase):
         self.assertTrue((package / ".omp/agent/agents/code-reviewer.md").is_file())
         instruction = (package / ".omp/agent/AGENTS.md").read_text(encoding="utf-8")
         self.assertNotIn("@AGENTS.md", instruction)
-        self.assertIn("Portable Agentic SDLC", instruction)
+        self.assertIn("Agent Toolkit", instruction)
         self.assertTrue(metadata["shared_skill_files"])
         for relative in metadata["shared_skill_files"]:
             self.assertTrue(relative.startswith(".agents/skills/"))
@@ -354,7 +354,7 @@ class OmpPlatformTests(unittest.TestCase):
         toolkit.export_to_directory("omp", "core", package)
         self.assertTrue((package / ".omp/agents/code-reviewer.md").is_file())
         instruction = (package / ".omp/AGENTS.md").read_text(encoding="utf-8")
-        self.assertIn("Portable Agentic SDLC", instruction)
+        self.assertIn("Agent Toolkit", instruction)
         self.assertTrue((package / ".omp/skills/start/SKILL.md").is_file())
 
     def test_omp_global_install_and_uninstall_clean(self):

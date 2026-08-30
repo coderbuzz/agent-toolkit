@@ -48,6 +48,8 @@ class CliTests(unittest.TestCase):
                 "install",
                 "--platform",
                 "opencode",
+                "--scope",
+                "repository",
                 "--bundle",
                 "quality",
                 "--target",
@@ -61,6 +63,8 @@ class CliTests(unittest.TestCase):
                 "install",
                 "--platform",
                 "opencode",
+                "--scope",
+                "repository",
                 "--bundle",
                 "quality",
                 "--target",
@@ -70,6 +74,31 @@ class CliTests(unittest.TestCase):
             self.assertEqual(0, apply.returncode, apply.stderr)
             self.assertTrue((target / ".agent-toolkit-install.json").is_file())
             self.assertTrue((target / ".opencode/agents/code-reviewer.md").is_file())
+
+    def test_install_defaults_to_global_scope_without_target(self):
+        with tempfile.TemporaryDirectory() as temp:
+            home = Path(temp) / "home"
+            home.mkdir()
+            environment = os.environ.copy()
+            environment["HOME"] = str(home)
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(TOOLKIT_SCRIPT),
+                    "install",
+                    "--platform",
+                    "opencode",
+                ],
+                cwd=str(TOOLKIT_ROOT),
+                env=environment,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False,
+            )
+            self.assertEqual(0, result.returncode, result.stderr)
+            self.assertIn("Global install plan", result.stdout)
+            self.assertIn("Dry run only", result.stdout)
 
     def test_conflict_returns_nonzero_without_overwrite(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -81,6 +110,8 @@ class CliTests(unittest.TestCase):
                 "install",
                 "--platform",
                 "codex",
+                "--scope",
+                "repository",
                 "--target",
                 str(target),
                 "--apply",
@@ -97,6 +128,8 @@ class CliTests(unittest.TestCase):
                     str(TOOLKIT_ROOT / "install.sh"),
                     "--platform",
                     "opencode",
+                    "--scope",
+                    "repository",
                     "--target",
                     str(target),
                 ],
@@ -117,6 +150,8 @@ class CliTests(unittest.TestCase):
                 "install",
                 "--platform",
                 "opencode",
+                "--scope",
+                "repository",
                 "--target",
                 str(target),
                 "--apply",
@@ -145,8 +180,8 @@ class CliTests(unittest.TestCase):
             self.assertFalse((target / ".agent-toolkit-install.json").exists())
 
     def test_global_install_via_shell_script_records_ledger(self):
-        """Global install through scripts/install.sh must delegate to toolkit.py
-        and write a non-empty ledger so global uninstall can find files."""
+        """Global install through scripts/install.sh (pure POSIX shell) must
+        write a non-empty ledger and preserve user instruction files."""
         with tempfile.TemporaryDirectory() as temp:
             home = Path(temp) / "home"
             home.mkdir()
