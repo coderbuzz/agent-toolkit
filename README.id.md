@@ -348,6 +348,7 @@ python3 scripts/toolkit.py check-drift --all --bundle core
 
 This project draws inspiration and architectural patterns from open-source community standards and official agentic platform specifications:
 
+- **[mattpocock/skills](https://github.com/mattpocock/skills)** by Matt Pocock – Principles-first skill design and the direct inspiration for v2: the user-invoked vs model-invoked taxonomy, grilling before ambiguous or irreversible work (`grill`), shared language via CONTEXT.md (`context`), and TDD as a build discipline folded into `implement`.
 - **[awesome-copilot-id](https://github.com/GulajavaMinistudio/awesome-copilot-id)** by GulajavaMinistudio – Primary reference for prompt structures, skill format conventions, role definitions, and terminal installation workflows.
 - **[OpenCode](https://opencode.ai)** – Agent role definitions and shared skill conventions.
 - **[OpenAI Codex & Agent Specifications](https://github.com/openai)** – `AGENTS.md` format and fail-closed permission models.
