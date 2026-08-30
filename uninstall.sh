@@ -47,7 +47,7 @@ if [ $# -eq 0 ]; then
         fi
     else
         echo "Usage: uninstall.sh [--scope global|repository] [--platform <platform>] [--target DIR] [--apply]" >&2
-        PLATFORMS="claude-code codex gemini github-copilot omp opencode"
+        PLATFORMS="claude-code codex gemini github-copilot omp opencode zcode"
         echo "Valid platforms: $PLATFORMS" >&2
         echo "Default scope is global and requires --platform." >&2
         exit 2

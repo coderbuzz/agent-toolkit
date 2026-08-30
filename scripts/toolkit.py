@@ -26,7 +26,7 @@ SOURCE_DIRS = (
     "platforms",
 )
 SOURCE_FILES = ("AGENTS.md", "manifest.json")
-VALID_PLATFORMS = {"codex", "opencode", "github-copilot", "claude-code", "omp", "gemini"}
+VALID_PLATFORMS = {"codex", "opencode", "github-copilot", "claude-code", "omp", "gemini", "zcode"}
 FORBIDDEN_SKILL_TEXT = (
     ".codex/",
     ".opencode/",

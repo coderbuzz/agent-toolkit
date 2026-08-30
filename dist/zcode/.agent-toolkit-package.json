@@ -1,0 +1,31 @@
+{
+  "bundle": "core",
+  "platform": "zcode",
+  "schema_version": 1,
+  "skills": [
+    "start",
+    "discover",
+    "define",
+    "design",
+    "plan",
+    "implement",
+    "verify",
+    "review",
+    "fix",
+    "release",
+    "document",
+    "grill",
+    "context",
+    "guardrails",
+    "memory",
+    "glossary",
+    "decide",
+    "test",
+    "threat",
+    "audit-deps",
+    "orchestrate"
+  ],
+  "source_sha256": "3660b8f1fd92b432d5d0a551d87bb663d8f7b17cd310547e4877ab2d0842226e",
+  "toolkit": "agent-toolkit",
+  "version": "2.0.0"
+}

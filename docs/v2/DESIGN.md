@@ -91,3 +91,16 @@ Specialists (full bundle): design-ui, incident, observability, migrate
     (kept per decision 9) is deleted from the tree; history stays in git.
 19. **Dynamic Persona Activation blocks removed** from all skills; the
     session-locking convention ends with the roster.
+
+## v2 Documentation Cleanup & ZCode Adapter (2026-08-30)
+20. **Stale docs removed.** `docs/architecture.md`, `docs/refinement-map.md`,
+    and the v0.1 discovery draft described the persona roster and `sdlc-*`
+    naming; `docs/platform-support.md` is rewritten as the lean v2 platform
+    contract, and `docs/maintainer-guide.md` drops the agent workflow.
+21. **ZCode joins as the seventh platform.** ZCode reads `AGENTS.md` as
+    workspace instructions and discovers skills natively in the shared
+    `.agents/skills` directory (repo and `~/.agents/skills`), so every skill
+    is automatically a `/<name>` command with no generated command files.
+    Global install writes only the pointer at `~/.zcode/AGENTS.md`. The
+    adapter is verified in this environment: the toolkit repo's own skills
+    load from both locations.

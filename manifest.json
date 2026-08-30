@@ -1,55 +1,4 @@
 {
-  "schema_version": 1,
-  "name": "agent-toolkit",
-  "version": "2.0.0",
-  "description": "Vendor-neutral work lanes, agents, skills, and platform exports for coding agents.",
-  "canonical": {
-    "skills": ".agents/skills",
-    "instructions": "instructions",
-    "standards": "standards",
-    "templates": "templates"
-  },
-  "platforms": [
-    "codex",
-    "opencode",
-    "github-copilot",
-    "claude-code",
-    "omp",
-    "gemini"
-  ],
-  "skills": {
-    "lifecycle": [
-      "start",
-      "discover",
-      "define",
-      "design",
-      "plan",
-      "implement",
-      "verify",
-      "review",
-      "fix",
-      "release",
-      "document"
-    ],
-    "cross_cutting": [
-      "grill",
-      "context",
-      "guardrails",
-      "memory",
-      "glossary",
-      "decide",
-      "test",
-      "threat",
-      "audit-deps",
-      "orchestrate"
-    ],
-    "optional": [
-      "design-ui",
-      "incident",
-      "observability",
-      "migrate"
-    ]
-  },
   "bundles": {
     "core": [
       "lifecycle",
@@ -70,15 +19,67 @@
       "review"
     ]
   },
+  "canonical": {
+    "instructions": "instructions",
+    "skills": ".agents/skills",
+    "standards": "standards",
+    "templates": "templates"
+  },
+  "description": "Vendor-neutral work lanes, agents, skills, and platform exports for coding agents.",
   "install_policy": {
+    "default_bundle": "core",
     "default_scope": "global",
+    "generated_output": "dist",
+    "overwrite": "never",
+    "preview_required": true,
     "supported_scopes": [
       "repository",
       "global"
+    ]
+  },
+  "name": "agent-toolkit",
+  "platforms": [
+    "codex",
+    "opencode",
+    "github-copilot",
+    "claude-code",
+    "omp",
+    "gemini",
+    "zcode"
+  ],
+  "schema_version": 1,
+  "skills": {
+    "cross_cutting": [
+      "grill",
+      "context",
+      "guardrails",
+      "memory",
+      "glossary",
+      "decide",
+      "test",
+      "threat",
+      "audit-deps",
+      "orchestrate"
     ],
-    "default_bundle": "core",
-    "overwrite": "never",
-    "preview_required": true,
-    "generated_output": "dist"
-  }
+    "lifecycle": [
+      "start",
+      "discover",
+      "define",
+      "design",
+      "plan",
+      "implement",
+      "verify",
+      "review",
+      "fix",
+      "release",
+      "document"
+    ],
+    "optional": [
+      "design-ui",
+      "incident",
+      "observability",
+      "migrate"
+    ]
+  },
+  "version": "2.0.0"
 }

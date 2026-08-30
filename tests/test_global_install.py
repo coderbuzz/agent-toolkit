@@ -15,7 +15,7 @@ SPEC = importlib.util.spec_from_file_location(
 toolkit = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(toolkit)
 
-PLATFORMS = ("opencode", "codex", "claude-code", "github-copilot", "omp", "gemini")
+PLATFORMS = ("opencode", "codex", "claude-code", "github-copilot", "omp", "gemini", "zcode")
 
 
 class GlobalArgs:

@@ -18,7 +18,7 @@ cd "$TOOLKIT_DIR"
 
 . "$SCRIPT_DIR/toolkit-lib.sh"
 
-VALID_PLATFORMS="claude-code codex gemini github-copilot omp opencode"
+VALID_PLATFORMS="claude-code codex gemini github-copilot omp opencode zcode"
 TAB=$(printf '\t')
 
 usage() {

@@ -7,9 +7,9 @@ canonical sources and treat `dist/` as disposable generated state.
 
 Before changing behavior:
 
-1. Identify whether the change belongs to always-on instructions, a standard, a skill, an
-   agent boundary, or a platform adapter.
-2. Preserve stable skill and agent identifiers unless a breaking release is intentional.
+1. Identify whether the change belongs to always-on instructions, a standard, a skill, or a
+   platform adapter.
+2. Preserve stable skill identifiers unless a breaking release is intentional.
 3. Add or update tests with the change.
 4. Keep platform names and permissions out of canonical skill bodies.
 
@@ -29,30 +29,17 @@ Also export `full` and `quality` when changing bundle resolution or optional ski
 
 1. Choose a lowercase hyphenated ID that describes one reusable procedure.
 2. Create `.agents/skills/<id>/SKILL.md`.
-3. Limit frontmatter to `name` and `description`.
+3. Limit frontmatter to `name`, `description`, `invocation` (user | model | both), `role`,
+   and (for documented history only) `supersedes`.
 4. Make the description state what the skill does and when it should activate.
 5. Define inputs, workflow, stop conditions, outputs, and validation.
 6. Keep detailed resources in the skill directory and reference them relatively.
 7. Add `agents/openai.yaml` for clients that use optional presentation metadata.
 8. Register the ID in one manifest skill group and the appropriate bundles.
-9. Add it to agent recommendations only when the role can execute the procedure safely.
 
 The optional OpenAI quick validator requires PyYAML. When the upstream `skill-creator` scripts
 are available, run its `quick_validate.py` against every skill in addition to this toolkit's
 validator.
-
-## Adding or Updating an Agent
-
-1. Add one neutral definition to `agents/definitions.json`.
-2. Use only capabilities declared in the capability registry.
-3. State required upstream evidence without requiring artifacts that cannot yet exist.
-4. Recommend registered skills by stable ID.
-5. Define what the role must not do and its explicit handoff.
-6. Register the same ID in `manifest.json`.
-7. Add least-privilege assertions for every platform output.
-
-Audit, independent verification, and review roles remain read-only. If a new role combines
-authorship and independent approval, split it into two roles.
 
 ## Editing an Adapter
 
@@ -62,7 +49,6 @@ Verify current native documentation before modifying:
 - project discovery paths;
 - required frontmatter or TOML keys;
 - tool allowlist behavior when omitted;
-- valid permission values;
 - instruction precedence; and
 - native skill discovery paths.
 
@@ -91,7 +77,7 @@ Never add a force-overwrite option without a separate design and explicit recove
 Exports contain no timestamps. A changed generated hash must be explainable by a changed
 canonical input. Run `check-drift` in CI after export and fail when generated packages differ.
 
-Generated agent and instruction files include:
+Generated instruction files include:
 
 - toolkit version;
 - canonical source SHA-256; and

@@ -9,7 +9,7 @@ TOOLKIT_DIR=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)
 cd "$TOOLKIT_DIR"
 
 # Read valid platforms from dist directory or default list
-PLATFORMS="claude-code codex gemini github-copilot omp opencode"
+PLATFORMS="claude-code codex gemini github-copilot omp opencode zcode"
 
 # --- Terminal styling (ANSI) ---------------------------------------------
 if [ -t 1 ] && [ -z "${NO_COLOR:-}" ]; then

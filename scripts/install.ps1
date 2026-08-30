@@ -16,7 +16,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$Platforms = @("claude-code", "codex", "gemini", "github-copilot", "omp", "opencode")
+$Platforms = @("claude-code", "codex", "gemini", "github-copilot", "omp", "opencode", "zcode")
 $ToolkitDir = Split-Path $PSScriptRoot -Parent
 
 $CodexBlockBegin = "# >>> agent-toolkit agents (managed; do not edit) >>>"

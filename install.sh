@@ -47,7 +47,7 @@ if [ $# -eq 0 ]; then
         fi
     else
         echo "Usage: install.sh --platform <platform> [--scope global|repository] [--bundle core|full|quality] [--target DIR] [--apply]" >&2
-        PLATFORMS="claude-code codex gemini github-copilot omp opencode"
+        PLATFORMS="claude-code codex gemini github-copilot omp opencode zcode"
         echo "Valid platforms: $PLATFORMS" >&2
         echo "Default scope is global (~); pass --scope repository for a project checkout." >&2
         exit 2

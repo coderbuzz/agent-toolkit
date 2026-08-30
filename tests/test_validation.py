@@ -21,7 +21,7 @@ class ValidationTests(unittest.TestCase):
         manifest = toolkit.load_json(TOOLKIT_ROOT / "manifest.json")
         self.assertEqual(25, len(toolkit.all_skill_names(manifest)))
         self.assertEqual(
-            {"codex", "opencode", "github-copilot", "claude-code", "omp", "gemini"},
+            {"codex", "opencode", "github-copilot", "claude-code", "omp", "gemini", "zcode"},
             set(manifest["platforms"]),
         )
 
