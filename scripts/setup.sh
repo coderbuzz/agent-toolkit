@@ -9,7 +9,7 @@ TOOLKIT_DIR=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)
 cd "$TOOLKIT_DIR"
 
 # Read valid platforms from dist directory or default list
-PLATFORMS="claude-code codex gemini github-copilot omp opencode"
+PLATFORMS="claude-code codex gemini github-copilot omp opencode zcode"
 
 # --- Terminal styling (ANSI) ---------------------------------------------
 if [ -t 1 ] && [ -z "${NO_COLOR:-}" ]; then
@@ -42,7 +42,7 @@ prompt() {
     fi
 }
 
-banner "Portable Agentic SDLC Toolkit"
+banner "Agent Toolkit"
 c_print "$DIM" "Interactive setup — previews first, applies only on your confirmation."
 echo
 
@@ -72,15 +72,15 @@ if [ -z "$platform" ]; then
 fi
 c_print "$DIM" "  → platform: $BOLD$GREEN$platform"
 
-scope=$(prompt "Scope - (r)epository or (g)lobal? [r]: " "r")
+scope=$(prompt "Scope - (g)lobal or (r)epository? [g]: " "g")
 case "$scope" in
-    g|G|global|Global) scope_flag="--global" ;;
-    *) scope_flag="" ;;
+    r|R|repository|Repository) scope_flag="--repository" ;;
+    *) scope_flag="--global" ;;
 esac
-c_print "$DIM" "  → scope:   $BOLD$YELLOW${scope_flag:-(repository)}"
+c_print "$DIM" "  → scope:   $BOLD$YELLOW${scope_flag#--}"
 
 target_flag=""
-if [ -z "$scope_flag" ]; then
+if [ "$scope_flag" = "--repository" ]; then
     target=$(prompt "Target repository path [.]: " ".")
     target_flag="--target $target"
     c_print "$DIM" "  → target:  $BOLD$YELLOW$target"

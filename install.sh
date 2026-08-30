@@ -1,9 +1,9 @@
-#!/bin/sh
-# Portable Agentic SDLC Toolkit Installer (POSIX Shell - Zero Dependencies)
+#!/usr/bin/env bash
+# Agent Toolkit Installer (POSIX Shell - Zero Dependencies)
 # Usage:
 #   curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash
-#   curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --global --apply
-#   ./install.sh --platform opencode --global --apply
+#   curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --apply
+#   ./install.sh --platform opencode --apply
 
 set -eu
 
@@ -46,9 +46,10 @@ if [ $# -eq 0 ]; then
             exec ./scripts/setup.sh
         fi
     else
-        echo "Usage: install.sh --platform <platform> [--global] [--bundle core|full|quality] [--target DIR] [--apply]" >&2
-        PLATFORMS="claude-code codex gemini github-copilot omp opencode"
+        echo "Usage: install.sh --platform <platform> [--scope global|repository] [--bundle core|full|quality] [--target DIR] [--apply]" >&2
+        PLATFORMS="claude-code codex gemini github-copilot omp opencode zcode"
         echo "Valid platforms: $PLATFORMS" >&2
+        echo "Default scope is global (~); pass --scope repository for a project checkout." >&2
         exit 2
     fi
 else

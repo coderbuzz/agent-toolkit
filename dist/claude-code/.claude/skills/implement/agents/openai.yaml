@@ -1,0 +1,4 @@
+interface:
+  display_name: "disciplined implementation"
+  short_description: "TDD-first build loop with minimal-diff rules and audit hooks"
+  default_prompt: "Use $implement to build this with tests as the feedback loop."

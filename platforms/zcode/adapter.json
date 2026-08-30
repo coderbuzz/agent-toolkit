@@ -1,0 +1,11 @@
+{
+  "id": "zcode",
+  "instruction_strategy": "root-agents-md",
+  "skill_strategy": "canonical-agents-skills",
+  "skill_path": ".agents/skills/{name}",
+  "global": {
+    "instruction_path": ".zcode/AGENTS.md",
+    "skill_path": ".agents/skills/{name}",
+    "skill_shared": true
+  }
+}

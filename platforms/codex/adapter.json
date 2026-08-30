@@ -1,24 +1,11 @@
 {
-  "id": "codex",
-  "agent_path": ".codex/agents/{id}.toml",
-  "agent_format": "toml",
-  "instruction_strategy": "root-agents-md",
-  "skill_strategy": "canonical-agents-skills",
-  "skill_path": ".agents/skills/{name}",
-  "permission_mapping": {
-    "read_only": "read-only",
-    "documentation_write": "workspace-write",
-    "workspace_write": "workspace-write",
-    "release_actions": "workspace-write-with-behavioral-approval"
-  },
-  "forbidden": [
-    "danger-full-access"
-  ],
   "global": {
     "instruction_path": ".codex/AGENTS.md",
-    "agent_strategy": "toml-managed-block",
-    "agent_config_path": ".codex/config.toml",
     "skill_path": ".agents/skills/{name}",
     "skill_shared": true
-  }
+  },
+  "id": "codex",
+  "instruction_strategy": "root-agents-md",
+  "skill_path": ".agents/skills/{name}",
+  "skill_strategy": "canonical-agents-skills"
 }

@@ -1,8 +1,8 @@
-#!/bin/sh
-# Portable Agentic SDLC Toolkit Uninstaller (POSIX Shell - Zero Dependencies)
+#!/usr/bin/env bash
+# Agent Toolkit Uninstaller (POSIX Shell - Zero Dependencies)
 # Usage:
 #   ./uninstall.sh
-#   ./uninstall.sh --platform opencode --global --apply
+#   ./uninstall.sh --platform opencode --apply
 #   ./uninstall.sh --scope repository --target . --apply
 
 set -eu
@@ -46,9 +46,10 @@ if [ $# -eq 0 ]; then
             exec ./scripts/uninstall.sh
         fi
     else
-        echo "Usage: uninstall.sh [--platform <platform>] [--global] [--target DIR] [--apply]" >&2
-        PLATFORMS="claude-code codex gemini github-copilot omp opencode"
+        echo "Usage: uninstall.sh [--scope global|repository] [--platform <platform>] [--target DIR] [--apply]" >&2
+        PLATFORMS="claude-code codex gemini github-copilot omp opencode zcode"
         echo "Valid platforms: $PLATFORMS" >&2
+        echo "Default scope is global and requires --platform." >&2
         exit 2
     fi
 else

@@ -1,0 +1,31 @@
+{
+  "bundle": "core",
+  "platform": "opencode",
+  "schema_version": 1,
+  "skills": [
+    "start",
+    "discover",
+    "define",
+    "design",
+    "plan",
+    "implement",
+    "verify",
+    "review",
+    "fix",
+    "release",
+    "document",
+    "grill",
+    "context",
+    "guardrails",
+    "memory",
+    "glossary",
+    "decide",
+    "test",
+    "threat",
+    "audit-deps",
+    "orchestrate"
+  ],
+  "source_sha256": "a3586cde8ece35e60669b2a4ac340903a84c103deda71184a58f0347c080e9dc",
+  "toolkit": "agent-toolkit",
+  "version": "2.0.0"
+}

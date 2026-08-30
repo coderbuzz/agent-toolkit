@@ -1,70 +1,4 @@
 {
-  "schema_version": 1,
-  "name": "portable-agentic-sdlc-toolkit",
-  "version": "0.1.0",
-  "description": "Vendor-neutral SDLC agents, skills, and platform exports.",
-  "canonical": {
-    "skills": ".agents/skills",
-    "agents": "agents/definitions.json",
-    "instructions": "instructions",
-    "standards": "standards",
-    "templates": "templates"
-  },
-  "platforms": [
-    "codex",
-    "opencode",
-    "github-copilot",
-    "claude-code",
-    "omp",
-    "gemini"
-  ],
-  "agents": [
-    "sdlc-discovery-explorer",
-    "sdlc-product-manager",
-    "sdlc-clarification-analyst",
-    "sdlc-solution-architect",
-    "sdlc-traceability-auditor",
-    "sdlc-implementation-planner",
-    "sdlc-implementation-engineer",
-    "sdlc-verification-engineer",
-    "sdlc-code-reviewer",
-    "sdlc-bug-remediation-analyst",
-    "sdlc-documentation-architect",
-    "sdlc-release-engineer"
-  ],
-  "skills": {
-    "lifecycle": [
-      "sdlc-start",
-      "sdlc-discover",
-      "sdlc-define",
-      "sdlc-clarify",
-      "sdlc-design",
-      "sdlc-audit",
-      "sdlc-plan",
-      "sdlc-implement",
-      "sdlc-verify",
-      "sdlc-review",
-      "sdlc-fix",
-      "sdlc-release",
-      "sdlc-document"
-    ],
-    "cross_cutting": [
-      "sdlc-guardrails",
-      "sdlc-memory",
-      "sdlc-glossary",
-      "sdlc-decide",
-      "sdlc-test",
-      "sdlc-threat",
-      "sdlc-audit-deps",
-      "sdlc-orchestrate"
-    ],
-    "optional": [
-      "sdlc-design-ui",
-      "sdlc-incident",
-      "sdlc-observability",
-      "sdlc-migrate"
-    ]
-  },
   "bundles": {
     "core": [
       "lifecycle",
@@ -76,102 +10,76 @@
       "optional"
     ],
     "quality": [
-      "sdlc-clarify",
-      "sdlc-audit",
-      "sdlc-guardrails",
-      "sdlc-test",
-      "sdlc-threat",
-      "sdlc-audit-deps",
-      "sdlc-verify",
-      "sdlc-review"
+      "grill",
+      "guardrails",
+      "test",
+      "threat",
+      "audit-deps",
+      "verify",
+      "review"
     ]
   },
-  "skill_metadata": {
-    "sdlc-start": {
-      "persona_bound": true
-    },
-    "sdlc-discover": {
-      "persona_bound": true
-    },
-    "sdlc-define": {
-      "persona_bound": true
-    },
-    "sdlc-clarify": {
-      "persona_bound": true
-    },
-    "sdlc-design": {
-      "persona_bound": true
-    },
-    "sdlc-audit": {
-      "persona_bound": true
-    },
-    "sdlc-plan": {
-      "persona_bound": true
-    },
-    "sdlc-implement": {
-      "persona_bound": true
-    },
-    "sdlc-verify": {
-      "persona_bound": true
-    },
-    "sdlc-review": {
-      "persona_bound": true
-    },
-    "sdlc-fix": {
-      "persona_bound": true
-    },
-    "sdlc-release": {
-      "persona_bound": true
-    },
-    "sdlc-document": {
-      "persona_bound": true
-    },
-    "sdlc-decide": {
-      "persona_bound": true
-    },
-    "sdlc-test": {
-      "persona_bound": true
-    },
-    "sdlc-threat": {
-      "persona_bound": true
-    },
-    "sdlc-audit-deps": {
-      "persona_bound": true
-    },
-    "sdlc-memory": {
-      "persona_bound": false
-    },
-    "sdlc-guardrails": {
-      "persona_bound": false
-    },
-    "sdlc-orchestrate": {
-      "persona_bound": false
-    },
-    "sdlc-glossary": {
-      "persona_bound": false
-    },
-    "sdlc-design-ui": {
-      "persona_bound": false
-    },
-    "sdlc-incident": {
-      "persona_bound": false
-    },
-    "sdlc-observability": {
-      "persona_bound": false
-    },
-    "sdlc-migrate": {
-      "persona_bound": false
-    }
+  "canonical": {
+    "instructions": "instructions",
+    "skills": ".agents/skills",
+    "standards": "standards",
+    "templates": "templates"
   },
+  "description": "Vendor-neutral work lanes, skills, and platform exports for coding agents.",
   "install_policy": {
-    "default_scope": "repository",
+    "default_bundle": "core",
+    "default_scope": "global",
+    "generated_output": "dist",
+    "overwrite": "never",
+    "preview_required": true,
     "supported_scopes": [
       "repository",
       "global"
+    ]
+  },
+  "name": "agent-toolkit",
+  "platforms": [
+    "codex",
+    "opencode",
+    "github-copilot",
+    "claude-code",
+    "omp",
+    "gemini",
+    "zcode"
+  ],
+  "schema_version": 1,
+  "skills": {
+    "cross_cutting": [
+      "grill",
+      "context",
+      "guardrails",
+      "memory",
+      "glossary",
+      "decide",
+      "test",
+      "threat",
+      "audit-deps",
+      "orchestrate"
     ],
-    "default_bundle": "core",
-    "overwrite": "never",
-    "preview_required": true,
-    "generated_output": "dist"
-  }
+    "lifecycle": [
+      "start",
+      "discover",
+      "define",
+      "design",
+      "plan",
+      "implement",
+      "verify",
+      "review",
+      "fix",
+      "release",
+      "document"
+    ],
+    "optional": [
+      "design-ui",
+      "incident",
+      "observability",
+      "migrate"
+    ]
+  },
+  "version": "2.0.0"
 }

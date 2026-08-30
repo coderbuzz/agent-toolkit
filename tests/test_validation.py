@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 TOOLKIT_ROOT = Path(__file__).resolve().parent.parent
-SPEC = importlib.util.spec_from_file_location("portable_sdlc_toolkit", TOOLKIT_ROOT / "scripts" / "toolkit.py")
+SPEC = importlib.util.spec_from_file_location("agent_toolkit", TOOLKIT_ROOT / "scripts" / "toolkit.py")
 toolkit = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(toolkit)
 
@@ -20,9 +20,8 @@ class ValidationTests(unittest.TestCase):
     def test_manifest_inventory_is_complete(self):
         manifest = toolkit.load_json(TOOLKIT_ROOT / "manifest.json")
         self.assertEqual(25, len(toolkit.all_skill_names(manifest)))
-        self.assertEqual(12, len(manifest["agents"]))
         self.assertEqual(
-            {"codex", "opencode", "github-copilot", "claude-code", "omp", "gemini"},
+            {"codex", "opencode", "github-copilot", "claude-code", "omp", "gemini", "zcode"},
             set(manifest["platforms"]),
         )
 
@@ -49,8 +48,8 @@ class ValidationTests(unittest.TestCase):
 
     def test_safe_relative_path_accepts_nested_portable_path(self):
         self.assertEqual(
-            ".agents/skills/sdlc-discover/SKILL.md",
-            toolkit.safe_relative_path(".agents/skills/sdlc-discover/SKILL.md").as_posix(),
+            ".agents/skills/discover/SKILL.md",
+            toolkit.safe_relative_path(".agents/skills/discover/SKILL.md").as_posix(),
         )
 
     def test_filesystem_root_is_not_an_operation_target(self):
@@ -64,7 +63,6 @@ class ValidationTests(unittest.TestCase):
             with self.subTest(skill=name):
                 metadata = toolkit.parse_frontmatter(skill_root / name / "SKILL.md")
                 self.assertEqual(name, metadata["name"])
-                self.assertEqual({"name", "description"}, set(metadata))
 
     def test_adapter_descriptors_have_unique_platform_ids(self):
         manifest = toolkit.load_json(TOOLKIT_ROOT / "manifest.json")

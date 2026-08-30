@@ -1,0 +1,4 @@
+interface:
+  display_name: "start"
+  short_description: "Lane router: pick the smallest safe lane and its gates"
+  default_prompt: "Use $start to route this task into the smallest safe lane."

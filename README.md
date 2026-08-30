@@ -1,31 +1,31 @@
-# ⚡ Portable Agentic SDLC Toolkit
+# ⚡ Agent Toolkit
 
 🌐 **Languages**: [English](README.md) | [Bahasa Indonesia](README.id.md)
 
-> **Supercharge your AI coding agents with vendor-neutral SDLC workflows, bounded roles, and reusable skills — installed in seconds with zero dependencies.**
+> **Supercharge your AI coding agents with vendor-neutral work lanes, reusable skills, and approval gates — installed in seconds with zero dependencies.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero-brightgreen.svg)](#-quick-start)
-[![Platform Support](https://img.shields.io/badge/Platforms-Claude%20%7C%20OpenCode%20%7C%20Codex%20%7C%20Copilot%20%7C%20Gemini%20%7C%20OMP-purple.svg)](#-supported-platforms--global-paths)
+[![Platform Support](https://img.shields.io/badge/Platforms-Claude%20%7C%20OpenCode%20%7C%20Codex%20%7C%20Copilot%20%7C%20Gemini%20%7C%20OMP%20%7C%20ZCode-purple.svg)](#-supported-platforms--global-paths)
 
 ---
 
-## 💡 Why Agentic SDLC Toolkit?
+## 💡 Why Agent Toolkit?
 
-When using AI coding assistants (Claude Code, OpenCode, GitHub Copilot, Codex, Gemini/Antigravity, OMP), unguided agents often jump straight to writing unverified code, hallucinate dependencies, or overwrite critical files.
+When using AI coding assistants (Claude Code, OpenCode, GitHub Copilot, Codex, Gemini/Antigravity, OMP, ZCode), unguided agents often jump straight to writing unverified code, hallucinate dependencies, or overwrite critical files.
 
-**Agentic SDLC Toolkit** gives your AI agents a structured, battle-tested software engineering process—from initial discovery and PRDs to specifications, implementation planning, code review, independent verification, and release readiness.
+**Agent Toolkit** gives your AI agents a structured, battle-tested engineering process—from initial discovery and PRDs to specifications, implementation planning, code review, independent verification, and release readiness. It covers the full SDLC, but applies only the lanes a task actually needs.
 
 - 🚀 **Zero Dependencies**: Pure Shell & PowerShell installers. No Python or Node runtime needed to install.
-- 🎯 **Vendor-Neutral & Portable**: Write your SDLC rules once, deploy seamlessly across any platform.
+- 🎯 **Vendor-Neutral & Portable**: Write your workflow rules once, deploy seamlessly across any platform.
 - 🛡️ **Fail-Closed & Safe**: Preview every install with dry-runs. Never silently overwrites your custom code or config.
-- 🤖 **Multi-Platform Native**: Pre-built native packages for Claude Code, OpenCode, Codex, GitHub Copilot, Gemini/Antigravity, and OMP.
+- 🤖 **Multi-Platform Native**: Pre-built native packages for Claude Code, OpenCode, Codex, GitHub Copilot, Gemini/Antigravity, OMP, and ZCode.
 
 ---
 
 ## 🚀 Quick Start
 
-Run the 1-line installer below to launch an interactive wizard that guides you through platform and scope selection:
+Run the 1-line installer below to launch an interactive wizard that guides you through platform and scope selection. Installation is **global by default** (skills land in `~/.agents/skills`, shared across platforms) and needs **nothing but a shell** — no Python, no extra tools.
 
 ### 🐧 Linux / macOS / WSL
 ```bash
@@ -37,9 +37,13 @@ curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/instal
 irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.ps1 | iex
 ```
 
-> **Pro-Tip (Non-Interactive CI / Automation)**: Pass arguments directly to skip prompts and apply immediately:
+> **Pro-Tip (Non-Interactive CI / Automation)**: Pass arguments directly to skip prompts and apply immediately. Global scope is the default:
 > ```bash
-> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --global --apply
+> # Global install (default): ~/.agents/skills + platform config in ~
+> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --apply
+>
+> # Repository install: commit skills into a project checkout instead
+> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --scope repository --target . --apply
 > ```
 
 ### 🧹 Uninstallation
@@ -78,14 +82,14 @@ irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.ps1
 
 ## 🧠 Accessing Skills
 
-The toolkit ships SDLC skills that agents load on demand. How you reach them depends on your platform:
+The toolkit ships skills that agents load on demand. How you reach them depends on your platform:
 
-- **`/skills` menu**: Lists every installed skill. OpenCode sorts this list alphabetically by skill name — the order is not the SDLC flow order.
-- **Skill tool**: Agents load a skill via the native `skill` tool. The `@` mention picker shows **agents and files**, not skills.
-- **OpenCode slash commands**: After a global install, each skill is also available as a `/sdlc-<name>` command (e.g. `/sdlc-start`, `/sdlc-discover`, `/sdlc-fix`) that loads and runs the matching skill.
-- **Naming**: Skill ids use hyphens (`sdlc-start`), not underscores. Type them exactly.
+- **`/skills` menu**: Lists every installed skill. OpenCode sorts this list alphabetically by skill name — the order is not the workflow order.
+- **Skill tool**: Agents load a skill via the native `skill` tool when it is relevant to the task.
+- **OpenCode slash commands**: After a global install, each skill is also available as a `/<name>` command (e.g. `/start`, `/discover`, `/fix`) that loads and runs the matching skill.
+- **Naming**: Skill ids use hyphens (`start`), not underscores. Type them exactly.
 
-The natural SDLC flow is: `start → discover → define → clarify → design → audit → plan → implement → verify → review → fix → release → document`, with cross-cutting skills (`guardrails`, `memory`, `glossary`, `decide`, `test`, `threat`, `audit-deps`, `orchestrate`) and optional specialists (`design-ui`, `incident`, `observability`, `migrate`).
+The default full-lane flow is: `start → discover → define → design → plan → implement → verify → review → fix → release → document`, with cross-cutting skills (`guardrails`, `memory`, `glossary`, `decide`, `test`, `threat`, `audit-deps`, `orchestrate`) and optional specialists (`design-ui`, `incident`, `observability`, `migrate`).
 
 ## 💡 Usage — `/` commands vs `@` mentions
 
@@ -93,137 +97,134 @@ Two entry points in OpenCode trigger different machinery:
 
 | Input | What it does | In this toolkit |
 | --- | --- | --- |
-| `/sdlc-<name>` | Runs a **skill** in the current session (procedure + persona). | `/sdlc-start`, `/sdlc-discover`, `/sdlc-fix`, ... |
-| `@<agent>` | Invokes a **subagent** role with its own tools and permissions. | `@sdlc-discovery-explorer`, `@sdlc-solution-architect`, ... |
+| `/<name>` | Runs a **skill** in the current session. | `/start`, `/discover`, `/fix`, ... |
 | `@<file>` | Adds a file's content to context. | Not toolkit-specific. |
-| `/skills` | Lists all installed skills. | 21 core skills (alphabetical). |
+| `/skills` | Lists all installed skills. | 25 skills (alphabetical). |
 
-In short: a **skill** says *how* to do the work, an **agent** says *who* does it.
+In short: a **skill** says *how* to do the work; each skill's frontmatter declares the compact `role` that owns it.
 
 ## 🚦 Best practice — starting from zero
 
-1. **Always route first.** Run `/sdlc-start`. It classifies the task into the smallest safe lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and lists the required artifacts, gates, and next agent role. It never forces the full lifecycle on low-risk work.
-2. **Follow the phases with agents.** Each phase pairs an agent (`@`) with a primary skill (`/`):
-   - **Discover & Define**: `@sdlc-discovery-explorer` `/sdlc-discover` → `@sdlc-product-manager` `/sdlc-define`
-   - **Architect & Design**: `@sdlc-clarification-analyst` `/sdlc-clarify` → `@sdlc-solution-architect` `/sdlc-design`
-   - **Plan & Audit**: `@sdlc-implementation-planner` `/sdlc-plan` → `@sdlc-traceability-auditor` `/sdlc-audit`
-   - **Build**: `@sdlc-implementation-engineer` `/sdlc-implement`
-   - **Verify & Review**: `@sdlc-code-reviewer` `/sdlc-review` → `@sdlc-verification-engineer` `/sdlc-verify`
-   - **Ship**: `@sdlc-documentation-architect` `/sdlc-document` → `@sdlc-release-engineer` `/sdlc-release`
-3. **Use the fast lanes.** A bug goes straight to `/sdlc-fix` → `@sdlc-bug-remediation-analyst` → engineer → verifier. A small reversible change skips the lifecycle entirely. An expensive architecture choice uses `/sdlc-decide`.
+1. **Always route first.** Run `/start`. It classifies the task into the smallest safe lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and lists the required artifacts and gates. It never forces the full lifecycle on low-risk work.
+2. **Follow the phases by skill.** Each phase is driven by one primary skill:
+   - **Discover & Define**: `/discover` → `/define`
+   - **Architect & Design**: `/grill` (ambiguity interview) → `/design`
+   - **Plan**: `/plan`
+   - **Build**: `/implement` (TDD build loop)
+   - **Verify & Review**: `/review` → `/verify`
+   - **Ship**: `/document` → `/release`
+3. **Use the fast lanes.** A bug goes straight to `/fix`. A small reversible change skips the lifecycle entirely. An expensive architecture choice uses `/decide`.
 4. **Respect artifact order.** Do not ask for a spec before a PRD, or implementation before an approved plan.
 5. **Approve gate actions.** Publishing, deployment, release, destructive changes, and credential changes always require your explicit approval.
-6. **One persona per session.** Persona-bound skills (`sdlc-start`, `sdlc-discover`, ...) lock the session; utility skills (`sdlc-guardrails`, `sdlc-memory`, `sdlc-glossary`) can be called anytime.
+6. **Keep the shared language.** Let `context` own CONTEXT.md (glossary, invariants); utility skills (`guardrails`, `memory`, `glossary`) can be invoked anytime.
 
 ---
 
-## 🗺️ Workflow & 6-Phase SDLC Lifecycle
+## 🗺️ Workflow & 6-Phase Lifecycle
 
 Working with AI agents becomes simple and predictable when structured into 6 logical phases + 1 entrypoint navigator:
 
 ```
-[0. ROUTE / START] ➔ [1. DISCOVER & DEFINE] ➔ [2. ARCHITECT & DESIGN] ➔ [3. PLAN & AUDIT] ➔ [4. BUILD] ➔ [5. VERIFY & REVIEW] ➔ [6. SHIP & OPS]
+[0. ROUTE / START] ➔ [1. DISCOVER & DEFINE] ➔ [2. ARCHITECT & DESIGN] ➔ [3. PLAN] ➔ [4. BUILD] ➔ [5. VERIFY & REVIEW] ➔ [6. SHIP & OPS]
 ```
 
 ### 📊 End-to-End Workflow Diagram (Mermaid)
 
 ```mermaid
 flowchart TD
-    Start([User Request]) --> Router["0. sdlc-start"]
-    
+    Start([User Request]) --> Router["0. start"]
+
     subgraph Phase 1: DISCOVER & DEFINE
-        Router --> Explorer["Agent: sdlc-discovery-explorer\nSkill: sdlc-discover"]
-        Explorer --> PM["Agent: sdlc-product-manager\nSkill: sdlc-define"]
+        Router --> Discover["discover"]
+        Discover --> Define["define"]
     end
-    
+
     subgraph Phase 2: ARCHITECT & DESIGN
-        PM --> Clarify["Agent: sdlc-clarification-analyst\nSkill: sdlc-clarify"]
-        Clarify --> Architect["Agent: sdlc-solution-architect\nSkill: sdlc-design"]
+        Define --> Grill["grill (when ambiguous)"]
+        Grill --> Design["design"]
     end
-    
-    subgraph Phase 3: PLAN & AUDIT
-        Architect --> Planner["Agent: sdlc-implementation-planner\nSkill: sdlc-plan"]
-        Planner --> Auditor["Agent: sdlc-traceability-auditor\nSkill: sdlc-audit"]
+
+    subgraph Phase 3: PLAN
+        Design --> Plan["plan"]
     end
-    
+
     subgraph Phase 4: BUILD & REMEDIATE
-        Auditor --> Engineer["Agent: sdlc-implementation-engineer\nSkill: sdlc-implement"]
-        Router -. Bug-Fix Fast Lane .-> BugAnalyst["Agent: sdlc-bug-remediation-analyst\nSkill: sdlc-fix"]
-        BugAnalyst --> Engineer
+        Plan --> Implement["implement (TDD)"]
+        Router -. Bug-Fix Fast Lane .-> Fix["fix"]
+        Fix --> Implement
     end
-    
+
     subgraph Phase 5: VERIFY & REVIEW
-        Engineer --> Reviewer["Agent: sdlc-code-reviewer\nSkill: sdlc-review"]
-        Reviewer --> Verifier["Agent: sdlc-verification-engineer\nSkill: sdlc-verify"]
+        Implement --> Review["review"]
+        Review --> Verify["verify"]
     end
-    
+
     subgraph Phase 6: SHIP & MAINTAIN
-        Verifier --> DocArch["Agent: sdlc-documentation-architect\nSkill: sdlc-document"]
-        DocArch --> ReleaseEng["Agent: sdlc-release-engineer\nSkill: sdlc-release"]
-        ReleaseEng --> Done([Production Release])
+        Verify --> Document["document"]
+        Document --> Release["release"]
+        Release --> Done([Production Release])
     end
 ```
 
 ---
 
-## 🧰 Comprehensive Agent Roles & Skills Reference
+## 🧰 Skills Reference
 
 ### Phase 0: Navigator (Entrypoint)
 If you're unsure how to start a task, invoke the navigator skill:
-- 🚀 **`sdlc-start`**: Classifies work into the optimal safety lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and guides step-by-step agent execution.
+- 🚀 **`start`**: Classifies work into the optimal safety lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and and guides the selected lane step by step.
 
 ---
 
 ### Phase 1: Discover & Define (Product Scope)
-| Agent Role | Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- | :--- |
-| **`sdlc-discovery-explorer`** | `sdlc-discover` | `sdlc-guardrails` | **Discovery Report** |
-| **`sdlc-product-manager`** | `sdlc-define` | `sdlc-glossary` | **Product Requirements Document (PRD)** |
+| Primary Skill | Support Skills | Phase Deliverable |
+| :--- | :--- | :--- | ---: |
+| `discover` | `guardrails` | **Discovery Report** |
+| `define` | `glossary` | **Product Requirements Document (PRD)** |
 
 ---
 
 ### Phase 2: Architect & Design (Technical Design & Security)
-| Agent Role | Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- | :--- |
-| **`sdlc-clarification-analyst`** | `sdlc-clarify` | `sdlc-decide` | **Clarification Q&A / ADR** |
-| **`sdlc-solution-architect`** | `sdlc-design` | `sdlc-threat`, `sdlc-design-ui`, `sdlc-test` | **Technical Specification (Spec)** |
+| Primary Skill | Support Skills | Phase Deliverable |
+| :--- | :--- | :--- | ---: |
+| `grill` | `decide` | **Confirmed Understanding / ADR** |
+| `design` | `threat`, `design-ui`, `test` | **Technical Specification (Spec)** |
 
 ---
 
-### Phase 3: Plan & Audit (Execution Planning)
-| Agent Role | Primary Skill | Support Skills | Phase Deliverable |
+### Phase 3: Plan (Execution Planning)
+| Primary Skill | Support Skills | Phase Deliverable |
 | :--- | :--- | :--- | :--- |
-| **`sdlc-implementation-planner`** | `sdlc-plan` | `sdlc-test` | **Implementation Plan** |
-| **`sdlc-traceability-auditor`** | `sdlc-audit` | - | **Traceability Audit Report** |
+| `plan` | `test` | **Implementation Plan** |
 
 ---
 
 ### Phase 4: Build & Remediate (Coding & Bug Fixes)
-| Agent Role | Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- | :--- |
-| **`sdlc-implementation-engineer`** | `sdlc-implement` | `sdlc-guardrails`, `sdlc-migrate`, `sdlc-audit-deps`, `sdlc-orchestrate` | **Source Code & Unit Tests** |
-| **`sdlc-bug-remediation-analyst`** *(Bug Lane)* | `sdlc-fix` | `sdlc-test` | **Root Cause Analysis & Fix Plan** |
+| Primary Skill | Support Skills | Phase Deliverable |
+| :--- | :--- | :--- | ---: |
+| `implement` | `guardrails`, `migrate`, `audit-deps`, `orchestrate` | **Source Code & Unit Tests** |
+| `fix` | `test` | **Root Cause Analysis & Fix Plan** |
 
 ---
 
 ### Phase 5: Verify & Review (Quality & Security)
-| Agent Role | Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- | :--- |
-| **`sdlc-code-reviewer`** | `sdlc-review` | `sdlc-audit-deps` | **Code Review Feedback** |
-| **`sdlc-verification-engineer`** | `sdlc-verify` | `sdlc-test` | **Verification Report** |
+| Primary Skill | Support Skills | Phase Deliverable |
+| :--- | :--- | :--- | ---: |
+| `review` | `audit-deps` | **Code Review Feedback** |
+| `verify` | `test` | **Verification Report** |
 
 ---
 
 ### Phase 6: Ship & Maintain (Release & Operations)
-| Agent Role | Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- | :--- |
-| **`sdlc-documentation-architect`** | `sdlc-document` | `sdlc-glossary` | **User Guides & Documentation** |
-| **`sdlc-release-engineer`** | `sdlc-release` | `sdlc-orchestrate` | **Verified Release Candidate** |
-| *(Operations)* | `sdlc-observability` | `sdlc-incident`, `sdlc-memory` | **Logs/Alerts & Incident Post-Mortem** |
+| Primary Skill | Support Skills | Phase Deliverable |
+| :--- | :--- | :--- | ---: |
+| `document` | `glossary` | **User Guides & Documentation** |
+| `release` | `orchestrate` | **Verified Release Candidate** |
+| `observability` | `incident`, `memory` | **Logs/Alerts & Incident Post-Mortem** |
 
 ---
 
-## 🔄 SDLC Lanes Matrix
+## 🔄 Work Lanes Matrix
 
 The toolkit routes every change into the right lane to prevent unnecessary overhead while maintaining strict guardrails where needed:
 
@@ -239,47 +240,48 @@ The toolkit routes every change into the right lane to prevent unnecessary overh
 
 ## 💬 Natural Language Prompting Examples
 
-Since agents and skills are installed globally or at the project level, you don't need special UI menus. Simply prompt your AI agent in natural language:
+Since skills are installed globally or at the project level, you don't need special UI menus. Simply prompt your AI agent in natural language:
 
 ### 1. Starting a New Project / Feature (Getting Started)
 ```text
-"Use sdlc-start to guide me through building a JWT and OAuth2 authentication system. Create a PRD and technical specification first."
+"Use start to guide me through building a JWT and OAuth2 authentication system. Create a PRD and technical specification first."
 ```
 
 ### 2. Fixing a Bug (Bug-Fix Lane)
 ```text
-"Users are reporting a 500 server error during checkout when the cart is empty. Use the sdlc-fix skill to trace the root cause, write a reproduction test, and apply a minimal fix."
+"Users are reporting a 500 server error during checkout when the cart is empty. Use the fix skill to trace the root cause, write a reproduction test, and apply a minimal fix."
 ```
 
 ### 3. Reviewing a Pull Request / Code Changes
 ```text
-"Please perform a code review on the current branch using the sdlc-review skill. Check for security vulnerabilities, performance bottlenecks, and adherence to our technical spec."
+"Please perform a code review on the current branch using the review skill. Check for security vulnerabilities, performance bottlenecks, and adherence to our technical spec."
 ```
 
 ### 4. Creating an Architecture Decision Record (ADR)
 ```text
-"We need to evaluate Redis vs PostgreSQL for session caching. Use the sdlc-decide skill to evaluate trade-offs and draft an ADR."
+"We need to evaluate Redis vs PostgreSQL for session caching. Use the decide skill to evaluate trade-offs and draft an ADR."
 ```
 
 ### 5. Running Pre-Release Audit
 ```text
-"Please audit this repository using the sdlc-release skill before we publish release v1.0.0."
+"Please audit this repository using the release skill before we publish release v1.0.0."
 ```
 
 ---
 
 ## 🌐 Supported Platforms & Global Paths
 
-Install once globally into your home directory (`$HOME`) so all your repositories automatically inherit your AI agents and skills:
+Install once globally into your home directory (`$HOME`) so all your repositories automatically inherit the toolkit's skills:
 
-| Platform | Global Instructions | Global Agents | Global Skills |
+| Platform | Global Instructions | Global Skills | Slash Commands |
 | :--- | :--- | :--- | :--- |
-| **Claude Code** | `~/.claude/CLAUDE.md` | `~/.claude/agents/*.md` | `~/.agents/skills/*` |
-| **OpenCode** | `~/.config/opencode/AGENTS.md` | `~/.config/opencode/agents/*.md` | `~/.agents/skills/*` |
-| **Codex** | `~/.codex/AGENTS.md` | Managed block in `~/.codex/config.toml` | `~/.agents/skills/*` |
-| **GitHub Copilot** | `~/.copilot/copilot-instructions.md` | `~/.copilot/agents/*.agent.md` | `~/.agents/skills/*` |
-| **OMP** | `~/.omp/agent/AGENTS.md` | `~/.omp/agent/agents/*.md` | `~/.agents/skills/*` |
-| **Gemini / Antigravity** | `~/.gemini/antigravity/AGENTS.md` | `~/.gemini/antigravity/agents/*.md` | `~/.agents/skills/*` |
+| **Claude Code** | `~/.claude/CLAUDE.md` | `~/.agents/skills/*` | - |
+| **OpenCode** | `~/.config/opencode/AGENTS.md` | `~/.agents/skills/*` | `~/.config/opencode/commands/*.md` |
+| **Codex** | `~/.codex/AGENTS.md` | `~/.agents/skills/*` | - |
+| **GitHub Copilot** | `~/.copilot/copilot-instructions.md` | `~/.agents/skills/*` | - |
+| **OMP** | `~/.omp/agent/AGENTS.md` | `~/.agents/skills/*` | - |
+| **Gemini / Antigravity** | `~/.gemini/antigravity/AGENTS.md` | `~/.agents/skills/*` | - |
+| **ZCode** | `~/.zcode/AGENTS.md` | `~/.agents/skills/*` | - (native `/<name>`) |
 
 ---
 
@@ -287,9 +289,9 @@ Install once globally into your home directory (`$HOME`) so all your repositorie
 
 | Bundle | What's Included | Best For |
 | :--- | :--- | :--- |
-| **`core`** *(default)* | Lifecycle & cross-cutting SDLC skills | Everyday feature development & bug fixes |
-| **`full`** | Core + specialist skills (data migration, incident response) | Full product lifecycle & ops |
-| **`quality`** | Audit, security, threat modeling & verification | Quality overlays for mature repos |
+| **`core`** *(default)* | Lifecycle & cross-cutting skills | Everyday feature development & bug fixes |
+| Core + specialist skills (data migration, incident response) | Full product lifecycle & ops |
+| Audit, security, threat modeling & verification | Quality overlays for mature repos |
 
 ---
 
@@ -300,7 +302,7 @@ Developing or extending the toolkit itself? Maintainer tools require **Python 3.
 ### Maintainer Commands
 
 ```bash
-# Validate canonical skills, agent definitions, and manifests
+# Validate canonical skills and manifests
 python3 scripts/toolkit.py validate
 
 # Run the complete test suite
@@ -322,19 +324,21 @@ python3 scripts/toolkit.py check-drift --all --bundle core
 
 ```text
 .
-├── AGENTS.md                 # Portable core AI guidance
+├── AGENTS.md                 # Portable core AI guidance (v2 pointer file)
 ├── manifest.json             # Toolkit manifest & bundle definitions
-├── agents/definitions.json   # Neutral agent role definitions
 ├── .agents/skills/           # Canonical reusable procedures
 ├── instructions/             # Shared communication and quality standards
 ├── standards/                # Architecture & traceability contracts
-├── dist/                     # Pre-built packages for instant zero-dep installs
+├── dist/                     # Pre-built packages (per-platform + dist/global)
 ├── install.sh / install.ps1  # Zero-dependency terminal installer scripts
 └── scripts/
     ├── install.sh            # Zero-dependency POSIX installer
     ├── install.ps1           # Zero-dependency PowerShell installer
+    ├── uninstall.sh          # Zero-dependency POSIX uninstaller
+    ├── uninstall.ps1         # Zero-dependency PowerShell uninstaller
+    ├── toolkit-lib.sh        # Shared POSIX helpers (ledgers, managed blocks)
     ├── setup.sh              # Interactive setup helper
-    └── toolkit.py            # Maintainer CLI (validate, export, drift-check)
+    └── toolkit.py            # Maintainer-only build CLI (validate, export, drift-check)
 ```
 
 ---
@@ -343,6 +347,7 @@ python3 scripts/toolkit.py check-drift --all --bundle core
 
 This project draws inspiration and architectural patterns from open-source community standards and official agentic platform specifications:
 
+- **[mattpocock/skills](https://github.com/mattpocock/skills)** by Matt Pocock – Principles-first skill design and the direct inspiration for v2: the user-invoked vs model-invoked taxonomy, grilling before ambiguous or irreversible work (`grill`), shared language via CONTEXT.md (`context`), and TDD as a build discipline folded into `implement`.
 - **[awesome-copilot-id](https://github.com/GulajavaMinistudio/awesome-copilot-id)** by GulajavaMinistudio – Primary reference for prompt structures, skill format conventions, role definitions, and terminal installation workflows.
 - **[OpenCode](https://opencode.ai)** – Agent role definitions and shared skill conventions.
 - **[OpenAI Codex & Agent Specifications](https://github.com/openai)** – `AGENTS.md` format and fail-closed permission models.

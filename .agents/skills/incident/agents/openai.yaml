@@ -1,0 +1,4 @@
+interface:
+  display_name: "incident response"
+  short_description: "Portable workflow for incident response"
+  default_prompt: "Use $incident to complete this workflow with verifiable evidence."

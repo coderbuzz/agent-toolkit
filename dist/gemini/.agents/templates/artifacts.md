@@ -1,4 +1,4 @@
-# SDLC Artifact Templates
+# Artifact Templates
 
 Use stable IDs from `standards/TRACEABILITY-FORMAT.md`. Remove optional sections
 that do not apply rather than filling them with placeholders.
