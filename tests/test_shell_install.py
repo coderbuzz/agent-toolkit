@@ -163,9 +163,9 @@ class ShellRepositoryInstallTests(unittest.TestCase):
                     "--apply",
                 ).returncode,
             )
-            removed = target / ".opencode" / "agents" / "code-reviewer.md"
+            removed = target / ".agents" / "skills" / "start" / "SKILL.md"
             removed.unlink()
-            (package / ".opencode" / "agents" / "code-reviewer.md").unlink()
+            (package / ".agents" / "skills" / "start" / "SKILL.md").unlink()
             result = run_sh(
                 INSTALL_SH,
                 "--package", package,
@@ -280,7 +280,7 @@ class ShellGlobalInstallTests(unittest.TestCase):
             self.assertEqual(1, result.returncode)
             self.assertIn("User-modified shared skill", result.stderr)
 
-    def test_codex_config_merge_preserves_user_toml(self):
+    def test_codex_global_writes_instruction_block_only(self):
         with tempfile.TemporaryDirectory() as temp:
             home = Path(temp)
             config = home / ".codex" / "config.toml"
@@ -289,16 +289,16 @@ class ShellGlobalInstallTests(unittest.TestCase):
 
             install = self._install("codex", home)
             self.assertEqual(0, install.returncode, install.stderr)
-            self.assertIn("codex-merge-append", install.stdout)
-            text = config.read_text(encoding="utf-8")
-            self.assertIn('model = "gpt-5"', text)
-            self.assertIn("[agents.code-reviewer]", text)
+            instruction = home / ".codex" / "AGENTS.md"
+            self.assertTrue(instruction.is_file())
+            self.assertIn("# >>> agent-toolkit instructions", instruction.read_text(encoding="utf-8"))
+            # The v2 roster has no agents, so user config.toml stays untouched.
+            self.assertEqual('model = "gpt-5"\n', config.read_text(encoding="utf-8"))
 
             uninstall = self._uninstall("codex", home)
             self.assertEqual(0, uninstall.returncode, uninstall.stderr)
-            text = config.read_text(encoding="utf-8")
-            self.assertIn('model = "gpt-5"', text)
-            self.assertNotIn("[agents.code-reviewer]", text)
+            self.assertEqual('model = "gpt-5"\n', config.read_text(encoding="utf-8"))
+            self.assertFalse(instruction.exists())
 
     def test_global_ledger_matches_python_installer_byte_for_byte(self):
         with tempfile.TemporaryDirectory() as temp:

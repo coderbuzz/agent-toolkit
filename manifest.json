@@ -5,7 +5,6 @@
   "description": "Vendor-neutral work lanes, agents, skills, and platform exports for coding agents.",
   "canonical": {
     "skills": ".agents/skills",
-    "agents": "agents/definitions.json",
     "instructions": "instructions",
     "standards": "standards",
     "templates": "templates"
@@ -18,28 +17,12 @@
     "omp",
     "gemini"
   ],
-  "agents": [
-    "discovery-explorer",
-    "product-manager",
-    "clarification-analyst",
-    "solution-architect",
-    "traceability-auditor",
-    "implementation-planner",
-    "implementation-engineer",
-    "verification-engineer",
-    "code-reviewer",
-    "bug-remediation-analyst",
-    "documentation-architect",
-    "release-engineer"
-  ],
   "skills": {
     "lifecycle": [
       "start",
       "discover",
       "define",
-      "clarify",
       "design",
-      "audit",
       "plan",
       "implement",
       "verify",
@@ -78,8 +61,7 @@
       "optional"
     ],
     "quality": [
-      "clarify",
-      "audit",
+      "grill",
       "guardrails",
       "test",
       "threat",
@@ -87,89 +69,6 @@
       "verify",
       "review"
     ]
-  },
-  "skill_metadata": {
-    "grill": {
-      "persona_bound": false
-    },
-    "context": {
-      "persona_bound": false
-    },
-    "start": {
-      "persona_bound": true
-    },
-    "discover": {
-      "persona_bound": true
-    },
-    "define": {
-      "persona_bound": true
-    },
-    "clarify": {
-      "persona_bound": true
-    },
-    "design": {
-      "persona_bound": true
-    },
-    "audit": {
-      "persona_bound": true
-    },
-    "plan": {
-      "persona_bound": true
-    },
-    "implement": {
-      "persona_bound": true
-    },
-    "verify": {
-      "persona_bound": true
-    },
-    "review": {
-      "persona_bound": true
-    },
-    "fix": {
-      "persona_bound": true
-    },
-    "release": {
-      "persona_bound": true
-    },
-    "document": {
-      "persona_bound": true
-    },
-    "guardrails": {
-      "persona_bound": false
-    },
-    "memory": {
-      "persona_bound": false
-    },
-    "glossary": {
-      "persona_bound": false
-    },
-    "decide": {
-      "persona_bound": true
-    },
-    "test": {
-      "persona_bound": true
-    },
-    "threat": {
-      "persona_bound": true
-    },
-    "audit-deps": {
-      "persona_bound": true
-    },
-    "orchestrate": {
-      "persona_bound": false
-    },
-    "design-ui": {
-      "persona_bound": false
-    },
-    "incident": {
-      "persona_bound": false
-    },
-    "observability": {
-      "persona_bound": false
-    },
-    "migrate": {
-      "persona_bound": false
-    }
   },
   "install_policy": {
     "default_scope": "global",

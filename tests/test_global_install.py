@@ -44,20 +44,15 @@ class GlobalExportTests(unittest.TestCase):
         for relative in metadata["shared_skill_files"]:
             self.assertTrue(relative.startswith(".agents/skills/"))
 
-    def test_codex_global_uses_toml_merge_file(self):
+    def test_codex_global_has_no_merge_files(self):
         package = self.root / "codex"
         metadata = toolkit.export_to_global_directory("codex", "core", package)
-        self.assertEqual(1, len(metadata["merge_files"]))
-        entry = metadata["merge_files"][0]
-        self.assertEqual(".codex/config.toml", entry["target"])
-        merge_body = (package / entry["merge_file"]).read_text(encoding="utf-8")
-        self.assertIn("[agents.code-reviewer]", merge_body)
-        self.assertIn(toolkit.CODEX_BLOCK_BEGIN, merge_body)
+        self.assertEqual([], metadata["merge_files"])
 
-    def test_non_codex_global_writes_agent_files(self):
+    def test_non_codex_global_writes_instruction_pointer(self):
         package = self.root / "claude-code"
         toolkit.export_to_global_directory("claude-code", "core", package)
-        self.assertTrue((package / ".claude/agents/code-reviewer.md").is_file())
+        self.assertFalse(any("agents/" in str(path) for path in package.rglob("code-reviewer*")))
         instruction = (package / ".claude/CLAUDE.md").read_text(encoding="utf-8")
         self.assertNotIn("@AGENTS.md", instruction)
         self.assertIn("Agent Toolkit", instruction)
@@ -150,66 +145,6 @@ class GlobalInstallTests(unittest.TestCase):
     def test_preview_does_not_mutate_home(self):
         self.assertEqual(0, self._install("opencode", apply=False))
         self.assertEqual([], [path for path in self.home.rglob("*") if path.is_file()])
-
-
-class CodexMergeTests(unittest.TestCase):
-    def setUp(self):
-        self.temp = tempfile.TemporaryDirectory()
-        self.root = Path(self.temp.name)
-        self.home = self.root / "home"
-        self.home.mkdir()
-        self.package = self.root / "codex"
-        self.metadata = toolkit.export_to_global_directory("codex", "core", self.package)
-        self.entry = self.metadata["merge_files"][0]
-
-    def tearDown(self):
-        self.temp.cleanup()
-
-    def _merge(self):
-        return toolkit.apply_codex_merge(
-            self.package, self.home, self.entry["merge_file"], self.entry["target"]
-        )
-
-    def test_merge_creates_config_when_absent(self):
-        action = self._merge()
-        self.assertEqual("codex-merge-create", action)
-        config = self.home / ".codex/config.toml"
-        self.assertIn("[agents.code-reviewer]", config.read_text(encoding="utf-8"))
-
-    def test_merge_preserves_user_content_and_is_idempotent(self):
-        config = self.home / ".codex/config.toml"
-        config.parent.mkdir(parents=True, exist_ok=True)
-        config.write_text('model = "gpt-5"\n', encoding="utf-8")
-        self.assertEqual("codex-merge-append", self._merge())
-        content = config.read_text(encoding="utf-8")
-        self.assertIn('model = "gpt-5"', content)
-        self.assertIn(toolkit.CODEX_BLOCK_BEGIN, content)
-        self.assertEqual("codex-merge-unchanged", self._merge())
-
-    def test_unmerge_removes_block_but_keeps_user_content(self):
-        config = self.home / ".codex/config.toml"
-        config.parent.mkdir(parents=True, exist_ok=True)
-        config.write_text('model = "gpt-5"\n', encoding="utf-8")
-        self._merge()
-        action = toolkit.apply_codex_unmerge(self.home, self.entry["target"])
-        self.assertEqual("codex-unmerge-remove", action)
-        content = config.read_text(encoding="utf-8")
-        self.assertIn('model = "gpt-5"', content)
-        self.assertNotIn(toolkit.CODEX_BLOCK_BEGIN, content)
-
-    def test_unmerge_deletes_config_created_only_for_block(self):
-        self._merge()
-        toolkit.apply_codex_unmerge(self.home, self.entry["target"])
-        self.assertFalse((self.home / ".codex/config.toml").exists())
-
-    def test_malformed_block_is_rejected(self):
-        config = self.home / ".codex/config.toml"
-        config.parent.mkdir(parents=True, exist_ok=True)
-        config.write_text(toolkit.CODEX_BLOCK_BEGIN + "\nbroken\n", encoding="utf-8")
-        with self.assertRaisesRegex(toolkit.ToolkitError, "Malformed managed block"):
-            toolkit.plan_codex_merge(
-                self.package, self.home, self.entry["merge_file"], self.entry["target"]
-            )
 
 
 class InstructionBlockTests(unittest.TestCase):
@@ -324,24 +259,11 @@ class OmpPlatformTests(unittest.TestCase):
         self.assertIn("omp", manifest["platforms"])
         self.assertIn("omp", toolkit.VALID_PLATFORMS)
 
-    def test_omp_agent_renderer_is_omp_compatible(self):
-        definitions = toolkit.load_json(
-            toolkit.TOOLKIT_ROOT / toolkit.load_json(toolkit.TOOLKIT_ROOT / "manifest.json")["canonical"]["agents"]
-        )
-        agent = next(a for a in definitions["agents"] if a["id"] == "code-reviewer")
-        rendered = toolkit.render_omp_agent(agent, "0.1.0", "abc123")
-        self.assertIn("name: code-reviewer", rendered)
-        self.assertIn("description:", rendered)
-        self.assertIn("tools:", rendered)
-        # OMP does not use OpenCode's schema.
-        self.assertNotIn("mode: subagent", rendered)
-        self.assertNotIn("permission:", rendered)
-
     def test_omp_global_export_layout(self):
         package = self.root / "omp"
         metadata = toolkit.export_to_global_directory("omp", "core", package)
         self.assertEqual("global", metadata["scope"])
-        self.assertTrue((package / ".omp/agent/agents/code-reviewer.md").is_file())
+        self.assertFalse((package / ".omp/agent/agents").exists())
         instruction = (package / ".omp/agent/AGENTS.md").read_text(encoding="utf-8")
         self.assertNotIn("@AGENTS.md", instruction)
         self.assertIn("Agent Toolkit", instruction)
@@ -352,7 +274,7 @@ class OmpPlatformTests(unittest.TestCase):
     def test_omp_repo_export_layout(self):
         package = self.root / "omp-repo"
         toolkit.export_to_directory("omp", "core", package)
-        self.assertTrue((package / ".omp/agents/code-reviewer.md").is_file())
+        self.assertFalse((package / ".omp/agents").exists())
         instruction = (package / ".omp/AGENTS.md").read_text(encoding="utf-8")
         self.assertIn("Agent Toolkit", instruction)
         self.assertTrue((package / ".omp/skills/start/SKILL.md").is_file())
@@ -360,7 +282,7 @@ class OmpPlatformTests(unittest.TestCase):
     def test_omp_global_install_and_uninstall_clean(self):
         with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
             self.assertEqual(0, toolkit.command_install(_OmpArgs("omp", self.home, apply=True)))
-        self.assertTrue((self.home / ".omp/agent/agents/code-reviewer.md").is_file())
+        self.assertTrue((self.home / ".omp/agent/AGENTS.md").is_file())
         with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
             rc = toolkit.command_uninstall(_OmpArgs("omp", self.home, apply=True))
         self.assertIn(rc, (0, 2))

@@ -1,4 +1,0 @@
-interface:
-  display_name: "artifact traceability audit"
-  short_description: "Portable workflow for artifact traceability audit"
-  default_prompt: "Use $audit to complete this workflow with verifiable evidence."

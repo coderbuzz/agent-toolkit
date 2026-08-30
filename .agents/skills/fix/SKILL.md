@@ -29,9 +29,3 @@ technical specification when a surgical fix cannot preserve the architecture.
 Do not modify production code. Do not propose broad redesign for an ordinary
 defect.
 
-## Dynamic Persona Activation
-
-When this skill is invoked, the base assistant adopts the `@fix` persona defined by
-the portable agentic SDLC toolkit. The session becomes locked to that persona until the task
-completes. Invoking a different persona-bound skill within the same session is rejected to
-preserve focus and prevent context bleed.

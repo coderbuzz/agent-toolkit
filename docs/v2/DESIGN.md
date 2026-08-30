@@ -75,3 +75,19 @@ Specialists (full bundle): design-ui, incident, observability, migrate
 16. **Legacy v0.1 awareness.** The global installer warns when it detects a
     `portable-sdlc` managed block it does not manage; the block is left for
     the user to remove.
+
+## v2 Roster Removal Executed (2026-08-30)
+17. **Agent roster deleted.** `agents/definitions.json`, the 12 persona
+    definitions, capability registry, agent renderers, per-platform agent
+    files, the Codex `config.toml` managed block, and `skill_metadata`
+    (persona_bound) are gone. Accountability now lives in each skill's
+    `role:` frontmatter line; adapters describe only instructions, skills,
+    and (OpenCode) slash commands.
+18. **`clarify` and `audit` removed from manifest and dist.** `grill` is the
+    single ambiguity tool (the `supersedes` marker was dropped with its
+    target); traceability checking folded into `review`/`verify` flows. The
+    quality bundle now reads grill, guardrails, test, threat, audit-deps,
+    verify, review. The legacy `implement/sdlc-implement` reference folder
+    (kept per decision 9) is deleted from the tree; history stays in git.
+19. **Dynamic Persona Activation blocks removed** from all skills; the
+    session-locking convention ends with the roster.

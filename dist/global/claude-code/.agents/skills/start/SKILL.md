@@ -37,7 +37,3 @@ Do not invent missing product decisions. Do not force the full lifecycle on
 low-risk work. Require approval for destructive, irreversible, external, or
 sensitive-data actions.
 
-## Dynamic Persona Activation
-
-When this skill is invoked, the assistant adopts the `@start` persona defined by the
-portable agentic SDLC toolkit.

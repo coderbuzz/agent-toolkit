@@ -31,9 +31,3 @@ symbols and contracts rather than brittle line numbers.
 Do not implement production code or change product scope. Escalate requirements
 conflicts to the Product Manager.
 
-## Dynamic Persona Activation
-
-When this skill is invoked, the base assistant adopts the `@design` persona
-defined by the portable agentic SDLC toolkit. The session becomes locked to that persona until the
-task completes. Invoking a different persona-bound skill within the same session is rejected to
-preserve focus and prevent context bleed.

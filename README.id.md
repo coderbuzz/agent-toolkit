@@ -85,11 +85,11 @@ irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.ps1
 The toolkit ships SDLC skills that agents load on demand. How you reach them depends on your platform:
 
 - **`/skills` menu**: Lists every installed skill. OpenCode sorts this list alphabetically by skill name — the order is not the SDLC flow order.
-- **Skill tool**: Agents load a skill via the native `skill` tool. The `@` mention picker shows **agents and files**, not skills.
+- **Skill tool**: Agents load a skill via the native `skill` tool when it is relevant to the task.
 - **OpenCode slash commands**: After a global install, each skill is also available as a `/<name>` command (e.g. `/start`, `/discover`, `/fix`) that loads and runs the matching skill.
 - **Naming**: Skill ids use hyphens (`start`), not underscores. Type them exactly.
 
-The natural SDLC flow is: `start → discover → define → clarify → design → audit → plan → implement → verify → review → fix → release → document`, with cross-cutting skills (`guardrails`, `memory`, `glossary`, `decide`, `test`, `threat`, `audit-deps`, `orchestrate`) and optional specialists (`design-ui`, `incident`, `observability`, `migrate`).
+The natural SDLC flow is: `start → discover → define → design → plan → implement → verify → review → fix → release → document`, with cross-cutting skills (`guardrails`, `memory`, `glossary`, `decide`, `test`, `threat`, `audit-deps`, `orchestrate`) and optional specialists (`design-ui`, `incident`, `observability`, `migrate`).
 
 ## 💡 Usage — `/` commands vs `@` mentions
 
@@ -97,27 +97,26 @@ Two entry points in OpenCode trigger different machinery:
 
 | Input | What it does | In this toolkit |
 | --- | --- | --- |
-| `/<name>` | Runs a **skill** in the current session (procedure + persona). | `/start`, `/discover`, `/fix`, ... |
-| `@<agent>` | Invokes a **subagent** role with its own tools and permissions. | `@discovery-explorer`, `@solution-architect`, ... |
+| `/<name>` | Runs a **skill** in the current session. | `/start`, `/discover`, `/fix`, ... |
 | `@<file>` | Adds a file's content to context. | Not toolkit-specific. |
-| `/skills` | Lists all installed skills. | 21 core skills (alphabetical). |
+| `/skills` | Lists all installed skills. | 25 skills (alphabetical). |
 
-In short: a **skill** says *how* to do the work, an **agent** says *who* does it.
+In short: a **skill** says *how* to do the work; each skill's frontmatter declares the compact `role` that owns it.
 
 ## 🚦 Best practice — starting from zero
 
-1. **Always route first.** Run `/start`. It classifies the task into the smallest safe lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and lists the required artifacts, gates, and next agent role. It never forces the full lifecycle on low-risk work.
-2. **Follow the phases with agents.** Each phase pairs an agent (`@`) with a primary skill (`/`):
-   - **Discover & Define**: `@discovery-explorer` `/discover` → `@product-manager` `/define`
-   - **Architect & Design**: `@clarification-analyst` `/clarify` → `@solution-architect` `/design`
-   - **Plan & Audit**: `@implementation-planner` `/plan` → `@traceability-auditor` `/audit`
-   - **Build**: `@implementation-engineer` `/implement`
-   - **Verify & Review**: `@code-reviewer` `/review` → `@verification-engineer` `/verify`
-   - **Ship**: `@documentation-architect` `/document` → `@release-engineer` `/release`
-3. **Use the fast lanes.** A bug goes straight to `/fix` → `@bug-remediation-analyst` → engineer → verifier. A small reversible change skips the lifecycle entirely. An expensive architecture choice uses `/decide`.
+1. **Always route first.** Run `/start`. It classifies the task into the smallest safe lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and lists the required artifacts and gates. It never forces the full lifecycle on low-risk work.
+2. **Follow the phases by skill.** Each phase is driven by one primary skill:
+   - **Discover & Define**: `/discover` → `/define`
+   - **Architect & Design**: `/grill` (ambiguity interview) → `/design`
+   - **Plan**: `/plan`
+   - **Build**: `/implement` (TDD build loop)
+   - **Verify & Review**: `/review` → `/verify`
+   - **Ship**: `/document` → `/release`
+3. **Use the fast lanes.** A bug goes straight to `/fix`. A small reversible change skips the lifecycle entirely. An expensive architecture choice uses `/decide`.
 4. **Respect artifact order.** Do not ask for a spec before a PRD, or implementation before an approved plan.
 5. **Approve gate actions.** Publishing, deployment, release, destructive changes, and credential changes always require your explicit approval.
-6. **One persona per session.** Persona-bound skills (`start`, `discover`, ...) lock the session; utility skills (`guardrails`, `memory`, `glossary`) can be called anytime.
+6. **Keep the shared language.** Let `context` own CONTEXT.md (glossary, invariants); utility skills (`guardrails`, `memory`, `glossary`) can be invoked anytime.
 
 ---
 
@@ -126,7 +125,7 @@ In short: a **skill** says *how* to do the work, an **agent** says *who* does it
 Working with AI agents becomes simple and predictable when structured into 6 logical phases + 1 entrypoint navigator:
 
 ```
-[0. ROUTE / START] ➔ [1. DISCOVER & DEFINE] ➔ [2. ARCHITECT & DESIGN] ➔ [3. PLAN & AUDIT] ➔ [4. BUILD] ➔ [5. VERIFY & REVIEW] ➔ [6. SHIP & OPS]
+[0. ROUTE / START] ➔ [1. DISCOVER & DEFINE] ➔ [2. ARCHITECT & DESIGN] ➔ [3. PLAN] ➔ [4. BUILD] ➔ [5. VERIFY & REVIEW] ➔ [6. SHIP & OPS]
 ```
 
 ### 📊 End-to-End Workflow Diagram (Mermaid)
@@ -134,43 +133,42 @@ Working with AI agents becomes simple and predictable when structured into 6 log
 ```mermaid
 flowchart TD
     Start([User Request]) --> Router["0. start"]
-    
+
     subgraph Phase 1: DISCOVER & DEFINE
-        Router --> Explorer["Agent: discovery-explorer\nSkill: discover"]
-        Explorer --> PM["Agent: product-manager\nSkill: define"]
+        Router --> Discover["discover"]
+        Discover --> Define["define"]
     end
-    
+
     subgraph Phase 2: ARCHITECT & DESIGN
-        PM --> Clarify["Agent: clarification-analyst\nSkill: clarify"]
-        Clarify --> Architect["Agent: solution-architect\nSkill: design"]
+        Define --> Grill["grill (when ambiguous)"]
+        Grill --> Design["design"]
     end
-    
-    subgraph Phase 3: PLAN & AUDIT
-        Architect --> Planner["Agent: implementation-planner\nSkill: plan"]
-        Planner --> Auditor["Agent: traceability-auditor\nSkill: audit"]
+
+    subgraph Phase 3: PLAN
+        Design --> Plan["plan"]
     end
-    
+
     subgraph Phase 4: BUILD & REMEDIATE
-        Auditor --> Engineer["Agent: implementation-engineer\nSkill: implement"]
-        Router -. Bug-Fix Fast Lane .-> BugAnalyst["Agent: bug-remediation-analyst\nSkill: fix"]
-        BugAnalyst --> Engineer
+        Plan --> Implement["implement (TDD)"]
+        Router -. Bug-Fix Fast Lane .-> Fix["fix"]
+        Fix --> Implement
     end
-    
+
     subgraph Phase 5: VERIFY & REVIEW
-        Engineer --> Reviewer["Agent: code-reviewer\nSkill: review"]
-        Reviewer --> Verifier["Agent: verification-engineer\nSkill: verify"]
+        Implement --> Review["review"]
+        Review --> Verify["verify"]
     end
-    
+
     subgraph Phase 6: SHIP & MAINTAIN
-        Verifier --> DocArch["Agent: documentation-architect\nSkill: document"]
-        DocArch --> ReleaseEng["Agent: release-engineer\nSkill: release"]
-        ReleaseEng --> Done([Production Release])
+        Verify --> Document["document"]
+        Document --> Release["release"]
+        Release --> Done([Production Release])
     end
 ```
 
 ---
 
-## 🧰 Comprehensive Agent Roles & Skills Reference
+## 🧰 Skills Reference
 
 ### Phase 0: Navigator (Entrypoint)
 If you're unsure how to start a task, invoke the navigator skill:
@@ -179,51 +177,51 @@ If you're unsure how to start a task, invoke the navigator skill:
 ---
 
 ### Phase 1: Discover & Define (Product Scope)
-| Agent Role | Primary Skill | Support Skills | Phase Deliverable |
+| Primary Skill | Support Skills | Phase Deliverable |
 | :--- | :--- | :--- | :--- |
-| **`discovery-explorer`** | `discover` | `guardrails` | **Discovery Report** |
-| **`product-manager`** | `define` | `glossary` | **Product Requirements Document (PRD)** |
+| `discover` | `guardrails` | **Discovery Report** |
+| `define` | `glossary` | **Product Requirements Document (PRD)** |
 
 ---
 
 ### Phase 2: Architect & Design (Technical Design & Security)
-| Agent Role | Primary Skill | Support Skills | Phase Deliverable |
+| Primary Skill | Support Skills | Phase Deliverable |
 | :--- | :--- | :--- | :--- |
-| **`clarification-analyst`** | `clarify` | `decide` | **Clarification Q&A / ADR** |
-| **`solution-architect`** | `design` | `threat`, `design-ui`, `test` | **Technical Specification (Spec)** |
+| `grill` | `decide` | **Confirmed Understanding / ADR** |
+| `design` | `threat`, `design-ui`, `test` | **Technical Specification (Spec)** |
 
 ---
 
-### Phase 3: Plan & Audit (Execution Planning)
-| Agent Role | Primary Skill | Support Skills | Phase Deliverable |
+### Phase 3: Plan (Execution Planning)
+| Primary Skill | Support Skills | Phase Deliverable |
 | :--- | :--- | :--- | :--- |
-| **`implementation-planner`** | `plan` | `test` | **Implementation Plan** |
-| **`traceability-auditor`** | `audit` | - | **Traceability Audit Report** |
+| `plan` | `test` | **Implementation Plan** |
+| `audit` | - | **Traceability Audit Report** |
 
 ---
 
 ### Phase 4: Build & Remediate (Coding & Bug Fixes)
-| Agent Role | Primary Skill | Support Skills | Phase Deliverable |
+| Primary Skill | Support Skills | Phase Deliverable |
 | :--- | :--- | :--- | :--- |
-| **`implementation-engineer`** | `implement` | `guardrails`, `migrate`, `audit-deps`, `orchestrate` | **Source Code & Unit Tests** |
-| **`bug-remediation-analyst`** *(Bug Lane)* | `fix` | `test` | **Root Cause Analysis & Fix Plan** |
+| `implement` | `guardrails`, `migrate`, `audit-deps`, `orchestrate` | **Source Code & Unit Tests** |
+| `fix` | `test` | **Root Cause Analysis & Fix Plan** |
 
 ---
 
 ### Phase 5: Verify & Review (Quality & Security)
-| Agent Role | Primary Skill | Support Skills | Phase Deliverable |
+| Primary Skill | Support Skills | Phase Deliverable |
 | :--- | :--- | :--- | :--- |
-| **`code-reviewer`** | `review` | `audit-deps` | **Code Review Feedback** |
-| **`verification-engineer`** | `verify` | `test` | **Verification Report** |
+| `review` | `audit-deps` | **Code Review Feedback** |
+| `verify` | `test` | **Verification Report** |
 
 ---
 
 ### Phase 6: Ship & Maintain (Release & Operations)
-| Agent Role | Primary Skill | Support Skills | Phase Deliverable |
+| Primary Skill | Support Skills | Phase Deliverable |
 | :--- | :--- | :--- | :--- |
-| **`documentation-architect`** | `document` | `glossary` | **User Guides & Documentation** |
-| **`release-engineer`** | `release` | `orchestrate` | **Verified Release Candidate** |
-| *(Operations)* | `observability` | `incident`, `memory` | **Logs/Alerts & Incident Post-Mortem** |
+| `document` | `glossary` | **User Guides & Documentation** |
+| `release` | `orchestrate` | **Verified Release Candidate** |
+| `observability` | `incident`, `memory` | **Logs/Alerts & Incident Post-Mortem** |
 
 ---
 
@@ -243,7 +241,7 @@ The toolkit routes every change into the right lane to prevent unnecessary overh
 
 ## 💬 Natural Language Prompting Examples
 
-Since agents and skills are installed globally or at the project level, you don't need special UI menus. Simply prompt your AI agent in natural language:
+Since skills are installed globally or at the project level, you don't need special UI menus. Simply prompt your AI agent in natural language:
 
 ### 1. Starting a New Project / Feature (Getting Started)
 ```text
@@ -274,16 +272,16 @@ Since agents and skills are installed globally or at the project level, you don'
 
 ## 🌐 Supported Platforms & Global Paths
 
-Install once globally into your home directory (`$HOME`) so all your repositories automatically inherit your AI agents and skills:
+Install once globally into your home directory (`$HOME`) so all your repositories automatically inherit the toolkit's skills:
 
-| Platform | Global Instructions | Global Agents | Global Skills |
+| Platform | Global Instructions | Global Skills | Slash Commands |
 | :--- | :--- | :--- | :--- |
-| **Claude Code** | `~/.claude/CLAUDE.md` | `~/.claude/agents/*.md` | `~/.agents/skills/*` |
-| **OpenCode** | `~/.config/opencode/AGENTS.md` | `~/.config/opencode/agents/*.md` | `~/.agents/skills/*` |
-| **Codex** | `~/.codex/AGENTS.md` | Managed block in `~/.codex/config.toml` | `~/.agents/skills/*` |
-| **GitHub Copilot** | `~/.copilot/copilot-instructions.md` | `~/.copilot/agents/*.agent.md` | `~/.agents/skills/*` |
-| **OMP** | `~/.omp/agent/AGENTS.md` | `~/.omp/agent/agents/*.md` | `~/.agents/skills/*` |
-| **Gemini / Antigravity** | `~/.gemini/antigravity/AGENTS.md` | `~/.gemini/antigravity/agents/*.md` | `~/.agents/skills/*` |
+| **Claude Code** | `~/.claude/CLAUDE.md` | `~/.agents/skills/*` | - |
+| **OpenCode** | `~/.config/opencode/AGENTS.md` | `~/.agents/skills/*` | `~/.config/opencode/commands/*.md` |
+| **Codex** | `~/.codex/AGENTS.md` | `~/.agents/skills/*` | - |
+| **GitHub Copilot** | `~/.copilot/copilot-instructions.md` | `~/.agents/skills/*` | - |
+| **OMP** | `~/.omp/agent/AGENTS.md` | `~/.agents/skills/*` | - |
+| **Gemini / Antigravity** | `~/.gemini/antigravity/AGENTS.md` | `~/.agents/skills/*` | - |
 
 ---
 
@@ -292,8 +290,8 @@ Install once globally into your home directory (`$HOME`) so all your repositorie
 | Bundle | What's Included | Best For |
 | :--- | :--- | :--- |
 | **`core`** *(default)* | Lifecycle & cross-cutting SDLC skills | Everyday feature development & bug fixes |
-| **`full`** | Core + specialist skills (data migration, incident response) | Full product lifecycle & ops |
-| **`quality`** | Audit, security, threat modeling & verification | Quality overlays for mature repos |
+| Core + specialist skills (data migration, incident response) | Full product lifecycle & ops |
+| Audit, security, threat modeling & verification | Quality overlays for mature repos |
 
 ---
 
@@ -304,7 +302,7 @@ Developing or extending the toolkit itself? Maintainer tools require **Python 3.
 ### Maintainer Commands
 
 ```bash
-# Validate canonical skills, agent definitions, and manifests
+# Validate canonical skills and manifests
 python3 scripts/toolkit.py validate
 
 # Run the complete test suite
@@ -328,7 +326,6 @@ python3 scripts/toolkit.py check-drift --all --bundle core
 .
 ├── AGENTS.md                 # Portable core AI guidance
 ├── manifest.json             # Toolkit manifest & bundle definitions
-├── agents/definitions.json   # Neutral agent role definitions
 ├── .agents/skills/           # Canonical reusable procedures
 ├── instructions/             # Shared communication and quality standards
 ├── standards/                # Architecture & traceability contracts

@@ -45,75 +45,14 @@ class ExportTests(unittest.TestCase):
                             toolkit.validate_exported_package(package, platform, bundle),
                         )
 
-    def test_markdown_agents_start_with_frontmatter(self):
-        files = [
-            self.export_root / "opencode" / ".opencode/agents/traceability-auditor.md",
-            self.export_root / "github-copilot" / ".github/agents/traceability-auditor.agent.md",
-            self.export_root / "claude-code" / ".claude/agents/traceability-auditor.md",
-            self.export_root / "gemini" / ".gemini/agents/traceability-auditor.md",
-        ]
-        for path in files:
-            with self.subTest(path=path):
-                lines = path.read_text(encoding="utf-8").splitlines()
-                self.assertEqual("---", lines[0])
-                self.assertIn(toolkit.GENERATED_TEXT, lines[1])
-
-    def test_codex_sandboxes_fail_closed(self):
-        read_only = (
-            self.export_root / "codex" / ".codex/agents/traceability-auditor.toml"
-        ).read_text(encoding="utf-8")
-        writer = (
-            self.export_root / "codex" / ".codex/agents/implementation-engineer.toml"
-        ).read_text(encoding="utf-8")
-        self.assertIn('sandbox_mode = "read-only"', read_only)
-        self.assertIn('sandbox_mode = "workspace-write"', writer)
-        self.assertNotIn("danger-full-access", read_only + writer)
-
-    def test_opencode_permissions_fail_closed(self):
-        read_only = (
-            self.export_root / "opencode" / ".opencode/agents/traceability-auditor.md"
-        ).read_text(encoding="utf-8")
-        writer = (
-            self.export_root / "opencode" / ".opencode/agents/implementation-engineer.md"
-        ).read_text(encoding="utf-8")
-        self.assertIn("\n  edit: deny\n", read_only)
-        self.assertIn("\n  edit: allow\n", writer)
-        self.assertIn("\n  bash: ask\n", writer)
-        self.assertNotIn("permissions:", read_only + writer)
-
-    def test_gemini_permissions_fail_closed(self):
-        read_only = (
-            self.export_root / "gemini" / ".gemini/agents/traceability-auditor.md"
-        ).read_text(encoding="utf-8")
-        writer = (
-            self.export_root / "gemini" / ".gemini/agents/implementation-engineer.md"
-        ).read_text(encoding="utf-8")
-        self.assertIn("\n  edit: deny\n", read_only)
-        self.assertIn("\n  edit: allow\n", writer)
-        self.assertIn("\n  bash: ask\n", writer)
-        self.assertNotIn("permissions:", read_only + writer)
-
-    def test_copilot_tools_are_explicit_and_bounded(self):
-        read_only = (
-            self.export_root / "github-copilot" / ".github/agents/traceability-auditor.agent.md"
-        ).read_text(encoding="utf-8").split("---", 2)[1]
-        writer = (
-            self.export_root / "github-copilot" / ".github/agents/implementation-engineer.agent.md"
-        ).read_text(encoding="utf-8").split("---", 2)[1]
-        self.assertIn("tools:", read_only)
-        self.assertNotIn('"edit"', read_only)
-        self.assertIn('"edit"', writer)
-
-    def test_claude_permission_modes_are_bounded(self):
-        read_only = (
-            self.export_root / "claude-code" / ".claude/agents/traceability-auditor.md"
-        ).read_text(encoding="utf-8")
-        writer = (
-            self.export_root / "claude-code" / ".claude/agents/implementation-engineer.md"
-        ).read_text(encoding="utf-8")
-        self.assertIn("permissionMode: plan", read_only)
-        self.assertIn("permissionMode: default", writer)
-        self.assertNotIn("bypassPermissions", read_only + writer)
+    def test_packages_no_longer_ship_agent_files(self):
+        for platform in sorted(toolkit.VALID_PLATFORMS):
+            package = self.export_root / platform
+            for path in package.rglob("*"):
+                self.assertTrue(
+                    "agents/code-reviewer" not in path.as_posix(),
+                    "agent roster file leaked into export: {0}".format(path),
+                )
 
     def test_core_excludes_optional_skills_and_full_includes_them(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -137,8 +76,8 @@ class ExportTests(unittest.TestCase):
             output = Path(temp)
             package = output / "codex"
             toolkit.export_to_directory("codex", "core", package)
-            target = package / ".codex/agents/code-reviewer.toml"
-            target.write_text(target.read_text(encoding="utf-8") + "# drift\n", encoding="utf-8")
+            target = package / ".agents/skills/start/SKILL.md"
+            target.write_text(target.read_text(encoding="utf-8") + "\n<!-- drift -->\n", encoding="utf-8")
             findings = toolkit.check_export_drift("codex", "core", output)
             self.assertTrue(any("Changed files" in finding for finding in findings))
 

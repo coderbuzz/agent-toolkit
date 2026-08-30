@@ -73,7 +73,7 @@ class CliTests(unittest.TestCase):
             )
             self.assertEqual(0, apply.returncode, apply.stderr)
             self.assertTrue((target / ".agent-toolkit-install.json").is_file())
-            self.assertTrue((target / ".opencode/agents/code-reviewer.md").is_file())
+            self.assertTrue((target / ".agents/skills/grill/SKILL.md").is_file())
 
     def test_install_defaults_to_global_scope_without_target(self):
         with tempfile.TemporaryDirectory() as temp:

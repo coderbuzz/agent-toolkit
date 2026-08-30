@@ -1,16 +1,32 @@
 {
+  "global": {
+    "instruction_path": ".claude/CLAUDE.md",
+    "skill_path": ".agents/skills/{name}",
+    "skill_shared": true
+  },
   "id": "claude-code",
-  "agent_path": ".claude/agents/{id}.md",
-  "agent_format": "markdown-yaml-frontmatter",
-  "instruction_strategy": "claude-import",
   "instruction_path": "CLAUDE.md",
-  "skill_strategy": "copy-to-platform-path",
+  "instruction_strategy": "claude-import",
+  "permission_modes": {
+    "read_only": "plan",
+    "write": "default"
+  },
   "skill_path": ".claude/skills/{name}",
+  "skill_strategy": "copy-to-platform-path",
   "tool_mapping": {
     "read_workspace": [
       "Read",
       "Grep",
       "Glob"
+    ],
+    "release_actions": [
+      "Bash"
+    ],
+    "run_read_commands": [
+      "Bash"
+    ],
+    "run_tests": [
+      "Bash"
     ],
     "write_documents": [
       "Write",
@@ -19,29 +35,6 @@
     "write_workspace": [
       "Write",
       "Edit"
-    ],
-    "run_read_commands": [
-      "Bash"
-    ],
-    "run_tests": [
-      "Bash"
-    ],
-    "release_actions": [
-      "Bash"
     ]
-  },
-  "permission_modes": {
-    "read_only": "plan",
-    "write": "default"
-  },
-  "forbidden_permission_modes": [
-    "bypassPermissions"
-  ],
-  "global": {
-    "instruction_path": ".claude/CLAUDE.md",
-    "agent_path": ".claude/agents/{id}.md",
-    "agent_strategy": "file",
-    "skill_path": ".agents/skills/{name}",
-    "skill_shared": true
   }
 }

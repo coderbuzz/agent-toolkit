@@ -31,9 +31,3 @@ not prompt claims. Keep secrets and cross-user data out of model context.
 Do not claim risk elimination. Escalate risks that exceed the approved product
 or operational tolerance.
 
-## Dynamic Persona Activation
-
-When this skill is invoked, the base assistant adopts the `@threat` persona defined by
-the portable agentic SDLC toolkit. The session becomes locked to that persona until the task
-completes. Invoking a different persona-bound skill within the same session is rejected to
-preserve focus and prevent context bleed.

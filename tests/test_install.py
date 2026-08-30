@@ -35,7 +35,7 @@ class InstallTests(unittest.TestCase):
 
     def test_apply_is_idempotent_for_managed_files(self):
         toolkit.apply_install(self.package, self.target)
-        managed = self.target / ".codex/agents/code-reviewer.toml"
+        managed = self.target / ".agents/skills/start/SKILL.md"
         initial_hash = toolkit.file_sha256(managed)
         initial_mtime = managed.stat().st_mtime_ns
         actions = toolkit.apply_install(self.package, self.target)
@@ -65,20 +65,20 @@ class InstallTests(unittest.TestCase):
 
     def test_modified_managed_file_blocks_reinstall(self):
         toolkit.apply_install(self.package, self.target)
-        managed = self.target / ".codex/agents/code-reviewer.toml"
+        managed = self.target / ".agents/skills/start/SKILL.md"
         managed.write_text(managed.read_text(encoding="utf-8") + "# user change\n", encoding="utf-8")
         _actions, conflicts, _ledger = toolkit.plan_install(self.package, self.target)
         self.assertTrue(any("User-modified managed file" in conflict for conflict in conflicts))
 
     def test_uninstall_preserves_modified_managed_file(self):
         toolkit.apply_install(self.package, self.target)
-        preserved = self.target / ".codex/agents/code-reviewer.toml"
+        preserved = self.target / ".agents/skills/start/SKILL.md"
         preserved.write_text(preserved.read_text(encoding="utf-8") + "# keep\n", encoding="utf-8")
         _actions, warnings = toolkit.apply_uninstall(self.target)
         self.assertTrue(preserved.is_file())
         self.assertTrue(any("Preserving modified" in warning for warning in warnings))
         self.assertFalse((self.target / toolkit.LEDGER_NAME).exists())
-        self.assertFalse((self.target / ".codex/agents/product-manager.toml").exists())
+        self.assertFalse((self.target / ".agents/skills/start/agents/openai.yaml").exists())
 
     def test_repeated_uninstall_is_harmless(self):
         toolkit.apply_install(self.package, self.target)

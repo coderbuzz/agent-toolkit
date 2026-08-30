@@ -6,7 +6,6 @@ description: >-
   understanding the user confirms before execution begins.
 invocation: user
 role: ambiguity resolver
-supersedes: clarify
 ---
 
 # Grill (Understand Before Building)
