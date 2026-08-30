@@ -8,7 +8,7 @@ invocation: both
 role: workflow navigator
 ---
 
-# SDLC Start (Workflow Navigator)
+# Start (Workflow Navigator)
 
 ## Workflow
 

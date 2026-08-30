@@ -115,3 +115,12 @@ Specialists (full bundle): design-ui, incident, observability, migrate
     manifest description, `prompts/` sync workflow (deleted), skill text
     pointing at the removed clarify/audit artifacts (now route to `grill` /
     `review`), root wrapper usage examples, and PowerShell wrapper branding.
+
+## v2 Brand & Terminology (2026-08-30)
+23. **"SDLC" demoted from brand to domain term.** Identity is "Agent
+    Toolkit" + "work lanes" (matching manifest and the AGENTS.md pointer).
+    READMEs drop "Agentic SDLC Toolkit", the "bounded roles" roster leftover,
+    and incidental SDLC wording; exactly one domain mention remains in the
+    Why section ("It covers the full SDLC, but applies only the lanes a task
+    actually needs"). Skill bodies keep lane/gate/artifact vocabulary. The
+    `start` heading and the artifacts template drop the SDLC prefix.

@@ -2,7 +2,7 @@
 
 🌐 **Languages**: [English](README.md) | [Bahasa Indonesia](README.id.md)
 
-> **Supercharge your AI coding agents with vendor-neutral SDLC workflows, bounded roles, and reusable skills — installed in seconds with zero dependencies.**
+> **Supercharge your AI coding agents with vendor-neutral work lanes, reusable skills, and approval gates — installed in seconds with zero dependencies.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero-brightgreen.svg)](#-quick-start)
@@ -10,14 +10,14 @@
 
 ---
 
-## 💡 Why Agentic SDLC Toolkit?
+## 💡 Why Agent Toolkit?
 
 When using AI coding assistants (Claude Code, OpenCode, GitHub Copilot, Codex, Gemini/Antigravity, OMP, ZCode), unguided agents often jump straight to writing unverified code, hallucinate dependencies, or overwrite critical files.
 
-**Agentic SDLC Toolkit** gives your AI agents a structured, battle-tested software engineering process—from initial discovery and PRDs to specifications, implementation planning, code review, independent verification, and release readiness.
+**Agent Toolkit** gives your AI agents a structured, battle-tested engineering process—from initial discovery and PRDs to specifications, implementation planning, code review, independent verification, and release readiness. It covers the full SDLC, but applies only the lanes a task actually needs.
 
 - 🚀 **Zero Dependencies**: Pure Shell & PowerShell installers. No Python or Node runtime needed to install.
-- 🎯 **Vendor-Neutral & Portable**: Write your SDLC rules once, deploy seamlessly across any platform.
+- 🎯 **Vendor-Neutral & Portable**: Write your workflow rules once, deploy seamlessly across any platform.
 - 🛡️ **Fail-Closed & Safe**: Preview every install with dry-runs. Never silently overwrites your custom code or config.
 - 🤖 **Multi-Platform Native**: Pre-built native packages for Claude Code, OpenCode, Codex, GitHub Copilot, Gemini/Antigravity, OMP, and ZCode.
 
@@ -82,14 +82,14 @@ irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.ps1
 
 ## 🧠 Accessing Skills
 
-The toolkit ships SDLC skills that agents load on demand. How you reach them depends on your platform:
+The toolkit ships skills that agents load on demand. How you reach them depends on your platform:
 
-- **`/skills` menu**: Lists every installed skill. OpenCode sorts this list alphabetically by skill name — the order is not the SDLC flow order.
+- **`/skills` menu**: Lists every installed skill. OpenCode sorts this list alphabetically by skill name — the order is not the workflow order.
 - **Skill tool**: Agents load a skill via the native `skill` tool when it is relevant to the task.
 - **OpenCode slash commands**: After a global install, each skill is also available as a `/<name>` command (e.g. `/start`, `/discover`, `/fix`) that loads and runs the matching skill.
 - **Naming**: Skill ids use hyphens (`start`), not underscores. Type them exactly.
 
-The natural SDLC flow is: `start → discover → define → design → plan → implement → verify → review → fix → release → document`, with cross-cutting skills (`guardrails`, `memory`, `glossary`, `decide`, `test`, `threat`, `audit-deps`, `orchestrate`) and optional specialists (`design-ui`, `incident`, `observability`, `migrate`).
+The default full-lane flow is: `start → discover → define → design → plan → implement → verify → review → fix → release → document`, with cross-cutting skills (`guardrails`, `memory`, `glossary`, `decide`, `test`, `threat`, `audit-deps`, `orchestrate`) and optional specialists (`design-ui`, `incident`, `observability`, `migrate`).
 
 ## 💡 Usage — `/` commands vs `@` mentions
 
@@ -120,7 +120,7 @@ In short: a **skill** says *how* to do the work; each skill's frontmatter declar
 
 ---
 
-## 🗺️ Workflow & 6-Phase SDLC Lifecycle
+## 🗺️ Workflow & 6-Phase Lifecycle
 
 Working with AI agents becomes simple and predictable when structured into 6 logical phases + 1 entrypoint navigator:
 
@@ -224,7 +224,7 @@ If you're unsure how to start a task, invoke the navigator skill:
 
 ---
 
-## 🔄 SDLC Lanes Matrix
+## 🔄 Work Lanes Matrix
 
 The toolkit routes every change into the right lane to prevent unnecessary overhead while maintaining strict guardrails where needed:
 
@@ -289,7 +289,7 @@ Install once globally into your home directory (`$HOME`) so all your repositorie
 
 | Bundle | What's Included | Best For |
 | :--- | :--- | :--- |
-| **`core`** *(default)* | Lifecycle & cross-cutting SDLC skills | Everyday feature development & bug fixes |
+| **`core`** *(default)* | Lifecycle & cross-cutting skills | Everyday feature development & bug fixes |
 | Core + specialist skills (data migration, incident response) | Full product lifecycle & ops |
 | Audit, security, threat modeling & verification | Quality overlays for mature repos |
 
