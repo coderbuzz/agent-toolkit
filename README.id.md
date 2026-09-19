@@ -3,7 +3,7 @@
 🌐 **Languages**: [English](README.md) | [Bahasa Indonesia](README.id.md)
 
 > **Work lanes, skill, dan approval gate yang vendor-neutral untuk AI coding
-> agent Anda — dipasang dengan menempelkan prompt, bukan menjalankan installer.**
+> agent Anda. Dipasang dengan menempelkan prompt, bukan menjalankan installer.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Install by prompt](https://img.shields.io/badge/Install-by%20prompt-brightgreen.svg)](#-quick-start)
@@ -15,10 +15,10 @@
 
 When using AI coding assistants (Claude Code, OpenCode, GitHub Copilot, Codex, Gemini/Antigravity, OMP, ZCode), unguided agents often jump straight to writing unverified code, hallucinate dependencies, or overwrite critical files.
 
-**Agent Toolkit** gives your AI agents a structured, battle-tested engineering process—from initial discovery and PRDs to specifications, implementation planning, code review, independent verification, and release readiness. It covers the full SDLC, but applies only the lanes a task actually needs.
+**Agent Toolkit** gives your AI agents an explicit engineering process: discovery and PRDs, then specifications, an implementation plan, code review, independent verification, and release checks. It covers the full SDLC, but applies only the lanes a task actually needs.
 
 - 🚀 **Tidak ada yang perlu dipasang**: Anda menempelkan prompt; agent Anda membaca protokolnya dan mengerjakan sisanya. Tanpa skrip, tanpa runtime, tanpa package manager.
-- 🎯 **Vendor-Neutral & Portable**: Write your workflow rules once, deploy seamlessly across any platform.
+- 🎯 **Vendor-Neutral & Portable**: Write your workflow rules once and install them on any of the seven supported platforms.
 - 🛡️ **Fail-Closed & Safe**: Every install is previewed before a byte is written, and a file you edited is never overwritten.
 - 🤖 **Multi-Platform Native**: Pre-built native packages for Claude Code, OpenCode, Codex, GitHub Copilot, Gemini/Antigravity, OMP, and ZCode.
 
@@ -27,7 +27,7 @@ When using AI coding assistants (Claude Code, OpenCode, GitHub Copilot, Codex, G
 ## 🚀 Quick Start
 
 Tidak ada installer yang perlu dijalankan. Anda menyuruh coding agent Anda
-memasangnya, dan agent itu yang mengerjakan — dengan membaca
+memasangnya, dan agent itu yang mengerjakan, dengan membaca
 [`AGENT-INSTALL.md`](AGENT-INSTALL.md), protokol instalasi yang ditulis untuk
 agent, bukan untuk manusia.
 
@@ -84,14 +84,14 @@ bertanya.
 
 > **Datang dari 2.0.0?** Versi itu dipasang dengan skrip shell, dan
 > uninstaller-nya sudah tidak ada di `main`. Letaknya di branch beku
-> `release/2.0.0` — lihat [Versions](#-versions).
+> `release/2.0.0`. Lihat [Versions](#-versions).
 
 ---
 
 ## 🧠 How loading works
 
 Installing does not load 31 skills into your agent's context. It writes one
-small pointer file — `AGENTS.md`, or `CLAUDE.md` on Claude Code — listing each
+small pointer file (`AGENTS.md`, or `CLAUDE.md` on Claude Code) listing each
 skill's name and a one-line trigger. That file is about 1.5 KB, and it is all
 your agent reads at the start of a session.
 
@@ -101,7 +101,7 @@ adding skills stays cheap: the cost at session start is one line each, not the
 
 How you reach a skill depends on your platform:
 
-- **`/skills` menu**: Lists every installed skill. OpenCode sorts this list alphabetically by skill name — the order is not the workflow order.
+- **`/skills` menu**: Lists every installed skill. OpenCode sorts this list alphabetically by skill name, so the order is not the workflow order.
 - **Skill tool**: Agents load a skill via the native `skill` tool when it is relevant to the task.
 - **OpenCode slash commands**: After a global install, each skill is also available as a `/<name>` command (e.g. `/start`, `/discover`, `/fix`) that loads and runs the matching skill.
 - **Naming**: Skill ids use hyphens (`start`), not underscores. Type them exactly.
@@ -112,9 +112,9 @@ The default full-lane flow is: `start → discover → define → design → pla
 
 Six of the core skills are the [antislop](https://github.com/miqdadbadjuber/anti-slop)
 filter by Miqdad Badjuber, vendored here under MIT. They stop agents producing
-generic AI output — blue-purple gradients, invented statistics, copy that reads
-like a press release, comments that restate the line below them — without
-flattening the result into something sterile.
+generic AI output: blue-purple gradients, invented statistics, copy that reads
+like a press release, comments that restate the line below them. It does this
+without flattening the result into something sterile.
 
 | Skill | Loads when |
 | :--- | :--- |
@@ -133,7 +133,7 @@ Attribution and the exact adaptations made when vendoring are in
 
 ---
 
-## 💡 Usage — `/` commands vs `@` mentions
+## 💡 Usage: `/` commands vs `@` mentions
 
 Two entry points in OpenCode trigger different machinery:
 
@@ -145,7 +145,7 @@ Two entry points in OpenCode trigger different machinery:
 
 In short: a **skill** says *how* to do the work; each skill's frontmatter declares the compact `role` that owns it.
 
-## 🚦 Best practice — starting from zero
+## 🚦 Best practice: starting from zero
 
 1. **Always route first.** Run `/start`. It classifies the task into the smallest safe lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and lists the required artifacts and gates. It never forces the full lifecycle on low-risk work.
 2. **Follow the phases by skill.** Each phase is driven by one primary skill:
@@ -372,7 +372,7 @@ Lalu pasang 3.0.0 dengan prompt di atas. Catatan lengkap ada di
 
 ## 💻 Contributor & Maintainer Guide
 
-Developing or extending the toolkit itself? Maintainer tools require **Python 3.9+** (Standard Library only — no third-party dependencies required).
+Developing or extending the toolkit itself? Maintainer tools require **Python 3.9+**, Standard Library only. No third-party dependencies.
 
 ### Maintainer Commands
 
@@ -398,7 +398,7 @@ python3 scripts/vendor-anti-slop.py ../anti-slop
 
 `scripts/toolkit.py` keeps `install` and `uninstall` subcommands. They are the
 executable reference that [`AGENT-INSTALL.md`](AGENT-INSTALL.md) describes and
-that `tests/test_agent_protocol.py` checks the protocol against — not the
+that `tests/test_agent_protocol.py` checks the protocol against. It is not the
 supported way for you to install the toolkit.
 
 ---

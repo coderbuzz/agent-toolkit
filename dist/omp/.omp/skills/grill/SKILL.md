@@ -12,7 +12,7 @@ role: ambiguity resolver
 
 ## Purpose
 
-Most agent failures are not coding failures — they are understanding
+Most agent failures are not coding failures. They are understanding
 failures. This skill interviews the user before a single line of code is
 written, for any task that is ambiguous, novel, or hard to reverse.
 
@@ -22,7 +22,7 @@ written, for any task that is ambiguous, novel, or hard to reverse.
    question the repository can already answer.
 2. List what you believe the task means, in one short paragraph. Include
    explicit exclusions (what you will NOT do).
-3. Ask the highest-leverage questions only — max 5, ordered by blast radius.
+3. Ask the highest-leverage questions only: max 5, ordered by blast radius.
    Each question offers your best-guess answer so the user can just say
    "yes" instead of composing prose.
 4. Capture decisions as they land: update CONTEXT.md (via the `context`
@@ -32,7 +32,7 @@ written, for any task that is ambiguous, novel, or hard to reverse.
 
 ## Boundaries
 
-- Skip grilling for trivially reversible, narrowly scoped changes — route
+- Skip grilling for trivially reversible, narrowly scoped changes; route
   them through `start` to the Small-Change lane instead.
 - Do not invent product decisions. If the user will not answer, state the
   assumption you will proceed under and mark it clearly.

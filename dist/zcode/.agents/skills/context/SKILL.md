@@ -1,7 +1,7 @@
 ---
 name: context
 description: >-
-  Owns CONTEXT.md — the project's shared language. Records domain terms,
+  Owns CONTEXT.md, the project's shared language. Records domain terms,
   invariants, and decisions so every future session starts aligned. Promoted
   from a support skill to a core technique.
 invocation: model
@@ -26,11 +26,11 @@ authoritative glossary and invariant log.
 
 1. Read CONTEXT.md first (repo root). If missing, offer to scaffold it.
 2. Add or amend entries in this shape:
-   - **Term** — one-sentence definition, in the user's language, with the
+   - **Term**: one-sentence definition, in the user's language, with the
      code-level name it maps to (file/symbol) where applicable.
-   - **Invariant** — a rule that must always hold, with the evidence or
+   - **Invariant**: a rule that must always hold, with the evidence or
      decision that established it.
-3. Keep entries atomic and dated. Never delete history — supersede with a
+3. Keep entries atomic and dated. Never delete history; supersede with a
    new entry that references the old one.
 4. Keep it under ~200 lines. If it grows past that, split domain-specific
    sections into `docs/context-<domain>.md` and link them.

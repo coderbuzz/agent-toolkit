@@ -312,8 +312,8 @@ role: copy slop filter
 - **False positive:** many editors and journalists use em dashes deliberately. On its own an em dash is not proof of AI.
   It counts when it sits in a cluster with other tells (R-02 still bans it in output, but do not rewrite the user's
   deliberate style without saying so).
-- **Voice override:** if the user provides a writing sample that uses em dashes at a certain frequency, match the
-  sample's frequency instead of cutting them all (see Voice calibration).
+- **No voice override:** R-02 is a Hard Gate, so it holds even when the user's own sample uses em dashes. Match the
+  sample's rhythm and vocabulary, and still replace every em dash. Say that you did.
 
 ### Boldface Overuse
 
@@ -438,9 +438,8 @@ If the user provides a sample of their own writing, match it before rewriting:
 1. Read the sample first. Note its sentence lengths, vocabulary, paragraph openings, punctuation, and recurring phrases.
 2. Match those habits instead of merely deleting AI patterns. Do not upgrade casual words or regularize deliberate
    quirks.
-3. The sample outranks this skill's style rules. If the sample uses em dashes, keep them at roughly the sample's
-   frequency (R-02 still applies to any copy the user did not authorize; when the user's own voice uses them, the voice
-   wins).
+3. The sample outranks this skill's style rules, but not the core's Hard Gates. Match its habits; still replace every em
+   dash (R-02). A Hard Gate is not a style preference, so a sample cannot license one.
 
 Without a sample, use the defaults above. Matching the author beats scrubbing the tell.
 
@@ -463,7 +462,7 @@ Run these alongside the core Delivery Gate when the task is copy work. Every lin
 - [ ] No fabricated numbers, testimonials, names, dates, or claims; everything real or a labeled placeholder (R-17,
   R-18, R-36, R-38)
 - [ ] Buzzwords from R-16 and the Empty AI Vocabulary list replaced with specific, evidenced language
-- [ ] No em dashes in the output (R-02), unless the user's own sample voice uses them
+- [ ] No em dashes in the output (R-02). No exceptions: a Hard Gate holds even against the user's own sample voice
 - [ ] No excessive quotation marks: quotes only where they carry meaning (dialogue, real citations, titles), not as
   default emphasis (R-36)
 - [ ] No all-caps emphasis clauses: emphasis written into the sentence, not shouted with caps (R-36)

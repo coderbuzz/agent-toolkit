@@ -25,8 +25,8 @@ python3 scripts/toolkit.py check-drift --all --bundle core
 
 Also export `full` and `quality` when changing bundle resolution or optional skills.
 
-`manifest.json` is part of the source digest, so any edit to it — including a
-version bump — invalidates every generated package. Re-export before checking
+`manifest.json` is part of the source digest, so any edit to it, including a
+version bump, invalidates every generated package. Re-export before checking
 drift, or the check will report a `source_sha256` mismatch that is really just a
 stale `dist/`.
 
@@ -38,8 +38,8 @@ protocol an agent reads and executes. Keep three things in mind.
 
 1. **The protocol is prose executed by a language model.** A drifted sentence is
    a broken installer with no stack trace. `tests/test_agent_protocol.py`
-   asserts every constant the document quotes — filenames, block markers,
-   default scope, platform ids, bundle sizes, adapter paths — against its
+   asserts every constant the document quotes (filenames, block markers,
+   default scope, platform ids, bundle sizes, adapter paths) against its
    definition in `scripts/toolkit.py`. Change a constant and that test tells you
    which sentence to update.
 2. **`toolkit.py install` and `uninstall` remain**, not as a supported user
@@ -51,7 +51,7 @@ protocol an agent reads and executes. Keep three things in mind.
    ships `.agent-toolkit-files.json`, listing each installable file with its
    hash and role. An agent copies from that list rather than walking and hashing
    the package. If you add a file to a package, give it a role, or the agent
-   will install it as a plain file — which for a shared skill silently breaks
+   will install it as a plain file, which for a shared skill silently breaks
    reference counting.
 
 ## Vendored Skills

@@ -1,4 +1,4 @@
-# v2 Design — Best of Both
+# v2 Design: Best of Both
 
 Snapshot sebelum refactor: branch `archive/main-20260829`, tag `archive-main-20260829`.
 
@@ -16,7 +16,7 @@ Snapshot sebelum refactor: branch `archive/main-20260829`, tag `archive-main-202
 3. **New skills from Matt:**
    - `grill` (user-invoked): two-way interview before any irreversible work.
      Merges and replaces `clarify` as the default ambiguity tool.
-   - `context` (model-invoked): owns CONTEXT.md — shared language, domain
+   - `context` (model-invoked): owns CONTEXT.md, the shared language, domain
      terms, project invariants. Promoted from support skill to core technique.
 4. **TDD folded into `implement`:** red-green-refactor steps are part of the
    build skill; `test` stays as a utility (scaffolding suites), not a gate phase.
@@ -128,13 +128,13 @@ Specialists (full bundle): design-ui, incident, observability, migrate
 ## v3 Prompt-Driven Install (2026-09-19)
 24. **Install is a prompt, not a script.** The user pastes a prompt naming
     `AGENT-INSTALL.md`; the agent reads that file and performs the install.
-    `dist/` stays the deploy source — only the front-end that copies a package
+    `dist/` stays the deploy source; only the front-end that copies a package
     to a target changed. The shell and PowerShell installers (~3,300 lines) are
     deleted from this line and remain working on `release/2.0.0`.
 25. **The build emits a files manifest.** Each package gains
     `.agent-toolkit-files.json`: every installable file with its sha256 and a
     role (`regular`, `shared-skill`, `instruction-block`, `command`). This is
-    what makes a prose protocol workable — the agent never hashes the package,
+    what makes a prose protocol workable: the agent never hashes the package,
     only files already at the target, so it can tell its own writes from the
     user's. It also lets an agent without git fetch exactly one package's files.
 26. **The protocol is written to be unambiguous, and tested against the code.**

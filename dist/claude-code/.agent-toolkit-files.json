@@ -43,7 +43,7 @@
     {
       "path": ".claude/skills/antislop-copywriting/SKILL.md",
       "role": "regular",
-      "sha256": "6722f87248dc076eb5898e8e1942652520151f08cb125f2e1440633ae6e13dc7"
+      "sha256": "811b8d1d58d1b384e8b565c81b6beefd4fb6147a3f3a4a07b6bf74e6a5e5b498"
     },
     {
       "path": ".claude/skills/antislop-copywriting/agents/openai.yaml",
@@ -108,7 +108,7 @@
     {
       "path": ".claude/skills/context/SKILL.md",
       "role": "regular",
-      "sha256": "52fc37a57ea34c99714213d40d443640c9684ccf53a40d53f346ef558f9a0f67"
+      "sha256": "65f64bc81044a6d281a8766853ff83229fe6f979b17b15dcfed109b344ae5995"
     },
     {
       "path": ".claude/skills/context/agents/openai.yaml",
@@ -188,7 +188,7 @@
     {
       "path": ".claude/skills/grill/SKILL.md",
       "role": "regular",
-      "sha256": "4e01ac8ec7d8b8c3369e65ab61281ee2f2f0a4394214c5173c74825d380a8406"
+      "sha256": "9d342c8a0f8c6b1ab338ea5d058506f26fe2089d1cdd55880800b89002515e4b"
     },
     {
       "path": ".claude/skills/grill/agents/openai.yaml",
@@ -208,7 +208,7 @@
     {
       "path": ".claude/skills/implement/SKILL.md",
       "role": "regular",
-      "sha256": "79b984059d01b3135423a908bb9c4e488eb0a746477efc39d9978939317d2645"
+      "sha256": "c0c65aa42979087b1fce4bf23ca39f2e9ac817b56164acc71d96858082aa6488"
     },
     {
       "path": ".claude/skills/implement/agents/openai.yaml",
@@ -308,12 +308,12 @@
     {
       "path": "AGENTS.md",
       "role": "regular",
-      "sha256": "caac8fd8dd215b9674bbdd74da7ab91ead655b0c72b9f52bccf7b74b898802a0"
+      "sha256": "dc53b7e4ae119cfd053b47b2a4b3a6af0b964c5f85fab119880ed055aed1eae7"
     },
     {
       "path": "CLAUDE.md",
       "role": "regular",
-      "sha256": "09957953b5492fe83375e74f2a7e92758578b5602513e58bc45047700bd5df2e"
+      "sha256": "e41c0ea81bebd1c1836df868b3db7c7075989c73ebd7969790eb6f3256ba17b6"
     }
   ],
   "schema_version": 1

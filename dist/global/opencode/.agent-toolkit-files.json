@@ -13,7 +13,7 @@
     {
       "path": ".agents/skills/antislop-copywriting/SKILL.md",
       "role": "shared-skill",
-      "sha256": "6722f87248dc076eb5898e8e1942652520151f08cb125f2e1440633ae6e13dc7"
+      "sha256": "811b8d1d58d1b384e8b565c81b6beefd4fb6147a3f3a4a07b6bf74e6a5e5b498"
     },
     {
       "path": ".agents/skills/antislop-copywriting/agents/openai.yaml",
@@ -78,7 +78,7 @@
     {
       "path": ".agents/skills/context/SKILL.md",
       "role": "shared-skill",
-      "sha256": "52fc37a57ea34c99714213d40d443640c9684ccf53a40d53f346ef558f9a0f67"
+      "sha256": "65f64bc81044a6d281a8766853ff83229fe6f979b17b15dcfed109b344ae5995"
     },
     {
       "path": ".agents/skills/context/agents/openai.yaml",
@@ -158,7 +158,7 @@
     {
       "path": ".agents/skills/grill/SKILL.md",
       "role": "shared-skill",
-      "sha256": "4e01ac8ec7d8b8c3369e65ab61281ee2f2f0a4394214c5173c74825d380a8406"
+      "sha256": "9d342c8a0f8c6b1ab338ea5d058506f26fe2089d1cdd55880800b89002515e4b"
     },
     {
       "path": ".agents/skills/grill/agents/openai.yaml",
@@ -178,7 +178,7 @@
     {
       "path": ".agents/skills/implement/SKILL.md",
       "role": "shared-skill",
-      "sha256": "79b984059d01b3135423a908bb9c4e488eb0a746477efc39d9978939317d2645"
+      "sha256": "c0c65aa42979087b1fce4bf23ca39f2e9ac817b56164acc71d96858082aa6488"
     },
     {
       "path": ".agents/skills/implement/agents/openai.yaml",
@@ -278,7 +278,7 @@
     {
       "path": ".config/opencode/AGENTS.md",
       "role": "instruction-block",
-      "sha256": "40ceeecbcbb43b52546299824d1fee79ec912bad056bb8d0c2b49eefd4ebc1a0"
+      "sha256": "d24e9097b2a430a24e720e791a1f5e49761e689fea5888f544dc4fcad4f8b5c4"
     },
     {
       "path": ".config/opencode/commands/antislop-code.md",
@@ -318,7 +318,7 @@
     {
       "path": ".config/opencode/commands/context.md",
       "role": "command",
-      "sha256": "db173650b1145565c493a623710525ca9a510a3029058237d8b906da14d01a5c"
+      "sha256": "864096a1e5c751e274e50d743ab6ea540b5810b484d993bbd13ddca16d291009"
     },
     {
       "path": ".config/opencode/commands/decide.md",

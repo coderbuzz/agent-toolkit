@@ -19,8 +19,10 @@ Commit:    743735248fbaefd76bb56619615687dfa8b3bc1e (2026-09-16)
 License:   MIT
 
 The adaptations made when vendoring are recorded in vendor/anti-slop.json. They
-are structural only: frontmatter, line wrapping, and the removal of an installer
-section that this toolkit supersedes. The rule text is unchanged.
+are structural, with one exception: antislop-copywriting granted a voice
+override for em dashes that contradicted rule R-02, which the core states as an
+absolute Hard Gate, and that override was removed. Every other rule is upstream's
+wording.
 
 MIT License
 

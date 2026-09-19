@@ -1,4 +1,4 @@
-# AGENT-INSTALL.md — install protocol for coding agents
+# AGENT-INSTALL.md: the install protocol for coding agents
 
 You are an AI coding agent. A person has asked you to install, update, or
 uninstall the Agent Toolkit. This file tells you exactly how.
@@ -49,9 +49,9 @@ Do not guess, and do not pick the closest match.
 
 ## 3. Resolve the scope
 
-- **`repository`** — the default. Installs into the current project checkout.
+- **`repository`**: the default. Installs into the current project checkout.
   Use this whenever the person did not say otherwise.
-- **`global`** — installs into the person's home directory, for every project.
+- **`global`**: installs into the person's home directory, for every project.
   Use this only when they asked for it ("global", "for you everywhere",
   "all my projects").
 
@@ -95,13 +95,13 @@ You may create or modify files only at these paths, relative to the target root
 
 | Platform | Repo: instruction | Repo: skills | Global: instruction | Global: skills | Global: commands |
 | --- | --- | --- | --- | --- | --- |
-| `claude-code` | `CLAUDE.md` | `.claude/skills/{name}` | `~/.claude/CLAUDE.md` | `~/.agents/skills/{name}` | — |
-| `codex` | `AGENTS.md` | `.agents/skills/{name}` | `~/.codex/AGENTS.md` | `~/.agents/skills/{name}` | — |
-| `gemini` | `AGENTS.md` | `.agents/skills/{name}` | `~/.gemini/antigravity/AGENTS.md` | `~/.agents/skills/{name}` | — |
-| `github-copilot` | `.github/copilot-instructions.md` | `.agents/skills/{name}` | `~/.copilot/copilot-instructions.md` | `~/.agents/skills/{name}` | — |
-| `omp` | `AGENTS.md` | `.omp/skills/{name}` | `~/.omp/agent/AGENTS.md` | `~/.agents/skills/{name}` | — |
+| `claude-code` | `CLAUDE.md` | `.claude/skills/{name}` | `~/.claude/CLAUDE.md` | `~/.agents/skills/{name}` | n/a |
+| `codex` | `AGENTS.md` | `.agents/skills/{name}` | `~/.codex/AGENTS.md` | `~/.agents/skills/{name}` | n/a |
+| `gemini` | `AGENTS.md` | `.agents/skills/{name}` | `~/.gemini/antigravity/AGENTS.md` | `~/.agents/skills/{name}` | n/a |
+| `github-copilot` | `.github/copilot-instructions.md` | `.agents/skills/{name}` | `~/.copilot/copilot-instructions.md` | `~/.agents/skills/{name}` | n/a |
+| `omp` | `AGENTS.md` | `.omp/skills/{name}` | `~/.omp/agent/AGENTS.md` | `~/.agents/skills/{name}` | n/a |
 | `opencode` | `AGENTS.md` | `.agents/skills/{name}` | `~/.config/opencode/AGENTS.md` | `~/.agents/skills/{name}` | `~/.config/opencode/commands/{name}.md` |
-| `zcode` | `AGENTS.md` | `.agents/skills/{name}` | `~/.zcode/AGENTS.md` | `~/.agents/skills/{name}` | — |
+| `zcode` | `AGENTS.md` | `.agents/skills/{name}` | `~/.zcode/AGENTS.md` | `~/.agents/skills/{name}` | n/a |
 
 Repository scope also writes `.agents/instructions/`, `.agents/standards/`,
 `.agents/templates/`, and the ledger files from section 11. You do not need to
@@ -132,19 +132,19 @@ the file at the target:
 
 | Target state | In ledger? | Action |
 | --- | --- | --- |
-| does not exist | — | **create** |
+| does not exist | n/a | **create** |
 | actual == expected | yes | **unchanged** |
 | actual == expected | no | **leave it**, and do not claim it |
 | actual == ledger hash | yes | **update** |
-| actual != ledger hash | yes | **STOP** — the person edited it |
-| actual != expected | no | **STOP** — a different file is in the way |
+| actual != ledger hash | yes | **STOP**, the person edited it |
+| actual != expected | no | **STOP**, a different file is in the way |
 
 Files in the ledger but no longer in the package: delete them if they still
 match their ledger hash, otherwise leave them and say so.
 
 Then:
 
-1. **Show the person the full plan** — every path and its action — and wait for
+1. **Show the person the full plan**, every path and its action, then wait for
    their confirmation. Never skip this, even if they said "just do it".
 2. If any row is a STOP, report the conflicts and write nothing at all.
 3. On confirmation, write the files.
@@ -166,7 +166,7 @@ own each file:
 ```
 
 - Installing: add your platform id to `owners`. If the file already exists and
-  already matches, adopt it — do not rewrite it.
+  already matches, adopt it. Do not rewrite it.
 - Uninstalling: remove your platform id from `owners`. Delete the file **only
   when `owners` becomes empty**. Another platform still using it must keep
   working.
@@ -187,7 +187,7 @@ marker ends with one.
 
 - **No block yet, file does not exist:** the file is exactly the block.
 - **No block yet, file exists:** append. First make the existing content end
-  with a blank line — add a newline if it does not end with one, then add a
+  with a blank line: add a newline if it does not end with one, then add a
   second so exactly one empty line separates their content from the opening
   marker. Without this the marker lands mid-line, fused to their last line, and
   no later run can find the block again.
@@ -208,9 +208,9 @@ preview. Files the person edited stop the run; they are never overwritten.
 
 **Uninstall:**
 
-1. Read the ledger. Without it, stop — do not guess what to delete.
+1. Read the ledger. Without it, stop. Do not guess what to delete.
 2. For each path: delete it if it still matches its ledger hash. If it does not
-   match, the person edited it — **keep it** and list it in your report.
+   match, the person edited it, so **keep it** and list it in your report.
 3. Global scope: release shared-skill ownership (section 8) and remove the
    instruction block (section 9).
 4. Remove directories that are now empty. Stop at the target root.
@@ -260,7 +260,7 @@ When you are done, tell the person:
 - how many files you created, updated, and left unchanged;
 - every file you preserved because they had edited it;
 - where the skills landed and where the instruction file is;
-- that skills load on demand — the instruction file only lists them, and the
+- that skills load on demand: the instruction file only lists them, and the
   full text of a skill is read when a task needs it;
 - how to uninstall: ask you to, and you will follow section 10.
 

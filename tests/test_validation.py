@@ -101,5 +101,54 @@ class ValidationTests(unittest.TestCase):
         self.assertEqual(serialized, json.dumps(json.loads(serialized), sort_keys=True, separators=(",", ":")))
 
 
+class HouseStyleTests(unittest.TestCase):
+    """The toolkit must obey the rules it ships.
+
+    R-02 in the antislop core forbids the em dash in any text, and states it as a
+    Hard Gate. Shipping skills and documentation that break it undermines the
+    rule in front of the people we are asking to follow it.
+    """
+
+    #: The antislop skills quote R-02 in order to define it, which the rule exempts.
+    CARVE_OUT = "antislop"
+
+    def _our_text_files(self):
+        for pattern in ("*.md", "llms.txt", "NOTICE"):
+            for path in TOOLKIT_ROOT.rglob(pattern):
+                relative = path.relative_to(TOOLKIT_ROOT).as_posix()
+                if relative.startswith("dist/") or self.CARVE_OUT in relative:
+                    continue
+                if relative.startswith(".git/"):
+                    continue
+                yield relative, path
+
+    def test_no_em_dashes_in_our_own_writing(self):
+        offenders = {}
+        for relative, path in self._our_text_files():
+            count = path.read_text(encoding="utf-8").count("\u2014")
+            if count:
+                offenders[relative] = count
+        self.assertEqual(
+            {}, offenders,
+            "R-02 forbids the em dash; use a comma, period, colon, or parentheses",
+        )
+
+    def test_the_installed_pointer_obeys_r02(self):
+        """AGENTS.md ships to every user, so a violation there is the most visible."""
+        self.assertNotIn("\u2014", (TOOLKIT_ROOT / "AGENTS.md").read_text(encoding="utf-8"))
+
+    def test_r02_has_no_voice_override_in_the_vendored_skill(self):
+        """The core calls R-02 a Hard Gate, so the skill must not grant exceptions."""
+        text = (TOOLKIT_ROOT / ".agents" / "skills" / "antislop-copywriting" / "SKILL.md").read_text(
+            encoding="utf-8"
+        )
+        for escape_hatch in (
+            "unless the user's own sample voice uses them",
+            "instead of cutting them all",
+            "the voice\n   wins",
+        ):
+            self.assertNotIn(escape_hatch, text)
+
+
 if __name__ == "__main__":
     unittest.main()

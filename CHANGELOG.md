@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.0.0 — `main`, tag `v3.0.0`
+## 3.0.0 (`main`, tag `v3.0.0`)
 
 **Breaking: the shell installers are gone.** Installing is now something you ask
 your coding agent to do. Paste a prompt, the agent reads
@@ -55,13 +55,13 @@ The working one is:
 curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/uninstall.sh | bash
 ```
 
-## 2.0.0 — `release/2.0.0`, tag `v2.0.0`
+## 2.0.0 (`release/2.0.0`, tag `v2.0.0`)
 
 Frozen. Installs with a shell or PowerShell script. Zero-dependency installers,
 pre-built global packages, shared skills at `~/.agents/skills`, and the ZCode
 adapter. Global was the default scope.
 
-## 1.0.0 — `release/1.0.0`, tag `v1.0.0`
+## 1.0.0 (`release/1.0.0`, tag `v1.0.0`)
 
 Frozen. The original shell installer, the agent roster, and `sdlc-`-prefixed
 skill names. Published from the codebase that carried the internal version

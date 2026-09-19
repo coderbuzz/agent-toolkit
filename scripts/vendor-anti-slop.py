@@ -78,6 +78,38 @@ def strip_install_wizard(text):
     return "\n".join(lines)
 
 
+def enforce_hard_gate_r02(text):
+    """Remove the em dash exceptions that contradict R-02.
+
+    The core states R-02 as a Hard Gate: the em dash is forbidden in any text,
+    and breaking a Hard Gate is a FAIL regardless of purpose. This skill then
+    grants a voice override in three places, so an agent that loads both can
+    reasonably conclude em dashes are sometimes allowed. In practice they do.
+
+    The "false positive" note is left alone: it is about detecting AI in someone
+    else's writing, not about what this agent may write.
+    """
+    replacements = [
+        ("- **Voice override:** if the user provides a writing sample that uses em dashes at a certain "
+         "frequency, match the sample's frequency instead of cutting them all (see Voice calibration).",
+         "- **No voice override:** R-02 is a Hard Gate, so it holds even when the user's own sample uses "
+         "em dashes. Match the sample's rhythm and vocabulary, and still replace every em dash. Say that you did."),
+        ("3. The sample outranks this skill's style rules. If the sample uses em dashes, keep them at roughly "
+         "the sample's frequency (R-02 still applies to any copy the user did not authorize; when the user's "
+         "own voice uses them, the voice wins).",
+         "3. The sample outranks this skill's style rules, but not the core's Hard Gates. Match its habits; "
+         "still replace every em dash (R-02). A Hard Gate is not a style preference, so a sample cannot "
+         "license one."),
+        ("- [ ] No em dashes in the output (R-02), unless the user's own sample voice uses them",
+         "- [ ] No em dashes in the output (R-02). No exceptions: a Hard Gate holds even against the user's "
+         "own sample voice"),
+    ]
+    for old, new in replacements:
+        assert old in text, "upstream wording changed; re-check this adaptation"
+        text = text.replace(old, new, 1)
+    return text
+
+
 def neutralize_platform_vars(text):
     """Drop the Claude-Code-specific CLAUDE_SKILL_DIR variable."""
     old_cmd = 'python3 "${CLAUDE_SKILL_DIR}/contrast-check.py" "#FFFFFF" "#777777"'
@@ -192,6 +224,8 @@ for name in FRONTMATTER:
     text = src.read_text(encoding="utf-8")
     if name == "antislop":
         text = strip_install_wizard(text)
+    if name == "antislop-copywriting":
+        text = enforce_hard_gate_r02(text)
     if name == "antislop-human":
         text = neutralize_platform_vars(text)
         shutil.copyfile(UPSTREAM / "skills" / name / "contrast-check.py",

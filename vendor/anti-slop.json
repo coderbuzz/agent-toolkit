@@ -2,6 +2,14 @@
   "adaptations": [
     {
       "applies_to": [
+        "antislop-human"
+      ],
+      "change": "Did not vendor contrast-mcp.py; contrast-check.py is included and is the only path the skill references.",
+      "id": "dropped-mcp-server",
+      "reason": "Proprietary MCP server identifiers are outside the toolkit's portability contract."
+    },
+    {
+      "applies_to": [
         "antislop",
         "antislop-ui",
         "antislop-copywriting",
@@ -15,6 +23,14 @@
     },
     {
       "applies_to": [
+        "antislop"
+      ],
+      "change": "Replaced the 'First-Run Install Wizard' section with a short Installation note pointing at AGENT-INSTALL.md.",
+      "id": "install-wizard",
+      "reason": "The section ran its own install flow, which conflicts with the toolkit's installer."
+    },
+    {
+      "applies_to": [
         "antislop",
         "antislop-ui",
         "antislop-copywriting",
@@ -25,14 +41,6 @@
       "change": "Rewrapped 417 prose lines to 120 characters. Word sequence is unchanged; table rows and fenced code blocks were left verbatim.",
       "id": "line-wrapping",
       "reason": "validate_skills rejects prose lines over 120 characters."
-    },
-    {
-      "applies_to": [
-        "antislop"
-      ],
-      "change": "Replaced the 'First-Run Install Wizard' section with a short Installation note pointing at AGENT-INSTALL.md.",
-      "id": "install-wizard",
-      "reason": "The section ran its own install flow, which conflicts with the toolkit's installer."
     },
     {
       "applies_to": [
@@ -52,11 +60,11 @@
     },
     {
       "applies_to": [
-        "antislop-human"
+        "antislop-copywriting"
       ],
-      "change": "Did not vendor contrast-mcp.py; contrast-check.py is included and is the only path the skill references.",
-      "id": "dropped-mcp-server",
-      "reason": "Proprietary MCP server identifiers are outside the toolkit's portability contract."
+      "change": "Removed the three em dash exceptions (the Voice override bullet, the voice-calibration carve-out, and the checklist's 'unless the user's own sample voice uses them'). The False positive note is kept: it is about detecting AI in other people's writing, not about what the agent may write.",
+      "id": "r02-has-no-voice-override",
+      "reason": "The core states R-02 as a Hard Gate, forbidden in any text and a FAIL regardless of purpose, while this skill granted a voice override in three places. Agents that load both resolve the contradiction in favour of the exception and keep emitting em dashes."
     }
   ],
   "license": "MIT",

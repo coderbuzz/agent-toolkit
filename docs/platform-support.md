@@ -9,15 +9,15 @@ MCP server identifiers. Revalidate adapters when a host platform changes its sch
 
 | Platform | Instruction strategy | Skill strategy | Slash commands |
 | --- | --- | --- | --- |
-| Codex | Root `AGENTS.md` | Canonical `.agents/skills` | — |
+| Codex | Root `AGENTS.md` | Canonical `.agents/skills` | n/a |
 | OpenCode | Root `AGENTS.md` | Canonical `.agents/skills` | Generated `commands/<skill>.md` |
-| GitHub Copilot | Generated Copilot instructions | Canonical `.agents/skills` | — |
-| Claude Code | `CLAUDE.md` imports `AGENTS.md` | Copy to `.claude/skills` (repo) | — |
-| Gemini / Antigravity | Root `AGENTS.md` | Canonical `.agents/skills` | — |
-| OMP | Root `AGENTS.md` | Canonical `.agents/skills` | — |
+| GitHub Copilot | Generated Copilot instructions | Canonical `.agents/skills` | n/a |
+| Claude Code | `CLAUDE.md` imports `AGENTS.md` | Copy to `.claude/skills` (repo) | n/a |
+| Gemini / Antigravity | Root `AGENTS.md` | Canonical `.agents/skills` | n/a |
+| OMP | Root `AGENTS.md` | Canonical `.agents/skills` | n/a |
 | ZCode | Root `AGENTS.md` | Canonical `.agents/skills` | Native (every skill is `/<name>`) |
 
-The toolkit ships skills only — there is no agent roster to render per platform. Each skill's
+The toolkit ships skills only; there is no agent roster to render per platform. Each skill's
 frontmatter (`name`, `description`, `invocation`, `role`) is the full contract.
 
 ## Platform Resolution by an Agent
@@ -62,7 +62,7 @@ location) and writes a `CLAUDE.md` that imports `@AGENTS.md`. Global scope write
 ## ZCode
 
 ZCode reads `AGENTS.md` as workspace instructions and discovers skills in the shared
-`.agents/skills` directory (repository and `~/.agents/skills` global) with no extra wiring —
+`.agents/skills` directory (repository and `~/.agents/skills` global) with no extra wiring, so
 every discovered skill is automatically available as `/<name>`. Global installs therefore only
 write the pointer file `~/.zcode/AGENTS.md`; no command files are generated.
 
@@ -81,13 +81,13 @@ duplication; it is used only when the user asks for it. Each adapter declares a
 
 | Platform | Global instructions | Global skills | Global commands |
 | --- | --- | --- | --- |
-| Codex | `~/.codex/AGENTS.md` | `~/.agents/skills/<skill>` | — |
+| Codex | `~/.codex/AGENTS.md` | `~/.agents/skills/<skill>` | n/a |
 | OpenCode | `~/.config/opencode/AGENTS.md` | `~/.agents/skills/<skill>` | `~/.config/opencode/commands/<skill>.md` |
-| Claude Code | `~/.claude/CLAUDE.md` | `~/.agents/skills/<skill>` | — |
-| GitHub Copilot | `~/.copilot/copilot-instructions.md` | `~/.agents/skills/<skill>` | — |
-| OMP | `~/.omp/agent/AGENTS.md` | `~/.agents/skills/<skill>` | — |
-| Gemini / Antigravity | `~/.gemini/antigravity/AGENTS.md` | `~/.agents/skills/<skill>` | — |
-| ZCode | `~/.zcode/AGENTS.md` | `~/.agents/skills/<skill>` | — (native `/<name>`) |
+| Claude Code | `~/.claude/CLAUDE.md` | `~/.agents/skills/<skill>` | n/a |
+| GitHub Copilot | `~/.copilot/copilot-instructions.md` | `~/.agents/skills/<skill>` | n/a |
+| OMP | `~/.omp/agent/AGENTS.md` | `~/.agents/skills/<skill>` | n/a |
+| Gemini / Antigravity | `~/.gemini/antigravity/AGENTS.md` | `~/.agents/skills/<skill>` | n/a |
+| ZCode | `~/.zcode/AGENTS.md` | `~/.agents/skills/<skill>` | n/a (native `/<name>`) |
 
 ### Shared skills
 
