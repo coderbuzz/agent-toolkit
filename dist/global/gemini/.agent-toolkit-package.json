@@ -6,6 +6,19 @@
   "schema_version": 1,
   "scope": "global",
   "shared_skill_files": [
+    ".agents/skills/antislop-code/SKILL.md",
+    ".agents/skills/antislop-code/agents/openai.yaml",
+    ".agents/skills/antislop-copywriting/SKILL.md",
+    ".agents/skills/antislop-copywriting/agents/openai.yaml",
+    ".agents/skills/antislop-human/SKILL.md",
+    ".agents/skills/antislop-human/agents/openai.yaml",
+    ".agents/skills/antislop-human/contrast-check.py",
+    ".agents/skills/antislop-layoutmobile/SKILL.md",
+    ".agents/skills/antislop-layoutmobile/agents/openai.yaml",
+    ".agents/skills/antislop-ui/SKILL.md",
+    ".agents/skills/antislop-ui/agents/openai.yaml",
+    ".agents/skills/antislop/SKILL.md",
+    ".agents/skills/antislop/agents/openai.yaml",
     ".agents/skills/audit-deps/SKILL.md",
     ".agents/skills/audit-deps/agents/openai.yaml",
     ".agents/skills/context/SKILL.md",
@@ -70,9 +83,15 @@
     "test",
     "threat",
     "audit-deps",
-    "orchestrate"
+    "orchestrate",
+    "antislop",
+    "antislop-ui",
+    "antislop-copywriting",
+    "antislop-code",
+    "antislop-human",
+    "antislop-layoutmobile"
   ],
-  "source_sha256": "a3586cde8ece35e60669b2a4ac340903a84c103deda71184a58f0347c080e9dc",
+  "source_sha256": "3fadcf9af159d274141ecc44047f08ae023f366cd9e418af0e9f5aa667b1b92c",
   "toolkit": "agent-toolkit",
-  "version": "2.0.0"
+  "version": "3.0.0"
 }

@@ -9,16 +9,38 @@ MCP server identifiers. Revalidate adapters when a host platform changes its sch
 
 | Platform | Instruction strategy | Skill strategy | Slash commands |
 | --- | --- | --- | --- |
-| Codex | Root `AGENTS.md` | Canonical `.agents/skills` | — |
+| Codex | Root `AGENTS.md` | Canonical `.agents/skills` | n/a |
 | OpenCode | Root `AGENTS.md` | Canonical `.agents/skills` | Generated `commands/<skill>.md` |
-| GitHub Copilot | Generated Copilot instructions | Canonical `.agents/skills` | — |
-| Claude Code | `CLAUDE.md` imports `AGENTS.md` | Copy to `.claude/skills` (repo) | — |
-| Gemini / Antigravity | Root `AGENTS.md` | Canonical `.agents/skills` | — |
-| OMP | Root `AGENTS.md` | Canonical `.agents/skills` | — |
+| GitHub Copilot | Generated Copilot instructions | Canonical `.agents/skills` | n/a |
+| Claude Code | `CLAUDE.md` imports `AGENTS.md` | Copy to `.claude/skills` (repo) | n/a |
+| Gemini / Antigravity | Root `AGENTS.md` | Canonical `.agents/skills` | n/a |
+| OMP | Root `AGENTS.md` | Canonical `.agents/skills` | n/a |
 | ZCode | Root `AGENTS.md` | Canonical `.agents/skills` | Native (every skill is `/<name>`) |
 
-The v2 toolkit ships skills only — there is no agent roster to render per platform. Each skill's
+The toolkit ships skills only; there is no agent roster to render per platform. Each skill's
 frontmatter (`name`, `description`, `invocation`, `role`) is the full contract.
+
+## Platform Resolution by an Agent
+
+Nothing detects the platform for the agent. `AGENT-INSTALL.md` gives it the table above as a
+mapping from "which tool am I running as" to a platform id, and requires it to **ask the user**
+rather than guess when it cannot decide. An agent that picks the closest match would write to the
+wrong paths and record them in a ledger, so the protocol treats an unresolved platform as a stop
+condition rather than something to infer.
+
+## The Files Manifest
+
+Every generated package carries `.agent-toolkit-files.json` alongside `.agent-toolkit-package.json`:
+
+```json
+{ "schema_version": 1,
+  "files": [ { "path": ".agents/skills/start/SKILL.md", "role": "shared-skill", "sha256": "..." } ] }
+```
+
+`role` is one of `regular`, `shared-skill`, `instruction-block`, or `command`, and it decides how a
+file is installed: `shared-skill` files are reference counted, `instruction-block` names the file
+that receives the managed block, and everything else is copied and ledgered. Repository packages
+contain only `regular` files.
 
 ## Codex
 
@@ -40,7 +62,7 @@ location) and writes a `CLAUDE.md` that imports `@AGENTS.md`. Global scope write
 ## ZCode
 
 ZCode reads `AGENTS.md` as workspace instructions and discovers skills in the shared
-`.agents/skills` directory (repository and `~/.agents/skills` global) with no extra wiring —
+`.agents/skills` directory (repository and `~/.agents/skills` global) with no extra wiring, so
 every discovered skill is automatically available as `/<name>`. Global installs therefore only
 write the pointer file `~/.zcode/AGENTS.md`; no command files are generated.
 
@@ -52,19 +74,20 @@ is applied to them.
 
 ## Global Scope
 
-Global installation places one machine-wide copy of the toolkit in the home directory so every
-repository inherits the same behavior without per-repository duplication. Each adapter declares a
+Repository scope is the default. Global installation places one machine-wide copy of the toolkit in
+the home directory so every repository inherits the same behavior without per-repository
+duplication; it is used only when the user asks for it. Each adapter declares a
 `global` block with home-relative paths:
 
 | Platform | Global instructions | Global skills | Global commands |
 | --- | --- | --- | --- |
-| Codex | `~/.codex/AGENTS.md` | `~/.agents/skills/<skill>` | — |
+| Codex | `~/.codex/AGENTS.md` | `~/.agents/skills/<skill>` | n/a |
 | OpenCode | `~/.config/opencode/AGENTS.md` | `~/.agents/skills/<skill>` | `~/.config/opencode/commands/<skill>.md` |
-| Claude Code | `~/.claude/CLAUDE.md` | `~/.agents/skills/<skill>` | — |
-| GitHub Copilot | `~/.copilot/copilot-instructions.md` | `~/.agents/skills/<skill>` | — |
-| OMP | `~/.omp/agent/AGENTS.md` | `~/.agents/skills/<skill>` | — |
-| Gemini / Antigravity | `~/.gemini/antigravity/AGENTS.md` | `~/.agents/skills/<skill>` | — |
-| ZCode | `~/.zcode/AGENTS.md` | `~/.agents/skills/<skill>` | — (native `/<name>`) |
+| Claude Code | `~/.claude/CLAUDE.md` | `~/.agents/skills/<skill>` | n/a |
+| GitHub Copilot | `~/.copilot/copilot-instructions.md` | `~/.agents/skills/<skill>` | n/a |
+| OMP | `~/.omp/agent/AGENTS.md` | `~/.agents/skills/<skill>` | n/a |
+| Gemini / Antigravity | `~/.gemini/antigravity/AGENTS.md` | `~/.agents/skills/<skill>` | n/a |
+| ZCode | `~/.zcode/AGENTS.md` | `~/.agents/skills/<skill>` | n/a (native `/<name>`) |
 
 ### Shared skills
 
@@ -94,9 +117,9 @@ untrusted input the same way fetched web content is.
 2. Add `platforms/<id>/adapter.json` with `skill_path` and a `global` block
    (`instruction_path`, `skill_path`; plus `command_path` only when slash commands must be
    generated as files).
-3. Register the platform ID in `manifest.json` (`platforms`) and in the platform lists inside the
-   installers (`scripts/install.sh`, `scripts/uninstall.sh`, `scripts/setup.sh`, their PowerShell
-   twins, and the root wrappers).
+3. Register the platform ID in `manifest.json` (`platforms`).
 4. Regenerate `dist/` with `python3 scripts/toolkit.py export --all --bundle core` and extend the
    platform tuples in `tests/test_validation.py` and `tests/test_global_install.py`.
-5. Add the platform to the tables above and to both READMEs.
+5. Add the platform to the tables above, to the tables in `AGENT-INSTALL.md` sections 2 and 6, and
+   to both READMEs. `tests/test_agent_protocol.py` fails until the protocol's tables match the
+   manifest and the adapter, so an agent is never told a path the exporter does not produce.

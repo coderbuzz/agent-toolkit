@@ -23,9 +23,15 @@
     "test",
     "threat",
     "audit-deps",
-    "orchestrate"
+    "orchestrate",
+    "antislop",
+    "antislop-ui",
+    "antislop-copywriting",
+    "antislop-code",
+    "antislop-human",
+    "antislop-layoutmobile"
   ],
-  "source_sha256": "a3586cde8ece35e60669b2a4ac340903a84c103deda71184a58f0347c080e9dc",
+  "source_sha256": "3fadcf9af159d274141ecc44047f08ae023f366cd9e418af0e9f5aa667b1b92c",
   "toolkit": "agent-toolkit",
-  "version": "2.0.0"
+  "version": "3.0.0"
 }

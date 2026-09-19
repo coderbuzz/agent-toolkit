@@ -2,12 +2,14 @@
   "bundles": {
     "core": [
       "lifecycle",
-      "cross_cutting"
+      "cross_cutting",
+      "antislop"
     ],
     "full": [
       "lifecycle",
       "cross_cutting",
-      "optional"
+      "optional",
+      "antislop"
     ],
     "quality": [
       "grill",
@@ -25,10 +27,10 @@
     "standards": "standards",
     "templates": "templates"
   },
-  "description": "Vendor-neutral work lanes, skills, and platform exports for coding agents.",
+  "description": "Vendor-neutral work lanes, skills, and platform exports for coding agents, installed by prompting an agent.",
   "install_policy": {
     "default_bundle": "core",
-    "default_scope": "global",
+    "default_scope": "repository",
     "generated_output": "dist",
     "overwrite": "never",
     "preview_required": true,
@@ -49,6 +51,14 @@
   ],
   "schema_version": 1,
   "skills": {
+    "antislop": [
+      "antislop",
+      "antislop-ui",
+      "antislop-copywriting",
+      "antislop-code",
+      "antislop-human",
+      "antislop-layoutmobile"
+    ],
     "cross_cutting": [
       "grill",
       "context",
@@ -81,5 +91,5 @@
       "migrate"
     ]
   },
-  "version": "2.0.0"
+  "version": "3.0.0"
 }

@@ -1,0 +1,320 @@
+{
+  "files": [
+    {
+      "path": ".agents/instructions/communication.md",
+      "role": "regular",
+      "sha256": "e42c1c26a4c4078efa1bd1d8c144e32f29f35e36f9120a6dc23546d9ee663fe0"
+    },
+    {
+      "path": ".agents/instructions/quality.md",
+      "role": "regular",
+      "sha256": "b180e101fbb9432cd4621ae5c54a102868924c91c34540e92a15bbb4c0367783"
+    },
+    {
+      "path": ".agents/standards/ADR-FORMAT.md",
+      "role": "regular",
+      "sha256": "42d5ef792786e783b32f852991d8c91c908ee973250359549f8620c42efd5892"
+    },
+    {
+      "path": ".agents/standards/CONTEXT-FORMAT.md",
+      "role": "regular",
+      "sha256": "a0a20c694224de21618219717e1d8da1f45f08acd3ad3a3aaf846d68f15ce4a8"
+    },
+    {
+      "path": ".agents/standards/TRACEABILITY-FORMAT.md",
+      "role": "regular",
+      "sha256": "505f282b79904f0b00dd86acaa45f78e7ec1263c49e135b641cdb121ac7090be"
+    },
+    {
+      "path": ".agents/templates/artifacts.md",
+      "role": "regular",
+      "sha256": "d3100a7c3c623ac04464e7b690d98d2d587e3e3e7e10c26a6c2528d5e9e8954d"
+    },
+    {
+      "path": ".claude/skills/antislop-code/SKILL.md",
+      "role": "regular",
+      "sha256": "ce1a22fa7a03c111300f79955c6370bc7e7439de25908260dbb31cc248393f6a"
+    },
+    {
+      "path": ".claude/skills/antislop-code/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "1a41baa874725d135546ed60414c7c923ef5cf88793c9a7703e32e3c9f8440f7"
+    },
+    {
+      "path": ".claude/skills/antislop-copywriting/SKILL.md",
+      "role": "regular",
+      "sha256": "ff4fe32b2549fe1542eb9a85811a22031659fee55cbe75224fb547f756eadc7a"
+    },
+    {
+      "path": ".claude/skills/antislop-copywriting/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "bf2e7636178b628914ad72941e3fed81f1b92d81b8dc6c0c3aae9703c698796f"
+    },
+    {
+      "path": ".claude/skills/antislop-human/SKILL.md",
+      "role": "regular",
+      "sha256": "3fbcfd63028ab4cc4e76856fd079ca2ae8625e7460dc7c8b53d61e491788f416"
+    },
+    {
+      "path": ".claude/skills/antislop-human/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "ba0133db01c539b12ddc6f9d150c0177e0049de3cb2f8da9eebcaa90e37af1ae"
+    },
+    {
+      "path": ".claude/skills/antislop-human/contrast-check.py",
+      "role": "regular",
+      "sha256": "619cdf3da8b27f87d8e4049b4acecfe1a559b234ab2aa9cf09447c28745c3075"
+    },
+    {
+      "path": ".claude/skills/antislop-layoutmobile/SKILL.md",
+      "role": "regular",
+      "sha256": "1c7cf6e36e29206a2aa21b6db20206bee7ac723da360168784765bbb689dff0a"
+    },
+    {
+      "path": ".claude/skills/antislop-layoutmobile/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "1cfde067f3326b1f6f7cb7be67969ba9fc40c9a0355732c89d2598e89a6bbb01"
+    },
+    {
+      "path": ".claude/skills/antislop-ui/SKILL.md",
+      "role": "regular",
+      "sha256": "067a223f7ae0e6b293a17f326c9eead2c99b684201f92182e167047b5a5450a0"
+    },
+    {
+      "path": ".claude/skills/antislop-ui/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "8aea2e0f8f4e229661e2431aedd9a01b350d0852ad45a9408ed7b8dddbbfd25b"
+    },
+    {
+      "path": ".claude/skills/antislop/SKILL.md",
+      "role": "regular",
+      "sha256": "80dd59bff4cbfc34cc563705ab7570ddf311bacecae540b75301fdcee84e2b5c"
+    },
+    {
+      "path": ".claude/skills/antislop/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "f13d5e66fc141c182d072cecef6138bf8867e4febfba6d4fd9c04dc0317ad16f"
+    },
+    {
+      "path": ".claude/skills/audit-deps/SKILL.md",
+      "role": "regular",
+      "sha256": "c55a88731ce5e97dec74fc1640df13d7aecb03af71009ba79f75d2a410211158"
+    },
+    {
+      "path": ".claude/skills/audit-deps/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "702d19c904f72a996e664ebb206e6613c17a7e24adace44fa7eb0d1c02c7d96e"
+    },
+    {
+      "path": ".claude/skills/context/SKILL.md",
+      "role": "regular",
+      "sha256": "65f64bc81044a6d281a8766853ff83229fe6f979b17b15dcfed109b344ae5995"
+    },
+    {
+      "path": ".claude/skills/context/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "2c597f4d08c4aad0f49edccfa2e386874b5fd5bff212e4bad3c6ef45db161b4f"
+    },
+    {
+      "path": ".claude/skills/decide/SKILL.md",
+      "role": "regular",
+      "sha256": "59adaf109a72ecc3f22d044c4c7a46ce30054fff75e9c67904cc14b78331bfcf"
+    },
+    {
+      "path": ".claude/skills/decide/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "780a08631b091d93b568096f7800b982b929887a3d00482b090bd8031065a418"
+    },
+    {
+      "path": ".claude/skills/define/SKILL.md",
+      "role": "regular",
+      "sha256": "f08277554a93a3cd3ec8ef25125bb12d520b46b6c8c58320a6c4b15ba1deae0d"
+    },
+    {
+      "path": ".claude/skills/define/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "0280e611e17258801fab8edb28978c7da9a0d014531fc63b13cd33760b3a6725"
+    },
+    {
+      "path": ".claude/skills/design/SKILL.md",
+      "role": "regular",
+      "sha256": "c0c26311607a997fc65406d2686476ae3b6285cfd5b87ca0031a4879cea2779f"
+    },
+    {
+      "path": ".claude/skills/design/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "a90c2c34af2cf6028b7319479496047a7a87ccc78abfa6200204e6ecca5fc71f"
+    },
+    {
+      "path": ".claude/skills/discover/SKILL.md",
+      "role": "regular",
+      "sha256": "201904cb2442dec39367fea8d167b399029c1de21f403cb1290da79cdf35567d"
+    },
+    {
+      "path": ".claude/skills/discover/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "073cd1418ae523375d26cf69da474d252f50cf8c60e59d559d0f9ac80299d6ee"
+    },
+    {
+      "path": ".claude/skills/document/SKILL.md",
+      "role": "regular",
+      "sha256": "617bf005dd6328c48a869a3cdaaa2100a9b116e59602c03a082a0498c2f171b9"
+    },
+    {
+      "path": ".claude/skills/document/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "b33b1896941028b4b3258c00ed9f6d6f7fc1b0dcc087aa8f830cdd73522916f4"
+    },
+    {
+      "path": ".claude/skills/fix/SKILL.md",
+      "role": "regular",
+      "sha256": "49fc701f93c851ab9e53ff0318896071de7bc1821b94cbdb658c79c4473d2789"
+    },
+    {
+      "path": ".claude/skills/fix/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "6824bc316a92d5e2d409701b9e0129bd7e9ca2b48b4eab95ca191d01f2b92548"
+    },
+    {
+      "path": ".claude/skills/glossary/SKILL.md",
+      "role": "regular",
+      "sha256": "61bfeb5cf3feaf16da0c4a7552c28c6d9edb0f6435638e073c3826c953a251e0"
+    },
+    {
+      "path": ".claude/skills/glossary/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "47d1bbd90e237ad031304d10153cdf3889eacc3e127d43e4a8e5a12b7629fcd2"
+    },
+    {
+      "path": ".claude/skills/grill/SKILL.md",
+      "role": "regular",
+      "sha256": "9d342c8a0f8c6b1ab338ea5d058506f26fe2089d1cdd55880800b89002515e4b"
+    },
+    {
+      "path": ".claude/skills/grill/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "8b8681aab1d638bd274f1276c798a585ed2a0aa49f0bec99dcef2a2eab8c5613"
+    },
+    {
+      "path": ".claude/skills/guardrails/SKILL.md",
+      "role": "regular",
+      "sha256": "484ddf5a82d6f59b808ca3b8fc64643728e7462d5fdaab66f3805915713ca8a8"
+    },
+    {
+      "path": ".claude/skills/guardrails/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "c401a69f0e0e9d85b1e91ef22995e073f193e9c0c889dec28c53c8f50fa68ed5"
+    },
+    {
+      "path": ".claude/skills/implement/SKILL.md",
+      "role": "regular",
+      "sha256": "c0c65aa42979087b1fce4bf23ca39f2e9ac817b56164acc71d96858082aa6488"
+    },
+    {
+      "path": ".claude/skills/implement/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "d034881f2fc00aec1435a62fb7da30c9bb9c3b0079300af75d098900d621d621"
+    },
+    {
+      "path": ".claude/skills/memory/SKILL.md",
+      "role": "regular",
+      "sha256": "82e87f3d79d50fddd019dcafb750685308335ed397b2719b37a5f84cb1a42010"
+    },
+    {
+      "path": ".claude/skills/memory/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "84a42a2e39abfb37b3c7b3e4567049c145f4c7e5569190179adfdbfe532e0c4b"
+    },
+    {
+      "path": ".claude/skills/orchestrate/SKILL.md",
+      "role": "regular",
+      "sha256": "95c763faef0798dd506e0bdb4a6043450454fbf4084b2b3b70db1e771675f42c"
+    },
+    {
+      "path": ".claude/skills/orchestrate/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "b2ad8bfd02dfa344b8bcb4213a23d67b1a794689f9d88ee321204b8f8caca03d"
+    },
+    {
+      "path": ".claude/skills/plan/SKILL.md",
+      "role": "regular",
+      "sha256": "21dd9941547ebe545b22c258a965f37e0329c254cd3fde6af8a1cfa071fa4e4b"
+    },
+    {
+      "path": ".claude/skills/plan/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "aa6dc6640c62e2843b7e674606cb09bfae909ebf45e62e1c1403b151c59dcf77"
+    },
+    {
+      "path": ".claude/skills/release/SKILL.md",
+      "role": "regular",
+      "sha256": "e4ba00b5e05ed3ffe9c52845a53b7892377727c91ff79cc238b28bbc0c4daa82"
+    },
+    {
+      "path": ".claude/skills/release/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "9a72120fc070adc8bff993ad85132c5332b036ffa89e0c972add48bcbd322b72"
+    },
+    {
+      "path": ".claude/skills/review/SKILL.md",
+      "role": "regular",
+      "sha256": "50895f664a2060a3c1f2018bed05fa15e4d024be0cc6c8e837ac2a40ec26f1a4"
+    },
+    {
+      "path": ".claude/skills/review/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "4e3c68195025b2597b0ac032c731dc7f5d45a2e04d54ffd860465dc64cda66e6"
+    },
+    {
+      "path": ".claude/skills/start/SKILL.md",
+      "role": "regular",
+      "sha256": "76be65ef27fb3a4ebd1357863f7bae2bcb4cb047c14d609b0fec96419d1093a1"
+    },
+    {
+      "path": ".claude/skills/start/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "031874ea1426adfbe207c7931570ef873ed64e8ac07aec5bad180e18e9c090ba"
+    },
+    {
+      "path": ".claude/skills/test/SKILL.md",
+      "role": "regular",
+      "sha256": "937ec107888e37cc00e2616dbf5425adc3a695a9884dc9e0716386db4003294b"
+    },
+    {
+      "path": ".claude/skills/test/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "d82942d0bba711b3ea818deb552c1a745078fdc889fb5c1641e89ecff9e4d022"
+    },
+    {
+      "path": ".claude/skills/threat/SKILL.md",
+      "role": "regular",
+      "sha256": "e919cc12c16f8a2eb1f9bf0af1840d1ad39494587f643eaf056533710a8c20ec"
+    },
+    {
+      "path": ".claude/skills/threat/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "e2fa49a7385cd46d9efc53f7c31a30e37e25bd853ac168025e3d0750f9510cfe"
+    },
+    {
+      "path": ".claude/skills/verify/SKILL.md",
+      "role": "regular",
+      "sha256": "4ac385ce2c9ef1ffb5859292aafba5c429ff753cfec3457759fbed4167c5ab1c"
+    },
+    {
+      "path": ".claude/skills/verify/agents/openai.yaml",
+      "role": "regular",
+      "sha256": "42661d798e177d59439e1c9af0b7a25550a5209017095d8ec8ff79bf358f0ac2"
+    },
+    {
+      "path": "AGENTS.md",
+      "role": "regular",
+      "sha256": "dc53b7e4ae119cfd053b47b2a4b3a6af0b964c5f85fab119880ed055aed1eae7"
+    },
+    {
+      "path": "CLAUDE.md",
+      "role": "regular",
+      "sha256": "c6785c894dae12aef46f1136aea7a20bb1cbff7bc5967b6c01702c6d075aba11"
+    }
+  ],
+  "schema_version": 1
+}

@@ -14,7 +14,7 @@ supersedes: implement-execution, test (as gate)
 ## Purpose
 
 Turn an approved plan (or a routed small change) into the smallest correct
-change, with tests as the feedback loop — not as ceremony.
+change, with tests as the feedback loop, not as ceremony.
 
 ## Procedure
 

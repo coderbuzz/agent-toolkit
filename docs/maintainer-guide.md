@@ -25,6 +25,67 @@ python3 scripts/toolkit.py check-drift --all --bundle core
 
 Also export `full` and `quality` when changing bundle resolution or optional skills.
 
+`manifest.json` is part of the source digest, so any edit to it, including a
+version bump, invalidates every generated package. Re-export before checking
+drift, or the check will report a `source_sha256` mismatch that is really just a
+stale `dist/`.
+
+## How Installation Works Now
+
+There is no installer in this repository. `dist/` is still the deploy source,
+but the front-end that copies a package to a target is `AGENT-INSTALL.md`: a
+protocol an agent reads and executes. Keep three things in mind.
+
+1. **The protocol is prose executed by a language model.** A drifted sentence is
+   a broken installer with no stack trace. `tests/test_agent_protocol.py`
+   asserts every constant the document quotes (filenames, block markers,
+   default scope, platform ids, bundle sizes, adapter paths) against its
+   definition in `scripts/toolkit.py`. Change a constant and that test tells you
+   which sentence to update.
+2. **`toolkit.py install` and `uninstall` remain**, not as a supported user
+   route but as the executable reference the protocol describes. When you change
+   install behavior, change both, and re-check them against each other: install
+   through the protocol by hand and through the CLI into two scratch
+   directories, then diff. The trees and the ledger bytes must be identical.
+3. **The files manifest is what makes the protocol workable.** Every package
+   ships `.agent-toolkit-files.json`, listing each installable file with its
+   hash and role. An agent copies from that list rather than walking and hashing
+   the package. If you add a file to a package, give it a role, or the agent
+   will install it as a plain file, which for a shared skill silently breaks
+   reference counting.
+
+## Vendored Skills
+
+The six `antislop` skills come from `miqdadbadjuber/anti-slop` under MIT. Do not
+hand-edit them. To pull upstream changes:
+
+```bash
+git clone https://github.com/miqdadbadjuber/anti-slop ../anti-slop
+python3 scripts/vendor-anti-slop.py ../anti-slop
+```
+
+The script re-applies every adaptation recorded in `vendor/anti-slop.json` and
+prints, per skill, whether the rule text is still word-identical to upstream. It
+fails if a rewrap changed a word, left a prose line over 120 characters, or if
+upstream's wording moved out from under an adaptation. Update the pinned commit
+in `vendor/anti-slop.json`, `NOTICE`, and the provenance block in
+`scripts/vendor-anti-slop.py` after a re-sync.
+
+Rules for changing a vendored skill:
+
+1. **Never edit the vendored `SKILL.md` directly.** The next sync overwrites it.
+   Add an adaptation function to `scripts/vendor-anti-slop.py` instead, and
+   record it in `vendor/anti-slop.json`.
+2. **Every adaptation asserts its input.** If upstream rewords the text an
+   adaptation targets, the sync must fail loudly rather than silently skip the
+   change. This has already caught one mistake.
+3. **Packaging changes are ours; rule changes are not.** Adapt frontmatter, line
+   width, cross-references, and paths freely. Changing what a rule *means* needs
+   a reason recorded in `vendor/anti-slop.json` and, so far, has happened once:
+   `r02-has-no-voice-override`. Prefer an upstream issue.
+4. **Keep the README's adaptation table in step** with
+   `vendor/anti-slop.json`. It is what a reader sees before the JSON.
+
 ## Adding or Updating a Skill
 
 1. Choose a lowercase hyphenated ID that describes one reusable procedure.
@@ -67,8 +128,9 @@ Changes to path handling or installation must cover:
 - user-modified managed files;
 - idempotent reinstall;
 - stale managed files;
-- partial write rollback; and
-- uninstall preservation.
+- partial write rollback;
+- uninstall preservation; and
+- a ledger written by an older release still being readable.
 
 Never add a force-overwrite option without a separate design and explicit recovery contract.
 
@@ -97,5 +159,7 @@ The package metadata records the platform, bundle, version, digest, and included
 - [ ] Conflict behavior is verified in a repository with existing instructions.
 - [ ] Applied install is idempotent.
 - [ ] Uninstall preserves a deliberately modified managed file.
+- [ ] `AGENT-INSTALL.md` matches `scripts/toolkit.py`, proven by a by-hand run
+      diffed against the CLI in both scopes.
 - [ ] Documentation matches CLI help and platform output.
 - [ ] Version and release notes reflect compatibility changes.

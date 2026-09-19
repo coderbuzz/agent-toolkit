@@ -1,0 +1,4 @@
+interface:
+  display_name: "antislop-ui"
+  short_description: "UI slop filter: color, layout, components, motion"
+  default_prompt: "Use $antislop-ui with the antislop core for this interface work."

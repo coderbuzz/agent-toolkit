@@ -13,6 +13,8 @@ from pathlib import Path, PurePosixPath
 
 
 TOOLKIT_ROOT = Path(__file__).resolve().parent.parent
+PACKAGE_METADATA_NAME = ".agent-toolkit-package.json"
+FILES_MANIFEST_NAME = ".agent-toolkit-files.json"
 LEDGER_NAME = ".agent-toolkit-install.json"
 SHARED_SKILLS_LEDGER_NAME = ".agent-toolkit-shared-skills.json"
 INSTRUCTION_BLOCK_BEGIN = "# >>> agent-toolkit instructions (managed; do not edit) >>>"
@@ -26,6 +28,10 @@ SOURCE_DIRS = (
     "platforms",
 )
 SOURCE_FILES = ("AGENTS.md", "manifest.json")
+SKILL_GROUPS = ("lifecycle", "cross_cutting", "optional", "antislop")
+# Repository scope is the default: an install must never fall back to writing
+# into the user's home directory because a flag was omitted.
+DEFAULT_SCOPE = "repository"
 VALID_PLATFORMS = {"codex", "opencode", "github-copilot", "claude-code", "omp", "gemini", "zcode"}
 FORBIDDEN_SKILL_TEXT = (
     ".codex/",
@@ -135,7 +141,7 @@ def source_digest(root=TOOLKIT_ROOT):
 
 def all_skill_names(manifest):
     names = []
-    for group in ("lifecycle", "cross_cutting", "optional"):
+    for group in SKILL_GROUPS:
         names.extend(manifest["skills"].get(group, []))
     return names
 
@@ -192,6 +198,36 @@ def parse_frontmatter(path):
     return values
 
 
+def prose_lines(text):
+    """Yield (line_number, line) for a skill's prose lines only.
+
+    Fenced code blocks and table rows are skipped. Neither can be reflowed to a
+    width limit without changing meaning or breaking the markup, which is why
+    the repository's own markdownlint config disables MD013 for both.
+    """
+    in_code = False
+    for index, line in enumerate(text.splitlines(), 1):
+        if line.lstrip().startswith("```"):
+            in_code = not in_code
+            continue
+        if in_code or line.lstrip().startswith("|"):
+            continue
+        yield index, line
+
+
+def is_placeholder_line(line):
+    """Report unfinished authoring, not prose that discusses placeholder markers.
+
+    A skill about code comments legitimately names TODO as a subject. Only a
+    marker introducing something left undone counts, so the marker must carry a
+    colon or stand alone on the line, and inline code spans are quoted examples.
+    """
+    stripped = re.sub(r"`[^`]*`", "", line).strip()
+    if re.fullmatch(r"(?:[-*]\s*|#+\s*)?(?:TODO|TBD|FIXME)\b[\s.:-]*", stripped, re.IGNORECASE):
+        return True
+    return bool(re.search(r"\b(?:TODO|TBD|FIXME)\s*:", stripped, re.IGNORECASE))
+
+
 def _unique_strings(values, label, errors):
     if not isinstance(values, list) or not all(isinstance(item, str) for item in values):
         errors.append("{0} must be a list of strings".format(label))
@@ -231,7 +267,7 @@ def validate_manifest(manifest, errors):
     unknown = set(platforms) - VALID_PLATFORMS
     if unknown:
         errors.append("Unknown platforms: {0}".format(", ".join(sorted(unknown))))
-    for group in ("lifecycle", "cross_cutting", "optional"):
+    for group in SKILL_GROUPS:
         _unique_strings(manifest["skills"].get(group), "manifest.skills.{0}".format(group), errors)
     _unique_strings(all_skill_names(manifest), "all manifest skills", errors)
     known_skills = set(all_skill_names(manifest))
@@ -281,9 +317,10 @@ def validate_skills(manifest, errors, root=TOOLKIT_ROOT):
         for token in FORBIDDEN_SKILL_TEXT:
             if token.casefold() in text.casefold():
                 errors.append("Skill {0} contains non-portable text: {1}".format(name, token))
-        if re.search(r"\b(?:TODO|TBD|FIXME)\b", text, re.IGNORECASE):
-            errors.append("Skill {0} contains placeholder text".format(name))
-        long_lines = [index for index, line in enumerate(text.splitlines(), 1) if len(line) > 120]
+        placeholders = [index for index, line in prose_lines(text) if is_placeholder_line(line)]
+        if placeholders:
+            errors.append("Skill {0} contains placeholder text on lines: {1}".format(name, placeholders))
+        long_lines = [index for index, line in prose_lines(text) if len(line) > 120]
         if long_lines:
             errors.append("Skill {0} has lines over 120 characters: {1}".format(name, long_lines))
         metadata_file = skill_root / name / "agents" / "openai.yaml"
@@ -453,9 +490,10 @@ def export_to_directory(platform, bundle, destination, root=TOOLKIT_ROOT):
     }
     write_text(
         destination,
-        ".agent-toolkit-package.json",
+        PACKAGE_METADATA_NAME,
         json.dumps(metadata, indent=2, sort_keys=True) + "\n",
     )
+    write_files_manifest(destination)
     return metadata
 
 
@@ -521,10 +559,40 @@ def export_to_global_directory(platform, bundle, destination, root=TOOLKIT_ROOT)
     }
     write_text(
         destination,
-        ".agent-toolkit-package.json",
+        PACKAGE_METADATA_NAME,
         json.dumps(metadata, indent=2, sort_keys=True) + "\n",
     )
+    roles = {relative: "shared-skill" for relative in shared_skill_files}
+    roles[instruction_relative] = "instruction-block"
+    if command_path_pattern:
+        for skill_name in selected_skills:
+            roles[command_path_pattern.replace("{name}", skill_name)] = "command"
+    write_files_manifest(destination, roles)
     return metadata
+
+
+def write_files_manifest(destination, roles=None):
+    """Record every installable file in the package with its hash and role.
+
+    An agent following AGENT-INSTALL.md copies from this list instead of walking
+    the package and hashing it. That removes the only step of the install that
+    needs bulk hashing, and it lets an agent without git fetch exactly the raw
+    files one package needs.
+
+    ``roles`` maps a path to one of shared-skill, instruction-block or command;
+    anything unlisted is a regular file copied straight to the target.
+    """
+    roles = roles or {}
+    entries = [
+        {"path": relative, "role": roles.get(relative, "regular"), "sha256": digest}
+        for relative, digest in sorted(package_files(destination, include_metadata=False).items())
+    ]
+    write_text(
+        destination,
+        FILES_MANIFEST_NAME,
+        json.dumps({"schema_version": 1, "files": entries}, indent=2, sort_keys=True) + "\n",
+    )
+    return entries
 
 
 def package_files(root, include_metadata=True):
@@ -537,7 +605,7 @@ def package_files(root, include_metadata=True):
         if path.is_file():
             relative = path.relative_to(root).as_posix()
             safe_relative_path(relative)
-            if not include_metadata and relative == ".agent-toolkit-package.json":
+            if not include_metadata and relative in (PACKAGE_METADATA_NAME, FILES_MANIFEST_NAME):
                 continue
             folded = relative.casefold()
             if any(existing.casefold() == folded and existing != relative for existing in files):
@@ -550,7 +618,7 @@ def validate_exported_package(package_root, platform, bundle, root=TOOLKIT_ROOT)
     errors = []
     if package_root.is_symlink() or not package_root.is_dir():
         return ["Package root must be a regular directory: {0}".format(package_root)]
-    metadata_path = package_root / ".agent-toolkit-package.json"
+    metadata_path = package_root / PACKAGE_METADATA_NAME
     if metadata_path.is_symlink() or not metadata_path.is_file():
         return ["Package metadata must be a regular file: {0}".format(metadata_path)]
     try:
@@ -599,7 +667,7 @@ def validate_exported_global_package(package_root, platform, bundle, root=TOOLKI
     errors = []
     if package_root.is_symlink() or not package_root.is_dir():
         return ["Package root must be a regular directory: {0}".format(package_root)]
-    metadata_path = package_root / ".agent-toolkit-package.json"
+    metadata_path = package_root / PACKAGE_METADATA_NAME
     if metadata_path.is_symlink() or not metadata_path.is_file():
         return ["Package metadata must be a regular file: {0}".format(metadata_path)]
     try:
@@ -761,7 +829,7 @@ def _load_ledger(target, name=LEDGER_NAME):
 
 
 def plan_install(package_root, target, exclude=None, ledger_file=LEDGER_NAME):
-    metadata = load_json(package_root / ".agent-toolkit-package.json")
+    metadata = load_json(package_root / PACKAGE_METADATA_NAME)
     package_hashes = package_files(package_root, include_metadata=False)
     if exclude:
         package_hashes = {
@@ -1225,7 +1293,7 @@ def apply_instruction_unblock(target, instruction_relative):
 
 def global_install_parts(package_root):
     """Split a global package into regular, shared-skill, and block parts."""
-    metadata = load_json(package_root / ".agent-toolkit-package.json")
+    metadata = load_json(package_root / PACKAGE_METADATA_NAME)
     shared = set(metadata.get("shared_skill_files", []))
     merges = metadata.get("merge_files", [])
     merge_paths = {entry["merge_file"] for entry in merges}
@@ -1294,19 +1362,23 @@ def command_export(args):
 
 
 def resolve_target(args):
-    """Return the operation root, defaulting global scope to the home directory."""
+    """Return the operation root, defaulting global scope to the home directory.
+
+    Repository scope has no default root on purpose: a missing --target is an
+    error rather than a silent install into the home directory.
+    """
     if getattr(args, "target", None) is not None:
         return args.target
-    if getattr(args, "scope", "global") == "global":
+    if getattr(args, "scope", DEFAULT_SCOPE) == "global":
         return Path(os.path.expanduser("~"))
     raise ToolkitError("--target is required for repository scope")
 
 
 def _prepared_package(args):
-    scope = getattr(args, "scope", "global")
+    scope = getattr(args, "scope", DEFAULT_SCOPE)
     if args.package:
         package = args.package.resolve()
-        metadata = load_json(package / ".agent-toolkit-package.json")
+        metadata = load_json(package / PACKAGE_METADATA_NAME)
         platform = metadata.get("platform")
         bundle = metadata.get("bundle")
         package_scope = metadata.get("scope", "repository")
@@ -1337,7 +1409,7 @@ def _prepared_package(args):
 
 
 def command_install(args):
-    scope = getattr(args, "scope", "global")
+    scope = getattr(args, "scope", DEFAULT_SCOPE)
     target = resolve_target(args)
     temporary, package = _prepared_package(args)
     try:
@@ -1398,7 +1470,7 @@ def _run_global_install(package, target, apply):
 
 
 def command_uninstall(args):
-    scope = getattr(args, "scope", "global")
+    scope = getattr(args, "scope", DEFAULT_SCOPE)
     target = resolve_target(args)
     if scope == "global":
         return _run_global_uninstall(target, args.platform, args.apply)
@@ -1490,7 +1562,7 @@ def build_parser():
     install_parser.add_argument("--platform", choices=sorted(VALID_PLATFORMS))
     install_parser.add_argument("--package", type=Path, help="Use an existing generated package.")
     install_parser.add_argument("--bundle", default="core", choices=("core", "full", "quality"))
-    install_parser.add_argument("--scope", default="global", choices=("repository", "global"))
+    install_parser.add_argument("--scope", default=DEFAULT_SCOPE, choices=("repository", "global"))
     install_parser.add_argument(
         "--target",
         type=Path,
@@ -1502,7 +1574,7 @@ def build_parser():
 
     uninstall_parser = subparsers.add_parser("uninstall", help="Preview or remove unchanged managed files.")
     uninstall_parser.add_argument("--platform", choices=sorted(VALID_PLATFORMS))
-    uninstall_parser.add_argument("--scope", default="global", choices=("repository", "global"))
+    uninstall_parser.add_argument("--scope", default=DEFAULT_SCOPE, choices=("repository", "global"))
     uninstall_parser.add_argument(
         "--target",
         type=Path,

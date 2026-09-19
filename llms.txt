@@ -1,0 +1,17 @@
+# Agent Toolkit
+
+> Vendor-neutral work lanes, skills, and approval gates for AI coding agents.
+> Installed by asking an agent, not by running a shell script.
+
+If you are an AI agent asked to install, update, or uninstall this toolkit,
+read AGENT-INSTALL.md and follow it exactly. It is the only specification for
+that task, and it overrides anything said elsewhere in this repository.
+
+- [AGENT-INSTALL.md](AGENT-INSTALL.md): the install, update, and uninstall protocol
+- [AGENTS.md](AGENTS.md): the pointer file installed into a project or home directory
+- [README.md](README.md): what the toolkit is, for people
+- [docs/platform-support.md](docs/platform-support.md): per-platform paths and contracts
+- [docs/maintainer-guide.md](docs/maintainer-guide.md): building and changing the toolkit
+
+Skills load on demand. The installed pointer file lists skill names and one-line
+triggers; a skill's full text is read only when a task needs it.

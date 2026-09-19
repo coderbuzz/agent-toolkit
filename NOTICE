@@ -1,0 +1,47 @@
+Agent Toolkit bundles third-party material. This file records what, from where,
+and under which terms. The toolkit's own license is in LICENSE.
+
+================================================================================
+antislop
+================================================================================
+
+The six skills below are vendored from the antislop project:
+
+    .agents/skills/antislop/
+    .agents/skills/antislop-ui/
+    .agents/skills/antislop-copywriting/
+    .agents/skills/antislop-code/
+    .agents/skills/antislop-human/
+    .agents/skills/antislop-layoutmobile/
+
+Upstream:  https://github.com/miqdadbadjuber/anti-slop
+Commit:    743735248fbaefd76bb56619615687dfa8b3bc1e (2026-09-16)
+License:   MIT
+
+The adaptations made when vendoring are recorded in vendor/anti-slop.json. They
+are structural, with one exception: antislop-copywriting granted a voice
+override for em dashes that contradicted rule R-02, which the core states as an
+absolute Hard Gate, and that override was removed. Every other rule is upstream's
+wording.
+
+MIT License
+
+Copyright (c) 2026 Miqdad Badjuber
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
