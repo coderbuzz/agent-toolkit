@@ -278,7 +278,7 @@
     {
       "path": ".claude/CLAUDE.md",
       "role": "instruction-block",
-      "sha256": "945c635a01aea8e30446cb7494fa0d72a5863a18ecf71fc1180c114504f95de3"
+      "sha256": "40ceeecbcbb43b52546299824d1fee79ec912bad056bb8d0c2b49eefd4ebc1a0"
     }
   ],
   "schema_version": 1

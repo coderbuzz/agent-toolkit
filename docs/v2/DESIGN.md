@@ -124,3 +124,35 @@ Specialists (full bundle): design-ui, incident, observability, migrate
     Why section ("It covers the full SDLC, but applies only the lanes a task
     actually needs"). Skill bodies keep lane/gate/artifact vocabulary. The
     `start` heading and the artifacts template drop the SDLC prefix.
+
+## v3 Prompt-Driven Install (2026-09-19)
+24. **Install is a prompt, not a script.** The user pastes a prompt naming
+    `AGENT-INSTALL.md`; the agent reads that file and performs the install.
+    `dist/` stays the deploy source — only the front-end that copies a package
+    to a target changed. The shell and PowerShell installers (~3,300 lines) are
+    deleted from this line and remain working on `release/2.0.0`.
+25. **The build emits a files manifest.** Each package gains
+    `.agent-toolkit-files.json`: every installable file with its sha256 and a
+    role (`regular`, `shared-skill`, `instruction-block`, `command`). This is
+    what makes a prose protocol workable — the agent never hashes the package,
+    only files already at the target, so it can tell its own writes from the
+    user's. It also lets an agent without git fetch exactly one package's files.
+26. **The protocol is written to be unambiguous, and tested against the code.**
+    `AGENT-INSTALL.md` claims authority over every other file, states stop
+    conditions, requires the agent to ask rather than guess its platform, bounds
+    writes to an allowlist, and mandates a preview. Every constant it quotes is
+    asserted against `scripts/toolkit.py` by `tests/test_agent_protocol.py`,
+    because a drifted sentence is a broken installer with no stack trace.
+    Executing the protocol by hand against the CLI produced byte-identical trees
+    and ledgers in both scopes, and found one real gap: appending the managed
+    block to an existing instruction file needs a blank-line separator, or the
+    marker fuses to the user's last line and no later run can find the block.
+27. **Default scope flips to `repository`.** An install that omits a target is
+    an error rather than a silent write into the home directory.
+28. **antislop is vendored as core, not opt-in.** Six skills from
+    `miqdadbadjuber/anti-slop` (MIT) join the `core` and `full` bundles. Core
+    placement follows from on-demand loading: the session-start cost is one
+    family line in the pointer, and the 188 KB of rule text is read only when a
+    task touches UI, copy, or code comments. `scripts/vendor-anti-slop.py`
+    re-applies the adaptations in `vendor/anti-slop.json` and proves the rule
+    text is otherwise word-identical to upstream.

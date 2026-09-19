@@ -2,10 +2,11 @@
 
 🌐 **Languages**: [English](README.md) | [Bahasa Indonesia](README.id.md)
 
-> **Supercharge your AI coding agents with vendor-neutral work lanes, reusable skills, and approval gates — installed in seconds with zero dependencies.**
+> **Work lanes, skill, dan approval gate yang vendor-neutral untuk AI coding
+> agent Anda — dipasang dengan menempelkan prompt, bukan menjalankan installer.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero-brightgreen.svg)](#-quick-start)
+[![Install by prompt](https://img.shields.io/badge/Install-by%20prompt-brightgreen.svg)](#-quick-start)
 [![Platform Support](https://img.shields.io/badge/Platforms-Claude%20%7C%20OpenCode%20%7C%20Codex%20%7C%20Copilot%20%7C%20Gemini%20%7C%20OMP%20%7C%20ZCode-purple.svg)](#-supported-platforms--global-paths)
 
 ---
@@ -16,9 +17,9 @@ When using AI coding assistants (Claude Code, OpenCode, GitHub Copilot, Codex, G
 
 **Agent Toolkit** gives your AI agents a structured, battle-tested engineering process—from initial discovery and PRDs to specifications, implementation planning, code review, independent verification, and release readiness. It covers the full SDLC, but applies only the lanes a task actually needs.
 
-- 🚀 **Zero Dependencies**: Pure Shell & PowerShell installers. No Python or Node runtime needed to install.
+- 🚀 **Tidak ada yang perlu dipasang**: Anda menempelkan prompt; agent Anda membaca protokolnya dan mengerjakan sisanya. Tanpa skrip, tanpa runtime, tanpa package manager.
 - 🎯 **Vendor-Neutral & Portable**: Write your workflow rules once, deploy seamlessly across any platform.
-- 🛡️ **Fail-Closed & Safe**: Preview every install with dry-runs. Never silently overwrites your custom code or config.
+- 🛡️ **Fail-Closed & Safe**: Every install is previewed before a byte is written, and a file you edited is never overwritten.
 - 🤖 **Multi-Platform Native**: Pre-built native packages for Claude Code, OpenCode, Codex, GitHub Copilot, Gemini/Antigravity, OMP, and ZCode.
 
 ---
@@ -87,16 +88,50 @@ bertanya.
 
 ---
 
-## 🧠 Accessing Skills
+## 🧠 How loading works
 
-The toolkit ships skills that agents load on demand. How you reach them depends on your platform:
+Installing does not load 31 skills into your agent's context. It writes one
+small pointer file — `AGENTS.md`, or `CLAUDE.md` on Claude Code — listing each
+skill's name and a one-line trigger. That file is about 1.5 KB, and it is all
+your agent reads at the start of a session.
+
+A skill's full text is read only when a task actually calls for it. That is why
+adding skills stays cheap: the cost at session start is one line each, not the
+188 KB of procedure behind them.
+
+How you reach a skill depends on your platform:
 
 - **`/skills` menu**: Lists every installed skill. OpenCode sorts this list alphabetically by skill name — the order is not the workflow order.
 - **Skill tool**: Agents load a skill via the native `skill` tool when it is relevant to the task.
 - **OpenCode slash commands**: After a global install, each skill is also available as a `/<name>` command (e.g. `/start`, `/discover`, `/fix`) that loads and runs the matching skill.
 - **Naming**: Skill ids use hyphens (`start`), not underscores. Type them exactly.
 
-The default full-lane flow is: `start → discover → define → design → plan → implement → verify → review → fix → release → document`, with cross-cutting skills (`guardrails`, `memory`, `glossary`, `decide`, `test`, `threat`, `audit-deps`, `orchestrate`) and optional specialists (`design-ui`, `incident`, `observability`, `migrate`).
+The default full-lane flow is: `start → discover → define → design → plan → implement → verify → review → fix → release → document`, with cross-cutting skills (`guardrails`, `memory`, `glossary`, `decide`, `test`, `threat`, `audit-deps`, `orchestrate`), the [antislop family](#-antislop), and optional specialists (`design-ui`, `incident`, `observability`, `migrate`).
+
+## 🧹 antislop
+
+Six of the core skills are the [antislop](https://github.com/miqdadbadjuber/anti-slop)
+filter by Miqdad Badjuber, vendored here under MIT. They stop agents producing
+generic AI output — blue-purple gradients, invented statistics, copy that reads
+like a press release, comments that restate the line below them — without
+flattening the result into something sterile.
+
+| Skill | Loads when |
+| :--- | :--- |
+| `antislop` | The core filter: 38 rules, the liveliness dials, the delivery gate. |
+| `antislop-ui` | Building or editing an interface. |
+| `antislop-copywriting` | Writing or editing prose. |
+| `antislop-code` | Writing or editing code comments. |
+| `antislop-human` | Contrast, keyboard, focus, states. Ships a contrast checker. |
+| `antislop-layoutmobile` | Layouts that must reflow from phone to desktop. |
+
+The filter removes what should not be there; it does not supply direction. A
+`DESIGN.md` of your own is what makes the result yours.
+
+Attribution and the exact adaptations made when vendoring are in
+[`NOTICE`](NOTICE) and [`vendor/anti-slop.json`](vendor/anti-slop.json).
+
+---
 
 ## 💡 Usage — `/` commands vs `@` mentions
 
@@ -106,7 +141,7 @@ Two entry points in OpenCode trigger different machinery:
 | --- | --- | --- |
 | `/<name>` | Runs a **skill** in the current session. | `/start`, `/discover`, `/fix`, ... |
 | `@<file>` | Adds a file's content to context. | Not toolkit-specific. |
-| `/skills` | Lists all installed skills. | 25 skills (alphabetical). |
+| `/skills` | Lists all installed skills. | 31 skills (alphabetical). |
 
 In short: a **skill** says *how* to do the work; each skill's frontmatter declares the compact `role` that owns it.
 
@@ -177,15 +212,18 @@ flowchart TD
 
 ## 🧰 Skills Reference
 
+The [antislop](#-antislop) skills are not listed per phase: they apply wherever
+a task produces an interface, prose, or code comments.
+
 ### Phase 0: Navigator (Entrypoint)
 If you're unsure how to start a task, invoke the navigator skill:
-- 🚀 **`start`**: Classifies work into the optimal safety lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and guides step-by-step agent execution.
+- 🚀 **`start`**: Classifies work into the optimal safety lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and guides the selected lane step by step.
 
 ---
 
 ### Phase 1: Discover & Define (Product Scope)
 | Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- | :--- |
+| :--- | :--- | :--- |
 | `discover` | `guardrails` | **Discovery Report** |
 | `define` | `glossary` | **Product Requirements Document (PRD)** |
 
@@ -193,7 +231,7 @@ If you're unsure how to start a task, invoke the navigator skill:
 
 ### Phase 2: Architect & Design (Technical Design & Security)
 | Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- | :--- |
+| :--- | :--- | :--- |
 | `grill` | `decide` | **Confirmed Understanding / ADR** |
 | `design` | `threat`, `design-ui`, `test` | **Technical Specification (Spec)** |
 
@@ -201,15 +239,14 @@ If you're unsure how to start a task, invoke the navigator skill:
 
 ### Phase 3: Plan (Execution Planning)
 | Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- | :--- |
+| :--- | :--- | :--- |
 | `plan` | `test` | **Implementation Plan** |
-| `audit` | - | **Traceability Audit Report** |
 
 ---
 
 ### Phase 4: Build & Remediate (Coding & Bug Fixes)
 | Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- | :--- |
+| :--- | :--- | :--- |
 | `implement` | `guardrails`, `migrate`, `audit-deps`, `orchestrate` | **Source Code & Unit Tests** |
 | `fix` | `test` | **Root Cause Analysis & Fix Plan** |
 
@@ -217,7 +254,7 @@ If you're unsure how to start a task, invoke the navigator skill:
 
 ### Phase 5: Verify & Review (Quality & Security)
 | Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- | :--- |
+| :--- | :--- | :--- |
 | `review` | `audit-deps` | **Code Review Feedback** |
 | `verify` | `test` | **Verification Report** |
 
@@ -225,7 +262,7 @@ If you're unsure how to start a task, invoke the navigator skill:
 
 ### Phase 6: Ship & Maintain (Release & Operations)
 | Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- | :--- |
+| :--- | :--- | :--- |
 | `document` | `glossary` | **User Guides & Documentation** |
 | `release` | `orchestrate` | **Verified Release Candidate** |
 | `observability` | `incident`, `memory` | **Logs/Alerts & Incident Post-Mortem** |
@@ -279,7 +316,7 @@ Since skills are installed globally or at the project level, you don't need spec
 
 ## 🌐 Supported Platforms & Global Paths
 
-Install once globally into your home directory (`$HOME`) so all your repositories automatically inherit the toolkit's skills:
+A repository install is the default. Ask for a **global** install instead and the toolkit lands in your home directory, so every repository inherits it:
 
 | Platform | Global Instructions | Global Skills | Slash Commands |
 | :--- | :--- | :--- | :--- |
@@ -295,11 +332,41 @@ Install once globally into your home directory (`$HOME`) so all your repositorie
 
 ## 📦 Skill Bundles
 
-| Bundle | What's Included | Best For |
-| :--- | :--- | :--- |
-| **`core`** *(default)* | Lifecycle & cross-cutting skills | Everyday feature development & bug fixes |
-| Core + specialist skills (data migration, incident response) | Full product lifecycle & ops |
-| Audit, security, threat modeling & verification | Quality overlays for mature repos |
+| Bundle | Skills | What's Included | Best For |
+| :--- | ---: | :--- | :--- |
+| **`core`** *(default)* | 27 | Lifecycle, cross-cutting, and antislop skills | Everyday feature development & bug fixes |
+| **`full`** | 31 | Core plus the specialists (`design-ui`, `incident`, `observability`, `migrate`) | Full product lifecycle & ops |
+| **`quality`** | 7 | Grilling, guardrails, tests, threat modelling, dependency audit, review, verification | Quality overlays for mature repos |
+
+Name a bundle in step 3 of the install prompt. Omit it and you get `core`.
+
+---
+
+## 🏷️ Versions
+
+| Version | Branch | Tag | Install method |
+| :--- | :--- | :--- | :--- |
+| **3.0.0** *(current)* | `main` | `v3.0.0` | Agent prompt → [`AGENT-INSTALL.md`](AGENT-INSTALL.md) |
+| 2.0.0 | `release/2.0.0` | `v2.0.0` | Shell / PowerShell script |
+| 1.0.0 | `release/1.0.0` | `v1.0.0` | Shell / PowerShell script |
+
+Branch versi lama dibekukan, dan semua perintah di README-nya menunjuk ke
+dirinya sendiri, jadi installer dan uninstaller-nya tetap berfungsi.
+
+**Migrasi dari 2.0.0.** Format ledger tidak berubah, jadi pemasangan 2.0.0 bisa
+dihapus lewat jalur mana pun. Tapi kalau Anda menyimpan perintah 2.0.0 lama,
+URL-nya menunjuk ke `main` yang sudah tidak menyertakan skrip itu. Pakai ini:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/uninstall.sh | bash
+```
+
+```powershell
+irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/uninstall.ps1 | iex
+```
+
+Lalu pasang 3.0.0 dengan prompt di atas. Catatan lengkap ada di
+[`CHANGELOG.md`](CHANGELOG.md).
 
 ---
 
@@ -322,9 +389,17 @@ python3 scripts/toolkit.py export --all --bundle core
 # Verify no drift between canonical sources and dist/
 python3 scripts/toolkit.py check-drift --all --bundle core
 
-# Run full POSIX validation sequence
+# Re-sync the vendored antislop skills from an upstream checkout
+python3 scripts/vendor-anti-slop.py ../anti-slop
+
+# Run the full validation sequence
 ./scripts/validate-all.sh
 ```
+
+`scripts/toolkit.py` keeps `install` and `uninstall` subcommands. They are the
+executable reference that [`AGENT-INSTALL.md`](AGENT-INSTALL.md) describes and
+that `tests/test_agent_protocol.py` checks the protocol against — not the
+supported way for you to install the toolkit.
 
 ---
 
@@ -332,21 +407,22 @@ python3 scripts/toolkit.py check-drift --all --bundle core
 
 ```text
 .
-├── AGENTS.md                 # Portable core AI guidance
+├── AGENT-INSTALL.md          # The install protocol agents read and execute
+├── AGENTS.md                 # The pointer file installed into a project or $HOME
 ├── manifest.json             # Toolkit manifest & bundle definitions
+├── CHANGELOG.md              # Releases, and how to move between them
+├── NOTICE                    # Third-party attribution (antislop, MIT)
 ├── .agents/skills/           # Canonical reusable procedures
 ├── instructions/             # Shared communication and quality standards
 ├── standards/                # Architecture & traceability contracts
-├── dist/                     # Pre-built packages for instant zero-dep installs
-├── install.sh / install.ps1  # Zero-dependency terminal installer scripts
+├── templates/                # Artifact templates
+├── platforms/                # Per-platform path adapters
+├── vendor/                   # Vendoring records for third-party skills
+├── dist/                     # Pre-built packages (per-platform + dist/global)
 └── scripts/
-    ├── install.sh            # Zero-dependency POSIX installer
-    ├── install.ps1           # Zero-dependency PowerShell installer
-    ├── uninstall.sh          # Zero-dependency POSIX uninstaller
-    ├── uninstall.ps1         # Zero-dependency PowerShell uninstaller
-    ├── toolkit-lib.sh        # Helper POSIX bersama (ledger, managed block)
-    ├── setup.sh              # Interactive setup helper
-    └── toolkit.py            # Maintainer-only build CLI (validate, export, drift-check)
+    ├── toolkit.py            # Maintainer build CLI (validate, export, drift-check)
+    ├── vendor-anti-slop.py   # Re-syncs the vendored antislop skills
+    └── validate-all.sh/.ps1  # The full maintainer validation sequence
 ```
 
 ---
