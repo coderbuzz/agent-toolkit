@@ -13,6 +13,8 @@ from pathlib import Path, PurePosixPath
 
 
 TOOLKIT_ROOT = Path(__file__).resolve().parent.parent
+PACKAGE_METADATA_NAME = ".agent-toolkit-package.json"
+FILES_MANIFEST_NAME = ".agent-toolkit-files.json"
 LEDGER_NAME = ".agent-toolkit-install.json"
 SHARED_SKILLS_LEDGER_NAME = ".agent-toolkit-shared-skills.json"
 INSTRUCTION_BLOCK_BEGIN = "# >>> agent-toolkit instructions (managed; do not edit) >>>"
@@ -27,6 +29,9 @@ SOURCE_DIRS = (
 )
 SOURCE_FILES = ("AGENTS.md", "manifest.json")
 SKILL_GROUPS = ("lifecycle", "cross_cutting", "optional", "antislop")
+# Repository scope is the default: an install must never fall back to writing
+# into the user's home directory because a flag was omitted.
+DEFAULT_SCOPE = "repository"
 VALID_PLATFORMS = {"codex", "opencode", "github-copilot", "claude-code", "omp", "gemini", "zcode"}
 FORBIDDEN_SKILL_TEXT = (
     ".codex/",
@@ -485,9 +490,10 @@ def export_to_directory(platform, bundle, destination, root=TOOLKIT_ROOT):
     }
     write_text(
         destination,
-        ".agent-toolkit-package.json",
+        PACKAGE_METADATA_NAME,
         json.dumps(metadata, indent=2, sort_keys=True) + "\n",
     )
+    write_files_manifest(destination)
     return metadata
 
 
@@ -553,10 +559,40 @@ def export_to_global_directory(platform, bundle, destination, root=TOOLKIT_ROOT)
     }
     write_text(
         destination,
-        ".agent-toolkit-package.json",
+        PACKAGE_METADATA_NAME,
         json.dumps(metadata, indent=2, sort_keys=True) + "\n",
     )
+    roles = {relative: "shared-skill" for relative in shared_skill_files}
+    roles[instruction_relative] = "instruction-block"
+    if command_path_pattern:
+        for skill_name in selected_skills:
+            roles[command_path_pattern.replace("{name}", skill_name)] = "command"
+    write_files_manifest(destination, roles)
     return metadata
+
+
+def write_files_manifest(destination, roles=None):
+    """Record every installable file in the package with its hash and role.
+
+    An agent following AGENT-INSTALL.md copies from this list instead of walking
+    the package and hashing it. That removes the only step of the install that
+    needs bulk hashing, and it lets an agent without git fetch exactly the raw
+    files one package needs.
+
+    ``roles`` maps a path to one of shared-skill, instruction-block or command;
+    anything unlisted is a regular file copied straight to the target.
+    """
+    roles = roles or {}
+    entries = [
+        {"path": relative, "role": roles.get(relative, "regular"), "sha256": digest}
+        for relative, digest in sorted(package_files(destination, include_metadata=False).items())
+    ]
+    write_text(
+        destination,
+        FILES_MANIFEST_NAME,
+        json.dumps({"schema_version": 1, "files": entries}, indent=2, sort_keys=True) + "\n",
+    )
+    return entries
 
 
 def package_files(root, include_metadata=True):
@@ -569,7 +605,7 @@ def package_files(root, include_metadata=True):
         if path.is_file():
             relative = path.relative_to(root).as_posix()
             safe_relative_path(relative)
-            if not include_metadata and relative == ".agent-toolkit-package.json":
+            if not include_metadata and relative in (PACKAGE_METADATA_NAME, FILES_MANIFEST_NAME):
                 continue
             folded = relative.casefold()
             if any(existing.casefold() == folded and existing != relative for existing in files):
@@ -582,7 +618,7 @@ def validate_exported_package(package_root, platform, bundle, root=TOOLKIT_ROOT)
     errors = []
     if package_root.is_symlink() or not package_root.is_dir():
         return ["Package root must be a regular directory: {0}".format(package_root)]
-    metadata_path = package_root / ".agent-toolkit-package.json"
+    metadata_path = package_root / PACKAGE_METADATA_NAME
     if metadata_path.is_symlink() or not metadata_path.is_file():
         return ["Package metadata must be a regular file: {0}".format(metadata_path)]
     try:
@@ -631,7 +667,7 @@ def validate_exported_global_package(package_root, platform, bundle, root=TOOLKI
     errors = []
     if package_root.is_symlink() or not package_root.is_dir():
         return ["Package root must be a regular directory: {0}".format(package_root)]
-    metadata_path = package_root / ".agent-toolkit-package.json"
+    metadata_path = package_root / PACKAGE_METADATA_NAME
     if metadata_path.is_symlink() or not metadata_path.is_file():
         return ["Package metadata must be a regular file: {0}".format(metadata_path)]
     try:
@@ -793,7 +829,7 @@ def _load_ledger(target, name=LEDGER_NAME):
 
 
 def plan_install(package_root, target, exclude=None, ledger_file=LEDGER_NAME):
-    metadata = load_json(package_root / ".agent-toolkit-package.json")
+    metadata = load_json(package_root / PACKAGE_METADATA_NAME)
     package_hashes = package_files(package_root, include_metadata=False)
     if exclude:
         package_hashes = {
@@ -1257,7 +1293,7 @@ def apply_instruction_unblock(target, instruction_relative):
 
 def global_install_parts(package_root):
     """Split a global package into regular, shared-skill, and block parts."""
-    metadata = load_json(package_root / ".agent-toolkit-package.json")
+    metadata = load_json(package_root / PACKAGE_METADATA_NAME)
     shared = set(metadata.get("shared_skill_files", []))
     merges = metadata.get("merge_files", [])
     merge_paths = {entry["merge_file"] for entry in merges}
@@ -1326,19 +1362,23 @@ def command_export(args):
 
 
 def resolve_target(args):
-    """Return the operation root, defaulting global scope to the home directory."""
+    """Return the operation root, defaulting global scope to the home directory.
+
+    Repository scope has no default root on purpose: a missing --target is an
+    error rather than a silent install into the home directory.
+    """
     if getattr(args, "target", None) is not None:
         return args.target
-    if getattr(args, "scope", "global") == "global":
+    if getattr(args, "scope", DEFAULT_SCOPE) == "global":
         return Path(os.path.expanduser("~"))
     raise ToolkitError("--target is required for repository scope")
 
 
 def _prepared_package(args):
-    scope = getattr(args, "scope", "global")
+    scope = getattr(args, "scope", DEFAULT_SCOPE)
     if args.package:
         package = args.package.resolve()
-        metadata = load_json(package / ".agent-toolkit-package.json")
+        metadata = load_json(package / PACKAGE_METADATA_NAME)
         platform = metadata.get("platform")
         bundle = metadata.get("bundle")
         package_scope = metadata.get("scope", "repository")
@@ -1369,7 +1409,7 @@ def _prepared_package(args):
 
 
 def command_install(args):
-    scope = getattr(args, "scope", "global")
+    scope = getattr(args, "scope", DEFAULT_SCOPE)
     target = resolve_target(args)
     temporary, package = _prepared_package(args)
     try:
@@ -1430,7 +1470,7 @@ def _run_global_install(package, target, apply):
 
 
 def command_uninstall(args):
-    scope = getattr(args, "scope", "global")
+    scope = getattr(args, "scope", DEFAULT_SCOPE)
     target = resolve_target(args)
     if scope == "global":
         return _run_global_uninstall(target, args.platform, args.apply)
@@ -1522,7 +1562,7 @@ def build_parser():
     install_parser.add_argument("--platform", choices=sorted(VALID_PLATFORMS))
     install_parser.add_argument("--package", type=Path, help="Use an existing generated package.")
     install_parser.add_argument("--bundle", default="core", choices=("core", "full", "quality"))
-    install_parser.add_argument("--scope", default="global", choices=("repository", "global"))
+    install_parser.add_argument("--scope", default=DEFAULT_SCOPE, choices=("repository", "global"))
     install_parser.add_argument(
         "--target",
         type=Path,
@@ -1534,7 +1574,7 @@ def build_parser():
 
     uninstall_parser = subparsers.add_parser("uninstall", help="Preview or remove unchanged managed files.")
     uninstall_parser.add_argument("--platform", choices=sorted(VALID_PLATFORMS))
-    uninstall_parser.add_argument("--scope", default="global", choices=("repository", "global"))
+    uninstall_parser.add_argument("--scope", default=DEFAULT_SCOPE, choices=("repository", "global"))
     uninstall_parser.add_argument(
         "--target",
         type=Path,

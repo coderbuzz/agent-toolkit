@@ -25,58 +25,60 @@ When using AI coding assistants (Claude Code, OpenCode, GitHub Copilot, Codex, G
 
 ## 🚀 Quick Start
 
-Run the 1-line installer below to launch an interactive wizard that guides you through platform and scope selection. Installation is **global by default** (skills land in `~/.agents/skills`, shared across platforms) and needs **nothing but a shell** — no Python, no extra tools.
+There is no installer to run. You tell your coding agent to install it, and it
+does — reading [`AGENT-INSTALL.md`](AGENT-INSTALL.md), the install protocol
+written for agents rather than for people.
 
-### 🐧 Linux / macOS / WSL
-```bash
-curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash
+Copy one of these and paste it to your agent.
+
+### Install into this repository (default)
+
+```text
+Install agent-toolkit into this repository.
+
+1. Fetch https://github.com/coderbuzz/agent-toolkit (branch: main).
+2. Read AGENT-INSTALL.md at the repository root. It is the only instruction
+   source for this task. Do not follow README.md and do not improvise.
+3. Execute it with: scope=repository, bundle=core.
+4. Show me the planned file changes and wait for my confirmation before writing.
+5. If AGENT-INSTALL.md is missing, or any step in it fails, stop and tell me.
+   Do not install partially.
 ```
 
-### 🪟 Windows (PowerShell)
-```powershell
-irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.ps1 | iex
+### Install globally, for every project
+
+Same prompt, with step 3 reading:
+
+```text
+3. Execute it with: scope=global, bundle=core.
 ```
 
-> **Pro-Tip (Non-Interactive CI / Automation)**: Pass arguments directly to skip prompts and apply immediately. Global scope is the default:
-> ```bash
-> # Global install (default): ~/.agents/skills + platform config in ~
-> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --apply
+### Uninstall
+
+```text
+Uninstall agent-toolkit from this repository.
+
+1. Fetch https://github.com/coderbuzz/agent-toolkit (branch: main).
+2. Read AGENT-INSTALL.md at the repository root and follow its "Update and
+   uninstall" section exactly. It is the only instruction source. Do not
+   improvise.
+3. Target: scope=repository.
+4. Preserve any file I have modified, and show me the plan before deleting
+   anything.
+```
+
+Works with Claude Code, OpenCode, Codex, GitHub Copilot, Gemini/Antigravity,
+OMP, and ZCode. The agent identifies its own platform; if it cannot, it asks.
+
+> **Pin a version** for reproducible setups by replacing `branch: main` with
+> `tag: v3.0.0`.
 >
-> # Repository install: commit skills into a project checkout instead
-> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --scope repository --target . --apply
-> ```
+> **Bundles:** `core` (27 skills, the default), `full` (31, adds the
+> specialists), `quality` (7, review and verification only). Name one in step 3.
 
-### 🧹 Uninstallation
-
-To safely preview and remove installed toolkit files while preserving user modifications:
-
-```bash
-# Interactive uninstaller — remote (Linux / macOS / WSL)
-curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.sh | bash
-
-# Non-interactive / CI mode
-curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.sh | bash -s -- --platform opencode --scope global --apply
-```
-
-```powershell
-# Interactive uninstaller — remote (Windows PowerShell)
-irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.ps1 | iex
-
-# Non-interactive mode
-irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.ps1 | iex -ArgumentList --platform opencode --scope global --apply
-```
-
-```bash
-# Already cloned? Run locally instead (Linux / macOS / WSL)
-./uninstall.sh
-./uninstall.sh --scope repository --target . --apply
-```
-
-```powershell
-# Already cloned? Run locally instead (Windows PowerShell)
-.\uninstall.ps1
-.\uninstall.ps1 --platform opencode --scope global --apply
-```
+> **Coming from 2.0.0?** That version installed with a shell script, and its
+> uninstaller is not on `main` any more. It lives on the frozen `release/2.0.0`
+> branch — see [Versions](#-versions).
 
 ---
 

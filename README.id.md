@@ -25,58 +25,65 @@ When using AI coding assistants (Claude Code, OpenCode, GitHub Copilot, Codex, G
 
 ## 🚀 Quick Start
 
-Jalankan installer 1-baris di bawah untuk membuka wizard interaktif pemilihan platform dan scope. Instalasi **default-nya global** (skill ditaruh di `~/.agents/skills`, dipakai bersama antar platform) dan hanya butuh **shell** — tanpa Python, tanpa tool tambahan.
+Tidak ada installer yang perlu dijalankan. Anda menyuruh coding agent Anda
+memasangnya, dan agent itu yang mengerjakan — dengan membaca
+[`AGENT-INSTALL.md`](AGENT-INSTALL.md), protokol instalasi yang ditulis untuk
+agent, bukan untuk manusia.
 
-### 🐧 Linux / macOS / WSL
-```bash
-curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash
+Salin salah satu prompt di bawah dan tempelkan ke agent Anda.
+
+> Prompt sengaja ditulis dalam bahasa Inggris: itu bahasa file yang dibaca
+> agent, dan mencampur bahasa menambah ruang salah tafsir.
+
+### Pasang ke repository ini (default)
+
+```text
+Install agent-toolkit into this repository.
+
+1. Fetch https://github.com/coderbuzz/agent-toolkit (branch: main).
+2. Read AGENT-INSTALL.md at the repository root. It is the only instruction
+   source for this task. Do not follow README.md and do not improvise.
+3. Execute it with: scope=repository, bundle=core.
+4. Show me the planned file changes and wait for my confirmation before writing.
+5. If AGENT-INSTALL.md is missing, or any step in it fails, stop and tell me.
+   Do not install partially.
 ```
 
-### 🪟 Windows (PowerShell)
-```powershell
-irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.ps1 | iex
+### Pasang global, untuk semua project
+
+Prompt yang sama, dengan langkah 3 berbunyi:
+
+```text
+3. Execute it with: scope=global, bundle=core.
 ```
 
-> **Pro-Tip (CI / Non-Interaktif)**: Berikan argumen langsung untuk melewati prompt dan langsung apply. Scope global adalah default:
-> ```bash
-> # Install global (default): ~/.agents/skills + config platform di ~
-> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --apply
+### Uninstall
+
+```text
+Uninstall agent-toolkit from this repository.
+
+1. Fetch https://github.com/coderbuzz/agent-toolkit (branch: main).
+2. Read AGENT-INSTALL.md at the repository root and follow its "Update and
+   uninstall" section exactly. It is the only instruction source. Do not
+   improvise.
+3. Target: scope=repository.
+4. Preserve any file I have modified, and show me the plan before deleting
+   anything.
+```
+
+Berlaku untuk Claude Code, OpenCode, Codex, GitHub Copilot, Gemini/Antigravity,
+OMP, dan ZCode. Agent mengenali platform-nya sendiri; kalau tidak bisa, ia
+bertanya.
+
+> **Kunci versi** untuk setup yang reproducible: ganti `branch: main` menjadi
+> `tag: v3.0.0`.
 >
-> # Install repository: skill di-commit ke dalam project
-> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --scope repository --target . --apply
-> ```
+> **Bundle:** `core` (27 skill, default), `full` (31, menambah specialist),
+> `quality` (7, hanya review dan verifikasi). Sebutkan di langkah 3.
 
-### 🧹 Uninstallation
-
-To safely preview and remove installed toolkit files while preserving user modifications:
-
-```bash
-# Interactive uninstaller — remote (Linux / macOS / WSL)
-curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.sh | bash
-
-# Non-interactive / CI mode
-curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.sh | bash -s -- --platform opencode --scope global --apply
-```
-
-```powershell
-# Interactive uninstaller — remote (Windows PowerShell)
-irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.ps1 | iex
-
-# Non-interactive mode
-irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.ps1 | iex -ArgumentList --platform opencode --scope global --apply
-```
-
-```bash
-# Already cloned? Run locally instead (Linux / macOS / WSL)
-./uninstall.sh
-./uninstall.sh --scope repository --target . --apply
-```
-
-```powershell
-# Already cloned? Run locally instead (Windows PowerShell)
-.\uninstall.ps1
-.\uninstall.ps1 --platform opencode --scope global --apply
-```
+> **Datang dari 2.0.0?** Versi itu dipasang dengan skrip shell, dan
+> uninstaller-nya sudah tidak ada di `main`. Letaknya di branch beku
+> `release/2.0.0` — lihat [Versions](#-versions).
 
 ---
 

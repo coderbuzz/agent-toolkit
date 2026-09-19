@@ -75,27 +75,34 @@ class CliTests(unittest.TestCase):
             self.assertTrue((target / ".agent-toolkit-install.json").is_file())
             self.assertTrue((target / ".agents/skills/grill/SKILL.md").is_file())
 
-    def test_install_defaults_to_global_scope_without_target(self):
+    def _run_install(self, home, *extra):
+        environment = os.environ.copy()
+        environment["HOME"] = str(home)
+        return subprocess.run(
+            [sys.executable, str(TOOLKIT_SCRIPT), "install", "--platform", "opencode", *extra],
+            cwd=str(TOOLKIT_ROOT),
+            env=environment,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=False,
+        )
+
+    def test_install_defaults_to_repository_scope_and_demands_a_target(self):
+        """A missing --target must fail, never fall back to writing into HOME."""
         with tempfile.TemporaryDirectory() as temp:
             home = Path(temp) / "home"
             home.mkdir()
-            environment = os.environ.copy()
-            environment["HOME"] = str(home)
-            result = subprocess.run(
-                [
-                    sys.executable,
-                    str(TOOLKIT_SCRIPT),
-                    "install",
-                    "--platform",
-                    "opencode",
-                ],
-                cwd=str(TOOLKIT_ROOT),
-                env=environment,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                check=False,
-            )
+            result = self._run_install(home)
+            self.assertNotEqual(0, result.returncode, result.stdout)
+            self.assertIn("--target is required for repository scope", result.stderr)
+            self.assertEqual([], list(home.iterdir()), "home must be untouched")
+
+    def test_global_scope_still_defaults_its_target_to_home(self):
+        with tempfile.TemporaryDirectory() as temp:
+            home = Path(temp) / "home"
+            home.mkdir()
+            result = self._run_install(home, "--scope", "global")
             self.assertEqual(0, result.returncode, result.stderr)
             self.assertIn("Global install plan", result.stdout)
             self.assertIn("Dry run only", result.stdout)
@@ -119,120 +126,3 @@ class CliTests(unittest.TestCase):
             self.assertNotEqual(0, result.returncode)
             self.assertIn("user-owned", result.stderr)
             self.assertEqual("existing\n", agents.read_text(encoding="utf-8"))
-
-    def test_root_install_sh_script(self):
-        with tempfile.TemporaryDirectory() as temp:
-            target = Path(temp) / "target"
-            result = subprocess.run(
-                [
-                    str(TOOLKIT_ROOT / "install.sh"),
-                    "--platform",
-                    "opencode",
-                    "--scope",
-                    "repository",
-                    "--target",
-                    str(target),
-                ],
-                cwd=str(TOOLKIT_ROOT),
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                check=False,
-            )
-            self.assertEqual(0, result.returncode, result.stderr)
-            self.assertIn("Dry run only", result.stdout)
-
-    def test_root_uninstall_sh_script(self):
-        with tempfile.TemporaryDirectory() as temp:
-            target = Path(temp) / "target"
-            # First install
-            install_res = run_cli(
-                "install",
-                "--platform",
-                "opencode",
-                "--scope",
-                "repository",
-                "--target",
-                str(target),
-                "--apply",
-            )
-            self.assertEqual(0, install_res.returncode, install_res.stderr)
-            self.assertTrue((target / ".agent-toolkit-install.json").is_file())
-
-            # Now uninstall using uninstall.sh
-            result = subprocess.run(
-                [
-                    str(TOOLKIT_ROOT / "uninstall.sh"),
-                    "--scope",
-                    "repository",
-                    "--target",
-                    str(target),
-                    "--apply",
-                ],
-                cwd=str(TOOLKIT_ROOT),
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                check=False,
-            )
-            self.assertEqual(0, result.returncode, result.stderr)
-            self.assertIn("Uninstall completed", result.stdout)
-            self.assertFalse((target / ".agent-toolkit-install.json").exists())
-
-    def test_global_install_via_shell_script_records_ledger(self):
-        """Global install through scripts/install.sh (pure POSIX shell) must
-        write a non-empty ledger and preserve user instruction files."""
-        with tempfile.TemporaryDirectory() as temp:
-            home = Path(temp) / "home"
-            home.mkdir()
-            environment = os.environ.copy()
-            environment["HOME"] = str(home)
-
-            install = subprocess.run(
-                [
-                    str(TOOLKIT_ROOT / "scripts" / "install.sh"),
-                    "--platform",
-                    "opencode",
-                    "--scope",
-                    "global",
-                    "--bundle",
-                    "core",
-                    "--apply",
-                ],
-                cwd=str(TOOLKIT_ROOT),
-                env=environment,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                check=False,
-            )
-            self.assertEqual(0, install.returncode, install.stderr)
-
-            ledger = json.loads((home / ".agent-toolkit-install-opencode.json").read_text())
-            self.assertGreater(len(ledger["files"]), 0)
-            self.assertTrue((home / ".config/opencode/AGENTS.md").is_file())
-
-            uninstall = subprocess.run(
-                [
-                    str(TOOLKIT_ROOT / "scripts" / "uninstall.sh"),
-                    "--platform",
-                    "opencode",
-                    "--scope",
-                    "global",
-                    "--apply",
-                ],
-                cwd=str(TOOLKIT_ROOT),
-                env=environment,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                check=False,
-            )
-            self.assertEqual(0, uninstall.returncode, uninstall.stderr)
-            self.assertIn("Global uninstall completed", uninstall.stdout)
-            self.assertFalse((home / ".agent-toolkit-install-opencode.json").exists())
-
-
-if __name__ == "__main__":
-    unittest.main()
-
