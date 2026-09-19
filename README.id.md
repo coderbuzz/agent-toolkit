@@ -1,5 +1,30 @@
 # ⚡ Agent Toolkit
 
+> ### 📌 Ini versi 2.0.0, dan branch ini dibekukan
+>
+> Anda berada di `release/2.0.0`. Branch ini dipertahankan supaya apa pun yang
+> dipasang dengan 2.0.0 masih bisa diperbarui atau dihapus memakai perkakas yang
+> memasangnya. Tidak ada perubahan lagi di sini.
+>
+> **Versi terkini adalah 3.0.0, di [`main`](https://github.com/coderbuzz/agent-toolkit).**
+> Pemasangannya cukup dengan menempelkan sebuah prompt ke coding agent Anda,
+> bukan menjalankan skrip shell.
+>
+> Semua perintah di README ini menunjuk ke `release/2.0.0` dan tetap berfungsi.
+> Kalau Anda menyimpan perintah 2.0.0 versi lama yang menunjuk ke `main`,
+> perintah itu sekarang gagal — `main` tidak lagi menyertakan `install.sh`
+> maupun `uninstall.sh`. Pakai yang ini:
+>
+> ```bash
+> # Uninstall pemasangan 2.0.0 (Linux / macOS / WSL)
+> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/uninstall.sh | bash
+> ```
+>
+> ```powershell
+> # Uninstall pemasangan 2.0.0 (Windows PowerShell)
+> irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/uninstall.ps1 | iex
+> ```
+
 🌐 **Languages**: [English](README.md) | [Bahasa Indonesia](README.id.md)
 
 > **Supercharge your AI coding agents with vendor-neutral work lanes, reusable skills, and approval gates — installed in seconds with zero dependencies.**
@@ -29,21 +54,21 @@ Jalankan installer 1-baris di bawah untuk membuka wizard interaktif pemilihan pl
 
 ### 🐧 Linux / macOS / WSL
 ```bash
-curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/install.sh | bash
 ```
 
 ### 🪟 Windows (PowerShell)
 ```powershell
-irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/install.ps1 | iex
 ```
 
 > **Pro-Tip (CI / Non-Interaktif)**: Berikan argumen langsung untuk melewati prompt dan langsung apply. Scope global adalah default:
 > ```bash
 > # Install global (default): ~/.agents/skills + config platform di ~
-> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --apply
+> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/install.sh | bash -s -- --platform opencode --apply
 >
 > # Install repository: skill di-commit ke dalam project
-> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --scope repository --target . --apply
+> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/install.sh | bash -s -- --platform opencode --scope repository --target . --apply
 > ```
 
 ### 🧹 Uninstallation
@@ -52,18 +77,18 @@ To safely preview and remove installed toolkit files while preserving user modif
 
 ```bash
 # Interactive uninstaller — remote (Linux / macOS / WSL)
-curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.sh | bash
+curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/uninstall.sh | bash
 
 # Non-interactive / CI mode
-curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.sh | bash -s -- --platform opencode --scope global --apply
+curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/uninstall.sh | bash -s -- --platform opencode --scope global --apply
 ```
 
 ```powershell
 # Interactive uninstaller — remote (Windows PowerShell)
-irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.ps1 | iex
+irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/uninstall.ps1 | iex
 
 # Non-interactive mode
-irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.ps1 | iex -ArgumentList --platform opencode --scope global --apply
+irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/uninstall.ps1 | iex -ArgumentList --platform opencode --scope global --apply
 ```
 
 ```bash

@@ -1,5 +1,30 @@
 # ⚡ Agent Toolkit
 
+> ### 📌 This is version 2.0.0, and this branch is frozen
+>
+> You are on `release/2.0.0`. It is kept so that anything installed with 2.0.0
+> can still be updated or removed with the tooling that installed it. No further
+> changes land here.
+>
+> **Current version is 3.0.0, on [`main`](https://github.com/coderbuzz/agent-toolkit).**
+> It installs by pasting a prompt into your coding agent instead of running a
+> shell script.
+>
+> Every command in this README points at `release/2.0.0` and keeps working. If
+> you have an older copy of a 2.0.0 command that points at `main`, it will now
+> fail — `main` no longer ships `install.sh` or `uninstall.sh`. Use these
+> instead:
+>
+> ```bash
+> # Uninstall a 2.0.0 install (Linux / macOS / WSL)
+> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/uninstall.sh | bash
+> ```
+>
+> ```powershell
+> # Uninstall a 2.0.0 install (Windows PowerShell)
+> irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/uninstall.ps1 | iex
+> ```
+
 🌐 **Languages**: [English](README.md) | [Bahasa Indonesia](README.id.md)
 
 > **Supercharge your AI coding agents with vendor-neutral work lanes, reusable skills, and approval gates — installed in seconds with zero dependencies.**
@@ -29,21 +54,21 @@ Run the 1-line installer below to launch an interactive wizard that guides you t
 
 ### 🐧 Linux / macOS / WSL
 ```bash
-curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/install.sh | bash
 ```
 
 ### 🪟 Windows (PowerShell)
 ```powershell
-irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/install.ps1 | iex
 ```
 
 > **Pro-Tip (Non-Interactive CI / Automation)**: Pass arguments directly to skip prompts and apply immediately. Global scope is the default:
 > ```bash
 > # Global install (default): ~/.agents/skills + platform config in ~
-> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --apply
+> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/install.sh | bash -s -- --platform opencode --apply
 >
 > # Repository install: commit skills into a project checkout instead
-> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --scope repository --target . --apply
+> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/install.sh | bash -s -- --platform opencode --scope repository --target . --apply
 > ```
 
 ### 🧹 Uninstallation
@@ -52,18 +77,18 @@ To safely preview and remove installed toolkit files while preserving user modif
 
 ```bash
 # Interactive uninstaller — remote (Linux / macOS / WSL)
-curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.sh | bash
+curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/uninstall.sh | bash
 
 # Non-interactive / CI mode
-curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.sh | bash -s -- --platform opencode --scope global --apply
+curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/uninstall.sh | bash -s -- --platform opencode --scope global --apply
 ```
 
 ```powershell
 # Interactive uninstaller — remote (Windows PowerShell)
-irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.ps1 | iex
+irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/uninstall.ps1 | iex
 
 # Non-interactive mode
-irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.ps1 | iex -ArgumentList --platform opencode --scope global --apply
+irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/uninstall.ps1 | iex -ArgumentList --platform opencode --scope global --apply
 ```
 
 ```bash

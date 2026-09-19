@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Agent Toolkit Installer (POSIX Shell - Zero Dependencies)
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash
-#   curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --apply
+#   curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/install.sh | bash -s -- --platform opencode --apply
 #   ./install.sh --platform opencode --apply
 
 set -eu
@@ -32,7 +32,7 @@ else
 
     TMP_DIR=$(mktemp -d 2>/dev/null || mktemp -d -t 'agent-toolkit')
     echo "Cloning agent-toolkit repository..." >&2
-    git clone --quiet --depth 1 https://github.com/coderbuzz/agent-toolkit.git "$TMP_DIR/agent-toolkit"
+    git clone --quiet --depth 1 --branch release/2.0.0 https://github.com/coderbuzz/agent-toolkit.git "$TMP_DIR/agent-toolkit"
     TOOLKIT_DIR="$TMP_DIR/agent-toolkit"
 fi
 

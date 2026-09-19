@@ -32,7 +32,7 @@ else
 
     TMP_DIR=$(mktemp -d 2>/dev/null || mktemp -d -t 'agent-toolkit')
     echo "Cloning agent-toolkit repository..." >&2
-    git clone --quiet --depth 1 https://github.com/coderbuzz/agent-toolkit.git "$TMP_DIR/agent-toolkit"
+    git clone --quiet --depth 1 --branch release/2.0.0 https://github.com/coderbuzz/agent-toolkit.git "$TMP_DIR/agent-toolkit"
     TOOLKIT_DIR="$TMP_DIR/agent-toolkit"
 fi
 
