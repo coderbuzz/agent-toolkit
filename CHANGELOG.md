@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- `review` now evaluates simplicity and maintainability as explicit workflow
+  steps. Its description had promised both since 2.0.0, but the body carried no
+  step or criteria for either, so an agent loading the skill was never told to
+  look for them. Each new step is gated: a simplicity finding requires a named
+  replacement, a maintainability finding requires the future change it puts at
+  risk, so neither becomes a channel for taste. Severity guidance now states
+  that both are non-blocking unless the shortcoming causes a correctness,
+  security, or performance defect, and that dropping a test, a boundary
+  validation, or error handling is never a simplification.
+
 ## 3.0.0 (`main`, tag `v3.0.0`)
 
 **Breaking: the shell installers are gone.** Installing is now something you ask

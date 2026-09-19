@@ -238,7 +238,7 @@
     {
       "path": ".agents/skills/review/SKILL.md",
       "role": "regular",
-      "sha256": "50895f664a2060a3c1f2018bed05fa15e4d024be0cc6c8e837ac2a40ec26f1a4"
+      "sha256": "c5bea3aa62aa37e32427dabbac160a9284d2e722f1f5f1f4ace0cfefc1a9b718"
     },
     {
       "path": ".agents/skills/review/agents/openai.yaml",
@@ -308,7 +308,7 @@
     {
       "path": ".github/copilot-instructions.md",
       "role": "regular",
-      "sha256": "87d1b3f49df9f2065d8e6b74e6423e3d662ae559e938a362fda5bd362e1ad092"
+      "sha256": "be631189e4fb83e784331801ff704cbf16c1c3b6d04768cc8caac1ad637b2285"
     },
     {
       "path": "AGENTS.md",
