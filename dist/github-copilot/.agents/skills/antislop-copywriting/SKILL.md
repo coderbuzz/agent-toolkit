@@ -9,18 +9,25 @@ role: copy slop filter
 ---
 # antislop-copywriting
 
+> **Vendored skill.** This is a copy of [antislop](https://github.com/miqdadbadjuber/anti-slop)
+> by Miqdad Badjuber, MIT, pinned at commit `7437352`. The rules below are the
+> author's. The Agent Toolkit adapted the packaging (frontmatter, line width,
+> cross-references, and one rule conflict); every change is listed in
+> `vendor/anti-slop.json`. Report rule problems upstream, packaging problems to
+> this toolkit.
+
 > Anti Slop: Rules for AI Coding Agents. Copy & Text skill
 
-> Part of the antislop system. Read together with `antislop.md` (the core). This skill deep-dives the copy and text
-> concern: headlines, CTAs, tone, value propositions, and the patterns that make AI-written prose easy to spot. It
+> Part of the antislop system. Read together with the `antislop` skill (the core). This skill deep-dives the copy and
+> text concern: headlines, CTAs, tone, value propositions, and the patterns that make AI-written prose easy to spot. It
 > references core rules by number and never duplicates or renumbers them. Load it when the task writes or edits
 > marketing copy, product copy, landing-page text, or any prose meant for people to read.
 
 ## How to use this skill
 
-- Load together with `antislop.md` whenever the task is copy or text work. The core holds the mechanism (the purpose
-  test, the three tiers, the Delivery Gate) and the hard bans (R-02, R-15, R-16, R-17, R-18, R-36, R-38). This skill
-  holds copy-specific depth that the core does not.
+- Load together with the `antislop` skill whenever the task is copy or text work. The core holds the mechanism (the
+  purpose test, the three tiers, the Delivery Gate) and the hard bans (R-02, R-15, R-16, R-17, R-18, R-36, R-38). This
+  skill holds copy-specific depth that the core does not.
 - Every pattern has the same shape: **The pattern**, **Why it reads as AI**, **Before** (the slop), **After** (the fix),
   with the governing core rule cited as R-XX.
 - Two rules apply to everything below:
@@ -325,8 +332,8 @@ role: copy slop filter
   > It blends OKRs, KPIs, and visual strategy tools for planning.
 - **Rule:** R-36.
 - **Carve-out:** the structural labels inside the antislop rules themselves (the `**FORBIDDEN**` / `**REQUIRED**`
-  markers in `antislop.md`) are documentation conventions, not the mechanical bold-every-key-term pattern above, and are
-  exempt.
+  markers in the `antislop` skill) are documentation conventions, not the mechanical bold-every-key-term pattern above,
+  and are exempt.
 
 ### Excessive Quotation Marks
 

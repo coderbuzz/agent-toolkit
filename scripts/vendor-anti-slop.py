@@ -78,6 +78,56 @@ def strip_install_wizard(text):
     return "\n".join(lines)
 
 
+PROVENANCE = """> **Vendored skill.** This is a copy of [antislop](https://github.com/miqdadbadjuber/anti-slop)
+> by Miqdad Badjuber, MIT, pinned at commit `7437352`. The rules below are the
+> author's. The Agent Toolkit adapted the packaging (frontmatter, line width,
+> cross-references, and one rule conflict); every change is listed in
+> `vendor/anti-slop.json`. Report rule problems upstream, packaging problems to
+> this toolkit.
+"""
+
+
+def add_provenance(text):
+    """State, in the skill itself, that it is a copy and what we changed.
+
+    Anyone opening an installed SKILL.md should see whose work it is without
+    having to find NOTICE, and should know which tracker to use.
+    """
+    lines = text.split("\n")
+    heading = next(i for i, line in enumerate(lines) if line.startswith("# "))
+    lines[heading + 1:heading + 1] = ["", *PROVENANCE.rstrip("\n").split("\n")]
+    return "\n".join(lines)
+
+
+def point_at_the_core_skill(text):
+    """Upstream ships the core as `antislop.md`; here it is the `antislop` skill.
+
+    Left as-is, eleven lines tell the agent to load a file this toolkit does not
+    install. Worse, an OpenCode global install does contain a file named
+    antislop.md: the generated slash-command stub, which is not the core at all.
+    """
+    replacements = [
+        ("Read together with `antislop.md` (the core)",
+         "Read together with the `antislop` skill (the core)"),
+        ("Load together with `antislop.md` whenever",
+         "Load together with the `antislop` skill whenever"),
+        ("read `antislop.md` (core) and then the skill for the task",
+         "read the `antislop` skill (the core) and then the skill for the task"),
+        ("`antislop.md` is a **filter**, not a style guide.",
+         "The `antislop` skill is a **filter**, not a style guide."),
+        ("`antislop.md` is one of three files, and it is a **filter, not a source of direction**:",
+         "The `antislop` skill is one of three parts, and it is a **filter, not a source of direction**:"),
+        ("- `antislop.md` rejects slop and requires liveliness.",
+         "- The `antislop` skill rejects slop and requires liveliness."),
+        ("then `antislop.md`", "then the `antislop` skill"),
+        ("markers in `antislop.md`)", "markers in the `antislop` skill)"),
+    ]
+    for old, new in replacements:
+        text = text.replace(old, new)
+    assert "`antislop.md`" not in text, "an antislop.md reference was left behind"
+    return text
+
+
 def enforce_hard_gate_r02(text):
     """Remove the em dash exceptions that contradict R-02.
 
@@ -231,9 +281,10 @@ for name in FRONTMATTER:
         shutil.copyfile(UPSTREAM / "skills" / name / "contrast-check.py",
                         dst_dir / "contrast-check.py")
 
+    text = point_at_the_core_skill(text)
     adapted = rewrite_frontmatter(text, name)
     wrapped, n = rewrap(adapted)
-    (dst_dir / "SKILL.md").write_text(wrapped, encoding="utf-8")
+    (dst_dir / "SKILL.md").write_text(add_provenance(wrapped), encoding="utf-8")
 
     # prose after the frontmatter must be word-identical to the adapted input
     body_before = adapted.split("\n---\n", 1)[1]

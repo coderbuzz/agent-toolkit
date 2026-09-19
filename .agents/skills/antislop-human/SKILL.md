@@ -9,17 +9,24 @@ role: accessibility filter
 ---
 # antislop-human
 
+> **Vendored skill.** This is a copy of [antislop](https://github.com/miqdadbadjuber/anti-slop)
+> by Miqdad Badjuber, MIT, pinned at commit `7437352`. The rules below are the
+> author's. The Agent Toolkit adapted the packaging (frontmatter, line width,
+> cross-references, and one rule conflict); every change is listed in
+> `vendor/anti-slop.json`. Report rule problems upstream, packaging problems to
+> this toolkit.
+
 > Anti Slop: Rules for AI Coding Agents. Human skill
 
-> Part of the antislop system. Read together with `antislop.md` (the core). This skill deep-dives the human concern: the
-> UI must stay usable by people with different eyes, hands, and setups. Contrast, keyboard, focus, states, and the
-> mobile details that exclude people.
+> Part of the antislop system. Read together with the `antislop` skill (the core). This skill deep-dives the human
+> concern: the UI must stay usable by people with different eyes, hands, and setups. Contrast, keyboard, focus, states,
+> and the mobile details that exclude people.
 
 ## How to use this skill
 
-- Load together with `antislop.md` whenever the task builds or edits UI. The core holds the mechanism (the purpose test,
-  the three tiers, the Delivery Gate); this skill holds the human-side depth: the parts of a UI that exclude people with
-  different eyes, hands, and setups.
+- Load together with the `antislop` skill whenever the task builds or edits UI. The core holds the mechanism (the
+  purpose test, the three tiers, the Delivery Gate); this skill holds the human-side depth: the parts of a UI that
+  exclude people with different eyes, hands, and setups.
 - Every entry has the same shape: **Tell** (the pattern), **Why** (who it excludes, and why it reads as unfinished),
   **Fix** (what to do instead), with the governing core rule cited as R-XX.
 - Accessibility is not a checklist of extras bolted on at the end. It is part of the core promise that "the UI holds up"

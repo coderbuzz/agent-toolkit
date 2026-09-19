@@ -9,17 +9,24 @@ role: comment slop filter
 ---
 # antislop-code
 
+> **Vendored skill.** This is a copy of [antislop](https://github.com/miqdadbadjuber/anti-slop)
+> by Miqdad Badjuber, MIT, pinned at commit `7437352`. The rules below are the
+> author's. The Agent Toolkit adapted the packaging (frontmatter, line width,
+> cross-references, and one rule conflict); every change is listed in
+> `vendor/anti-slop.json`. Report rule problems upstream, packaging problems to
+> this toolkit.
+
 > Anti Slop: Rules for AI Coding Agents. Code Comments skill
 
-> Part of the antislop system. Read together with `antislop.md` (the core). This skill filters comments that read as
-> generically AI (decorative, restating the obvious, stiff, loud) while preserving the comments that carry real
+> Part of the antislop system. Read together with the `antislop` skill (the core). This skill filters comments that read
+> as generically AI (decorative, restating the obvious, stiff, loud) while preserving the comments that carry real
 > information. It references core rules by number and never duplicates or renumbers them. Load it when the task writes
 > or edits code comments.
 
 ## How to use this skill
 
-- Load together with `antislop.md` whenever the task touches code comments. The core holds the mechanism (the purpose
-  test, the three tiers, the Delivery Gate); this skill holds comment-specific depth.
+- Load together with the `antislop` skill whenever the task touches code comments. The core holds the mechanism (the
+  purpose test, the three tiers, the Delivery Gate); this skill holds comment-specific depth.
 - Every entry has the same shape: **Tell** (the pattern), **Why** (why it reads as slop), **Fix** (what to do instead),
   with the governing core rule cited as R-XX.
 - **Scope guardrail:** this skill only modifies comments. Never modify executable code, identifiers, imports,

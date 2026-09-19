@@ -66,8 +66,25 @@ python3 scripts/vendor-anti-slop.py ../anti-slop
 
 The script re-applies every adaptation recorded in `vendor/anti-slop.json` and
 prints, per skill, whether the rule text is still word-identical to upstream. It
-fails if a rewrap changed a word or left a prose line over 120 characters. Update
-the pinned commit in `vendor/anti-slop.json` and `NOTICE` after a re-sync.
+fails if a rewrap changed a word, left a prose line over 120 characters, or if
+upstream's wording moved out from under an adaptation. Update the pinned commit
+in `vendor/anti-slop.json`, `NOTICE`, and the provenance block in
+`scripts/vendor-anti-slop.py` after a re-sync.
+
+Rules for changing a vendored skill:
+
+1. **Never edit the vendored `SKILL.md` directly.** The next sync overwrites it.
+   Add an adaptation function to `scripts/vendor-anti-slop.py` instead, and
+   record it in `vendor/anti-slop.json`.
+2. **Every adaptation asserts its input.** If upstream rewords the text an
+   adaptation targets, the sync must fail loudly rather than silently skip the
+   change. This has already caught one mistake.
+3. **Packaging changes are ours; rule changes are not.** Adapt frontmatter, line
+   width, cross-references, and paths freely. Changing what a rule *means* needs
+   a reason recorded in `vendor/anti-slop.json` and, so far, has happened once:
+   `r02-has-no-voice-override`. Prefer an upstream issue.
+4. **Keep the README's adaptation table in step** with
+   `vendor/anti-slop.json`. It is what a reader sees before the JSON.
 
 ## Adding or Updating a Skill
 

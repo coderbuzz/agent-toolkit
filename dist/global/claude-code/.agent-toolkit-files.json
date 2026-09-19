@@ -3,7 +3,7 @@
     {
       "path": ".agents/skills/antislop-code/SKILL.md",
       "role": "shared-skill",
-      "sha256": "699654ee0cf9e2ee5913dfee8bb8d7804bcb671c5d83f6e8d1639299ac545f92"
+      "sha256": "ce1a22fa7a03c111300f79955c6370bc7e7439de25908260dbb31cc248393f6a"
     },
     {
       "path": ".agents/skills/antislop-code/agents/openai.yaml",
@@ -13,7 +13,7 @@
     {
       "path": ".agents/skills/antislop-copywriting/SKILL.md",
       "role": "shared-skill",
-      "sha256": "811b8d1d58d1b384e8b565c81b6beefd4fb6147a3f3a4a07b6bf74e6a5e5b498"
+      "sha256": "ff4fe32b2549fe1542eb9a85811a22031659fee55cbe75224fb547f756eadc7a"
     },
     {
       "path": ".agents/skills/antislop-copywriting/agents/openai.yaml",
@@ -23,7 +23,7 @@
     {
       "path": ".agents/skills/antislop-human/SKILL.md",
       "role": "shared-skill",
-      "sha256": "424eba5e1245bd54a9b84714ddd0aa2b239c1ae80bc2a09f2f4e4a6805b5ce4a"
+      "sha256": "3fbcfd63028ab4cc4e76856fd079ca2ae8625e7460dc7c8b53d61e491788f416"
     },
     {
       "path": ".agents/skills/antislop-human/agents/openai.yaml",
@@ -38,7 +38,7 @@
     {
       "path": ".agents/skills/antislop-layoutmobile/SKILL.md",
       "role": "shared-skill",
-      "sha256": "032396bad0c2077773cc38926171ee479796356560020183965568a7a2825acf"
+      "sha256": "1c7cf6e36e29206a2aa21b6db20206bee7ac723da360168784765bbb689dff0a"
     },
     {
       "path": ".agents/skills/antislop-layoutmobile/agents/openai.yaml",
@@ -48,7 +48,7 @@
     {
       "path": ".agents/skills/antislop-ui/SKILL.md",
       "role": "shared-skill",
-      "sha256": "22a10e700367dcfe8486d73e87a41500523b8df6ce087fe3a32f4e4ca31efb73"
+      "sha256": "067a223f7ae0e6b293a17f326c9eead2c99b684201f92182e167047b5a5450a0"
     },
     {
       "path": ".agents/skills/antislop-ui/agents/openai.yaml",
@@ -58,7 +58,7 @@
     {
       "path": ".agents/skills/antislop/SKILL.md",
       "role": "shared-skill",
-      "sha256": "f6b2009b7513a549b19ccd0b98154a0cb47641dddeebf293bec43759d2c6458f"
+      "sha256": "80dd59bff4cbfc34cc563705ab7570ddf311bacecae540b75301fdcee84e2b5c"
     },
     {
       "path": ".agents/skills/antislop/agents/openai.yaml",
@@ -278,7 +278,7 @@
     {
       "path": ".claude/CLAUDE.md",
       "role": "instruction-block",
-      "sha256": "d24e9097b2a430a24e720e791a1f5e49761e689fea5888f544dc4fcad4f8b5c4"
+      "sha256": "87d1b3f49df9f2065d8e6b74e6423e3d662ae559e938a362fda5bd362e1ad092"
     }
   ],
   "schema_version": 1

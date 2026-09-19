@@ -9,16 +9,23 @@ role: ui slop filter
 ---
 # antislop-ui
 
+> **Vendored skill.** This is a copy of [antislop](https://github.com/miqdadbadjuber/anti-slop)
+> by Miqdad Badjuber, MIT, pinned at commit `7437352`. The rules below are the
+> author's. The Agent Toolkit adapted the packaging (frontmatter, line width,
+> cross-references, and one rule conflict); every change is listed in
+> `vendor/anti-slop.json`. Report rule problems upstream, packaging problems to
+> this toolkit.
+
 > Anti Slop: Rules for AI Coding Agents. UI & Visual skill
 
-> Part of the antislop system. Read together with `antislop.md` (the core). This skill deep-dives the UI/visual concern:
-> color, layout, components, decoration, structural flow, and motion. It references core rules by number and never
-> duplicates or renumbers them. Load it when the task builds or edits a website, web app, or any interface.
+> Part of the antislop system. Read together with the `antislop` skill (the core). This skill deep-dives the UI/visual
+> concern: color, layout, components, decoration, structural flow, and motion. It references core rules by number and
+> never duplicates or renumbers them. Load it when the task builds or edits a website, web app, or any interface.
 
 ## How to use this skill
 
-- Load together with `antislop.md` whenever the task is UI or visual work. The core holds the mechanism (the purpose
-  test, the three tiers, the Delivery Gate); this skill holds UI-specific depth.
+- Load together with the `antislop` skill whenever the task is UI or visual work. The core holds the mechanism (the
+  purpose test, the three tiers, the Delivery Gate); this skill holds UI-specific depth.
 - Every entry has the same shape: **Tell** (the pattern), **Why** (why it reads as slop), **Fix** (what to do instead),
   with the governing core rule cited as R-XX.
 - The Delivery Gate in the core remains the gate. The "UI Skill Checklist" at the end of this file is the UI-specific

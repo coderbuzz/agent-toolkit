@@ -2,6 +2,19 @@
   "adaptations": [
     {
       "applies_to": [
+        "antislop",
+        "antislop-ui",
+        "antislop-copywriting",
+        "antislop-code",
+        "antislop-human",
+        "antislop-layoutmobile"
+      ],
+      "change": "Replaced every reference to the core file `antislop.md` with the `antislop` skill.",
+      "id": "core-is-a-skill-not-a-file",
+      "reason": "Upstream ships the core as a standalone antislop.md. This toolkit installs it as a skill, so eleven lines told the agent to load a file that is not there. An OpenCode global install does contain a file named antislop.md, the generated slash-command stub, so the agent could read the wrong file instead of failing."
+    },
+    {
+      "applies_to": [
         "antislop-human"
       ],
       "change": "Did not vendor contrast-mcp.py; contrast-check.py is included and is the only path the skill references.",
@@ -60,6 +73,19 @@
     },
     {
       "applies_to": [
+        "antislop",
+        "antislop-ui",
+        "antislop-copywriting",
+        "antislop-code",
+        "antislop-human",
+        "antislop-layoutmobile"
+      ],
+      "change": "Added a short provenance block under each skill's heading, naming the upstream project, author, license, pinned commit, and where to report rule problems versus packaging problems.",
+      "id": "provenance-note",
+      "reason": "Anyone opening an installed SKILL.md should see whose work it is without having to find NOTICE, and should know which tracker to use."
+    },
+    {
+      "applies_to": [
         "antislop-copywriting"
       ],
       "change": "Removed the three em dash exceptions (the Voice override bullet, the voice-calibration carve-out, and the checklist's 'unless the user's own sample voice uses them'). The False positive note is kept: it is about detecting AI in other people's writing, not about what the agent may write.",
@@ -67,6 +93,7 @@
       "reason": "The core states R-02 as a Hard Gate, forbidden in any text and a FAIL regardless of purpose, while this skill granted a voice override in three places. Agents that load both resolve the contradiction in favour of the exception and keep emitting em dashes."
     }
   ],
+  "fidelity": "The rule text is upstream's. The only change to a rule's meaning is r02-has-no-voice-override. scripts/vendor-anti-slop.py verifies on every sync that rewrapping changed no word.",
   "license": "MIT",
   "name": "anti-slop",
   "resync": "Re-run scripts/vendor-anti-slop.py against a fresh upstream checkout, then re-apply this file's adaptations and update commit and vendored_at.",

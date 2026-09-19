@@ -128,8 +128,32 @@ without flattening the result into something sterile.
 The filter removes what should not be there; it does not supply direction. A
 `DESIGN.md` of your own is what makes the result yours.
 
-Attribution and the exact adaptations made when vendoring are in
-[`NOTICE`](NOTICE) and [`vendor/anti-slop.json`](vendor/anti-slop.json).
+### Our adoption note
+
+These six are **vendored, not written here**. Every installed `SKILL.md` opens
+with a provenance block naming the upstream project, its author, the MIT
+license, and the pinned commit, so you can see that from inside the skill
+without going looking for it.
+
+What this means in practice:
+
+- **The rules are upstream's.** If a rule is wrong, or you disagree with one,
+  raise it at [miqdadbadjuber/anti-slop](https://github.com/miqdadbadjuber/anti-slop),
+  not here.
+- **The packaging is ours.** Frontmatter, line width, how the skills refer to
+  each other, and how they install are this toolkit's problem. Raise those here.
+- **One rule's meaning was changed**, and only one: `antislop-copywriting`
+  granted a voice override for em dashes that the core forbids outright as a
+  Hard Gate (R-02). Agents resolved that contradiction in favour of the
+  exception and kept writing em dashes, so the override is gone. Upstream has
+  not made this change.
+- **Nothing drifts silently.** `scripts/vendor-anti-slop.py` re-applies every
+  adaptation on each sync and refuses to run if upstream's wording moved out
+  from under one.
+
+The full list is in [Credits](#-credits--references), with the machine-readable
+record in [`vendor/anti-slop.json`](vendor/anti-slop.json) and the MIT text in
+[`NOTICE`](NOTICE).
 
 ---
 
@@ -212,8 +236,24 @@ flowchart TD
 
 ## 🧰 Skills Reference
 
-The [antislop](#-antislop) skills are not listed per phase: they apply wherever
-a task produces an interface, prose, or code comments.
+### Cross-cutting: antislop (vendored)
+
+Not listed per phase, because they apply wherever a task produces an interface,
+prose, or code comments. These six are copied from
+[antislop](https://github.com/miqdadbadjuber/anti-slop) (MIT) rather than
+written here, and each installed `SKILL.md` says so in its own provenance block.
+See [antislop](#-antislop) for the adoption note and what we adapted.
+
+| Skill | Loads when | Origin |
+| :--- | :--- | :--- |
+| `antislop` | Any task that produces UI, prose, or code comments | Vendored |
+| `antislop-ui` | Building or editing an interface | Vendored |
+| `antislop-copywriting` | Writing or editing prose | Vendored, one rule adapted |
+| `antislop-code` | Writing or editing code comments | Vendored |
+| `antislop-human` | Contrast, keyboard, focus, states | Vendored |
+| `antislop-layoutmobile` | Layouts that reflow from phone to desktop | Vendored |
+
+---
 
 ### Phase 0: Navigator (Entrypoint)
 If you're unsure how to start a task, invoke the navigator skill:
@@ -427,17 +467,56 @@ supported way for you to install the toolkit.
 
 ---
 
-## 🌟 References & Inspiration
+## 🌟 Credits & References
 
-This project draws inspiration and architectural patterns from open-source community standards and official agentic platform specifications:
+### Bundled work
 
-- **[mattpocock/skills](https://github.com/mattpocock/skills)** by Matt Pocock – Principles-first skill design and the direct inspiration for v2: the user-invoked vs model-invoked taxonomy, grilling before ambiguous or irreversible work (`grill`), shared language via CONTEXT.md (`context`), and TDD as a build discipline folded into `implement`.
-- **[awesome-copilot-id](https://github.com/GulajavaMinistudio/awesome-copilot-id)** by GulajavaMinistudio – Primary reference for prompt structures, skill format conventions, role definitions, and terminal installation workflows.
-- **[OpenCode](https://opencode.ai)** – Agent role definitions and shared skill conventions.
-- **[OpenAI Codex & Agent Specifications](https://github.com/openai)** – `AGENTS.md` format and fail-closed permission models.
-- **[Anthropic Claude Code](https://docs.anthropic.com)** – `CLAUDE.md` guidelines and subagent patterns.
-- **[GitHub Copilot Custom Instructions](https://docs.github.com/en/copilot)** – Custom agent prompt engineering patterns.
-- **[Google Antigravity / Gemini CLI](https://cloud.google.com)** – Agentic workflow orchestration standards.
+Six of the skills this toolkit installs are not ours. They are copied in, and
+they ship under their own license.
+
+**[antislop](https://github.com/miqdadbadjuber/anti-slop)** by Miqdad Badjuber, MIT.
+Pinned at commit [`7437352`](https://github.com/miqdadbadjuber/anti-slop/commit/743735248fbaefd76bb56619615687dfa8b3bc1e).
+Installed as `antislop`, `antislop-ui`, `antislop-copywriting`, `antislop-code`,
+`antislop-human`, and `antislop-layoutmobile`. The 38 rules, the liveliness
+dials, and the delivery gate are the author's work, not ours.
+
+We changed nine things to fit this toolkit. Each installed `SKILL.md` carries a
+provenance note saying so, and all nine are recorded in
+[`vendor/anti-slop.json`](vendor/anti-slop.json) and re-applied by
+`scripts/vendor-anti-slop.py` on every upstream sync:
+
+| What | Why |
+| :--- | :--- |
+| A provenance note added under each skill's heading | So anyone opening an installed skill sees whose work it is, and knows to report rule problems upstream |
+| Every reference to the core file `antislop.md` now names the `antislop` skill | Upstream ships the core as a standalone file; we install it as a skill. Eleven lines told the agent to load a file that is not there, and an OpenCode global install has a slash-command stub of that same name it could read instead |
+| Frontmatter rewritten (`allowed-tools` dropped, `invocation` and `role` added) | Our validator allows only five keys |
+| 417 prose lines rewrapped to 120 characters | Our validator rejects longer lines. Word sequence is unchanged |
+| The core's "First-Run Install Wizard" replaced with a pointer to `AGENT-INSTALL.md` | It ran its own install flow, which fought ours |
+| The core's description no longer says "Load always" | Nothing here is always-on; skills load on demand |
+| `${CLAUDE_SKILL_DIR}` replaced with a relative path | Skill bodies stay free of platform-specific variables |
+| `contrast-mcp.py` not copied (`contrast-check.py` is) | Proprietary MCP identifiers are outside our portability contract |
+| The three em dash exceptions removed from `antislop-copywriting` | The core states R-02 as an absolute Hard Gate, while the skill granted a voice override in three places. Agents resolved the contradiction in favour of the exception and kept writing em dashes |
+
+Eight of those are packaging. Only the last changes what a rule means, and it
+changes it towards what the core already said. The rule text itself is
+upstream's: `scripts/vendor-anti-slop.py` checks on every sync that rewrapping
+altered no word, and refuses to run if upstream's wording moved out from under
+an adaptation. Full attribution and the MIT text are in [`NOTICE`](NOTICE).
+
+If you want antislop on its own, without this toolkit, get it from
+[the upstream repository](https://github.com/miqdadbadjuber/anti-slop).
+
+### Inspiration
+
+Patterns and conventions we learned from, but did not copy:
+
+- **[mattpocock/skills](https://github.com/mattpocock/skills)** by Matt Pocock: principles-first skill design and the direct inspiration for v2. The user-invoked vs model-invoked taxonomy, grilling before ambiguous or irreversible work (`grill`), shared language via CONTEXT.md (`context`), and TDD as a build discipline folded into `implement`.
+- **[awesome-copilot-id](https://github.com/GulajavaMinistudio/awesome-copilot-id)** by GulajavaMinistudio: prompt structures, skill format conventions, role definitions, and terminal installation workflows.
+- **[OpenCode](https://opencode.ai)**: agent role definitions and shared skill conventions.
+- **[OpenAI Codex & Agent Specifications](https://github.com/openai)**: the `AGENTS.md` format and fail-closed permission models.
+- **[Anthropic Claude Code](https://docs.anthropic.com)**: `CLAUDE.md` guidelines and subagent patterns.
+- **[GitHub Copilot Custom Instructions](https://docs.github.com/en/copilot)**: custom agent prompt engineering patterns.
+- **[Google Antigravity / Gemini CLI](https://cloud.google.com)**: agentic workflow orchestration standards.
 
 ---
 

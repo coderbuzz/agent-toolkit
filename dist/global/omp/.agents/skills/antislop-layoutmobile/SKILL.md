@@ -9,17 +9,24 @@ role: responsive layout filter
 ---
 # antislop-layoutmobile
 
+> **Vendored skill.** This is a copy of [antislop](https://github.com/miqdadbadjuber/anti-slop)
+> by Miqdad Badjuber, MIT, pinned at commit `7437352`. The rules below are the
+> author's. The Agent Toolkit adapted the packaging (frontmatter, line width,
+> cross-references, and one rule conflict); every change is listed in
+> `vendor/anti-slop.json`. Report rule problems upstream, packaging problems to
+> this toolkit.
+
 > Anti Slop: Rules for AI Coding Agents. Mobile Layout skill
 
-> Part of the antislop system. Read together with `antislop.md` (the core). This skill deep-dives the responsive layout
-> concern: how a layout must reflow across screen sizes, phone to desktop. Breakpoints, scale, grids, overflow, tap
-> targets, and navigation. It references core rules by number and never duplicates or renumbers them. Load it when the
-> task builds or edits a layout that has to hold up at any screen width.
+> Part of the antislop system. Read together with the `antislop` skill (the core). This skill deep-dives the responsive
+> layout concern: how a layout must reflow across screen sizes, phone to desktop. Breakpoints, scale, grids, overflow,
+> tap targets, and navigation. It references core rules by number and never duplicates or renumbers them. Load it when
+> the task builds or edits a layout that has to hold up at any screen width.
 
 ## How to use this skill
 
-- Load together with `antislop.md` whenever the task is mobile or responsive layout work. The core holds the mechanism
-  (the purpose test, the three tiers, the Delivery Gate); this skill holds mobile-layout depth.
+- Load together with the `antislop` skill whenever the task is mobile or responsive layout work. The core holds the
+  mechanism (the purpose test, the three tiers, the Delivery Gate); this skill holds mobile-layout depth.
 - Every entry has the same shape: **Tell** (the pattern), **Why** (why it reads as slop), **Fix** (what to do instead),
   with the governing core rule cited as R-XX.
 - The principle behind this skill: **mobile layout is a different layout, not the desktop layout at a smaller size.** It
