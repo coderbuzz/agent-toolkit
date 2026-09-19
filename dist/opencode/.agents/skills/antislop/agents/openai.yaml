@@ -1,0 +1,4 @@
+interface:
+  display_name: "antislop"
+  short_description: "Core anti-slop filter: rules, dials, delivery gate"
+  default_prompt: "Use $antislop to filter generic AI slop out of this work."

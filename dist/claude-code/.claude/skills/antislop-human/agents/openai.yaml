@@ -1,0 +1,4 @@
+interface:
+  display_name: "antislop-human"
+  short_description: "Accessibility filter: contrast, keyboard, focus, states"
+  default_prompt: "Use $antislop-human with the antislop core to check this UI."

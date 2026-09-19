@@ -1,0 +1,4 @@
+interface:
+  display_name: "antislop-copywriting"
+  short_description: "Copy slop filter: headlines, tone, CTAs"
+  default_prompt: "Use $antislop-copywriting with the antislop core for this prose."

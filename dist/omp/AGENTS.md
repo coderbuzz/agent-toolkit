@@ -17,6 +17,9 @@ smallest safe lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident).
 - review / verify — independent review, then evidence-based verification
 - fix — bug lane: root cause, repro test, minimal fix
 - release / document — ship and explain
+- antislop — filter generic AI slop from UI, copy, and code comments; load the
+  matching companion (antislop-ui · -copywriting · -code · -human ·
+  -layoutmobile) for depth
 
 ## Utility & specialist skills
 guardrails · memory · glossary · decide · test · threat · audit-deps ·

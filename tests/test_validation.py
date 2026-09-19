@@ -19,10 +19,32 @@ class ValidationTests(unittest.TestCase):
 
     def test_manifest_inventory_is_complete(self):
         manifest = toolkit.load_json(TOOLKIT_ROOT / "manifest.json")
-        self.assertEqual(25, len(toolkit.all_skill_names(manifest)))
+        names = toolkit.all_skill_names(manifest)
+        self.assertEqual(31, len(names))
+        self.assertEqual(sorted(set(names)), sorted(names), "skill names must be unique")
         self.assertEqual(
             {"codex", "opencode", "github-copilot", "claude-code", "omp", "gemini", "zcode"},
             set(manifest["platforms"]),
+        )
+
+    def test_every_manifest_skill_group_is_collected(self):
+        """A group absent from SKILL_GROUPS is silently ignored everywhere."""
+        manifest = toolkit.load_json(TOOLKIT_ROOT / "manifest.json")
+        self.assertEqual(set(manifest["skills"]), set(toolkit.SKILL_GROUPS))
+
+    def test_antislop_ships_in_the_core_bundle(self):
+        manifest = toolkit.load_json(TOOLKIT_ROOT / "manifest.json")
+        core = toolkit.bundle_skill_names(manifest, "core")
+        self.assertEqual(
+            [
+                "antislop",
+                "antislop-ui",
+                "antislop-copywriting",
+                "antislop-code",
+                "antislop-human",
+                "antislop-layoutmobile",
+            ],
+            [name for name in core if name.startswith("antislop")],
         )
 
     def test_strict_json_rejects_duplicate_keys(self):

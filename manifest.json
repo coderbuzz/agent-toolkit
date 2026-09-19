@@ -2,12 +2,14 @@
   "bundles": {
     "core": [
       "lifecycle",
-      "cross_cutting"
+      "cross_cutting",
+      "antislop"
     ],
     "full": [
       "lifecycle",
       "cross_cutting",
-      "optional"
+      "optional",
+      "antislop"
     ],
     "quality": [
       "grill",
@@ -49,6 +51,14 @@
   ],
   "schema_version": 1,
   "skills": {
+    "antislop": [
+      "antislop",
+      "antislop-ui",
+      "antislop-copywriting",
+      "antislop-code",
+      "antislop-human",
+      "antislop-layoutmobile"
+    ],
     "cross_cutting": [
       "grill",
       "context",

@@ -1,0 +1,4 @@
+interface:
+  display_name: "antislop-code"
+  short_description: "Comment slop filter: keep useful comments, drop noise"
+  default_prompt: "Use $antislop-code with the antislop core for these code comments."

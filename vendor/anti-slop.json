@@ -1,0 +1,80 @@
+{
+  "adaptations": [
+    {
+      "applies_to": [
+        "antislop",
+        "antislop-ui",
+        "antislop-copywriting",
+        "antislop-code",
+        "antislop-human",
+        "antislop-layoutmobile"
+      ],
+      "change": "Rewrote frontmatter to the toolkit's contract: dropped allowed-tools, kept name, restated description as a trigger, and added invocation and role.",
+      "id": "frontmatter",
+      "reason": "validate_skills permits only name, description, invocation, role, and supersedes."
+    },
+    {
+      "applies_to": [
+        "antislop",
+        "antislop-ui",
+        "antislop-copywriting",
+        "antislop-code",
+        "antislop-human",
+        "antislop-layoutmobile"
+      ],
+      "change": "Rewrapped 417 prose lines to 120 characters. Word sequence is unchanged; table rows and fenced code blocks were left verbatim.",
+      "id": "line-wrapping",
+      "reason": "validate_skills rejects prose lines over 120 characters."
+    },
+    {
+      "applies_to": [
+        "antislop"
+      ],
+      "change": "Replaced the 'First-Run Install Wizard' section with a short Installation note pointing at AGENT-INSTALL.md.",
+      "id": "install-wizard",
+      "reason": "The section ran its own install flow, which conflicts with the toolkit's installer."
+    },
+    {
+      "applies_to": [
+        "antislop"
+      ],
+      "change": "Description no longer says 'Load always'; it names the triggers that should load the skill.",
+      "id": "on-demand-description",
+      "reason": "Skills load on demand from a pointer file; nothing in this toolkit is always-on."
+    },
+    {
+      "applies_to": [
+        "antislop-human"
+      ],
+      "change": "Replaced the ${CLAUDE_SKILL_DIR} variable in the contrast-checker command with a plain relative path.",
+      "id": "platform-neutral-paths",
+      "reason": "Canonical skill bodies stay free of platform-specific names and variables."
+    },
+    {
+      "applies_to": [
+        "antislop-human"
+      ],
+      "change": "Did not vendor contrast-mcp.py; contrast-check.py is included and is the only path the skill references.",
+      "id": "dropped-mcp-server",
+      "reason": "Proprietary MCP server identifiers are outside the toolkit's portability contract."
+    }
+  ],
+  "license": "MIT",
+  "name": "anti-slop",
+  "resync": "Re-run scripts/vendor-anti-slop.py against a fresh upstream checkout, then re-apply this file's adaptations and update commit and vendored_at.",
+  "schema_version": 1,
+  "skills": [
+    "antislop",
+    "antislop-ui",
+    "antislop-copywriting",
+    "antislop-code",
+    "antislop-human",
+    "antislop-layoutmobile"
+  ],
+  "upstream": {
+    "commit": "743735248fbaefd76bb56619615687dfa8b3bc1e",
+    "commit_date": "2026-09-16T07:03:08+07:00",
+    "url": "https://github.com/miqdadbadjuber/anti-slop"
+  },
+  "vendored_at": "2026-09-19"
+}

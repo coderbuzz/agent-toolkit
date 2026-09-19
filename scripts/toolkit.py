@@ -26,6 +26,7 @@ SOURCE_DIRS = (
     "platforms",
 )
 SOURCE_FILES = ("AGENTS.md", "manifest.json")
+SKILL_GROUPS = ("lifecycle", "cross_cutting", "optional", "antislop")
 VALID_PLATFORMS = {"codex", "opencode", "github-copilot", "claude-code", "omp", "gemini", "zcode"}
 FORBIDDEN_SKILL_TEXT = (
     ".codex/",
@@ -135,7 +136,7 @@ def source_digest(root=TOOLKIT_ROOT):
 
 def all_skill_names(manifest):
     names = []
-    for group in ("lifecycle", "cross_cutting", "optional"):
+    for group in SKILL_GROUPS:
         names.extend(manifest["skills"].get(group, []))
     return names
 
@@ -192,6 +193,36 @@ def parse_frontmatter(path):
     return values
 
 
+def prose_lines(text):
+    """Yield (line_number, line) for a skill's prose lines only.
+
+    Fenced code blocks and table rows are skipped. Neither can be reflowed to a
+    width limit without changing meaning or breaking the markup, which is why
+    the repository's own markdownlint config disables MD013 for both.
+    """
+    in_code = False
+    for index, line in enumerate(text.splitlines(), 1):
+        if line.lstrip().startswith("```"):
+            in_code = not in_code
+            continue
+        if in_code or line.lstrip().startswith("|"):
+            continue
+        yield index, line
+
+
+def is_placeholder_line(line):
+    """Report unfinished authoring, not prose that discusses placeholder markers.
+
+    A skill about code comments legitimately names TODO as a subject. Only a
+    marker introducing something left undone counts, so the marker must carry a
+    colon or stand alone on the line, and inline code spans are quoted examples.
+    """
+    stripped = re.sub(r"`[^`]*`", "", line).strip()
+    if re.fullmatch(r"(?:[-*]\s*|#+\s*)?(?:TODO|TBD|FIXME)\b[\s.:-]*", stripped, re.IGNORECASE):
+        return True
+    return bool(re.search(r"\b(?:TODO|TBD|FIXME)\s*:", stripped, re.IGNORECASE))
+
+
 def _unique_strings(values, label, errors):
     if not isinstance(values, list) or not all(isinstance(item, str) for item in values):
         errors.append("{0} must be a list of strings".format(label))
@@ -231,7 +262,7 @@ def validate_manifest(manifest, errors):
     unknown = set(platforms) - VALID_PLATFORMS
     if unknown:
         errors.append("Unknown platforms: {0}".format(", ".join(sorted(unknown))))
-    for group in ("lifecycle", "cross_cutting", "optional"):
+    for group in SKILL_GROUPS:
         _unique_strings(manifest["skills"].get(group), "manifest.skills.{0}".format(group), errors)
     _unique_strings(all_skill_names(manifest), "all manifest skills", errors)
     known_skills = set(all_skill_names(manifest))
@@ -281,9 +312,10 @@ def validate_skills(manifest, errors, root=TOOLKIT_ROOT):
         for token in FORBIDDEN_SKILL_TEXT:
             if token.casefold() in text.casefold():
                 errors.append("Skill {0} contains non-portable text: {1}".format(name, token))
-        if re.search(r"\b(?:TODO|TBD|FIXME)\b", text, re.IGNORECASE):
-            errors.append("Skill {0} contains placeholder text".format(name))
-        long_lines = [index for index, line in enumerate(text.splitlines(), 1) if len(line) > 120]
+        placeholders = [index for index, line in prose_lines(text) if is_placeholder_line(line)]
+        if placeholders:
+            errors.append("Skill {0} contains placeholder text on lines: {1}".format(name, placeholders))
+        long_lines = [index for index, line in prose_lines(text) if len(line) > 120]
         if long_lines:
             errors.append("Skill {0} has lines over 120 characters: {1}".format(name, long_lines))
         metadata_file = skill_root / name / "agents" / "openai.yaml"

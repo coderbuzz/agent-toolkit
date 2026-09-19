@@ -1,0 +1,4 @@
+interface:
+  display_name: "antislop-layoutmobile"
+  short_description: "Responsive layout filter: breakpoints, grids, tap targets"
+  default_prompt: "Use $antislop-layoutmobile with the antislop core for this layout."
