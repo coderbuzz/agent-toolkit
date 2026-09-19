@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "name": "portable-agentic-sdlc-toolkit",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Vendor-neutral SDLC agents, skills, and platform exports.",
   "canonical": {
     "skills": ".agents/skills",

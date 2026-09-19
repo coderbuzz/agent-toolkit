@@ -29,17 +29,17 @@ Run the 1-line installer below to launch an interactive wizard that guides you t
 
 ### 🐧 Linux / macOS / WSL
 ```bash
-curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/1.0.0/install.sh | bash
 ```
 
 ### 🪟 Windows (PowerShell)
 ```powershell
-irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/1.0.0/install.ps1 | iex
 ```
 
 > **Pro-Tip (Non-Interactive CI / Automation)**: Pass arguments directly to skip prompts and apply immediately:
 > ```bash
-> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.sh | bash -s -- --platform opencode --global --apply
+> curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/1.0.0/install.sh | bash -s -- --platform opencode --global --apply
 > ```
 
 ### 🧹 Uninstallation
@@ -48,18 +48,18 @@ To safely preview and remove installed toolkit files while preserving user modif
 
 ```bash
 # Interactive uninstaller — remote (Linux / macOS / WSL)
-curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.sh | bash
+curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/1.0.0/uninstall.sh | bash
 
 # Non-interactive / CI mode
-curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.sh | bash -s -- --platform opencode --scope global --apply
+curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/1.0.0/uninstall.sh | bash -s -- --platform opencode --scope global --apply
 ```
 
 ```powershell
 # Interactive uninstaller — remote (Windows PowerShell)
-irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.ps1 | iex
+irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/1.0.0/uninstall.ps1 | iex
 
 # Non-interactive mode
-irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/uninstall.ps1 | iex -ArgumentList --platform opencode --scope global --apply
+irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/1.0.0/uninstall.ps1 | iex -ArgumentList --platform opencode --scope global --apply
 ```
 
 ```bash

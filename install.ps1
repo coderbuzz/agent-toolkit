@@ -2,7 +2,7 @@
 .SYNOPSIS
     Portable Agentic SDLC Toolkit Installer for Windows PowerShell (Zero Dependencies).
 .EXAMPLE
-    irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/main/install.ps1 | iex
+    irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/1.0.0/install.ps1 | iex
     install.ps1 --platform opencode --global --apply
 #>
 
@@ -35,7 +35,7 @@ try {
         New-Item -ItemType Directory -Path $TempDir -Force | Out-Null
 
         Write-Host "Cloning agent-toolkit repository..." -ForegroundColor Cyan
-        git clone --quiet --depth 1 https://github.com/coderbuzz/agent-toolkit.git (Join-Path $TempDir "agent-toolkit")
+        git clone --quiet --depth 1 --branch release/1.0.0 https://github.com/coderbuzz/agent-toolkit.git (Join-Path $TempDir "agent-toolkit")
         $ToolkitDir = Join-Path $TempDir "agent-toolkit"
     }
 
