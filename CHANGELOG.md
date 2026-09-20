@@ -1,9 +1,29 @@
 # Changelog
 
-## Unreleased
+## 3.1.0 (`main`, tag `v3.1.0`)
+
+Installing is one prompt and a parameter line. `AGENT-INSTALL.md` now states
+its own invocation contract, so the READMEs stopped paraphrasing it, and both
+were rewritten against the repository as it stands. No package contents or
+install behavior changed, so a 3.0.0 install updates in place.
 
 ### Changed
 
+- Installing is one prompt now, not three. `AGENT-INSTALL.md` section 0 gained
+  the invocation contract: the four parameters a request may carry (`action`,
+  `scope`, `bundle`, `ref`), their defaults, and the statement that no wording
+  in a request waives the stop conditions, the write allowlist, or the preview.
+  The README quick start had been restating that contract as numbered steps in
+  three prompts across two languages, six copies free to drift from the
+  protocol they paraphrased. They are now one prompt that names the protocol
+  and a parameter line, with a table of variants that changes only that line.
+  `tests/test_agent_protocol.py` holds it there: the defaults are asserted
+  against `manifest.json`, and a quick start that grows a second prompt or a
+  prompt longer than five lines fails.
+- Pinning a version now pins what an agent actually reads. Section 5 clones
+  `--branch <ref>` and the no-git fallback fetches from `<ref>` rather than a
+  hardcoded `main`. `ref=v3.1.0` is the first tag whose protocol understands
+  the parameter form; `v3.0.0` predates it and needs that tag's own prompt.
 - Both READMEs rewritten against the repository as it stands. The English file
   goes from 510 lines to 417 without losing a section, because the same things
   had been said several times over: antislop had three entries (its own
@@ -21,8 +41,6 @@
   `core`. `docs/maintainer-guide.md`, `docs/platform-support.md`, and
   `llms.txt` existed but were linked from nowhere, and `docs/` was missing from
   the repository tree.
-- The Quick Start's pinning row now says that tag `v3.0.0` predates the
-  parameter form it sits next to, and points at that tag's own README instead.
 - The workflow diagram shows what prose cannot: the router branching into the
   five lanes, each with its own skill sequence. It replaced a Mermaid chart
   that redrew the linear chain the tables already carried, plus the ASCII arrow
@@ -36,31 +54,10 @@
   a second English copy to keep in sync for no reader's benefit. Prose,
   headings, and tables are Indonesian; skill ids, parameters, paths, and the
   install prompt stay in English, because those are what the agent reads.
-- `tests/test_agent_protocol.py` no longer finds the install prompt by
-  splitting on an English heading, which the translated README would have
-  broken. It looks for the fenced block carrying `action=install` instead, in
-  either language.
-
 - The READMEs' "How loading works" now leads with the point it was making:
   skills load on demand, driven by your prompt. It had opened on what
   installing does not do, so the reader met the pointer file before the reason
   a pointer file exists.
-
-- Installing is one prompt now, not three. `AGENT-INSTALL.md` section 0 gained
-  the invocation contract: the four parameters a request may carry (`action`,
-  `scope`, `bundle`, `ref`), their defaults, and the statement that no wording
-  in a request waives the stop conditions, the write allowlist, or the preview.
-  The README quick start had been restating that contract as numbered steps in
-  three prompts across two languages, six copies free to drift from the
-  protocol they paraphrased. They are now one prompt that names the protocol
-  and a parameter line, with a table of variants that changes only that line.
-  `tests/test_agent_protocol.py` holds it there: the defaults are asserted
-  against `manifest.json`, and a quick start that grows a second prompt or a
-  prompt longer than five lines fails.
-- The no-git fallback in `AGENT-INSTALL.md` section 5 now fetches from `<ref>`
-  rather than a hardcoded `main`, so pinning a tag pins the files an agent
-  without git downloads too.
-
 - `review` now evaluates simplicity and maintainability as explicit workflow
   steps. Its description had promised both since 2.0.0, but the body carried no
   step or criteria for either, so an agent loading the skill was never told to
@@ -70,6 +67,15 @@
   that both are non-blocking unless the shortcoming causes a correctness,
   security, or performance defect, and that dropping a test, a boundary
   validation, or error handling is never a simplification.
+- The documentation lane has one name again. `start`'s description and
+  `AGENTS.md` called it "Docs" while the skill's own routing step, the lane
+  matrix, and the READMEs called it "Documentation", so an agent reading the
+  description and then the body met two names for one lane. Both now say
+  Documentation.
+- `tests/test_agent_protocol.py` no longer finds the install prompt by
+  splitting on an English heading, which the translated README would have
+  broken. It looks for the fenced block carrying `action=install` instead, in
+  either language.
 
 ## 3.0.0 (`main`, tag `v3.0.0`)
 

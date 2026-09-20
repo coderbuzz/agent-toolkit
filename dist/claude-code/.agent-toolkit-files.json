@@ -268,7 +268,7 @@
     {
       "path": ".claude/skills/start/SKILL.md",
       "role": "regular",
-      "sha256": "76be65ef27fb3a4ebd1357863f7bae2bcb4cb047c14d609b0fec96419d1093a1"
+      "sha256": "70b90fe71cefc9461e5ed6b434255c502640d8237bda65bddc0658fd7f947955"
     },
     {
       "path": ".claude/skills/start/agents/openai.yaml",
@@ -308,12 +308,12 @@
     {
       "path": "AGENTS.md",
       "role": "regular",
-      "sha256": "dc53b7e4ae119cfd053b47b2a4b3a6af0b964c5f85fab119880ed055aed1eae7"
+      "sha256": "0a592f9e2fba48d11b3bd46498ca437c3f5bc1afa4fecd478c015395881f5f60"
     },
     {
       "path": "CLAUDE.md",
       "role": "regular",
-      "sha256": "389bf4f7f982b69b1db1ef7ed3e68878b3d82a47636c5602cb71a6ea2d795428"
+      "sha256": "1bba93b52e3f2b46273c3dc05ba361f13c0fed85a8290c820bc52321b2617516"
     }
   ],
   "schema_version": 1

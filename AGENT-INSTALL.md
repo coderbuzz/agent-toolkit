@@ -260,7 +260,7 @@ Ledger format:
 {
   "schema_version": 1,
   "toolkit": "agent-toolkit",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "source_sha256": "...",
   "platform": "opencode",
   "bundle": "core",
