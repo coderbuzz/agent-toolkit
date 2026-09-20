@@ -4,6 +4,11 @@
 
 ### Changed
 
+- The READMEs' "How loading works" now leads with the point it was making:
+  skills load on demand, driven by your prompt. It had opened on what
+  installing does not do, so the reader met the pointer file before the reason
+  a pointer file exists.
+
 - Installing is one prompt now, not three. `AGENT-INSTALL.md` section 0 gained
   the invocation contract: the four parameters a request may carry (`action`,
   `scope`, `bundle`, `ref`), their defaults, and the statement that no wording

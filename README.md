@@ -72,14 +72,17 @@ OMP, and ZCode. The agent identifies its own platform; if it cannot, it asks.
 
 ## 🧠 How loading works
 
-Installing does not load 31 skills into your agent's context. It writes one
-small pointer file (`AGENTS.md`, or `CLAUDE.md` on Claude Code) listing each
-skill's name and a one-line trigger. That file is about 1.5 KB, and it is all
-your agent reads at the start of a session.
+**Skills load on demand, driven by your prompt.** Your agent reads a skill's
+full text at the moment a task calls for it and not before: ask for a bug fix
+and `fix` loads; ask for a release check and `release` loads. Nothing else in
+the toolkit reaches its context.
 
-A skill's full text is read only when a task actually calls for it. That is why
-adding skills stays cheap: the cost at session start is one line each, not the
-188 KB of procedure behind them.
+**A session starts with one small pointer file.** That is what installing
+writes (`AGENTS.md`, or `CLAUDE.md` on Claude Code): every skill's name and a
+one-line trigger, about 1.5 KB in total. So 31 installed skills are not 31
+skills in your context; they are 31 lines, and the 188 KB of procedure behind
+them stays on disk until a task reaches for it. That is why adding a skill
+stays cheap.
 
 How you reach a skill depends on your platform:
 
