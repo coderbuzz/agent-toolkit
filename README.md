@@ -61,7 +61,7 @@ Keep the prompt, change the last line.
 | Every project on this machine | `action=install, scope=global, bundle=core` |
 | The specialists too | `action=install, scope=repository, bundle=full` |
 | Review and verification only | `action=install, scope=repository, bundle=quality` |
-| A pinned version, reproducible | `action=install, scope=repository, bundle=core, ref=v3.0.0` |
+| A pinned version, reproducible | `action=install, scope=repository, bundle=core, ref=v3.1.0` |
 | Update an existing install | `action=update, scope=repository` |
 | Remove it again | `action=uninstall, scope=repository` |
 
@@ -72,12 +72,7 @@ request, and so is `action=uninstall`.
 Works with Claude Code, OpenCode, Codex, GitHub Copilot, Gemini/Antigravity,
 OMP, and ZCode. The agent identifies its own platform; if it cannot, it asks.
 
-> **Pinning to `v3.0.0`:** that tag ships a protocol written before the
-> parameter form above, so paste the prompt from
-> [its own README](https://github.com/coderbuzz/agent-toolkit/blob/v3.0.0/README.md#-quick-start)
-> instead. `ref=` works as written from the next release on.
->
-> **Upgrading from 2.0.0?** See [Versions](#-versions).
+> **Upgrading from an older version?** See [Versions](#-versions).
 
 ---
 
@@ -276,15 +271,20 @@ Name one with `bundle=` in the install prompt. Leave it out and you get `core`.
 
 | Version | Branch | Tag | Install method |
 | :--- | :--- | :--- | :--- |
-| **3.0.0** *(current)* | `main` | `v3.0.0` | Agent prompt → [`AGENT-INSTALL.md`](AGENT-INSTALL.md) |
+| **3.1.0** *(current)* | `main` | `v3.1.0` | Agent prompt → [`AGENT-INSTALL.md`](AGENT-INSTALL.md) |
+| 3.0.0 | - | `v3.0.0` | Agent prompt, written before the parameter form |
 | 2.0.0 | `release/2.0.0` | `v2.0.0` | Shell / PowerShell script |
 | 1.0.0 | `release/1.0.0` | `v1.0.0` | Shell / PowerShell script |
 
-The older branches are frozen, and every command in their READMEs points at
-themselves, so their installers and uninstallers keep working.
+The 1.0.0 and 2.0.0 branches are frozen, and every command in their READMEs
+points at themselves, so their installers and uninstallers keep working. Pin
+`ref=v3.0.0` and you get a protocol that predates `action=` and `ref=`, so
+paste the prompt from
+[that tag's README](https://github.com/coderbuzz/agent-toolkit/blob/v3.0.0/README.md#-quick-start)
+instead.
 
 **Coming from 2.0.0?** The ledger format did not change, so your agent can
-remove a 2.0.0 install with `action=uninstall` and then install 3.0.0. If you
+remove a 2.0.0 install with `action=uninstall` and then install 3.1.0. If you
 would rather run the old script, it lives on the frozen
 [`release/2.0.0`](https://github.com/coderbuzz/agent-toolkit/tree/release/2.0.0)
 branch; a command you saved points at `main`, which no longer ships it. Full

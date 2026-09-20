@@ -4,7 +4,8 @@ Skills are loaded on demand; this file only routes. Keep it small.
 
 ## Router
 Unsure how to start? Invoke the `start` skill. It routes every task into the
-smallest safe lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident).
+smallest safe lane (Full-Feature, Bug-Fix, Small-Change, Documentation,
+Incident).
 
 ## Core skills (load on demand)
 - start: lane routing & required gates (always begin here when unsure)

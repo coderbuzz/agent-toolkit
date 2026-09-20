@@ -66,7 +66,7 @@ Prompt-nya tetap, ganti baris terakhirnya.
 | Semua project di mesin ini | `action=install, scope=global, bundle=core` |
 | Sekalian dengan specialist | `action=install, scope=repository, bundle=full` |
 | Hanya review dan verifikasi | `action=install, scope=repository, bundle=quality` |
-| Versi terkunci, reproducible | `action=install, scope=repository, bundle=core, ref=v3.0.0` |
+| Versi terkunci, reproducible | `action=install, scope=repository, bundle=core, ref=v3.1.0` |
 | Update instalasi yang sudah ada | `action=update, scope=repository` |
 | Mencopotnya lagi | `action=uninstall, scope=repository` |
 
@@ -78,12 +78,7 @@ Berlaku untuk Claude Code, OpenCode, Codex, GitHub Copilot, Gemini/Antigravity,
 OMP, dan ZCode. Agent mengenali platform-nya sendiri; kalau tidak bisa, ia
 bertanya.
 
-> **Mengunci ke `v3.0.0`:** tag itu membawa protokol yang ditulis sebelum bentuk
-> parameter di atas, jadi tempelkan prompt dari
-> [README di tag tersebut](https://github.com/coderbuzz/agent-toolkit/blob/v3.0.0/README.md#-quick-start).
-> `ref=` berlaku seperti tertulis mulai rilis berikutnya.
->
-> **Naik dari 2.0.0?** Lihat [Versi](#-versi).
+> **Naik dari versi lama?** Lihat [Versi](#-versi).
 
 ---
 
@@ -284,15 +279,19 @@ Anda dapat `core`.
 
 | Versi | Branch | Tag | Cara instalasi |
 | :--- | :--- | :--- | :--- |
-| **3.0.0** *(sekarang)* | `main` | `v3.0.0` | Prompt ke agent → [`AGENT-INSTALL.md`](AGENT-INSTALL.md) |
+| **3.1.0** *(sekarang)* | `main` | `v3.1.0` | Prompt ke agent → [`AGENT-INSTALL.md`](AGENT-INSTALL.md) |
+| 3.0.0 | - | `v3.0.0` | Prompt ke agent, ditulis sebelum bentuk parameter |
 | 2.0.0 | `release/2.0.0` | `v2.0.0` | Skrip Shell / PowerShell |
 | 1.0.0 | `release/1.0.0` | `v1.0.0` | Skrip Shell / PowerShell |
 
-Branch yang lama dibekukan, dan setiap perintah di README-nya menunjuk ke
-dirinya sendiri, jadi installer dan uninstaller-nya tetap jalan.
+Branch 1.0.0 dan 2.0.0 dibekukan, dan setiap perintah di README-nya menunjuk
+ke dirinya sendiri, jadi installer dan uninstaller-nya tetap jalan. Kalau Anda
+mengunci `ref=v3.0.0`, yang Anda dapat adalah protokol yang lebih tua dari
+`action=` dan `ref=`, jadi tempelkan prompt dari
+[README di tag itu](https://github.com/coderbuzz/agent-toolkit/blob/v3.0.0/README.md#-quick-start).
 
 **Datang dari 2.0.0?** Format ledger tidak berubah, jadi agent Anda bisa
-mencopot instalasi 2.0.0 dengan `action=uninstall` lalu memasang 3.0.0. Kalau
+mencopot instalasi 2.0.0 dengan `action=uninstall` lalu memasang 3.1.0. Kalau
 Anda lebih suka menjalankan skrip lamanya, skrip itu ada di branch beku
 [`release/2.0.0`](https://github.com/coderbuzz/agent-toolkit/tree/release/2.0.0);
 perintah yang Anda simpan menunjuk ke `main`, yang sudah tidak menyertakannya.

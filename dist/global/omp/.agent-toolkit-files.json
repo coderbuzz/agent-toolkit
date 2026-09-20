@@ -238,7 +238,7 @@
     {
       "path": ".agents/skills/start/SKILL.md",
       "role": "shared-skill",
-      "sha256": "76be65ef27fb3a4ebd1357863f7bae2bcb4cb047c14d609b0fec96419d1093a1"
+      "sha256": "70b90fe71cefc9461e5ed6b434255c502640d8237bda65bddc0658fd7f947955"
     },
     {
       "path": ".agents/skills/start/agents/openai.yaml",
@@ -278,7 +278,7 @@
     {
       "path": ".omp/agent/AGENTS.md",
       "role": "instruction-block",
-      "sha256": "be631189e4fb83e784331801ff704cbf16c1c3b6d04768cc8caac1ad637b2285"
+      "sha256": "3b604213c125205d368be62ec4b760b082b0cbbbc06ea79e1b161290d1d6b4db"
     }
   ],
   "schema_version": 1
