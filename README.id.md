@@ -2,29 +2,38 @@
 
 🌐 **Languages**: [English](README.md) | [Bahasa Indonesia](README.id.md)
 
-> **Work lanes, skill, dan approval gate yang vendor-neutral untuk AI coding
+> **Work lane, skill, dan approval gate yang vendor-neutral untuk AI coding
 > agent Anda. Dipasang dengan menempelkan prompt, bukan menjalankan installer.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Install by prompt](https://img.shields.io/badge/Install-by%20prompt-brightgreen.svg)](#-quick-start)
-[![Platform Support](https://img.shields.io/badge/Platforms-Claude%20%7C%20OpenCode%20%7C%20Codex%20%7C%20Copilot%20%7C%20Gemini%20%7C%20OMP%20%7C%20ZCode-purple.svg)](#-supported-platforms--global-paths)
+[![Install by prompt](https://img.shields.io/badge/Install-by%20prompt-brightgreen.svg)](#-mulai-cepat)
+[![Platform Support](https://img.shields.io/badge/Platforms-Claude%20%7C%20OpenCode%20%7C%20Codex%20%7C%20Copilot%20%7C%20Gemini%20%7C%20OMP%20%7C%20ZCode-purple.svg)](#-platform-yang-didukung--path-global)
 
 ---
 
-## 💡 Why Agent Toolkit?
+## 💡 Kenapa Agent Toolkit?
 
-When using AI coding assistants (Claude Code, OpenCode, GitHub Copilot, Codex, Gemini/Antigravity, OMP, ZCode), unguided agents often jump straight to writing unverified code, hallucinate dependencies, or overwrite critical files.
+Agent yang tidak diarahkan langsung menulis kode tanpa verifikasi, mengarang
+dependency, atau menimpa file yang masih Anda perlukan.
 
-**Agent Toolkit** gives your AI agents an explicit engineering process: discovery and PRDs, then specifications, an implementation plan, code review, independent verification, and release checks. It covers the full SDLC, but applies only the lanes a task actually needs.
+**Agent Toolkit** memberi mereka proses engineering yang eksplisit: discovery
+dan PRD, lalu spesifikasi, rencana implementasi, code review, verifikasi
+independen, dan pemeriksaan rilis. Cakupannya satu SDLC penuh, tapi yang
+dipakai hanya lane yang memang dibutuhkan sebuah task.
 
-- 🚀 **Tidak ada yang perlu dipasang**: Anda menempelkan prompt; agent Anda membaca protokolnya dan mengerjakan sisanya. Tanpa skrip, tanpa runtime, tanpa package manager.
-- 🎯 **Vendor-Neutral & Portable**: Write your workflow rules once and install them on any of the seven supported platforms.
-- 🛡️ **Fail-Closed & Safe**: Every install is previewed before a byte is written, and a file you edited is never overwritten.
-- 🤖 **Multi-Platform Native**: Pre-built native packages for Claude Code, OpenCode, Codex, GitHub Copilot, Gemini/Antigravity, OMP, and ZCode.
+- 🚀 **Tidak ada yang perlu dipasang**: Anda menempelkan prompt, agent Anda
+  membaca protokolnya dan mengerjakan sisanya. Tanpa skrip, tanpa runtime,
+  tanpa package manager.
+- 🎯 **Vendor-neutral dan portabel**: tulis aturan workflow Anda sekali, pasang
+  di salah satu dari [tujuh platform yang didukung](#-platform-yang-didukung--path-global).
+- 🛡️ **Fail-closed dan aman**: setiap instalasi ditampilkan lebih dulu sebelum
+  satu byte pun ditulis, dan file yang Anda ubah tidak pernah ditimpa.
+- 🧠 **Hemat context**: satu sesi dimulai dengan satu file pointer kecil, dan
+  prosedur sebuah skill baru dimuat ketika ada task yang membutuhkannya.
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Mulai cepat
 
 Tidak ada installer yang perlu dijalankan. Anda menyuruh coding agent Anda
 memasangnya, dan agent itu yang mengerjakan, dengan membaca
@@ -55,8 +64,8 @@ Prompt-nya tetap, ganti baris terakhirnya.
 | --- | --- |
 | Repository ini, dengan default | `action=install, scope=repository, bundle=core` |
 | Semua project di mesin ini | `action=install, scope=global, bundle=core` |
-| Semua 31 skill, termasuk specialist | `action=install, scope=repository, bundle=full` |
-| Hanya review dan verifikasi (7) | `action=install, scope=repository, bundle=quality` |
+| Sekalian dengan specialist | `action=install, scope=repository, bundle=full` |
+| Hanya review dan verifikasi | `action=install, scope=repository, bundle=quality` |
 | Versi terkunci, reproducible | `action=install, scope=repository, bundle=core, ref=v3.0.0` |
 | Update instalasi yang sudah ada | `action=update, scope=repository` |
 | Mencopotnya lagi | `action=uninstall, scope=repository` |
@@ -69,286 +78,181 @@ Berlaku untuk Claude Code, OpenCode, Codex, GitHub Copilot, Gemini/Antigravity,
 OMP, dan ZCode. Agent mengenali platform-nya sendiri; kalau tidak bisa, ia
 bertanya.
 
-> **Datang dari 2.0.0?** Versi itu dipasang dengan skrip shell, dan
-> uninstaller-nya sudah tidak ada di `main`. Letaknya di branch beku
-> `release/2.0.0`. Lihat [Versions](#-versions).
+> **Mengunci ke `v3.0.0`:** tag itu membawa protokol yang ditulis sebelum bentuk
+> parameter di atas, jadi tempelkan prompt dari
+> [README di tag tersebut](https://github.com/coderbuzz/agent-toolkit/blob/v3.0.0/README.md#-quick-start).
+> `ref=` berlaku seperti tertulis mulai rilis berikutnya.
+>
+> **Naik dari 2.0.0?** Lihat [Versi](#-versi).
 
 ---
 
-## 🧠 How loading works
+## 🧠 Cara kerjanya
 
-**Skills load on demand, driven by your prompt.** Your agent reads a skill's
-full text at the moment a task calls for it and not before: ask for a bug fix
-and `fix` loads; ask for a release check and `release` loads. Nothing else in
-the toolkit reaches its context.
+**Skill dimuat sesuai kebutuhan, mengikuti prompt Anda.** Agent Anda membaca
+teks lengkap sebuah skill tepat saat sebuah task memerlukannya, tidak
+sebelumnya: minta perbaikan bug dan `fix` yang dimuat; minta pemeriksaan rilis
+dan `release` yang dimuat. Tidak ada isi toolkit lain yang masuk ke context-nya.
 
-**A session starts with one small pointer file.** That is what installing
-writes (`AGENTS.md`, or `CLAUDE.md` on Claude Code): every skill's name and a
-one-line trigger, about 1.5 KB in total. So 31 installed skills are not 31
-skills in your context; they are 31 lines, and the 188 KB of procedure behind
-them stays on disk until a task reaches for it. That is why adding a skill
-stays cheap.
+**Satu sesi dimulai dengan satu file pointer kecil.** Itulah yang ditulis saat
+instalasi (`AGENTS.md`, atau `CLAUDE.md` di Claude Code): nama tiap skill dan
+satu baris pemicunya, sekitar 1,5 KB seluruhnya. Jadi 31 skill yang terpasang
+bukan 31 skill di context Anda; itu 31 baris, dan 167 KB prosedur di baliknya
+tetap di disk sampai ada task yang menjangkaunya. Karena itu menambah skill
+tetap murah.
 
-How you reach a skill depends on your platform:
+Cara Anda menjangkau sebuah skill tergantung platform:
 
-- **`/skills` menu**: Lists every installed skill. OpenCode sorts this list alphabetically by skill name, so the order is not the workflow order.
-- **Skill tool**: Agents load a skill via the native `skill` tool when it is relevant to the task.
-- **OpenCode slash commands**: After a global install, each skill is also available as a `/<name>` command (e.g. `/start`, `/discover`, `/fix`) that loads and runs the matching skill.
-- **Naming**: Skill ids use hyphens (`start`), not underscores. Type them exactly.
-
-The default full-lane flow is: `start → discover → define → design → plan → implement → verify → review → fix → release → document`, with cross-cutting skills (`guardrails`, `memory`, `glossary`, `decide`, `test`, `threat`, `audit-deps`, `orchestrate`), the [antislop family](#-antislop), and optional specialists (`design-ui`, `incident`, `observability`, `migrate`).
-
-## 🧹 antislop
-
-Six of the core skills are the [antislop](https://github.com/miqdadbadjuber/anti-slop)
-filter by Miqdad Badjuber, vendored here under MIT. They stop agents producing
-generic AI output: blue-purple gradients, invented statistics, copy that reads
-like a press release, comments that restate the line below them. It does this
-without flattening the result into something sterile.
-
-| Skill | Loads when |
+| Masukan | Yang terjadi |
 | :--- | :--- |
-| `antislop` | The core filter: 38 rules, the liveliness dials, the delivery gate. |
-| `antislop-ui` | Building or editing an interface. |
-| `antislop-copywriting` | Writing or editing prose. |
-| `antislop-code` | Writing or editing code comments. |
-| `antislop-human` | Contrast, keyboard, focus, states. Ships a contrast checker. |
-| `antislop-layoutmobile` | Layouts that must reflow from phone to desktop. |
+| Bahasa biasa | Agent Anda sendiri yang memuat skill yang cocok. "Telusuri error 500 ini" menjangkau `fix`. |
+| `/skills` | Menampilkan yang terpasang: 27 skill dengan `core`, 31 dengan `full`. OpenCode mengurutkannya alfabetis, jadi bukan urutan workflow. |
+| `/<name>` | Menjalankan satu skill di sesi berjalan. OpenCode mendapat command ini dari instalasi global; ZCode punya bawaan. |
+| Skill tool | Platform yang punya tool `skill` native memuat skill lewat tool itu saat task-nya relevan. |
 
-The filter removes what should not be there; it does not supply direction. A
-`DESIGN.md` of your own is what makes the result yours.
-
-### Our adoption note
-
-These six are **vendored, not written here**. Every installed `SKILL.md` opens
-with a provenance block naming the upstream project, its author, the MIT
-license, and the pinned commit, so you can see that from inside the skill
-without going looking for it.
-
-What this means in practice:
-
-- **The rules are upstream's.** If a rule is wrong, or you disagree with one,
-  raise it at [miqdadbadjuber/anti-slop](https://github.com/miqdadbadjuber/anti-slop),
-  not here.
-- **The packaging is ours.** Frontmatter, line width, how the skills refer to
-  each other, and how they install are this toolkit's problem. Raise those here.
-- **One rule's meaning was changed**, and only one: `antislop-copywriting`
-  granted a voice override for em dashes that the core forbids outright as a
-  Hard Gate (R-02). Agents resolved that contradiction in favour of the
-  exception and kept writing em dashes, so the override is gone. Upstream has
-  not made this change.
-- **Nothing drifts silently.** `scripts/vendor-anti-slop.py` re-applies every
-  adaptation on each sync and refuses to run if upstream's wording moved out
-  from under one.
-
-The full list is in [Credits](#-credits--references), with the machine-readable
-record in [`vendor/anti-slop.json`](vendor/anti-slop.json) and the MIT text in
-[`NOTICE`](NOTICE).
+Id skill memakai tanda hubung (`audit-deps`), bukan garis bawah. Ketik persis.
 
 ---
 
-## 💡 Usage: `/` commands vs `@` mentions
+## 🗺️ Workflow: lane dan fase
 
-Two entry points in OpenCode trigger different machinery:
-
-| Input | What it does | In this toolkit |
-| --- | --- | --- |
-| `/<name>` | Runs a **skill** in the current session. | `/start`, `/discover`, `/fix`, ... |
-| `@<file>` | Adds a file's content to context. | Not toolkit-specific. |
-| `/skills` | Lists all installed skills. | 31 skills (alphabetical). |
-
-In short: a **skill** says *how* to do the work; each skill's frontmatter declares the compact `role` that owns it.
-
-## 🚦 Best practice: starting from zero
-
-1. **Always route first.** Run `/start`. It classifies the task into the smallest safe lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and lists the required artifacts and gates. It never forces the full lifecycle on low-risk work.
-2. **Follow the phases by skill.** Each phase is driven by one primary skill:
-   - **Discover & Define**: `/discover` → `/define`
-   - **Architect & Design**: `/grill` (ambiguity interview) → `/design`
-   - **Plan**: `/plan`
-   - **Build**: `/implement` (TDD build loop)
-   - **Verify & Review**: `/review` → `/verify`
-   - **Ship**: `/document` → `/release`
-3. **Use the fast lanes.** A bug goes straight to `/fix`. A small reversible change skips the lifecycle entirely. An expensive architecture choice uses `/decide`.
-4. **Respect artifact order.** Do not ask for a spec before a PRD, or implementation before an approved plan.
-5. **Approve gate actions.** Publishing, deployment, release, destructive changes, and credential changes always require your explicit approval.
-6. **Keep the shared language.** Let `context` own CONTEXT.md (glossary, invariants); utility skills (`guardrails`, `memory`, `glossary`) can be invoked anytime.
-
----
-
-## 🗺️ Workflow & 6-Phase Lifecycle
-
-Working with AI agents becomes simple and predictable when structured into 6 logical phases + 1 entrypoint navigator:
-
-```
-[0. ROUTE / START] ➔ [1. DISCOVER & DEFINE] ➔ [2. ARCHITECT & DESIGN] ➔ [3. PLAN] ➔ [4. BUILD] ➔ [5. VERIFY & REVIEW] ➔ [6. SHIP & OPS]
-```
-
-### 📊 End-to-End Workflow Diagram (Mermaid)
+**Tentukan lane dulu.** `start` menimbang blast radius, reversibilitas, data
+sensitif, kontrak publik, dan efek samping eksternal, lalu menempatkan task di
+lane teraman yang paling kecil dan menyebutkan gate yang lane itu wajibkan.
+Pekerjaan berisiko rendah tidak pernah dipaksa lewat siklus penuh.
 
 ```mermaid
 flowchart TD
-    Start([User Request]) --> Router["0. start"]
-    Router --> Grill["grill (whenever ambiguous)"]
+    Req([Permintaan Anda]) --> Start["start<br/>nilai risiko, pilih lane"]
+    Start -.->|permintaan ambigu| Grill["grill"]
+    Grill -.-> Start
 
-    subgraph Phase 1: DISCOVER & DEFINE
-        Grill --> Discover["discover"]
-        Discover --> Define["define"]
-    end
+    Start --> FF["Full-Feature"]
+    Start --> BF["Bug-Fix"]
+    Start --> SC["Small-Change"]
+    Start --> DC["Documentation"]
+    Start --> IN["Incident"]
 
-    subgraph Phase 2: ARCHITECT & DESIGN
-        Define --> Design["design"]
-    end
+    FF --> FFa["discover → define → design → plan"]
+    FFa --> FFb["implement → review → verify"]
+    FFb --> FFc["document → release"]
 
-    subgraph Phase 3: PLAN
-        Design --> Plan["plan"]
-    end
+    BF --> BFa["fix → implement → verify"]
+    SC --> SCa["implement → review"]
+    DC --> DCa["document"]
+    IN --> INa["incident → fix → observability"]
 
-    subgraph Phase 4: BUILD & REMEDIATE
-        Plan --> Implement["implement (TDD)"]
-        Router -. Bug-Fix Fast Lane .-> Fix["fix"]
-        Fix --> Implement
-    end
-
-    subgraph Phase 5: VERIFY & REVIEW
-        Implement --> Review["review"]
-        Review --> Verify["verify"]
-    end
-
-    subgraph Phase 6: SHIP & MAINTAIN
-        Verify --> Document["document"]
-        Document --> Release["release"]
-        Release --> Done([Production Release])
-    end
+    FFc --> Done([Rilis, dengan gate-nya terlewati])
+    BFa --> Done
+    SCa --> Done
+    DCa --> Done
+    INa --> Done
 ```
 
----
+### Lane
 
-## 🧰 Skills Reference
-
-### Cross-cutting: antislop (vendored)
-
-Not listed per phase, because they apply wherever a task produces an interface,
-prose, or code comments. These six are copied from
-[antislop](https://github.com/miqdadbadjuber/anti-slop) (MIT) rather than
-written here, and each installed `SKILL.md` says so in its own provenance block.
-See [antislop](#-antislop) for the adoption note and what we adapted.
-
-| Skill | Loads when | Origin |
+| Lane | Pemicu dan cakupan | Urutan yang wajib |
 | :--- | :--- | :--- |
-| `antislop` | Any task that produces UI, prose, or code comments | Vendored |
-| `antislop-ui` | Building or editing an interface | Vendored |
-| `antislop-copywriting` | Writing or editing prose | Vendored, one rule adapted |
-| `antislop-code` | Writing or editing code comments | Vendored |
-| `antislop-human` | Contrast, keyboard, focus, states | Vendored |
-| `antislop-layoutmobile` | Layouts that reflow from phone to desktop | Vendored |
+| **Full-Feature** | Kapabilitas baru, arsitektur, kontrak publik, data sensitif | Discovery → PRD → Spec → Plan → Eksekusi → Review → Verifikasi → Rilis |
+| **Bug-Fix** | Defect yang bisa direproduksi dengan perilaku semestinya yang jelas | Akar masalah → Rencana fix minimal → Test dan fix → Verifikasi |
+| **Small-Change** | Pekerjaan sempit, reversibel, berisiko rendah | Fix minimal → Pemeriksaan test terfokus → Code review |
+| **Documentation** | Perubahan isi saja | Audit → Tulis atau perbarui → Periksa tautan dan akurasi |
+| **Incident** | Gangguan aktif, insiden keamanan, atau kehilangan data | Severity → Containment → Akar masalah → Post-mortem |
+
+### Skill per fase
+
+| Fase | Skill utama | Skill pendukung | Keluaran |
+| :--- | :--- | :--- | :--- |
+| **0. Route** | `start` | `grill` | Lane, artefaknya, gate-nya |
+| **1. Discover dan define** | `discover`, `define` | `guardrails`, `glossary` | Discovery report, PRD |
+| **2. Architect dan design** | `design` | `decide`, `threat`, `test`, `design-ui`\* | Spesifikasi teknis, ADR |
+| **3. Plan** | `plan` | `test` | Rencana implementasi dengan ID stabil |
+| **4. Build dan remediate** | `implement`, `fix` | `guardrails`, `audit-deps`, `orchestrate`, `migrate`\* | Kode sumber, unit test, analisis akar masalah |
+| **5. Verify dan review** | `review`, `verify` | `audit-deps`, `test` | Masukan review, laporan verifikasi |
+| **6. Ship dan maintain** | `document`, `release` | `glossary`, `orchestrate`, `observability`\*, `incident`\* | Dokumentasi, release candidate terverifikasi, post-mortem |
+
+\* Specialist, jadi hanya ikut di bundle `full`.
+
+Bisa dimuat dari fase mana pun: `context` (pemilik CONTEXT.md, bahasa bersama
+dan invarian), `memory`, `glossary`, `guardrails`, `decide`, `test`, `threat`,
+`audit-deps`, `orchestrate`, dan [keluarga antislop](#-antislop).
+
+### Aturan yang berlaku di semua lane
+
+1. **Tentukan lane sebelum membangun.** Jalankan `/start` kalau belum yakin lane
+   mana yang cocok, dan pindah lane saat bukti baru menaikkan risikonya.
+2. **Hormati urutan artefak.** Tidak ada spec sebelum PRD, tidak ada
+   implementasi sebelum rencana disetujui.
+3. **Setujui gate-nya.** Publikasi, deployment, rilis, perubahan destruktif, dan
+   perubahan kredensial selalu menunggu persetujuan eksplisit Anda.
+4. **Jaga bahasa bersama.** Biarkan `context` yang memiliki CONTEXT.md, dan
+   panggil `guardrails`, `memory`, atau `glossary` kapan saja.
 
 ---
 
-### Phase 0: Navigator (Entrypoint)
-If you're unsure how to start a task, invoke the navigator skill:
-- 🚀 **`start`**: Classifies work into the optimal safety lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and guides the selected lane step by step.
+## 🧹 antislop
+
+Enam dari skill inti adalah filter [antislop](https://github.com/miqdadbadjuber/anti-slop)
+karya Miqdad Badjuber, di-vendor di sini di bawah lisensi MIT. Filter ini
+menahan agent memproduksi keluaran AI generik: gradien biru-ungu, statistik
+karangan, copy yang berbunyi seperti siaran pers, komentar yang mengulang baris
+di bawahnya. Semuanya tanpa membuat hasilnya jadi hambar.
+
+| Skill | Dimuat ketika |
+| :--- | :--- |
+| `antislop` | Filter inti: 38 aturan, liveliness dial, delivery gate. |
+| `antislop-ui` | Membangun atau menyunting antarmuka. |
+| `antislop-copywriting` | Menulis atau menyunting prosa. |
+| `antislop-code` | Menulis atau menyunting komentar kode. |
+| `antislop-human` | Kontras, keyboard, fokus, state. Membawa pemeriksa kontras. |
+| `antislop-layoutmobile` | Layout yang harus mengalir dari ponsel ke desktop. |
+
+Keenamnya ada di luar tabel fase karena berlaku di mana pun sebuah task
+menghasilkan antarmuka, prosa, atau komentar kode. Filter membuang yang tidak
+seharusnya ada; ia tidak memberi arah. `DESIGN.md` milik Anda sendiri yang
+membuat hasilnya terasa milik Anda.
+
+**Keenamnya di-vendor, bukan ditulis di sini.** Setiap `SKILL.md` yang terpasang
+dibuka dengan blok provenance yang menyebut project asal, penulisnya, lisensi
+MIT, dan commit yang dikunci. Aturannya milik upstream, jadi keberatan atas satu
+aturan diajukan ke [miqdadbadjuber/anti-slop](https://github.com/miqdadbadjuber/anti-slop);
+pengemasannya milik kami, jadi itu diajukan di sini. Semua adaptasi yang kami
+lakukan tercatat di [Kredit & Referensi](#-kredit--referensi), terekam di
+[`vendor/anti-slop.json`](vendor/anti-slop.json), dan diterapkan ulang oleh
+`scripts/vendor-anti-slop.py` di tiap sinkronisasi, yang menolak berjalan kalau
+kalimat upstream bergeser dari bawah salah satu adaptasi.
 
 ---
 
-### Phase 1: Discover & Define (Product Scope)
-| Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- |
-| `discover` | `guardrails` | **Discovery Report** |
-| `define` | `glossary` | **Product Requirements Document (PRD)** |
+## 💬 Contoh prompt
 
----
+Skill terpasang global atau per project, jadi tidak ada menu yang perlu
+dihafal. Cukup prompt dengan bahasa biasa, dan sebut nama skill kalau Anda mau
+lane tertentu:
 
-### Phase 2: Architect & Design (Technical Design & Security)
-| Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- |
-| `grill` | `decide` | **Confirmed Understanding / ADR** |
-| `design` | `threat`, `design-ui`, `test` | **Technical Specification (Spec)** |
-
----
-
-### Phase 3: Plan (Execution Planning)
-| Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- |
-| `plan` | `test` | **Implementation Plan** |
-
----
-
-### Phase 4: Build & Remediate (Coding & Bug Fixes)
-| Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- |
-| `implement` | `guardrails`, `migrate`, `audit-deps`, `orchestrate` | **Source Code & Unit Tests** |
-| `fix` | `test` | **Root Cause Analysis & Fix Plan** |
-
----
-
-### Phase 5: Verify & Review (Quality & Security)
-| Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- |
-| `review` | `audit-deps` | **Code Review Feedback** |
-| `verify` | `test` | **Verification Report** |
-
----
-
-### Phase 6: Ship & Maintain (Release & Operations)
-| Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- |
-| `document` | `glossary` | **User Guides & Documentation** |
-| `release` | `orchestrate` | **Verified Release Candidate** |
-| `observability` | `incident`, `memory` | **Logs/Alerts & Incident Post-Mortem** |
-
----
-
-## 🔄 Work Lanes Matrix
-
-The toolkit routes every change into the right lane to prevent unnecessary overhead while maintaining strict guardrails where needed:
-
-| Lane | Trigger & Scope | Required Workflow Sequence |
-| :--- | :--- | :--- |
-| **Full-Feature** | New capabilities, major architectural changes, public contracts, sensitive data | Discovery → PRD → Spec → Plan → Execution → Review → Verification → Release |
-| **Bug-Fix** | Reproducible defects with clear intended behavior | Root Cause Analysis → Minimal Fix Plan → Unit Test & Fix → Verification |
-| **Small-Change** | Low-risk, reversible, narrowly scoped changes | Direct Minimal Fix → Focused Test Check → Code Review |
-| **Documentation** | Pure documentation, comments, or manual updates | Audit → Draft/Update → Verify Links & Accuracy |
-| **Incident** | Active production outage, security breach, or data loss | Severity Assessment → Containment → Root Cause → Post-Mortem |
-
----
-
-## 💬 Natural Language Prompting Examples
-
-Since skills are installed globally or at the project level, you don't need special UI menus. Simply prompt your AI agent in natural language:
-
-### 1. Starting a New Project / Feature (Getting Started)
 ```text
-"Use start to guide me through building a JWT and OAuth2 authentication system. Create a PRD and technical specification first."
+Use start to guide me through building a JWT and OAuth2 authentication system.
+Create a PRD and technical specification first.
 ```
 
-### 2. Fixing a Bug (Bug-Fix Lane)
 ```text
-"Users are reporting a 500 server error during checkout when the cart is empty. Use the fix skill to trace the root cause, write a reproduction test, and apply a minimal fix."
+Users get a 500 during checkout when the cart is empty. Use the fix skill to
+trace the root cause, write a reproduction test, and apply a minimal fix.
 ```
 
-### 3. Reviewing a Pull Request / Code Changes
 ```text
-"Please perform a code review on the current branch using the review skill. Check for security vulnerabilities, performance bottlenecks, and adherence to our technical spec."
-```
-
-### 4. Creating an Architecture Decision Record (ADR)
-```text
-"We need to evaluate Redis vs PostgreSQL for session caching. Use the decide skill to evaluate trade-offs and draft an ADR."
-```
-
-### 5. Running Pre-Release Audit
-```text
-"Please audit this repository using the release skill before we publish release v1.0.0."
+Run the review skill on the current branch. Check for security vulnerabilities,
+performance bottlenecks, and adherence to our technical spec.
 ```
 
 ---
 
-## 🌐 Supported Platforms & Global Paths
+## 🌐 Platform yang didukung & path global
 
-A repository install is the default. Ask for a **global** install instead and the toolkit lands in your home directory, so every repository inherits it:
+Instalasi per repository adalah default. Minta instalasi **global** dan toolkit
+mendarat di home directory Anda, sehingga semua repository mewarisinya:
 
-| Platform | Global Instructions | Global Skills | Slash Commands |
+| Platform | Instruksi global | Skill global | Slash command |
 | :--- | :--- | :--- | :--- |
 | **Claude Code** | `~/.claude/CLAUDE.md` | `~/.agents/skills/*` | - |
 | **OpenCode** | `~/.config/opencode/AGENTS.md` | `~/.agents/skills/*` | `~/.config/opencode/commands/*.md` |
@@ -358,158 +262,166 @@ A repository install is the default. Ask for a **global** install instead and th
 | **Gemini / Antigravity** | `~/.gemini/antigravity/AGENTS.md` | `~/.agents/skills/*` | - |
 | **ZCode** | `~/.zcode/AGENTS.md` | `~/.agents/skills/*` | - (native `/<name>`) |
 
+Kontrak tiap platform dan cara menambah platform baru:
+[`docs/platform-support.md`](docs/platform-support.md).
+
 ---
 
-## 📦 Skill Bundles
+## 📦 Bundle skill
 
-| Bundle | Skills | What's Included | Best For |
+| Bundle | Skill | Isinya | Cocok untuk |
 | :--- | ---: | :--- | :--- |
-| **`core`** *(default)* | 27 | Lifecycle, cross-cutting, and antislop skills | Everyday feature development & bug fixes |
-| **`full`** | 31 | Core plus the specialists (`design-ui`, `incident`, `observability`, `migrate`) | Full product lifecycle & ops |
-| **`quality`** | 7 | Grilling, guardrails, tests, threat modelling, dependency audit, review, verification | Quality overlays for mature repos |
+| **`core`** *(default)* | 27 | Skill lifecycle, cross-cutting, dan antislop | Pengembangan fitur dan perbaikan bug sehari-hari |
+| **`full`** | 31 | Core plus specialist (`design-ui`, `incident`, `observability`, `migrate`) | Siklus produk penuh dan operasional |
+| **`quality`** | 7 | `grill`, `guardrails`, `test`, `threat`, `audit-deps`, `review`, `verify` | Lapisan kualitas untuk repository yang sudah matang |
 
-Name a bundle in step 3 of the install prompt. Omit it and you get `core`.
+Sebut salah satunya lewat `bundle=` di prompt instalasi. Kalau tidak disebut,
+Anda dapat `core`.
 
 ---
 
-## 🏷️ Versions
+## 🏷️ Versi
 
-| Version | Branch | Tag | Install method |
+| Versi | Branch | Tag | Cara instalasi |
 | :--- | :--- | :--- | :--- |
-| **3.0.0** *(current)* | `main` | `v3.0.0` | Agent prompt → [`AGENT-INSTALL.md`](AGENT-INSTALL.md) |
-| 2.0.0 | `release/2.0.0` | `v2.0.0` | Shell / PowerShell script |
-| 1.0.0 | `release/1.0.0` | `v1.0.0` | Shell / PowerShell script |
+| **3.0.0** *(sekarang)* | `main` | `v3.0.0` | Prompt ke agent → [`AGENT-INSTALL.md`](AGENT-INSTALL.md) |
+| 2.0.0 | `release/2.0.0` | `v2.0.0` | Skrip Shell / PowerShell |
+| 1.0.0 | `release/1.0.0` | `v1.0.0` | Skrip Shell / PowerShell |
 
-Branch versi lama dibekukan, dan semua perintah di README-nya menunjuk ke
-dirinya sendiri, jadi installer dan uninstaller-nya tetap berfungsi.
+Branch yang lama dibekukan, dan setiap perintah di README-nya menunjuk ke
+dirinya sendiri, jadi installer dan uninstaller-nya tetap jalan.
 
-**Migrasi dari 2.0.0.** Format ledger tidak berubah, jadi pemasangan 2.0.0 bisa
-dihapus lewat jalur mana pun. Tapi kalau Anda menyimpan perintah 2.0.0 lama,
-URL-nya menunjuk ke `main` yang sudah tidak menyertakan skrip itu. Pakai ini:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/uninstall.sh | bash
-```
-
-```powershell
-irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/uninstall.ps1 | iex
-```
-
-Lalu pasang 3.0.0 dengan prompt di atas. Catatan lengkap ada di
-[`CHANGELOG.md`](CHANGELOG.md).
+**Datang dari 2.0.0?** Format ledger tidak berubah, jadi agent Anda bisa
+mencopot instalasi 2.0.0 dengan `action=uninstall` lalu memasang 3.0.0. Kalau
+Anda lebih suka menjalankan skrip lamanya, skrip itu ada di branch beku
+[`release/2.0.0`](https://github.com/coderbuzz/agent-toolkit/tree/release/2.0.0);
+perintah yang Anda simpan menunjuk ke `main`, yang sudah tidak menyertakannya.
+Catatan lengkap di [`CHANGELOG.md`](CHANGELOG.md).
 
 ---
 
-## 💻 Contributor & Maintainer Guide
+## 💻 Panduan kontributor & maintainer
 
-Developing or extending the toolkit itself? Maintainer tools require **Python 3.9+**, Standard Library only. No third-party dependencies.
-
-### Maintainer Commands
+Mau mengembangkan toolkit-nya sendiri? Perkakas maintainer butuh **Python
+3.9+**, hanya Standard Library. Tanpa dependency pihak ketiga.
 
 ```bash
-# Validate canonical skills and manifests
+# Validasi skill kanonik dan manifest
 python3 scripts/toolkit.py validate
 
-# Run the complete test suite
+# Jalankan seluruh test suite
 python3 -m unittest discover -s tests -v
 
-# Export generated platform packages into dist/
+# Ekspor paket platform hasil generate ke dist/
 python3 scripts/toolkit.py export --all --bundle core
 
-# Verify no drift between canonical sources and dist/
+# Pastikan tidak ada drift antara sumber kanonik dan dist/
 python3 scripts/toolkit.py check-drift --all --bundle core
 
-# Re-sync the vendored antislop skills from an upstream checkout
+# Sinkronkan ulang skill antislop dari checkout upstream
 python3 scripts/vendor-anti-slop.py ../anti-slop
 
-# Run the full validation sequence
+# Jalankan rangkaian validasi lengkap
 ./scripts/validate-all.sh
 ```
 
-`scripts/toolkit.py` keeps `install` and `uninstall` subcommands. They are the
-executable reference that [`AGENT-INSTALL.md`](AGENT-INSTALL.md) describes and
-that `tests/test_agent_protocol.py` checks the protocol against. It is not the
-supported way for you to install the toolkit.
+`scripts/toolkit.py` masih punya subcommand `install` dan `uninstall`. Keduanya
+adalah referensi yang bisa dieksekusi, yang dijelaskan
+[`AGENT-INSTALL.md`](AGENT-INSTALL.md) dan diuji `tests/test_agent_protocol.py`
+terhadap protokol itu. Keduanya bukan cara yang didukung untuk Anda memasang
+toolkit ini.
+
+Bacaan lanjutan: [`docs/maintainer-guide.md`](docs/maintainer-guide.md) untuk
+alur build, vendoring, dan rilis, serta
+[`docs/platform-support.md`](docs/platform-support.md) untuk path tiap platform.
 
 ---
 
-## 🏗️ Repository Architecture
+## 🏗️ Arsitektur repository
 
 ```text
 .
-├── AGENT-INSTALL.md          # The install protocol agents read and execute
-├── AGENTS.md                 # The pointer file installed into a project or $HOME
-├── manifest.json             # Toolkit manifest & bundle definitions
-├── CHANGELOG.md              # Releases, and how to move between them
-├── NOTICE                    # Third-party attribution (antislop, MIT)
-├── .agents/skills/           # Canonical reusable procedures
-├── instructions/             # Shared communication and quality standards
-├── standards/                # Architecture & traceability contracts
-├── templates/                # Artifact templates
-├── platforms/                # Per-platform path adapters
-├── vendor/                   # Vendoring records for third-party skills
-├── dist/                     # Pre-built packages (per-platform + dist/global)
+├── AGENT-INSTALL.md          # Protokol instalasi yang dibaca dan dijalankan agent
+├── AGENTS.md                 # File pointer yang dipasang ke project atau $HOME
+├── manifest.json             # Manifest toolkit & definisi bundle
+├── CHANGELOG.md              # Rilis, dan cara berpindah di antaranya
+├── NOTICE                    # Atribusi pihak ketiga (antislop, MIT)
+├── llms.txt                  # Titik masuk machine-readable untuk agent
+├── .agents/skills/           # Prosedur kanonik yang bisa dipakai ulang
+├── instructions/             # Standar komunikasi dan kualitas bersama
+├── standards/                # Kontrak arsitektur & traceability
+├── templates/                # Template artefak
+├── platforms/                # Adapter path tiap platform
+├── vendor/                   # Catatan vendoring skill pihak ketiga
+├── docs/                     # Panduan maintainer, dukungan platform, catatan desain
+├── dist/                     # Paket siap pakai (per platform + dist/global)
 └── scripts/
-    ├── toolkit.py            # Maintainer build CLI (validate, export, drift-check)
-    ├── vendor-anti-slop.py   # Re-syncs the vendored antislop skills
-    └── validate-all.sh/.ps1  # The full maintainer validation sequence
+    ├── toolkit.py            # CLI build maintainer (validate, export, drift-check)
+    ├── vendor-anti-slop.py   # Menyinkronkan ulang skill antislop
+    └── validate-all.sh/.ps1  # Rangkaian validasi maintainer lengkap
 ```
 
 ---
 
-## 🌟 Credits & References
+## 🌟 Kredit & Referensi
 
-### Bundled work
+### Karya yang di-vendor
 
-Six of the skills this toolkit installs are not ours. They are copied in, and
-they ship under their own license.
+Enam skill yang dipasang toolkit ini bukan milik kami. Keduanya disalin masuk,
+dan dikirim dengan lisensinya sendiri.
 
-**[antislop](https://github.com/miqdadbadjuber/anti-slop)** by Miqdad Badjuber, MIT.
-Pinned at commit [`7437352`](https://github.com/miqdadbadjuber/anti-slop/commit/743735248fbaefd76bb56619615687dfa8b3bc1e).
-Installed as `antislop`, `antislop-ui`, `antislop-copywriting`, `antislop-code`,
-`antislop-human`, and `antislop-layoutmobile`. The 38 rules, the liveliness
-dials, and the delivery gate are the author's work, not ours.
+**[antislop](https://github.com/miqdadbadjuber/anti-slop)** karya Miqdad Badjuber, MIT. Dikunci di commit
+[`7437352`](https://github.com/miqdadbadjuber/anti-slop/commit/743735248fbaefd76bb56619615687dfa8b3bc1e).
+Dipasang sebagai `antislop`, `antislop-ui`, `antislop-copywriting`,
+`antislop-code`, `antislop-human`, dan `antislop-layoutmobile`. 38 aturan,
+liveliness dial, dan delivery gate adalah karya penulisnya, bukan kami.
 
-We changed nine things to fit this toolkit. Each installed `SKILL.md` carries a
-provenance note saying so, and all nine are recorded in
-[`vendor/anti-slop.json`](vendor/anti-slop.json) and re-applied by
-`scripts/vendor-anti-slop.py` on every upstream sync:
+Kami mengubah sembilan hal agar pas dengan toolkit ini. Tiap `SKILL.md` yang
+terpasang membawa catatan provenance yang menyebutkannya, dan kesembilannya
+terekam di [`vendor/anti-slop.json`](vendor/anti-slop.json) lalu diterapkan
+ulang oleh `scripts/vendor-anti-slop.py` di tiap sinkronisasi upstream:
 
-| What | Why |
+| Apa | Kenapa |
 | :--- | :--- |
-| A provenance note added under each skill's heading | So anyone opening an installed skill sees whose work it is, and knows to report rule problems upstream |
-| Every reference to the core file `antislop.md` now names the `antislop` skill | Upstream ships the core as a standalone file; we install it as a skill. Eleven lines told the agent to load a file that is not there, and an OpenCode global install has a slash-command stub of that same name it could read instead |
-| Frontmatter rewritten (`allowed-tools` dropped, `invocation` and `role` added) | Our validator allows only five keys |
-| 417 prose lines rewrapped to 120 characters | Our validator rejects longer lines. Word sequence is unchanged |
-| The core's "First-Run Install Wizard" replaced with a pointer to `AGENT-INSTALL.md` | It ran its own install flow, which fought ours |
-| The core's description no longer says "Load always" | Nothing here is always-on; skills load on demand |
-| `${CLAUDE_SKILL_DIR}` replaced with a relative path | Skill bodies stay free of platform-specific variables |
-| `contrast-mcp.py` not copied (`contrast-check.py` is) | Proprietary MCP identifiers are outside our portability contract |
-| The three em dash exceptions removed from `antislop-copywriting` | The core states R-02 as an absolute Hard Gate, while the skill granted a voice override in three places. Agents resolved the contradiction in favour of the exception and kept writing em dashes |
+| Catatan provenance ditambahkan di bawah heading tiap skill | Supaya siapa pun yang membuka skill terpasang tahu itu karya siapa, dan tahu harus melaporkan masalah aturan ke upstream |
+| Setiap rujukan ke file inti `antislop.md` kini menyebut skill `antislop` | Upstream mengirim intinya sebagai file berdiri sendiri; kami memasangnya sebagai skill. Sebelas baris menyuruh agent memuat file yang tidak ada, dan instalasi global OpenCode punya stub slash command bernama sama yang bisa terbaca sebagai gantinya |
+| Frontmatter ditulis ulang (`allowed-tools` dibuang, `invocation` dan `role` ditambahkan) | Validator kami hanya mengizinkan lima kunci |
+| 417 baris prosa dibungkus ulang ke 120 karakter | Validator kami menolak baris yang lebih panjang. Urutan katanya tidak berubah |
+| "First-Run Install Wizard" di file inti diganti penunjuk ke `AGENT-INSTALL.md` | Bagian itu menjalankan alur instalasinya sendiri, yang bertabrakan dengan alur kami |
+| Deskripsi file inti tidak lagi berbunyi "Load always" | Tidak ada yang selalu aktif di sini; skill dimuat sesuai kebutuhan |
+| `${CLAUDE_SKILL_DIR}` diganti path relatif | Isi skill tetap bebas dari variabel khas satu platform |
+| `contrast-mcp.py` tidak disalin (`contrast-check.py` disalin) | Identifier MCP proprietary ada di luar kontrak portabilitas kami |
+| Tiga pengecualian em dash dihapus dari `antislop-copywriting` | File inti menyatakan R-02 sebagai Hard Gate mutlak, sementara skill itu memberi voice override di tiga tempat. Agent menyelesaikan kontradiksinya dengan memihak pengecualian dan terus menulis em dash |
 
-Eight of those are packaging. Only the last changes what a rule means, and it
-changes it towards what the core already said. The rule text itself is
-upstream's: `scripts/vendor-anti-slop.py` checks on every sync that rewrapping
-altered no word, and refuses to run if upstream's wording moved out from under
-an adaptation. Full attribution and the MIT text are in [`NOTICE`](NOTICE).
+Delapan di antaranya soal pengemasan. Hanya yang terakhir mengubah makna sebuah
+aturan, dan mengubahnya ke arah yang sudah dinyatakan file intinya. Teks
+aturannya sendiri milik upstream: `scripts/vendor-anti-slop.py` memeriksa di
+tiap sinkronisasi bahwa pembungkusan ulang tidak mengubah satu kata pun, dan
+menolak berjalan kalau kalimat upstream bergeser dari bawah sebuah adaptasi.
+Atribusi lengkap dan teks MIT ada di [`NOTICE`](NOTICE).
 
-If you want antislop on its own, without this toolkit, get it from
-[the upstream repository](https://github.com/miqdadbadjuber/anti-slop).
+Kalau Anda mau antislop saja, tanpa toolkit ini, ambil dari
+[repository upstream-nya](https://github.com/miqdadbadjuber/anti-slop).
 
-### Inspiration
+### Referensi
 
-Patterns and conventions we learned from, but did not copy:
+Semua yang menjadi pijakan toolkit ini. Hanya yang pertama yang kodenya ikut
+terkirim; sisanya konvensi yang kami ikuti, platform yang kami pasangi, dan
+gagasan yang kami pelajari tanpa menyalin.
 
-- **[mattpocock/skills](https://github.com/mattpocock/skills)** by Matt Pocock: principles-first skill design and the direct inspiration for v2. The user-invoked vs model-invoked taxonomy, grilling before ambiguous or irreversible work (`grill`), shared language via CONTEXT.md (`context`), and TDD as a build discipline folded into `implement`.
-- **[awesome-copilot-id](https://github.com/GulajavaMinistudio/awesome-copilot-id)** by GulajavaMinistudio: prompt structures, skill format conventions, role definitions, and terminal installation workflows.
-- **[OpenCode](https://opencode.ai)**: agent role definitions and shared skill conventions.
-- **[OpenAI Codex & Agent Specifications](https://github.com/openai)**: the `AGENTS.md` format and fail-closed permission models.
-- **[Anthropic Claude Code](https://docs.anthropic.com)**: `CLAUDE.md` guidelines and subagent patterns.
-- **[GitHub Copilot Custom Instructions](https://docs.github.com/en/copilot)**: custom agent prompt engineering patterns.
-- **[Google Antigravity / Gemini CLI](https://cloud.google.com)**: agentic workflow orchestration standards.
+| Sumber | Oleh | Yang diberikan ke toolkit ini |
+| :--- | :--- | :--- |
+| [anti-slop](https://github.com/miqdadbadjuber/anti-slop) | Miqdad Badjuber | **Di-vendor**: enam skill antislop, MIT, seperti tercatat di atas |
+| [mattpocock/skills](https://github.com/mattpocock/skills) | Matt Pocock | Desain skill yang berangkat dari prinsip, dan inspirasi langsung untuk v2: taksonomi user-invoked vs model-invoked, wawancara sebelum pekerjaan ambigu (`grill`), bahasa bersama di CONTEXT.md (`context`), TDD yang dilipat ke `implement` |
+| [awesome-copilot-id](https://github.com/GulajavaMinistudio/awesome-copilot-id) | GulajavaMinistudio | Struktur prompt, konvensi format skill, definisi role |
+| [OpenCode](https://opencode.ai) | SST | Konvensi skill dan slash command; salah satu target instalasi |
+| [AGENTS.md dan Codex CLI](https://github.com/openai) | OpenAI | Format pointer `AGENTS.md` dan model izin fail-closed; salah satu target instalasi |
+| [Claude Code](https://docs.anthropic.com) | Anthropic | Konvensi `CLAUDE.md` dan pola subagent; salah satu target instalasi |
+| [Copilot custom instructions](https://docs.github.com/en/copilot) | GitHub | Pola custom instruction; salah satu target instalasi |
+| [Gemini / Antigravity](https://cloud.google.com) | Google | Konvensi orkestrasi workflow agentic; salah satu target instalasi |
 
 ---
 
-## 📄 License
+## 📄 Lisensi
 
-This project is licensed under the [MIT License](LICENSE).
+Project ini dilisensikan di bawah [Lisensi MIT](LICENSE).
