@@ -46,6 +46,22 @@ class ProtocolConstantsTests(unittest.TestCase):
         self.assertIn("| Default scope | `{0}` |".format(policy["default_scope"]), PROTOCOL)
         self.assertIn("| Default bundle | `{0}` |".format(policy["default_bundle"]), PROTOCOL)
 
+    def test_invocation_parameters_carry_the_documented_defaults(self):
+        """The READMEs now ship parameters, not prose. The defaults live here."""
+        policy = MANIFEST["install_policy"]
+        for name, default in (
+            ("action", "install"),
+            ("scope", policy["default_scope"]),
+            ("bundle", policy["default_bundle"]),
+            ("ref", "main"),
+        ):
+            row = r"^\| {0} \|.*\| `{1}` \|$".format(name, re.escape(default))
+            with self.subTest(parameter=name):
+                self.assertTrue(
+                    re.search(row, PROTOCOL, re.MULTILINE),
+                    "parameter {0} should default to {1} in the invocation table".format(name, default),
+                )
+
     def test_every_platform_is_listed_and_no_extras_are_invented(self):
         documented = set(re.findall(r"^\| `([a-z-]+)` \| `", PROTOCOL, re.MULTILINE))
         self.assertEqual(set(MANIFEST["platforms"]), documented)
@@ -140,6 +156,26 @@ class RemovedInstallerTests(unittest.TestCase):
                 text = (TOOLKIT_ROOT / name).read_text(encoding="utf-8")
                 self.assertIn("AGENT-INSTALL.md", text)
                 self.assertIn("coderbuzz/agent-toolkit", text)
+
+    def test_readme_prompts_are_parameters_rather_than_a_second_protocol(self):
+        """Steps copied into a README drift from the protocol; parameters cannot."""
+        policy = MANIFEST["install_policy"]
+        line = "action=install, scope={0}, bundle={1}".format(
+            policy["default_scope"], policy["default_bundle"]
+        )
+        for name in ("README.md", "README.id.md"):
+            with self.subTest(name=name):
+                text = (TOOLKIT_ROOT / name).read_text(encoding="utf-8")
+                quick_start = text.split("## \U0001f680 Quick Start", 1)[1].split("\n## ", 1)[0]
+                prompts = re.findall(r"^```text\n(.*?)^```$", quick_start, re.MULTILINE | re.DOTALL)
+                self.assertEqual(1, len(prompts), "the quick start should carry one prompt")
+                prompt = prompts[0]
+                self.assertIn(line, prompt)
+                self.assertIn("AGENT-INSTALL.md", prompt)
+                self.assertLessEqual(
+                    len(prompt.strip().splitlines()), 5,
+                    "the prompt should point at the protocol, not restate it",
+                )
 
 
 if __name__ == "__main__":

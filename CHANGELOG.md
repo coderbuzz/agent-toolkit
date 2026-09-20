@@ -4,6 +4,21 @@
 
 ### Changed
 
+- Installing is one prompt now, not three. `AGENT-INSTALL.md` section 0 gained
+  the invocation contract: the four parameters a request may carry (`action`,
+  `scope`, `bundle`, `ref`), their defaults, and the statement that no wording
+  in a request waives the stop conditions, the write allowlist, or the preview.
+  The README quick start had been restating that contract as numbered steps in
+  three prompts across two languages, six copies free to drift from the
+  protocol they paraphrased. They are now one prompt that names the protocol
+  and a parameter line, with a table of variants that changes only that line.
+  `tests/test_agent_protocol.py` holds it there: the defaults are asserted
+  against `manifest.json`, and a quick start that grows a second prompt or a
+  prompt longer than five lines fails.
+- The no-git fallback in `AGENT-INSTALL.md` section 5 now fetches from `<ref>`
+  rather than a hardcoded `main`, so pinning a tag pins the files an agent
+  without git downloads too.
+
 - `review` now evaluates simplicity and maintainability as explicit workflow
   steps. Its description had promised both since 2.0.0, but the body carried no
   step or criteria for either, so an agent loading the skill was never told to

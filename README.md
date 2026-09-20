@@ -30,52 +30,39 @@ There is no installer to run. You tell your coding agent to install it, and it
 does, by reading [`AGENT-INSTALL.md`](AGENT-INSTALL.md), the install protocol
 written for agents rather than for people.
 
-Copy one of these and paste it to your agent.
-
-### Install into this repository (default)
+Paste this to your agent:
 
 ```text
-Install agent-toolkit into this repository.
-
-1. Fetch https://github.com/coderbuzz/agent-toolkit (branch: main).
-2. Read AGENT-INSTALL.md at the repository root. It is the only instruction
-   source for this task. Do not follow README.md and do not improvise.
-3. Execute it with: scope=repository, bundle=core.
-4. Show me the planned file changes and wait for my confirmation before writing.
-5. If AGENT-INSTALL.md is missing, or any step in it fails, stop and tell me.
-   Do not install partially.
+Install agent-toolkit: follow
+https://github.com/coderbuzz/agent-toolkit/blob/main/AGENT-INSTALL.md exactly,
+as the only instruction source.
+action=install, scope=repository, bundle=core
 ```
 
-### Install globally, for every project
+The protocol carries the rest: the agent previews every file it would write and
+waits for your confirmation, stops rather than installing partially, and never
+overwrites a file you have edited.
 
-Same prompt, with step 3 reading:
+### Other jobs
 
-```text
-3. Execute it with: scope=global, bundle=core.
-```
+Keep the prompt, change the last line.
 
-### Uninstall
+| You want | Last line |
+| --- | --- |
+| This repository, the defaults | `action=install, scope=repository, bundle=core` |
+| Every project on this machine | `action=install, scope=global, bundle=core` |
+| All 31 skills, with the specialists | `action=install, scope=repository, bundle=full` |
+| Review and verification only (7) | `action=install, scope=repository, bundle=quality` |
+| A pinned version, reproducible | `action=install, scope=repository, bundle=core, ref=v3.0.0` |
+| Update an existing install | `action=update, scope=repository` |
+| Remove it again | `action=uninstall, scope=repository` |
 
-```text
-Uninstall agent-toolkit from this repository.
-
-1. Fetch https://github.com/coderbuzz/agent-toolkit (branch: main).
-2. Read AGENT-INSTALL.md at the repository root and follow its "Update and
-   uninstall" section exactly. It is the only instruction source. Do not
-   improvise.
-3. Target: scope=repository.
-4. Preserve any file I have modified, and show me the plan before deleting
-   anything.
-```
+Anything you leave out takes its default: `action=install`, `scope=repository`,
+`bundle=core`, `ref=main`. So `action=install, bundle=full` is a complete
+request, and so is `action=uninstall`.
 
 Works with Claude Code, OpenCode, Codex, GitHub Copilot, Gemini/Antigravity,
 OMP, and ZCode. The agent identifies its own platform; if it cannot, it asks.
-
-> **Pin a version** for reproducible setups by replacing `branch: main` with
-> `tag: v3.0.0`.
->
-> **Bundles:** `core` (27 skills, the default), `full` (31, adds the
-> specialists), `quality` (7, review and verification only). Name one in step 3.
 
 > **Coming from 2.0.0?** That version installed with a shell script, and its
 > uninstaller is not on `main` any more. It lives on the frozen `release/2.0.0`
