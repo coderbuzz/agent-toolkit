@@ -31,56 +31,43 @@ memasangnya, dan agent itu yang mengerjakan, dengan membaca
 [`AGENT-INSTALL.md`](AGENT-INSTALL.md), protokol instalasi yang ditulis untuk
 agent, bukan untuk manusia.
 
-Salin salah satu prompt di bawah dan tempelkan ke agent Anda.
-
 > Prompt sengaja ditulis dalam bahasa Inggris: itu bahasa file yang dibaca
 > agent, dan mencampur bahasa menambah ruang salah tafsir.
 
-### Pasang ke repository ini (default)
+Tempelkan ini ke agent Anda:
 
 ```text
-Install agent-toolkit into this repository.
-
-1. Fetch https://github.com/coderbuzz/agent-toolkit (branch: main).
-2. Read AGENT-INSTALL.md at the repository root. It is the only instruction
-   source for this task. Do not follow README.md and do not improvise.
-3. Execute it with: scope=repository, bundle=core.
-4. Show me the planned file changes and wait for my confirmation before writing.
-5. If AGENT-INSTALL.md is missing, or any step in it fails, stop and tell me.
-   Do not install partially.
+Install agent-toolkit: follow
+https://github.com/coderbuzz/agent-toolkit/blob/main/AGENT-INSTALL.md exactly,
+as the only instruction source.
+action=install, scope=repository, bundle=core
 ```
 
-### Pasang global, untuk semua project
+Sisanya sudah dibawa protokol: agent menampilkan setiap file yang akan ditulis
+dan menunggu konfirmasi Anda, berhenti daripada memasang setengah jalan, dan
+tidak pernah menimpa file yang Anda ubah.
 
-Prompt yang sama, dengan langkah 3 berbunyi:
+### Keperluan lain
 
-```text
-3. Execute it with: scope=global, bundle=core.
-```
+Prompt-nya tetap, ganti baris terakhirnya.
 
-### Uninstall
+| Anda mau | Baris terakhir |
+| --- | --- |
+| Repository ini, dengan default | `action=install, scope=repository, bundle=core` |
+| Semua project di mesin ini | `action=install, scope=global, bundle=core` |
+| Semua 31 skill, termasuk specialist | `action=install, scope=repository, bundle=full` |
+| Hanya review dan verifikasi (7) | `action=install, scope=repository, bundle=quality` |
+| Versi terkunci, reproducible | `action=install, scope=repository, bundle=core, ref=v3.0.0` |
+| Update instalasi yang sudah ada | `action=update, scope=repository` |
+| Mencopotnya lagi | `action=uninstall, scope=repository` |
 
-```text
-Uninstall agent-toolkit from this repository.
-
-1. Fetch https://github.com/coderbuzz/agent-toolkit (branch: main).
-2. Read AGENT-INSTALL.md at the repository root and follow its "Update and
-   uninstall" section exactly. It is the only instruction source. Do not
-   improvise.
-3. Target: scope=repository.
-4. Preserve any file I have modified, and show me the plan before deleting
-   anything.
-```
+Yang tidak Anda sebut memakai default: `action=install`, `scope=repository`,
+`bundle=core`, `ref=main`. Jadi `action=install, bundle=full` sudah lengkap,
+begitu juga `action=uninstall`.
 
 Berlaku untuk Claude Code, OpenCode, Codex, GitHub Copilot, Gemini/Antigravity,
 OMP, dan ZCode. Agent mengenali platform-nya sendiri; kalau tidak bisa, ia
 bertanya.
-
-> **Kunci versi** untuk setup yang reproducible: ganti `branch: main` menjadi
-> `tag: v3.0.0`.
->
-> **Bundle:** `core` (27 skill, default), `full` (31, menambah specialist),
-> `quality` (7, hanya review dan verifikasi). Sebutkan di langkah 3.
 
 > **Datang dari 2.0.0?** Versi itu dipasang dengan skrip shell, dan
 > uninstaller-nya sudah tidak ada di `main`. Letaknya di branch beku

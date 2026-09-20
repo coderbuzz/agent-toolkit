@@ -34,7 +34,7 @@ stale `dist/`.
 
 There is no installer in this repository. `dist/` is still the deploy source,
 but the front-end that copies a package to a target is `AGENT-INSTALL.md`: a
-protocol an agent reads and executes. Keep three things in mind.
+protocol an agent reads and executes. Keep four things in mind.
 
 1. **The protocol is prose executed by a language model.** A drifted sentence is
    a broken installer with no stack trace. `tests/test_agent_protocol.py`
@@ -47,7 +47,14 @@ protocol an agent reads and executes. Keep three things in mind.
    install behavior, change both, and re-check them against each other: install
    through the protocol by hand and through the CLI into two scratch
    directories, then diff. The trees and the ledger bytes must be identical.
-3. **The files manifest is what makes the protocol workable.** Every package
+3. **The prompt is parameters, and nothing else.** Section 0 of the protocol
+   defines the invocation: `action`, `scope`, `bundle`, `ref`, and what each one
+   defaults to. The README quick start carries a pointer to the protocol plus a
+   parameter line, so instructions live in exactly one file. Do not answer a
+   support question by adding steps back into the README prompt: the fix belongs
+   in the protocol, where the agent actually reads it, and
+   `tests/test_agent_protocol.py` fails a quick start that regrows them.
+4. **The files manifest is what makes the protocol workable.** Every package
    ships `.agent-toolkit-files.json`, listing each installable file with its
    hash and role. An agent copies from that list rather than walking and hashing
    the package. If you add a file to a package, give it a role, or the agent
