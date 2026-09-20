@@ -166,9 +166,9 @@ class RemovedInstallerTests(unittest.TestCase):
         for name in ("README.md", "README.id.md"):
             with self.subTest(name=name):
                 text = (TOOLKIT_ROOT / name).read_text(encoding="utf-8")
-                quick_start = text.split("## \U0001f680 Quick Start", 1)[1].split("\n## ", 1)[0]
-                prompts = re.findall(r"^```text\n(.*?)^```$", quick_start, re.MULTILINE | re.DOTALL)
-                self.assertEqual(1, len(prompts), "the quick start should carry one prompt")
+                blocks = re.findall(r"^```text\n(.*?)^```$", text, re.MULTILINE | re.DOTALL)
+                prompts = [block for block in blocks if "action=install" in block]
+                self.assertEqual(1, len(prompts), "a README should carry one install prompt")
                 prompt = prompts[0]
                 self.assertIn(line, prompt)
                 self.assertIn("AGENT-INSTALL.md", prompt)

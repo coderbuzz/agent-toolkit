@@ -13,14 +13,22 @@
 
 ## 💡 Why Agent Toolkit?
 
-When using AI coding assistants (Claude Code, OpenCode, GitHub Copilot, Codex, Gemini/Antigravity, OMP, ZCode), unguided agents often jump straight to writing unverified code, hallucinate dependencies, or overwrite critical files.
+Unguided agents jump straight to writing unverified code, hallucinate
+dependencies, or overwrite files you needed.
 
-**Agent Toolkit** gives your AI agents an explicit engineering process: discovery and PRDs, then specifications, an implementation plan, code review, independent verification, and release checks. It covers the full SDLC, but applies only the lanes a task actually needs.
+**Agent Toolkit** gives them an explicit engineering process instead: discovery
+and PRDs, then specifications, an implementation plan, code review, independent
+verification, and release checks. It covers the full SDLC, but applies only the
+lane a task actually needs.
 
-- 🚀 **Nothing to install**: You paste a prompt; your agent reads the protocol and does the rest. No script, no runtime, no package manager.
-- 🎯 **Vendor-Neutral & Portable**: Write your workflow rules once and install them on any of the seven supported platforms.
-- 🛡️ **Fail-Closed & Safe**: Every install is previewed before a byte is written, and a file you edited is never overwritten.
-- 🤖 **Multi-Platform Native**: Pre-built native packages for Claude Code, OpenCode, Codex, GitHub Copilot, Gemini/Antigravity, OMP, and ZCode.
+- 🚀 **Nothing to install**: you paste a prompt, your agent reads the protocol
+  and does the rest. No script, no runtime, no package manager.
+- 🎯 **Vendor-neutral and portable**: write your workflow rules once, install
+  them on any of the [seven supported platforms](#-supported-platforms--global-paths).
+- 🛡️ **Fail-closed and safe**: every install is previewed before a byte is
+  written, and a file you edited is never overwritten.
+- 🧠 **Cheap in context**: a session starts with one small pointer file, and a
+  skill's procedure loads only when a task calls for it.
 
 ---
 
@@ -51,8 +59,8 @@ Keep the prompt, change the last line.
 | --- | --- |
 | This repository, the defaults | `action=install, scope=repository, bundle=core` |
 | Every project on this machine | `action=install, scope=global, bundle=core` |
-| All 31 skills, with the specialists | `action=install, scope=repository, bundle=full` |
-| Review and verification only (7) | `action=install, scope=repository, bundle=quality` |
+| The specialists too | `action=install, scope=repository, bundle=full` |
+| Review and verification only | `action=install, scope=repository, bundle=quality` |
 | A pinned version, reproducible | `action=install, scope=repository, bundle=core, ref=v3.0.0` |
 | Update an existing install | `action=update, scope=repository` |
 | Remove it again | `action=uninstall, scope=repository` |
@@ -64,13 +72,16 @@ request, and so is `action=uninstall`.
 Works with Claude Code, OpenCode, Codex, GitHub Copilot, Gemini/Antigravity,
 OMP, and ZCode. The agent identifies its own platform; if it cannot, it asks.
 
-> **Coming from 2.0.0?** That version installed with a shell script, and its
-> uninstaller is not on `main` any more. It lives on the frozen `release/2.0.0`
-> branch. See [Versions](#-versions).
+> **Pinning to `v3.0.0`:** that tag ships a protocol written before the
+> parameter form above, so paste the prompt from
+> [its own README](https://github.com/coderbuzz/agent-toolkit/blob/v3.0.0/README.md#-quick-start)
+> instead. `ref=` works as written from the next release on.
+>
+> **Upgrading from 2.0.0?** See [Versions](#-versions).
 
 ---
 
-## 🧠 How loading works
+## 🧠 How it works
 
 **Skills load on demand, driven by your prompt.** Your agent reads a skill's
 full text at the moment a task calls for it and not before: ask for a bug fix
@@ -80,18 +91,98 @@ the toolkit reaches its context.
 **A session starts with one small pointer file.** That is what installing
 writes (`AGENTS.md`, or `CLAUDE.md` on Claude Code): every skill's name and a
 one-line trigger, about 1.5 KB in total. So 31 installed skills are not 31
-skills in your context; they are 31 lines, and the 188 KB of procedure behind
+skills in your context; they are 31 lines, and the 167 KB of procedure behind
 them stays on disk until a task reaches for it. That is why adding a skill
 stays cheap.
 
 How you reach a skill depends on your platform:
 
-- **`/skills` menu**: Lists every installed skill. OpenCode sorts this list alphabetically by skill name, so the order is not the workflow order.
-- **Skill tool**: Agents load a skill via the native `skill` tool when it is relevant to the task.
-- **OpenCode slash commands**: After a global install, each skill is also available as a `/<name>` command (e.g. `/start`, `/discover`, `/fix`) that loads and runs the matching skill.
-- **Naming**: Skill ids use hyphens (`start`), not underscores. Type them exactly.
+| Input | What happens |
+| :--- | :--- |
+| Plain language | Your agent loads the matching skill itself. "Trace this 500 error" reaches `fix`. |
+| `/skills` | Lists what is installed: 27 skills with `core`, 31 with `full`. OpenCode sorts them alphabetically, so the order is not the workflow order. |
+| `/<name>` | Runs one skill in the current session. OpenCode gets these commands from a global install; ZCode has them natively. |
+| Skill tool | Platforms with a native `skill` tool load a skill through it when the task is relevant. |
 
-The default full-lane flow is: `start → discover → define → design → plan → implement → verify → review → fix → release → document`, with cross-cutting skills (`guardrails`, `memory`, `glossary`, `decide`, `test`, `threat`, `audit-deps`, `orchestrate`), the [antislop family](#-antislop), and optional specialists (`design-ui`, `incident`, `observability`, `migrate`).
+Skill ids use hyphens (`audit-deps`), never underscores. Type them exactly.
+
+---
+
+## 🗺️ Workflow: lanes and phases
+
+**Route first.** `start` weighs blast radius, reversibility, sensitive data,
+public contracts, and external side effects, then puts the task in the smallest
+safe lane and names the gates that lane requires. Low-risk work never gets the
+full lifecycle.
+
+```mermaid
+flowchart TD
+    Req([Your request]) --> Start["start<br/>assess risk, pick the lane"]
+    Start -.->|ambiguous ask| Grill["grill"]
+    Grill -.-> Start
+
+    Start --> FF["Full-Feature"]
+    Start --> BF["Bug-Fix"]
+    Start --> SC["Small-Change"]
+    Start --> DC["Documentation"]
+    Start --> IN["Incident"]
+
+    FF --> FFa["discover → define → design → plan"]
+    FFa --> FFb["implement → review → verify"]
+    FFb --> FFc["document → release"]
+
+    BF --> BFa["fix → implement → verify"]
+    SC --> SCa["implement → review"]
+    DC --> DCa["document"]
+    IN --> INa["incident → fix → observability"]
+
+    FFc --> Done([Shipped, with its gates cleared])
+    BFa --> Done
+    SCa --> Done
+    DCa --> Done
+    INa --> Done
+```
+
+### Lanes
+
+| Lane | Trigger and scope | Required sequence |
+| :--- | :--- | :--- |
+| **Full-Feature** | New capabilities, architecture, public contracts, sensitive data | Discovery → PRD → Spec → Plan → Execution → Review → Verification → Release |
+| **Bug-Fix** | A reproducible defect with clear intended behavior | Root cause → Minimal fix plan → Test and fix → Verification |
+| **Small-Change** | Low-risk, reversible, narrowly scoped work | Minimal fix → Focused test check → Code review |
+| **Documentation** | Content-only changes | Audit → Draft or update → Verify links and accuracy |
+| **Incident** | Active outage, security event, or data loss | Severity → Containment → Root cause → Post-mortem |
+
+### Skills by phase
+
+| Phase | Primary | Support | Deliverable |
+| :--- | :--- | :--- | :--- |
+| **0. Route** | `start` | `grill` | The lane, its artifacts, its gates |
+| **1. Discover and define** | `discover`, `define` | `guardrails`, `glossary` | Discovery report, PRD |
+| **2. Architect and design** | `design` | `decide`, `threat`, `test`, `design-ui`\* | Technical spec, ADR |
+| **3. Plan** | `plan` | `test` | Implementation plan with stable IDs |
+| **4. Build and remediate** | `implement`, `fix` | `guardrails`, `audit-deps`, `orchestrate`, `migrate`\* | Source code, unit tests, root cause analysis |
+| **5. Verify and review** | `review`, `verify` | `audit-deps`, `test` | Review feedback, verification report |
+| **6. Ship and maintain** | `document`, `release` | `glossary`, `orchestrate`, `observability`\*, `incident`\* | User docs, verified release candidate, post-mortem |
+
+\* Specialist, so it ships in the `full` bundle only.
+
+Loadable from any phase: `context` (owns CONTEXT.md, the shared language and
+invariants), `memory`, `glossary`, `guardrails`, `decide`, `test`, `threat`,
+`audit-deps`, `orchestrate`, and the [antislop family](#-antislop).
+
+### Rules that hold in every lane
+
+1. **Route before you build.** `/start` first when you are unsure which lane
+   fits, and re-route when new evidence raises the risk.
+2. **Respect artifact order.** No spec before a PRD, no implementation before an
+   approved plan.
+3. **Approve the gates.** Publishing, deployment, release, destructive changes,
+   and credential changes always wait for your explicit go-ahead.
+4. **Keep the shared language.** Let `context` own CONTEXT.md, and reach for
+   `guardrails`, `memory`, or `glossary` at any point.
+
+---
 
 ## 🧹 antislop
 
@@ -110,240 +201,51 @@ without flattening the result into something sterile.
 | `antislop-human` | Contrast, keyboard, focus, states. Ships a contrast checker. |
 | `antislop-layoutmobile` | Layouts that must reflow from phone to desktop. |
 
-The filter removes what should not be there; it does not supply direction. A
-`DESIGN.md` of your own is what makes the result yours.
+They sit outside the phase table because they apply wherever a task produces an
+interface, prose, or code comments. The filter removes what should not be there;
+it does not supply direction. A `DESIGN.md` of your own is what makes the result
+yours.
 
-### Our adoption note
-
-These six are **vendored, not written here**. Every installed `SKILL.md` opens
+**These six are vendored, not written here.** Every installed `SKILL.md` opens
 with a provenance block naming the upstream project, its author, the MIT
-license, and the pinned commit, so you can see that from inside the skill
-without going looking for it.
-
-What this means in practice:
-
-- **The rules are upstream's.** If a rule is wrong, or you disagree with one,
-  raise it at [miqdadbadjuber/anti-slop](https://github.com/miqdadbadjuber/anti-slop),
-  not here.
-- **The packaging is ours.** Frontmatter, line width, how the skills refer to
-  each other, and how they install are this toolkit's problem. Raise those here.
-- **One rule's meaning was changed**, and only one: `antislop-copywriting`
-  granted a voice override for em dashes that the core forbids outright as a
-  Hard Gate (R-02). Agents resolved that contradiction in favour of the
-  exception and kept writing em dashes, so the override is gone. Upstream has
-  not made this change.
-- **Nothing drifts silently.** `scripts/vendor-anti-slop.py` re-applies every
-  adaptation on each sync and refuses to run if upstream's wording moved out
-  from under one.
-
-The full list is in [Credits](#-credits--references), with the machine-readable
-record in [`vendor/anti-slop.json`](vendor/anti-slop.json) and the MIT text in
-[`NOTICE`](NOTICE).
+license, and the pinned commit. The rules are upstream's, so raise a rule you
+disagree with at [miqdadbadjuber/anti-slop](https://github.com/miqdadbadjuber/anti-slop);
+the packaging is ours, so raise that here. Every adaptation we made is listed in
+[Credits & Reference](#-credits--reference), recorded in
+[`vendor/anti-slop.json`](vendor/anti-slop.json), and re-applied by
+`scripts/vendor-anti-slop.py` on each sync, which refuses to run if upstream's
+wording moved out from under one.
 
 ---
 
-## 💡 Usage: `/` commands vs `@` mentions
+## 💬 Prompting examples
 
-Two entry points in OpenCode trigger different machinery:
+Skills install globally or per project, so there is no menu to learn. Prompt in
+plain language and name the skill when you want a specific lane:
 
-| Input | What it does | In this toolkit |
-| --- | --- | --- |
-| `/<name>` | Runs a **skill** in the current session. | `/start`, `/discover`, `/fix`, ... |
-| `@<file>` | Adds a file's content to context. | Not toolkit-specific. |
-| `/skills` | Lists all installed skills. | 31 skills (alphabetical). |
-
-In short: a **skill** says *how* to do the work; each skill's frontmatter declares the compact `role` that owns it.
-
-## 🚦 Best practice: starting from zero
-
-1. **Always route first.** Run `/start`. It classifies the task into the smallest safe lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and lists the required artifacts and gates. It never forces the full lifecycle on low-risk work.
-2. **Follow the phases by skill.** Each phase is driven by one primary skill:
-   - **Discover & Define**: `/discover` → `/define`
-   - **Architect & Design**: `/grill` (ambiguity interview) → `/design`
-   - **Plan**: `/plan`
-   - **Build**: `/implement` (TDD build loop)
-   - **Verify & Review**: `/review` → `/verify`
-   - **Ship**: `/document` → `/release`
-3. **Use the fast lanes.** A bug goes straight to `/fix`. A small reversible change skips the lifecycle entirely. An expensive architecture choice uses `/decide`.
-4. **Respect artifact order.** Do not ask for a spec before a PRD, or implementation before an approved plan.
-5. **Approve gate actions.** Publishing, deployment, release, destructive changes, and credential changes always require your explicit approval.
-6. **Keep the shared language.** Let `context` own CONTEXT.md (glossary, invariants); utility skills (`guardrails`, `memory`, `glossary`) can be invoked anytime.
-
----
-
-## 🗺️ Workflow & 6-Phase Lifecycle
-
-Working with AI agents becomes simple and predictable when structured into 6 logical phases + 1 entrypoint navigator:
-
-```
-[0. ROUTE / START] ➔ [1. DISCOVER & DEFINE] ➔ [2. ARCHITECT & DESIGN] ➔ [3. PLAN] ➔ [4. BUILD] ➔ [5. VERIFY & REVIEW] ➔ [6. SHIP & OPS]
-```
-
-### 📊 End-to-End Workflow Diagram (Mermaid)
-
-```mermaid
-flowchart TD
-    Start([User Request]) --> Router["0. start"]
-    Router --> Grill["grill (whenever ambiguous)"]
-
-    subgraph Phase 1: DISCOVER & DEFINE
-        Grill --> Discover["discover"]
-        Discover --> Define["define"]
-    end
-
-    subgraph Phase 2: ARCHITECT & DESIGN
-        Define --> Design["design"]
-    end
-
-    subgraph Phase 3: PLAN
-        Design --> Plan["plan"]
-    end
-
-    subgraph Phase 4: BUILD & REMEDIATE
-        Plan --> Implement["implement (TDD)"]
-        Router -. Bug-Fix Fast Lane .-> Fix["fix"]
-        Fix --> Implement
-    end
-
-    subgraph Phase 5: VERIFY & REVIEW
-        Implement --> Review["review"]
-        Review --> Verify["verify"]
-    end
-
-    subgraph Phase 6: SHIP & MAINTAIN
-        Verify --> Document["document"]
-        Document --> Release["release"]
-        Release --> Done([Production Release])
-    end
-```
-
----
-
-## 🧰 Skills Reference
-
-### Cross-cutting: antislop (vendored)
-
-Not listed per phase, because they apply wherever a task produces an interface,
-prose, or code comments. These six are copied from
-[antislop](https://github.com/miqdadbadjuber/anti-slop) (MIT) rather than
-written here, and each installed `SKILL.md` says so in its own provenance block.
-See [antislop](#-antislop) for the adoption note and what we adapted.
-
-| Skill | Loads when | Origin |
-| :--- | :--- | :--- |
-| `antislop` | Any task that produces UI, prose, or code comments | Vendored |
-| `antislop-ui` | Building or editing an interface | Vendored |
-| `antislop-copywriting` | Writing or editing prose | Vendored, one rule adapted |
-| `antislop-code` | Writing or editing code comments | Vendored |
-| `antislop-human` | Contrast, keyboard, focus, states | Vendored |
-| `antislop-layoutmobile` | Layouts that reflow from phone to desktop | Vendored |
-
----
-
-### Phase 0: Navigator (Entrypoint)
-If you're unsure how to start a task, invoke the navigator skill:
-- 🚀 **`start`**: Classifies work into the optimal safety lane (Full-Feature, Bug-Fix, Small-Change, Docs, Incident) and guides the selected lane step by step.
-
----
-
-### Phase 1: Discover & Define (Product Scope)
-| Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- |
-| `discover` | `guardrails` | **Discovery Report** |
-| `define` | `glossary` | **Product Requirements Document (PRD)** |
-
----
-
-### Phase 2: Architect & Design (Technical Design & Security)
-| Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- |
-| `grill` | `decide` | **Confirmed Understanding / ADR** |
-| `design` | `threat`, `design-ui`, `test` | **Technical Specification (Spec)** |
-
----
-
-### Phase 3: Plan (Execution Planning)
-| Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- |
-| `plan` | `test` | **Implementation Plan** |
-
----
-
-### Phase 4: Build & Remediate (Coding & Bug Fixes)
-| Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- |
-| `implement` | `guardrails`, `migrate`, `audit-deps`, `orchestrate` | **Source Code & Unit Tests** |
-| `fix` | `test` | **Root Cause Analysis & Fix Plan** |
-
----
-
-### Phase 5: Verify & Review (Quality & Security)
-| Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- |
-| `review` | `audit-deps` | **Code Review Feedback** |
-| `verify` | `test` | **Verification Report** |
-
----
-
-### Phase 6: Ship & Maintain (Release & Operations)
-| Primary Skill | Support Skills | Phase Deliverable |
-| :--- | :--- | :--- |
-| `document` | `glossary` | **User Guides & Documentation** |
-| `release` | `orchestrate` | **Verified Release Candidate** |
-| `observability` | `incident`, `memory` | **Logs/Alerts & Incident Post-Mortem** |
-
----
-
-## 🔄 Work Lanes Matrix
-
-The toolkit routes every change into the right lane to prevent unnecessary overhead while maintaining strict guardrails where needed:
-
-| Lane | Trigger & Scope | Required Workflow Sequence |
-| :--- | :--- | :--- |
-| **Full-Feature** | New capabilities, major architectural changes, public contracts, sensitive data | Discovery → PRD → Spec → Plan → Execution → Review → Verification → Release |
-| **Bug-Fix** | Reproducible defects with clear intended behavior | Root Cause Analysis → Minimal Fix Plan → Unit Test & Fix → Verification |
-| **Small-Change** | Low-risk, reversible, narrowly scoped changes | Direct Minimal Fix → Focused Test Check → Code Review |
-| **Documentation** | Pure documentation, comments, or manual updates | Audit → Draft/Update → Verify Links & Accuracy |
-| **Incident** | Active production outage, security breach, or data loss | Severity Assessment → Containment → Root Cause → Post-Mortem |
-
----
-
-## 💬 Natural Language Prompting Examples
-
-Since skills are installed globally or at the project level, you don't need special UI menus. Simply prompt your AI agent in natural language:
-
-### 1. Starting a New Project / Feature (Getting Started)
 ```text
-"Use start to guide me through building a JWT and OAuth2 authentication system. Create a PRD and technical specification first."
+Use start to guide me through building a JWT and OAuth2 authentication system.
+Create a PRD and technical specification first.
 ```
 
-### 2. Fixing a Bug (Bug-Fix Lane)
 ```text
-"Users are reporting a 500 server error during checkout when the cart is empty. Use the fix skill to trace the root cause, write a reproduction test, and apply a minimal fix."
+Users get a 500 during checkout when the cart is empty. Use the fix skill to
+trace the root cause, write a reproduction test, and apply a minimal fix.
 ```
 
-### 3. Reviewing a Pull Request / Code Changes
 ```text
-"Please perform a code review on the current branch using the review skill. Check for security vulnerabilities, performance bottlenecks, and adherence to our technical spec."
-```
-
-### 4. Creating an Architecture Decision Record (ADR)
-```text
-"We need to evaluate Redis vs PostgreSQL for session caching. Use the decide skill to evaluate trade-offs and draft an ADR."
-```
-
-### 5. Running Pre-Release Audit
-```text
-"Please audit this repository using the release skill before we publish release v1.0.0."
+Run the review skill on the current branch. Check for security vulnerabilities,
+performance bottlenecks, and adherence to our technical spec.
 ```
 
 ---
 
-## 🌐 Supported Platforms & Global Paths
+## 🌐 Supported platforms & global paths
 
-A repository install is the default. Ask for a **global** install instead and the toolkit lands in your home directory, so every repository inherits it:
+A repository install is the default. Ask for a **global** install instead and
+the toolkit lands in your home directory, so every repository inherits it:
 
-| Platform | Global Instructions | Global Skills | Slash Commands |
+| Platform | Global instructions | Global skills | Slash commands |
 | :--- | :--- | :--- | :--- |
 | **Claude Code** | `~/.claude/CLAUDE.md` | `~/.agents/skills/*` | - |
 | **OpenCode** | `~/.config/opencode/AGENTS.md` | `~/.agents/skills/*` | `~/.config/opencode/commands/*.md` |
@@ -353,17 +255,20 @@ A repository install is the default. Ask for a **global** install instead and th
 | **Gemini / Antigravity** | `~/.gemini/antigravity/AGENTS.md` | `~/.agents/skills/*` | - |
 | **ZCode** | `~/.zcode/AGENTS.md` | `~/.agents/skills/*` | - (native `/<name>`) |
 
+Per-platform contracts and how to add a platform:
+[`docs/platform-support.md`](docs/platform-support.md).
+
 ---
 
-## 📦 Skill Bundles
+## 📦 Skill bundles
 
-| Bundle | Skills | What's Included | Best For |
+| Bundle | Skills | What's included | Best for |
 | :--- | ---: | :--- | :--- |
-| **`core`** *(default)* | 27 | Lifecycle, cross-cutting, and antislop skills | Everyday feature development & bug fixes |
-| **`full`** | 31 | Core plus the specialists (`design-ui`, `incident`, `observability`, `migrate`) | Full product lifecycle & ops |
-| **`quality`** | 7 | Grilling, guardrails, tests, threat modelling, dependency audit, review, verification | Quality overlays for mature repos |
+| **`core`** *(default)* | 27 | Lifecycle, cross-cutting, and antislop skills | Everyday feature development and bug fixes |
+| **`full`** | 31 | Core plus the specialists (`design-ui`, `incident`, `observability`, `migrate`) | Full product lifecycle and ops |
+| **`quality`** | 7 | `grill`, `guardrails`, `test`, `threat`, `audit-deps`, `review`, `verify` | Quality overlays for mature repos |
 
-Name a bundle in step 3 of the install prompt. Omit it and you get `core`.
+Name one with `bundle=` in the install prompt. Leave it out and you get `core`.
 
 ---
 
@@ -378,28 +283,19 @@ Name a bundle in step 3 of the install prompt. Omit it and you get `core`.
 The older branches are frozen, and every command in their READMEs points at
 themselves, so their installers and uninstallers keep working.
 
-**Migrating from 2.0.0.** The ledger format did not change, so a 2.0.0 install
-can be removed by either route. But if you saved a 2.0.0 command, its URL points
-at `main`, which no longer ships those scripts. Use this instead:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/uninstall.sh | bash
-```
-
-```powershell
-irm https://raw.githubusercontent.com/coderbuzz/agent-toolkit/release/2.0.0/uninstall.ps1 | iex
-```
-
-Then install 3.0.0 with the prompt above. Full notes in
-[`CHANGELOG.md`](CHANGELOG.md).
+**Coming from 2.0.0?** The ledger format did not change, so your agent can
+remove a 2.0.0 install with `action=uninstall` and then install 3.0.0. If you
+would rather run the old script, it lives on the frozen
+[`release/2.0.0`](https://github.com/coderbuzz/agent-toolkit/tree/release/2.0.0)
+branch; a command you saved points at `main`, which no longer ships it. Full
+notes in [`CHANGELOG.md`](CHANGELOG.md).
 
 ---
 
-## 💻 Contributor & Maintainer Guide
+## 💻 Contributor & maintainer guide
 
-Developing or extending the toolkit itself? Maintainer tools require **Python 3.9+**, Standard Library only. No third-party dependencies.
-
-### Maintainer Commands
+Extending the toolkit itself? Maintainer tools need **Python 3.9+**, Standard
+Library only. No third-party dependencies.
 
 ```bash
 # Validate canonical skills and manifests
@@ -423,12 +319,16 @@ python3 scripts/vendor-anti-slop.py ../anti-slop
 
 `scripts/toolkit.py` keeps `install` and `uninstall` subcommands. They are the
 executable reference that [`AGENT-INSTALL.md`](AGENT-INSTALL.md) describes and
-that `tests/test_agent_protocol.py` checks the protocol against. It is not the
-supported way for you to install the toolkit.
+that `tests/test_agent_protocol.py` checks the protocol against. They are not
+the supported way for you to install the toolkit.
+
+Deeper reading: [`docs/maintainer-guide.md`](docs/maintainer-guide.md) for the
+build, vendoring, and release loop, and
+[`docs/platform-support.md`](docs/platform-support.md) for per-platform paths.
 
 ---
 
-## 🏗️ Repository Architecture
+## 🏗️ Repository architecture
 
 ```text
 .
@@ -437,12 +337,14 @@ supported way for you to install the toolkit.
 ├── manifest.json             # Toolkit manifest & bundle definitions
 ├── CHANGELOG.md              # Releases, and how to move between them
 ├── NOTICE                    # Third-party attribution (antislop, MIT)
+├── llms.txt                  # Machine-readable entry point for agents
 ├── .agents/skills/           # Canonical reusable procedures
 ├── instructions/             # Shared communication and quality standards
 ├── standards/                # Architecture & traceability contracts
 ├── templates/                # Artifact templates
 ├── platforms/                # Per-platform path adapters
 ├── vendor/                   # Vendoring records for third-party skills
+├── docs/                     # Maintainer guide, platform support, design notes
 ├── dist/                     # Pre-built packages (per-platform + dist/global)
 └── scripts/
     ├── toolkit.py            # Maintainer build CLI (validate, export, drift-check)
@@ -452,15 +354,15 @@ supported way for you to install the toolkit.
 
 ---
 
-## 🌟 Credits & References
+## 🌟 Credits & Reference
 
-### Bundled work
+### Vendored work
 
 Six of the skills this toolkit installs are not ours. They are copied in, and
 they ship under their own license.
 
-**[antislop](https://github.com/miqdadbadjuber/anti-slop)** by Miqdad Badjuber, MIT.
-Pinned at commit [`7437352`](https://github.com/miqdadbadjuber/anti-slop/commit/743735248fbaefd76bb56619615687dfa8b3bc1e).
+**[antislop](https://github.com/miqdadbadjuber/anti-slop)** by Miqdad Badjuber, MIT. Pinned at commit
+[`7437352`](https://github.com/miqdadbadjuber/anti-slop/commit/743735248fbaefd76bb56619615687dfa8b3bc1e).
 Installed as `antislop`, `antislop-ui`, `antislop-copywriting`, `antislop-code`,
 `antislop-human`, and `antislop-layoutmobile`. The 38 rules, the liveliness
 dials, and the delivery gate are the author's work, not ours.
@@ -491,17 +393,22 @@ an adaptation. Full attribution and the MIT text are in [`NOTICE`](NOTICE).
 If you want antislop on its own, without this toolkit, get it from
 [the upstream repository](https://github.com/miqdadbadjuber/anti-slop).
 
-### Inspiration
+### Reference
 
-Patterns and conventions we learned from, but did not copy:
+Everything this toolkit is built on or against. Only the first ships code here;
+the rest are conventions we follow, platforms we install into, and ideas we
+learned from without copying.
 
-- **[mattpocock/skills](https://github.com/mattpocock/skills)** by Matt Pocock: principles-first skill design and the direct inspiration for v2. The user-invoked vs model-invoked taxonomy, grilling before ambiguous or irreversible work (`grill`), shared language via CONTEXT.md (`context`), and TDD as a build discipline folded into `implement`.
-- **[awesome-copilot-id](https://github.com/GulajavaMinistudio/awesome-copilot-id)** by GulajavaMinistudio: prompt structures, skill format conventions, role definitions, and terminal installation workflows.
-- **[OpenCode](https://opencode.ai)**: agent role definitions and shared skill conventions.
-- **[OpenAI Codex & Agent Specifications](https://github.com/openai)**: the `AGENTS.md` format and fail-closed permission models.
-- **[Anthropic Claude Code](https://docs.anthropic.com)**: `CLAUDE.md` guidelines and subagent patterns.
-- **[GitHub Copilot Custom Instructions](https://docs.github.com/en/copilot)**: custom agent prompt engineering patterns.
-- **[Google Antigravity / Gemini CLI](https://cloud.google.com)**: agentic workflow orchestration standards.
+| Source | By | What it gives this toolkit |
+| :--- | :--- | :--- |
+| [anti-slop](https://github.com/miqdadbadjuber/anti-slop) | Miqdad Badjuber | **Vendored**: the six antislop skills, MIT, as recorded above |
+| [mattpocock/skills](https://github.com/mattpocock/skills) | Matt Pocock | Principles-first skill design, and the direct inspiration for v2: the user-invoked vs model-invoked taxonomy, interviewing before ambiguous work (`grill`), shared language in CONTEXT.md (`context`), TDD folded into `implement` |
+| [awesome-copilot-id](https://github.com/GulajavaMinistudio/awesome-copilot-id) | GulajavaMinistudio | Prompt structures, skill format conventions, role definitions |
+| [OpenCode](https://opencode.ai) | SST | Skill and slash-command conventions; an install target |
+| [AGENTS.md and the Codex CLI](https://github.com/openai) | OpenAI | The `AGENTS.md` pointer format and fail-closed permission models; an install target |
+| [Claude Code](https://docs.anthropic.com) | Anthropic | `CLAUDE.md` conventions and subagent patterns; an install target |
+| [Copilot custom instructions](https://docs.github.com/en/copilot) | GitHub | Custom instruction patterns; an install target |
+| [Gemini / Antigravity](https://cloud.google.com) | Google | Agentic workflow orchestration conventions; an install target |
 
 ---
 

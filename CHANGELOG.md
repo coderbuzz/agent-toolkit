@@ -4,6 +4,43 @@
 
 ### Changed
 
+- Both READMEs rewritten against the repository as it stands. The English file
+  goes from 510 lines to 417 without losing a section, because the same things
+  had been said several times over: antislop had three entries (its own
+  section, a duplicate table under Skills Reference, and Credits), the phase
+  flow had five (a prose line, a best-practice list, an ASCII arrow chain, a
+  Mermaid chart, and seven per-phase tables), and the platform list had five.
+  Each now has one home: the antislop section, one lane diagram plus one
+  skills-by-phase table, and the platforms table.
+- Corrections the rewrite carried: the bundles section still said to name a
+  bundle "in step 3 of the install prompt", which stopped existing when the
+  prompt became one line; "188 KB of procedure" was measured at 167 KB;
+  `/skills` was documented as listing 31 skills, which is the `full` count and
+  not the default 27; and the phase tables listed `observability`, `incident`,
+  `design-ui`, and `migrate` without marking them specialists absent from
+  `core`. `docs/maintainer-guide.md`, `docs/platform-support.md`, and
+  `llms.txt` existed but were linked from nowhere, and `docs/` was missing from
+  the repository tree.
+- The Quick Start's pinning row now says that tag `v3.0.0` predates the
+  parameter form it sits next to, and points at that tag's own README instead.
+- The workflow diagram shows what prose cannot: the router branching into the
+  five lanes, each with its own skill sequence. It replaced a Mermaid chart
+  that redrew the linear chain the tables already carried, plus the ASCII arrow
+  line that redrew it again.
+- Credits' "Inspiration" list is now "Reference": a table of every external
+  source this toolkit stands on, saying for each whether it ships code here, is
+  an install target, or is an idea we learned from. antislop is the only row of
+  the first kind.
+- `README.id.md` is a Bahasa Indonesia README now, not an English one with a
+  translated Quick Start. Around 17% of it had been translated, so the rest was
+  a second English copy to keep in sync for no reader's benefit. Prose,
+  headings, and tables are Indonesian; skill ids, parameters, paths, and the
+  install prompt stay in English, because those are what the agent reads.
+- `tests/test_agent_protocol.py` no longer finds the install prompt by
+  splitting on an English heading, which the translated README would have
+  broken. It looks for the fenced block carrying `action=install` instead, in
+  either language.
+
 - The READMEs' "How loading works" now leads with the point it was making:
   skills load on demand, driven by your prompt. It had opened on what
   installing does not do, so the reader met the pointer file before the reason
