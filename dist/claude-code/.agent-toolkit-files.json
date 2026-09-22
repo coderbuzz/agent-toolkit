@@ -198,7 +198,7 @@
     {
       "path": ".claude/skills/guardrails/SKILL.md",
       "role": "regular",
-      "sha256": "484ddf5a82d6f59b808ca3b8fc64643728e7462d5fdaab66f3805915713ca8a8"
+      "sha256": "235094bf5e89b78b28b7135f0c4b79350c99d79d98004cd976182a48dafe7345"
     },
     {
       "path": ".claude/skills/guardrails/agents/openai.yaml",
@@ -313,7 +313,7 @@
     {
       "path": "CLAUDE.md",
       "role": "regular",
-      "sha256": "1bba93b52e3f2b46273c3dc05ba361f13c0fed85a8290c820bc52321b2617516"
+      "sha256": "1b7e8a7946a3369d4f0167e651655a2c3c91bf925bad9d33852348921e56dbae"
     }
   ],
   "schema_version": 1

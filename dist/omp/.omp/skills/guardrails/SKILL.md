@@ -11,6 +11,15 @@ role: discipline keeper
 
 # Engineering Guardrails
 
+> **Inspired by, not vendored.** The Decision Ladder's shape (question
+> necessity, reuse an existing implementation, prefer standard-library or
+> native platform capabilities, prefer an already-approved dependency, then
+> write the smallest change) was influenced by
+> [ponytail](https://github.com/DietrichGebert/ponytail) by Dietrich Gebert.
+> No text is copied here; this is an original write-up of the same idea in
+> the toolkit's own words and frontmatter. See the Reference table in the
+> repository README.
+
 ## Decision Ladder
 
 1. Confirm the requested behavior and material assumptions.

@@ -264,6 +264,84 @@ Per-platform contracts and how to add a platform:
 | **`quality`** | 7 | `grill`, `guardrails`, `test`, `threat`, `audit-deps`, `review`, `verify` | Quality overlays for mature repos |
 
 Name one with `bundle=` in the install prompt. Leave it out and you get `core`.
+A bundle only decides which `SKILL.md` files land on disk; it has no effect on
+how or when a skill actually loads (see "How a skill gets used" below), so
+naming a bigger bundle costs disk space, not context or runtime.
+
+### `core` (27 skills, the default)
+
+**Lifecycle (11)**: one skill per phase of the `start` router's lanes.
+
+| Skill | Invocation | Purpose |
+| :--- | :--- | :--- |
+| `start` | both | Classify the task into a lane and route to the first skill |
+| `discover` | both | Explore an idea or repo into an evidence-backed discovery summary |
+| `define` | both | Turn discovery into a PRD: goals, users, measurable acceptance criteria |
+| `design` | both | Turn a PRD into a technical spec: contracts, boundaries, security |
+| `plan` | both | Turn a spec into a traceable, ordered implementation plan |
+| `implement` | both | Build with TDD folded into the loop: red-green-refactor, minimal diff |
+| `review` | both | Review a diff for correctness, security, simplicity, maintainability |
+| `verify` | both | Independently verify acceptance criteria and implementation claims |
+| `fix` | both | Root-cause a bug, write a regression test, propose a minimal repair |
+| `release` | both | Assess release readiness from build/test/security/rollback evidence |
+| `document` | both | Write or audit tutorials, how-tos, references, and explanations |
+
+**Cross-cutting (10)**: used across phases, not tied to one.
+
+| Skill | Invocation | Purpose |
+| :--- | :--- | :--- |
+| `grill` | **user** | Two-way interview before ambiguous or irreversible work |
+| `context` | model | Own `CONTEXT.md`, the project's shared vocabulary and invariants |
+| `guardrails` | model | Decision ladder and change rules against overengineering |
+| `memory` | model | Read/write/compact session memory without storing secrets |
+| `glossary` | model | Maintain a lazy domain glossary with canonical terms |
+| `decide` | both | Create/supersede Architecture Decision Records behind a Triple Gate |
+| `test` | model | Design proportionate test coverage mapped to risk |
+| `threat` | model | Threat-model trust boundaries, abuse cases, and mitigations |
+| `audit-deps` | model | Assess whether a dependency is necessary, trusted, and safe to add |
+| `orchestrate` | model | Coordinate multi-step work with delegation and stop conditions |
+
+**Antislop (6)**: vendored filter against generic AI-looking output; see
+[antislop](#-antislop) below for the full rule set.
+
+### `full` adds 4 specialists (31 skills total)
+
+| Skill | Invocation | Purpose |
+| :--- | :--- | :--- |
+| `design-ui` | both | Design accessible, distinctive interfaces from an approved brief |
+| `incident` | both | Coordinate severity, containment, recovery, and comms for live incidents |
+| `observability` | model | Design logs, metrics, traces, alerts, and runbooks |
+| `migrate` | both | Plan and verify safe schema/data migrations with rollback |
+
+These four are left out of `core` because they only apply to teams running
+UI, on-call, or persistent-data work; install `full` when your project does.
+
+### `quality` (7 skills, a re-selection, not new content)
+
+`grill`, `guardrails`, `test`, `threat`, `audit-deps`, `review`, `verify`: the
+same skills listed above, installed on their own without the rest of the
+lifecycle. Use this to bolt review/verification discipline onto an existing,
+mature repo without adopting the full PRD → spec → plan flow.
+
+### How a skill gets used
+
+Every skill's frontmatter has an `invocation` field, and it decides who has to
+ask for it, independent of which bundle installed it:
+
+- **`model`**: Claude decides on its own when the task matches the skill's
+  description. You never need to name it.
+- **`user`**: only starts when you explicitly ask for it. `grill` is the one
+  core skill marked this way: it opens an interview, which should not begin
+  uninvited.
+- **`both`**: either. Claude reaches for it automatically, or you can name it
+  directly (e.g. "use the `fix` skill for this bug").
+
+Skills are **read on demand**: installing a bundle only writes files to
+`.claude/skills/` (or the platform equivalent); nothing is loaded into context
+until a task actually triggers it. This is also why `full` has no runtime
+downside over `core`: the extra four skills sit on disk unread until a task
+needs them, and the only cost of installing them is discoverability (Claude
+sees the manifest description) and disk space, not context spent per turn.
 
 ---
 
@@ -403,6 +481,7 @@ learned from without copying.
 | :--- | :--- | :--- |
 | [anti-slop](https://github.com/miqdadbadjuber/anti-slop) | Miqdad Badjuber | **Vendored**: the six antislop skills, MIT, as recorded above |
 | [mattpocock/skills](https://github.com/mattpocock/skills) | Matt Pocock | Principles-first skill design, and the direct inspiration for v2: the user-invoked vs model-invoked taxonomy, interviewing before ambiguous work (`grill`), shared language in CONTEXT.md (`context`), TDD folded into `implement` |
+| [ponytail](https://github.com/DietrichGebert/ponytail) | Dietrich Gebert | Direct inspiration for `guardrails`'s Decision Ladder (question necessity, reuse, prefer stdlib/native, prefer an approved dependency, then write the smallest change). No text copied; see the note in `guardrails/SKILL.md` |
 | [awesome-copilot-id](https://github.com/GulajavaMinistudio/awesome-copilot-id) | GulajavaMinistudio | Prompt structures, skill format conventions, role definitions |
 | [OpenCode](https://opencode.ai) | SST | Skill and slash-command conventions; an install target |
 | [AGENTS.md and the Codex CLI](https://github.com/openai) | OpenAI | The `AGENTS.md` pointer format and fail-closed permission models; an install target |
