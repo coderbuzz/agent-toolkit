@@ -1,0 +1,14 @@
+{
+  "name": "agent-toolkit",
+  "displayName": "Agent Toolkit",
+  "version": "3.1.0",
+  "description": "Vendor-neutral work lanes, skills, and platform exports for coding agents.",
+  "author": {
+    "name": "Indra Gunawan"
+  },
+  "homepage": "https://github.com/coderbuzz/agent-toolkit",
+  "repository": "https://github.com/coderbuzz/agent-toolkit",
+  "license": "MIT",
+  "keywords": ["skills", "lifecycle", "multi-agent", "antislop"],
+  "skills": "./.agents/skills/"
+}
