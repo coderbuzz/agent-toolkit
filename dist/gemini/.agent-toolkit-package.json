@@ -31,7 +31,7 @@
     "antislop-human",
     "antislop-layoutmobile"
   ],
-  "source_sha256": "8e415e886bf773f762272e14c7bf3bbd6fe05b8ec4a7b28896845d1a7c1d50c3",
+  "source_sha256": "1622de6afa454ea7a98121a7359b070647bd6463569482419c87d3d6be860eb7",
   "toolkit": "agent-toolkit",
-  "version": "3.1.0"
+  "version": "3.2.0"
 }

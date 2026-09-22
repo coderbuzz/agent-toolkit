@@ -1,5 +1,32 @@
 # Changelog
 
+## 3.2.0 (`main`, tag `v3.2.0`)
+
+A new install surface: the toolkit is now installable as a Claude Code
+plugin, alongside the existing prompt-driven install. No prompt-driven
+install behavior changed, so a 3.1.0 install updates in place.
+
+### Added
+
+- `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json`, so
+  Claude Code users can install every skill with `/plugin marketplace add
+  coderbuzz/agent-toolkit` then `/plugin install agent-toolkit@agent-toolkit`,
+  without touching the target repository. `plugin.json` points its `skills`
+  field at the existing `.agents/skills/` directory, so this path and
+  `AGENT-INSTALL.md` share one canonical source. It always installs the full
+  31-skill set; there is no bundle parameter on this path.
+- A credit for [ponytail](https://github.com/DietrichGebert/ponytail)
+  (Dietrich Gebert) in `guardrails/SKILL.md` and both READMEs' Reference
+  tables: its Decision Ladder shape was the direct inspiration for
+  `guardrails`'s ladder. No text is copied.
+
+### Changed
+
+- Both READMEs' "Skill bundles" section grew from a three-row summary table
+  into a full per-skill breakdown (name, invocation mode, purpose), and
+  gained a "Claude Code: install via the plugin marketplace" subsection
+  describing the new install path.
+
 ## 3.1.0 (`main`, tag `v3.1.0`)
 
 Installing is one prompt and a parameter line. `AGENT-INSTALL.md` now states
