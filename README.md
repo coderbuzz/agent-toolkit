@@ -61,7 +61,7 @@ Keep the prompt, change the last line.
 | Every project on this machine | `action=install, scope=global, bundle=core` |
 | The specialists too | `action=install, scope=repository, bundle=full` |
 | Review and verification only | `action=install, scope=repository, bundle=quality` |
-| A pinned version, reproducible | `action=install, scope=repository, bundle=core, ref=v3.1.0` |
+| A pinned version, reproducible | `action=install, scope=repository, bundle=core, ref=v3.2.0` |
 | Update an existing install | `action=update, scope=repository` |
 | Remove it again | `action=uninstall, scope=repository` |
 
@@ -369,7 +369,8 @@ sees the manifest description) and disk space, not context spent per turn.
 
 | Version | Branch | Tag | Install method |
 | :--- | :--- | :--- | :--- |
-| **3.1.0** *(current)* | `main` | `v3.1.0` | Agent prompt → [`AGENT-INSTALL.md`](AGENT-INSTALL.md) |
+| **3.2.0** *(current)* | `main` | `v3.2.0` | Agent prompt → [`AGENT-INSTALL.md`](AGENT-INSTALL.md), or the Claude Code plugin marketplace |
+| 3.1.0 | - | `v3.1.0` | Agent prompt → [`AGENT-INSTALL.md`](AGENT-INSTALL.md) |
 | 3.0.0 | - | `v3.0.0` | Agent prompt, written before the parameter form |
 | 2.0.0 | `release/2.0.0` | `v2.0.0` | Shell / PowerShell script |
 | 1.0.0 | `release/1.0.0` | `v1.0.0` | Shell / PowerShell script |
@@ -382,7 +383,7 @@ paste the prompt from
 instead.
 
 **Coming from 2.0.0?** The ledger format did not change, so your agent can
-remove a 2.0.0 install with `action=uninstall` and then install 3.1.0. If you
+remove a 2.0.0 install with `action=uninstall` and then install 3.2.0. If you
 would rather run the old script, it lives on the frozen
 [`release/2.0.0`](https://github.com/coderbuzz/agent-toolkit/tree/release/2.0.0)
 branch; a command you saved points at `main`, which no longer ships it. Full
