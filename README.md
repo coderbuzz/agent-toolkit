@@ -72,6 +72,26 @@ request, and so is `action=uninstall`.
 Works with Claude Code, OpenCode, Codex, GitHub Copilot, Gemini/Antigravity,
 OMP, and ZCode. The agent identifies its own platform; if it cannot, it asks.
 
+### Claude Code: install via the plugin marketplace
+
+Claude Code has a second path that needs no prompt and writes nothing to your
+repository: the built-in plugin marketplace.
+
+```text
+/plugin marketplace add coderbuzz/agent-toolkit
+/plugin install agent-toolkit@agent-toolkit
+```
+
+Choose **User** scope when asked, to make it available across every project
+instead of just this one. This installs all 31 skills: the plugin ships the
+`full` set, and there is no `bundle=` parameter on this path. Use the prompt
+above instead if you need `core` or `quality` sizing, or a platform other
+than Claude Code.
+
+No `CLAUDE.md` pointer file appears in your repository this way; Claude Code
+reads the skills straight from the plugin's own copy, and
+`/plugin uninstall agent-toolkit@agent-toolkit` removes it cleanly.
+
 > **Upgrading from an older version?** See [Versions](#-versions).
 
 ---

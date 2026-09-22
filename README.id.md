@@ -78,6 +78,25 @@ Berlaku untuk Claude Code, OpenCode, Codex, GitHub Copilot, Gemini/Antigravity,
 OMP, dan ZCode. Agent mengenali platform-nya sendiri; kalau tidak bisa, ia
 bertanya.
 
+### Claude Code: instal lewat plugin marketplace
+
+Claude Code punya jalur kedua yang tidak perlu prompt dan tidak menulis apa
+pun ke repository Anda: plugin marketplace bawaannya.
+
+```text
+/plugin marketplace add coderbuzz/agent-toolkit
+/plugin install agent-toolkit@agent-toolkit
+```
+
+Pilih scope **User** saat ditanya, supaya tersedia di semua project, bukan
+cuma yang ini. Ini memasang seluruh 31 skill: plugin ini membawa set `full`,
+dan tidak ada parameter `bundle=` di jalur ini. Pakai prompt di atas kalau
+Anda butuh ukuran `core` atau `quality`, atau platform selain Claude Code.
+
+Tidak ada file pointer `CLAUDE.md` yang muncul di repository Anda lewat jalur
+ini; Claude Code membaca skill langsung dari salinan plugin itu sendiri, dan
+`/plugin uninstall agent-toolkit@agent-toolkit` melepasnya dengan bersih.
+
 > **Naik dari versi lama?** Lihat [Versi](#-versi).
 
 ---
