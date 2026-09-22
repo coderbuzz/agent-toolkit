@@ -271,7 +271,87 @@ Kontrak tiap platform dan cara menambah platform baru:
 | **`quality`** | 7 | `grill`, `guardrails`, `test`, `threat`, `audit-deps`, `review`, `verify` | Lapisan kualitas untuk repository yang sudah matang |
 
 Sebut salah satunya lewat `bundle=` di prompt instalasi. Kalau tidak disebut,
-Anda dapat `core`.
+Anda dapat `core`. Bundle hanya menentukan `SKILL.md` mana yang tersalin ke
+disk; itu tidak memengaruhi kapan atau bagaimana sebuah skill benar-benar
+dimuat (lihat "Cara sebuah skill dipakai" di bawah), jadi memilih bundle yang
+lebih besar menambah ruang disk, bukan context atau waktu proses.
+
+### `core` (27 skill, default)
+
+**Lifecycle (11)**: satu skill per fase dari lane yang dipilih `start`.
+
+| Skill | Invocation | Fungsi |
+| :--- | :--- | :--- |
+| `start` | both | Klasifikasikan task ke satu lane dan arahkan ke skill pertama |
+| `discover` | both | Jelajahi ide atau repository jadi ringkasan discovery berbasis bukti |
+| `define` | both | Ubah discovery jadi PRD: goal, user, acceptance criteria terukur |
+| `design` | both | Ubah PRD jadi spec teknis: kontrak, boundary, kontrol keamanan |
+| `plan` | both | Ubah spec jadi rencana implementasi yang traceable dan berurutan |
+| `implement` | both | Bangun dengan TDD terlipat ke loop-nya: red-green-refactor, diff minimal |
+| `review` | both | Review diff untuk correctness, security, simplicity, maintainability |
+| `verify` | both | Verifikasi independen atas acceptance criteria dan klaim implementasi |
+| `fix` | both | Cari root cause bug, tulis regression test, usulkan perbaikan minimal |
+| `release` | both | Nilai kesiapan rilis dari bukti build/test/security/rollback |
+| `document` | both | Tulis atau audit tutorial, how-to, reference, dan explanation |
+
+**Cross-cutting (10)**: dipakai lintas fase, bukan milik satu fase saja.
+
+| Skill | Invocation | Fungsi |
+| :--- | :--- | :--- |
+| `grill` | **user** | Wawancara dua arah sebelum pekerjaan yang ambigu atau sulit dibalik |
+| `context` | model | Pemilik `CONTEXT.md`, kosakata dan invariant bersama proyek |
+| `guardrails` | model | Decision ladder dan aturan perubahan agar tidak overengineering |
+| `memory` | model | Baca/tulis/ringkas memori sesi tanpa menyimpan secret |
+| `glossary` | model | Kelola domain glossary "lazy" dengan istilah kanonis |
+| `decide` | both | Buat/gantikan Architecture Decision Record lewat Triple Gate |
+| `test` | model | Rancang cakupan test proporsional sesuai risiko |
+| `threat` | model | Threat-model trust boundary, abuse case, dan mitigasi |
+| `audit-deps` | model | Nilai perlu tidaknya sebuah dependency, kepercayaan, dan keamanannya |
+| `orchestrate` | model | Koordinasikan kerja multi-step dengan delegasi dan stop condition |
+
+**Antislop (6)**: filter yang di-vendor melawan output yang terasa generik
+buatan AI; lihat [antislop](#-antislop) di bawah untuk rule set lengkapnya.
+
+### `full` menambah 4 specialist (total 31 skill)
+
+| Skill | Invocation | Fungsi |
+| :--- | :--- | :--- |
+| `design-ui` | both | Desain interface yang aksesibel dan khas dari brief yang disetujui |
+| `incident` | both | Koordinasikan severity, containment, recovery, dan komunikasi insiden |
+| `observability` | model | Rancang log, metric, trace, alert, dan runbook |
+| `migrate` | both | Rencanakan dan verifikasi migrasi schema/data yang aman dengan rollback |
+
+Keempatnya tidak masuk `core` karena hanya relevan untuk tim yang mengerjakan
+UI, on-call, atau data persisten; pasang `full` kalau proyek Anda begitu.
+
+### `quality` (7 skill, seleksi ulang, bukan konten baru)
+
+`grill`, `guardrails`, `test`, `threat`, `audit-deps`, `review`, `verify`:
+skill yang sama seperti di atas, dipasang sendiri tanpa sisa alur lifecycle.
+Pakai ini untuk menempelkan disiplin review/verifikasi ke repository yang
+sudah matang tanpa mengadopsi alur PRD → spec → plan secara penuh.
+
+### Cara sebuah skill dipakai
+
+Setiap skill punya field `invocation` di frontmatter-nya, dan itu yang
+menentukan siapa yang harus memintanya, terlepas dari bundle mana yang
+memasangnya:
+
+- **`model`**: Claude memutuskan sendiri kapan task-nya cocok dengan
+  deskripsi skill. Anda tidak perlu menyebutnya.
+- **`user`**: hanya mulai kalau Anda memintanya secara eksplisit. `grill`
+  adalah satu-satunya skill core dengan tanda ini: ia membuka wawancara, yang
+  seharusnya tidak mulai tanpa diminta.
+- **`both`**: bisa keduanya. Claude bisa memakainya otomatis, atau Anda bisa
+  menyebutnya langsung (misalnya "pakai skill `fix` untuk ini").
+
+Skill **dibaca sesuai kebutuhan**: memasang sebuah bundle hanya menulis file
+ke `.claude/skills/` (atau yang setara di platform lain); tidak ada yang
+dimuat ke context sampai sebuah task benar-benar memicunya. Ini juga sebabnya
+`full` tidak punya kerugian runtime dibanding `core`: empat skill tambahan
+itu diam di disk sampai dibutuhkan, dan biaya memasangnya hanya soal
+keterlihatan (Claude membaca deskripsinya di manifest) dan ruang disk, bukan
+context yang terpakai tiap giliran.
 
 ---
 
@@ -412,6 +492,7 @@ gagasan yang kami pelajari tanpa menyalin.
 | :--- | :--- | :--- |
 | [anti-slop](https://github.com/miqdadbadjuber/anti-slop) | Miqdad Badjuber | **Di-vendor**: enam skill antislop, MIT, seperti tercatat di atas |
 | [mattpocock/skills](https://github.com/mattpocock/skills) | Matt Pocock | Desain skill yang berangkat dari prinsip, dan inspirasi langsung untuk v2: taksonomi user-invoked vs model-invoked, wawancara sebelum pekerjaan ambigu (`grill`), bahasa bersama di CONTEXT.md (`context`), TDD yang dilipat ke `implement` |
+| [ponytail](https://github.com/DietrichGebert/ponytail) | Dietrich Gebert | Inspirasi langsung untuk Decision Ladder di `guardrails` (cek perlu tidaknya perubahan, pakai ulang yang ada, utamakan stdlib/native, utamakan dependency yang sudah disetujui, baru tulis perubahan sekecil mungkin). Tidak ada teks yang disalin; lihat catatan di `guardrails/SKILL.md` |
 | [awesome-copilot-id](https://github.com/GulajavaMinistudio/awesome-copilot-id) | GulajavaMinistudio | Struktur prompt, konvensi format skill, definisi role |
 | [OpenCode](https://opencode.ai) | SST | Konvensi skill dan slash command; salah satu target instalasi |
 | [AGENTS.md dan Codex CLI](https://github.com/openai) | OpenAI | Format pointer `AGENTS.md` dan model izin fail-closed; salah satu target instalasi |

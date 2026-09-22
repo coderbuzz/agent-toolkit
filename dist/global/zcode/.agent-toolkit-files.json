@@ -168,7 +168,7 @@
     {
       "path": ".agents/skills/guardrails/SKILL.md",
       "role": "shared-skill",
-      "sha256": "484ddf5a82d6f59b808ca3b8fc64643728e7462d5fdaab66f3805915713ca8a8"
+      "sha256": "235094bf5e89b78b28b7135f0c4b79350c99d79d98004cd976182a48dafe7345"
     },
     {
       "path": ".agents/skills/guardrails/agents/openai.yaml",
@@ -278,7 +278,7 @@
     {
       "path": ".zcode/AGENTS.md",
       "role": "instruction-block",
-      "sha256": "3b604213c125205d368be62ec4b760b082b0cbbbc06ea79e1b161290d1d6b4db"
+      "sha256": "f112e78131f7ffb3550348ed8e50907f24a1f7d446f56d36509d7eb6e10fe2c7"
     }
   ],
   "schema_version": 1
