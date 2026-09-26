@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+
+- `AGENT-INSTALL.md` now tells agents to leave instruction-block files out of
+  the install ledger. The manifest lists the instruction file with the hash of
+  its bare content, but the file is written wrapped in the managed-block
+  markers (section 9), so a doc-literal ledger entry could never match the
+  written file: uninstall misclassified the block as person-edited and update
+  had no valid hash baseline. This matches the reference installer, which has
+  always excluded the instruction path from the ledger
+  (`global_install_parts()` in `scripts/toolkit.py`) and locates the block by
+  its markers.
+
 ## 3.2.0 (`main`, tag `v3.2.0`)
 
 A new install surface: the toolkit is now installable as a Claude Code
