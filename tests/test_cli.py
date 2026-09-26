@@ -96,7 +96,11 @@ class CliTests(unittest.TestCase):
             result = self._run_install(home)
             self.assertNotEqual(0, result.returncode, result.stdout)
             self.assertIn("--target is required for repository scope", result.stderr)
-            self.assertEqual([], list(home.iterdir()), "home must be untouched")
+            # The Apple CLT python creates ~/Library/Caches on startup when
+            # HOME points at a fresh directory, so the interpreter itself can
+            # leave Library/ behind. The toolkit must write nothing else.
+            written = [entry.name for entry in home.iterdir() if entry.name != "Library"]
+            self.assertEqual([], written, "home must be untouched")
 
     def test_global_scope_still_defaults_its_target_to_home(self):
         with tempfile.TemporaryDirectory() as temp:
