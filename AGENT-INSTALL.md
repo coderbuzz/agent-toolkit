@@ -169,6 +169,10 @@ Then:
 2. If any row is a STOP, report the conflicts and write nothing at all.
 3. On confirmation, write the files.
 4. Write the ledger: every path you created or updated, with its expected hash.
+   Instruction-block files are the exception: do not record them in the
+   ledger, and never hash-compare them. The block is located by its two
+   marker lines (section 9), not by a hash. The file as written (markers
+   included) can never match the manifest hash of the bare instruction file.
 5. Report using section 12.
 
 Handle `role` as follows. Regular and `command` files use the table above.
@@ -229,7 +233,8 @@ preview. Files the person edited stop the run; they are never overwritten.
 **Uninstall:**
 
 1. Read the ledger. Without it, stop. Do not guess what to delete.
-2. For each path: delete it if it still matches its ledger hash. If it does not
+2. For each path in the ledger (instruction-block files are never in the
+   ledger): delete it if it still matches its ledger hash. If it does not
    match, the person edited it, so **keep it** and list it in your report.
 3. Global scope: release shared-skill ownership (section 8) and remove the
    instruction block (section 9).
