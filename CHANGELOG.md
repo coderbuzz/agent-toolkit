@@ -4,6 +4,11 @@
 
 ### Fixed
 
+- The global pointer now says where skills live (`~/.agents/skills/<name>/SKILL.md`)
+  and to open that file when the platform does not list the skill natively. It
+  named the skills but not their location, and Claude Code does not read
+  `~/.agents/skills` natively, so an agent had to guess the path (a fresh
+  session tried `~/.claude/skills/`). Repository scope is unaffected.
 - `AGENT-INSTALL.md` now tells agents to leave instruction-block files out of
   the install ledger. The manifest lists the instruction file with the hash of
   its bare content, but the file is written wrapped in the managed-block

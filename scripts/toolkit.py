@@ -532,9 +532,17 @@ def export_to_global_directory(platform, bundle, destination, root=TOOLKIT_ROOT)
 
     merge_files = []
     instruction_relative = global_block["instruction_path"]
-    instruction_content = generated_marker(version, digest) + (
-        root / "AGENTS.md"
-    ).read_text(encoding="utf-8")
+    skill_home = "~/" + global_block["skill_path"].replace("{name}", "<name>") + "/SKILL.md"
+    skill_location = (
+        "\n## Where skills live\n"
+        "Each skill is the file `{0}`. If your platform does not list a skill\n"
+        "natively, open that file when a task matches it.\n"
+    ).format(skill_home)
+    instruction_content = (
+        generated_marker(version, digest)
+        + (root / "AGENTS.md").read_text(encoding="utf-8")
+        + skill_location
+    )
     write_text(destination, instruction_relative, instruction_content)
 
     command_path_pattern = global_block.get("command_path")

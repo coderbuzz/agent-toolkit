@@ -36,6 +36,14 @@ class GlobalExportTests(unittest.TestCase):
     def tearDown(self):
         self.temp.cleanup()
 
+    def test_global_pointer_states_where_skills_live(self):
+        for platform in PLATFORMS:
+            with self.subTest(platform=platform):
+                package = self.root / platform
+                toolkit.export_to_global_directory(platform, "core", package)
+                pointer = (package / toolkit.load_json(package / ".agent-toolkit-package.json")["instruction_path"]).read_text(encoding="utf-8")
+                self.assertIn("~/.agents/skills/<name>/SKILL.md", pointer)
+
     def test_shared_skills_use_common_agents_directory(self):
         package = self.root / "opencode"
         metadata = toolkit.export_to_global_directory("opencode", "core", package)
