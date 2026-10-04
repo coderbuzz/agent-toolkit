@@ -1,8 +1,8 @@
 {
   "global": {
     "instruction_path": ".claude/CLAUDE.md",
-    "skill_path": ".agents/skills/{name}",
-    "skill_shared": true
+    "skill_path": ".claude/skills/{name}",
+    "skill_shared": false
   },
   "id": "claude-code",
   "instruction_path": "CLAUDE.md",

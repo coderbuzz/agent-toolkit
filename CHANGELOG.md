@@ -4,6 +4,20 @@
 
 ### Fixed
 
+- The global pointer now says where skills live (`~/.agents/skills/<name>/SKILL.md`)
+  and to open that file when the platform does not list the skill natively. It
+  named the skills but not their location, and Claude Code does not read
+  `~/.agents/skills` natively, so an agent had to guess the path (a fresh
+  session tried `~/.claude/skills/`). Repository scope is unaffected.
+- Claude Code global installs now copy skills to `~/.claude/skills/<name>/`, its
+  native location, instead of the shared `~/.agents/skills`, which Claude Code
+  does not read. Skills now appear in the `Skill` tool and as `/<name>`. Cost,
+  measured: about 2.3K tokens of names and descriptions for 31 skills; the
+  172 KB of skill text still loads only when a skill is invoked. The adapter's
+  existing `skill_shared` flag (previously unused) now decides this: `false`
+  writes ordinary ledgered files instead of reference-counted shared ones.
+  Existing global Claude Code installs: run `action=uninstall` then
+  `action=install` (or `action=update`) to move over.
 - `AGENT-INSTALL.md` now tells agents to leave instruction-block files out of
   the install ledger. The manifest lists the instruction file with the hash of
   its bare content, but the file is written wrapped in the managed-block

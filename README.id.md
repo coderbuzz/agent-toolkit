@@ -268,7 +268,7 @@ mendarat di home directory Anda, sehingga semua repository mewarisinya:
 
 | Platform | Instruksi global | Skill global | Slash command |
 | :--- | :--- | :--- | :--- |
-| **Claude Code** | `~/.claude/CLAUDE.md` | `~/.agents/skills/*` | - |
+| **Claude Code** | `~/.claude/CLAUDE.md` | `~/.claude/skills/*` | - |
 | **OpenCode** | `~/.config/opencode/AGENTS.md` | `~/.agents/skills/*` | `~/.config/opencode/commands/*.md` |
 | **Codex** | `~/.codex/AGENTS.md` | `~/.agents/skills/*` | - |
 | **GitHub Copilot** | `~/.copilot/copilot-instructions.md` | `~/.agents/skills/*` | - |

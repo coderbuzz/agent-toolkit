@@ -115,7 +115,7 @@ You may create or modify files only at these paths, relative to the target root
 
 | Platform | Repo: instruction | Repo: skills | Global: instruction | Global: skills | Global: commands |
 | --- | --- | --- | --- | --- | --- |
-| `claude-code` | `CLAUDE.md` | `.claude/skills/{name}` | `~/.claude/CLAUDE.md` | `~/.agents/skills/{name}` | n/a |
+| `claude-code` | `CLAUDE.md` | `.claude/skills/{name}` | `~/.claude/CLAUDE.md` | `~/.claude/skills/{name}` | n/a |
 | `codex` | `AGENTS.md` | `.agents/skills/{name}` | `~/.codex/AGENTS.md` | `~/.agents/skills/{name}` | n/a |
 | `gemini` | `AGENTS.md` | `.agents/skills/{name}` | `~/.gemini/antigravity/AGENTS.md` | `~/.agents/skills/{name}` | n/a |
 | `github-copilot` | `.github/copilot-instructions.md` | `.agents/skills/{name}` | `~/.copilot/copilot-instructions.md` | `~/.agents/skills/{name}` | n/a |
@@ -180,7 +180,7 @@ Handle `role` as follows. Regular and `command` files use the table above.
 
 ## 8. Shared skills (global scope only)
 
-Every platform reads skills from the same `~/.agents/skills/`, so one copy
+Every platform except `claude-code` reads skills from the same `~/.agents/skills/`, so one copy
 serves all of them. `.agent-toolkit-shared-skills.json` records which platforms
 own each file:
 

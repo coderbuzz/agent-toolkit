@@ -57,7 +57,10 @@ command; other platforms expose commands natively or through the instruction poi
 
 Repository scope copies skills to `.claude/skills/<skill>/` (Claude Code's native project skill
 location) and writes a `CLAUDE.md` that imports `@AGENTS.md`. Global scope writes
-`~/.claude/CLAUDE.md` with the pointer content inline and reads skills from the shared location.
+`~/.claude/CLAUDE.md` with the pointer content inline and copies skills to `~/.claude/skills/<skill>/`,
+Claude Code's native user skill location. Native registration means each skill's name and description
+(about 2 KB of context for all 31) is listed up front and `/<name>` works; a skill's full text still
+loads only when it is invoked. These files are regular ledgered files, not reference-counted shared skills.
 
 ## ZCode
 
@@ -83,7 +86,7 @@ duplication; it is used only when the user asks for it. Each adapter declares a
 | --- | --- | --- | --- |
 | Codex | `~/.codex/AGENTS.md` | `~/.agents/skills/<skill>` | n/a |
 | OpenCode | `~/.config/opencode/AGENTS.md` | `~/.agents/skills/<skill>` | `~/.config/opencode/commands/<skill>.md` |
-| Claude Code | `~/.claude/CLAUDE.md` | `~/.agents/skills/<skill>` | n/a |
+| Claude Code | `~/.claude/CLAUDE.md` | `~/.claude/skills/<skill>` | n/a |
 | GitHub Copilot | `~/.copilot/copilot-instructions.md` | `~/.agents/skills/<skill>` | n/a |
 | OMP | `~/.omp/agent/AGENTS.md` | `~/.agents/skills/<skill>` | n/a |
 | Gemini / Antigravity | `~/.gemini/antigravity/AGENTS.md` | `~/.agents/skills/<skill>` | n/a |
@@ -91,8 +94,8 @@ duplication; it is used only when the user asks for it. Each adapter declares a
 
 ### Shared skills
 
-All platforms read skills from the shared `~/.agents/skills` location, so a single installed copy
-serves every platform. A reference-counted ledger (`.agent-toolkit-shared-skills.json`) records
+All platforms except Claude Code (which uses its native `~/.claude/skills`; adapter `skill_shared: false`)
+read skills from the shared `~/.agents/skills` location, so a single installed copy serves them. A reference-counted ledger (`.agent-toolkit-shared-skills.json`) records
 which platforms own each skill file. Uninstalling one platform releases its reference and removes
 a skill only when no other platform still owns it. User-modified skill files are preserved.
 

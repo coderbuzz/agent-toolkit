@@ -517,6 +517,7 @@ def export_to_global_directory(platform, bundle, destination, root=TOOLKIT_ROOT)
     version = manifest["version"]
     destination.mkdir(parents=True, exist_ok=False)
 
+    skill_shared = global_block.get("skill_shared", True)
     shared_skill_files = []
     for skill_name in selected_skills:
         source = root / manifest["canonical"]["skills"] / skill_name
@@ -532,9 +533,17 @@ def export_to_global_directory(platform, bundle, destination, root=TOOLKIT_ROOT)
 
     merge_files = []
     instruction_relative = global_block["instruction_path"]
-    instruction_content = generated_marker(version, digest) + (
-        root / "AGENTS.md"
-    ).read_text(encoding="utf-8")
+    skill_home = "~/" + global_block["skill_path"].replace("{name}", "<name>") + "/SKILL.md"
+    skill_location = (
+        "\n## Where skills live\n"
+        "Each skill is the file `{0}`. If your platform does not list a skill\n"
+        "natively, open that file when a task matches it.\n"
+    ).format(skill_home)
+    instruction_content = (
+        generated_marker(version, digest)
+        + (root / "AGENTS.md").read_text(encoding="utf-8")
+        + skill_location
+    )
     write_text(destination, instruction_relative, instruction_content)
 
     command_path_pattern = global_block.get("command_path")
@@ -553,7 +562,7 @@ def export_to_global_directory(platform, bundle, destination, root=TOOLKIT_ROOT)
         "bundle": bundle,
         "scope": "global",
         "skills": selected_skills,
-        "shared_skill_files": sorted(shared_skill_files),
+        "shared_skill_files": sorted(shared_skill_files) if skill_shared else [],
         "merge_files": merge_files,
         "instruction_path": instruction_relative,
     }
@@ -562,7 +571,7 @@ def export_to_global_directory(platform, bundle, destination, root=TOOLKIT_ROOT)
         PACKAGE_METADATA_NAME,
         json.dumps(metadata, indent=2, sort_keys=True) + "\n",
     )
-    roles = {relative: "shared-skill" for relative in shared_skill_files}
+    roles = {relative: "shared-skill" for relative in shared_skill_files} if skill_shared else {}
     roles[instruction_relative] = "instruction-block"
     if command_path_pattern:
         for skill_name in selected_skills:
