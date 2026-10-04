@@ -262,7 +262,7 @@ the toolkit lands in your home directory, so every repository inherits it:
 
 | Platform | Global instructions | Global skills | Slash commands |
 | :--- | :--- | :--- | :--- |
-| **Claude Code** | `~/.claude/CLAUDE.md` | `~/.agents/skills/*` | - |
+| **Claude Code** | `~/.claude/CLAUDE.md` | `~/.claude/skills/*` | - |
 | **OpenCode** | `~/.config/opencode/AGENTS.md` | `~/.agents/skills/*` | `~/.config/opencode/commands/*.md` |
 | **Codex** | `~/.codex/AGENTS.md` | `~/.agents/skills/*` | - |
 | **GitHub Copilot** | `~/.copilot/copilot-instructions.md` | `~/.agents/skills/*` | - |

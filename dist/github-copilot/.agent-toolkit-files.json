@@ -308,7 +308,7 @@
     {
       "path": ".github/copilot-instructions.md",
       "role": "regular",
-      "sha256": "dbb6f13677f2e00ef5d49e68a040b4c44a5dede4c92be6f1f883ef9a74638cc4"
+      "sha256": "6053c0cd283332e5ced3735b1fa0638e52fb6af18fba2ac6fe69a892a13dd02a"
     },
     {
       "path": "AGENTS.md",

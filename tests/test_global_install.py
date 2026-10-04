@@ -42,7 +42,8 @@ class GlobalExportTests(unittest.TestCase):
                 package = self.root / platform
                 toolkit.export_to_global_directory(platform, "core", package)
                 pointer = (package / toolkit.load_json(package / ".agent-toolkit-package.json")["instruction_path"]).read_text(encoding="utf-8")
-                self.assertIn("~/.agents/skills/<name>/SKILL.md", pointer)
+                expected = "~/.claude/skills/<name>/SKILL.md" if platform == "claude-code" else "~/.agents/skills/<name>/SKILL.md"
+                self.assertIn(expected, pointer)
 
     def test_shared_skills_use_common_agents_directory(self):
         package = self.root / "opencode"
@@ -117,15 +118,15 @@ class GlobalInstallTests(unittest.TestCase):
 
     def test_shared_skills_are_reference_counted(self):
         self._install("opencode")
-        self._install("claude-code")
+        self._install("codex")
         ledger = toolkit.load_json(self.home / toolkit.SHARED_SKILLS_LEDGER_NAME)
         skill = ".agents/skills/start/SKILL.md"
-        self.assertEqual(["claude-code", "opencode"], sorted(ledger["files"][skill]["owners"]))
+        self.assertEqual(["codex", "opencode"], sorted(ledger["files"][skill]["owners"]))
         self._uninstall("opencode")
         self.assertTrue((self.home / skill).is_file())
         ledger = toolkit.load_json(self.home / toolkit.SHARED_SKILLS_LEDGER_NAME)
-        self.assertEqual(["claude-code"], ledger["files"][skill]["owners"])
-        self._uninstall("claude-code")
+        self.assertEqual(["codex"], ledger["files"][skill]["owners"])
+        self._uninstall("codex")
         self.assertFalse((self.home / skill).exists())
 
     def test_second_install_adopts_existing_shared_skill(self):
@@ -135,6 +136,13 @@ class GlobalInstallTests(unittest.TestCase):
         )
         self.assertFalse(conflicts)
         self.assertTrue(any(action == "shared-adopt" for action, _ in actions))
+
+    def test_claude_code_global_skills_are_native_and_not_shared(self):
+        self._install("claude-code")
+        self.assertTrue((self.home / ".claude/skills/start/SKILL.md").is_file())
+        self.assertFalse((self.home / ".agents/skills").exists())
+        self._uninstall("claude-code")
+        self.assertFalse((self.home / ".claude/skills").exists())
 
     def _codex_shared_args(self):
         package = self.root / "codex-pkg"

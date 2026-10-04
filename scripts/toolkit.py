@@ -517,6 +517,7 @@ def export_to_global_directory(platform, bundle, destination, root=TOOLKIT_ROOT)
     version = manifest["version"]
     destination.mkdir(parents=True, exist_ok=False)
 
+    skill_shared = global_block.get("skill_shared", True)
     shared_skill_files = []
     for skill_name in selected_skills:
         source = root / manifest["canonical"]["skills"] / skill_name
@@ -561,7 +562,7 @@ def export_to_global_directory(platform, bundle, destination, root=TOOLKIT_ROOT)
         "bundle": bundle,
         "scope": "global",
         "skills": selected_skills,
-        "shared_skill_files": sorted(shared_skill_files),
+        "shared_skill_files": sorted(shared_skill_files) if skill_shared else [],
         "merge_files": merge_files,
         "instruction_path": instruction_relative,
     }
@@ -570,7 +571,7 @@ def export_to_global_directory(platform, bundle, destination, root=TOOLKIT_ROOT)
         PACKAGE_METADATA_NAME,
         json.dumps(metadata, indent=2, sort_keys=True) + "\n",
     )
-    roles = {relative: "shared-skill" for relative in shared_skill_files}
+    roles = {relative: "shared-skill" for relative in shared_skill_files} if skill_shared else {}
     roles[instruction_relative] = "instruction-block"
     if command_path_pattern:
         for skill_name in selected_skills:

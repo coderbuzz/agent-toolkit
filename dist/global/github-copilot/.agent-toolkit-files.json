@@ -278,7 +278,7 @@
     {
       "path": ".copilot/copilot-instructions.md",
       "role": "instruction-block",
-      "sha256": "d29b031aa93e7e9f16fec92bb2f2d225aaef6e2298ad2c3d4debe1a1a6e5d7d1"
+      "sha256": "64861a2c645f92fe6e10b932b55e4024dcb8f5244181a6a3f7dbcc45b2efaaaf"
     }
   ],
   "schema_version": 1
